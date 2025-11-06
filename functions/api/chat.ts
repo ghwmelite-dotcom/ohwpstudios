@@ -95,11 +95,31 @@ Guidelines:
     );
   } catch (error) {
     console.error('Chat error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : '';
+
+    console.error('Error details:', {
+      message: errorMessage,
+      stack: errorStack,
+      hasAI: !!context.env.AI,
+    });
+
     return new Response(
       JSON.stringify({
         error: 'Sorry, I encountered an error. Please try again or contact us directly.',
+        details: errorMessage,
+        debug: {
+          hasAI: !!context.env.AI,
+          timestamp: new Date().toISOString(),
+        }
       }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        }
+      }
     );
   }
 };

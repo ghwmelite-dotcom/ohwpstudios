@@ -467,9 +467,17 @@
           chatHistory.push({ role: 'user', content: message });
           chatHistory.push({ role: 'assistant', content: data.response });
         } else {
-          addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+          console.error('Chat API error:', data);
+          const errorMsg = data.details || data.error || 'Sorry, I encountered an error. Please try again.';
+          addMessage(errorMsg, 'bot');
+
+          // Log debug info
+          if (data.debug) {
+            console.log('Debug info:', data.debug);
+          }
         }
       } catch (error) {
+        console.error('Chat fetch error:', error);
         removeTypingIndicator(typingId);
         addMessage('Sorry, I encountered an error. Please try again.', 'bot');
       }
