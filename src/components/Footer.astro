@@ -8,8 +8,8 @@ const currentYear = new Date().getFullYear();
   <div class="container">
     <div class="footer-grid">
       <div class="footer-about">
-        <h3 class="text-gradient">{SITE_CONFIG.name}</h3>
-        <p>{SITE_CONFIG.tagline}</p>
+        <h3 class="text-gradient" id="footer-site-name">{SITE_CONFIG.name}</h3>
+        <p id="footer-site-tagline">{SITE_CONFIG.tagline}</p>
         <div class="social-links">
           <a href={SITE_CONFIG.social.twitter} target="_blank" rel="noopener" aria-label="Twitter">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -60,15 +60,15 @@ const currentYear = new Date().getFullYear();
       <div class="footer-contact">
         <h4>Get in Touch</h4>
         <ul>
-          <li><a href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a></li>
-          <li><a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}>{SITE_CONFIG.phone}</a></li>
+          <li><a href={`mailto:${SITE_CONFIG.email}`} id="footer-email-link"><span id="footer-email">{SITE_CONFIG.email}</span></a></li>
+          <li><a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`} id="footer-phone-link"><span id="footer-phone">{SITE_CONFIG.phone}</span></a></li>
           <li><a href="/booking" class="cta-link">Schedule a Call →</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.</p>
+      <p>&copy; {currentYear} <span id="footer-copyright-name">{SITE_CONFIG.name}</span>. All rights reserved.</p>
       <div class="footer-legal">
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Service</a>
@@ -208,3 +208,53 @@ const currentYear = new Date().getFullYear();
     }
   }
 </style>
+
+<script>
+  // Load dynamic footer content from API
+  async function loadFooterContent() {
+    try {
+      const response = await fetch('/api/admin/content');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.content) {
+          const content = data.content;
+
+          // Update site name
+          if (content.site_name) {
+            const siteNameEl = document.getElementById('footer-site-name');
+            const copyrightNameEl = document.getElementById('footer-copyright-name');
+            if (siteNameEl) siteNameEl.textContent = content.site_name;
+            if (copyrightNameEl) copyrightNameEl.textContent = content.site_name;
+          }
+
+          // Update tagline
+          if (content.site_tagline) {
+            const taglineEl = document.getElementById('footer-site-tagline');
+            if (taglineEl) taglineEl.textContent = content.site_tagline;
+          }
+
+          // Update email
+          if (content.site_email) {
+            const emailEl = document.getElementById('footer-email');
+            const emailLinkEl = document.getElementById('footer-email-link');
+            if (emailEl) emailEl.textContent = content.site_email;
+            if (emailLinkEl) emailLinkEl.href = `mailto:${content.site_email}`;
+          }
+
+          // Update phone
+          if (content.site_phone) {
+            const phoneEl = document.getElementById('footer-phone');
+            const phoneLinkEl = document.getElementById('footer-phone-link');
+            if (phoneEl) phoneEl.textContent = content.site_phone;
+            if (phoneLinkEl) phoneLinkEl.href = `tel:${content.site_phone.replace(/\s/g, '')}`;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading footer content:', error);
+    }
+  }
+
+  loadFooterContent();
+  document.addEventListener('astro:page-load', loadFooterContent);
+</script>

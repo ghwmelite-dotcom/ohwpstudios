@@ -5,7 +5,7 @@ import { SITE_CONFIG } from '@/config';
 <header class="header">
   <nav class="nav container">
     <a href="/" class="logo">
-      <span class="logo-text text-gradient">{SITE_CONFIG.name}</span>
+      <span class="logo-text text-gradient" id="header-site-name">{SITE_CONFIG.name}</span>
     </a>
 
     <ul class="nav-links">
@@ -256,4 +256,25 @@ import { SITE_CONFIG } from '@/config';
 
   initMobileMenu();
   document.addEventListener('astro:page-load', initMobileMenu);
+
+  // Load dynamic site name from API
+  async function loadSiteName() {
+    try {
+      const response = await fetch('/api/admin/content');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.content.site_name) {
+          const siteNameEl = document.getElementById('header-site-name');
+          if (siteNameEl) {
+            siteNameEl.textContent = data.content.site_name;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading site name:', error);
+    }
+  }
+
+  loadSiteName();
+  document.addEventListener('astro:page-load', loadSiteName);
 </script>
