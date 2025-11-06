@@ -638,6 +638,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       });
 
       if (response.ok) {
+        const result = await response.json();
         if (statusMessage) {
           statusMessage.className = 'status-message success';
           statusMessage.textContent = '✓ Changes saved successfully!';
@@ -645,13 +646,17 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             statusMessage.style.display = 'none';
           }, 3000);
         }
+        console.log('Save successful:', result);
       } else {
-        throw new Error('Failed to save');
+        const errorData = await response.json();
+        throw new Error(errorData.details || errorData.error || 'Failed to save');
       }
     } catch (error) {
+      console.error('Save error:', error);
       if (statusMessage) {
         statusMessage.className = 'status-message error';
-        statusMessage.textContent = '✗ Error saving changes. Please try again.';
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        statusMessage.textContent = `✗ Error: ${errorMsg}`;
       }
     }
   });

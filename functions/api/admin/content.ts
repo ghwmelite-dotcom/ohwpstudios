@@ -88,6 +88,24 @@ export async function onRequestPost({ request, env }: { request: Request; env: E
       );
     }
 
+    // Check if database is available
+    if (!env.DB) {
+      console.error('Database not available - D1 binding missing');
+      return new Response(
+        JSON.stringify({
+          error: 'Database not configured',
+          details: 'D1 database binding is not available. Please configure the DB binding in Cloudflare Pages settings.'
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          }
+        }
+      );
+    }
+
     // Update each content item in database
     const updates = Object.entries(content).map(([key, value]) => {
       return env.DB.prepare(
