@@ -3,9 +3,9 @@
 name = "agency-website"
 compatibility_date = "2024-01-01"
 
-# Uncomment to enable Workers AI for chatbot
-# [ai]
-# binding = "AI"
+# Workers AI for chatbot
+[ai]
+binding = "AI"
 
 # D1 Database for CMS content storage
 [[d1_databases]]

@@ -23,23 +23,21 @@ export const onRequestPost: PagesFunction<{
     }
 
     // System prompt to customize the chatbot for your agency
-    const systemPrompt = `You are a helpful AI assistant for an award-winning digital agency.
+    const systemPrompt = `You are a friendly AI assistant for a top-tier digital agency. Keep responses brief (2-3 sentences max).
 
-Our services include:
-- Web Development (React, Next.js, Astro, custom solutions)
-- UI/UX Design (modern, user-centered design)
-- Branding (complete brand identity systems)
-- SEO & Marketing (data-driven growth strategies)
-- Cloud Solutions (Cloudflare, AWS, scalable infrastructure)
-- Consulting (technology strategy and digital transformation)
+Services: Web Development, UI/UX Design, Branding, SEO & Marketing, Cloud Solutions, Consulting.
 
-Key features:
-- We deliver projects on time with exceptional performance
-- Lighthouse 100/100 scores on all metrics
-- Global deployment on Cloudflare's edge network
-- 98% client satisfaction rate
+Key facts:
+- 500+ projects delivered, 98% client satisfaction
+- Lighthouse 100/100 performance scores
+- Free consultations available
 
-Be friendly, professional, and helpful. Answer questions about our services, pricing (mention we offer free consultations), portfolio, and process. If asked to book a meeting, direct them to /booking page. For detailed questions, suggest contacting via the contact form or booking a call.`;
+Guidelines:
+- Be warm, professional, and conversational
+- For pricing: mention free consultation at /booking
+- For detailed info: suggest /booking or contact form
+- Answer naturally about services, process, and portfolio
+- Keep responses concise and actionable`;
 
     // Prepare messages for the AI
     const messages: ChatMessage[] = [
@@ -48,23 +46,38 @@ Be friendly, professional, and helpful. Answer questions about our services, pri
       { role: 'user', content: message },
     ];
 
-    // Use Cloudflare Workers AI
-    // Note: You need to bind the AI in your wrangler.toml
-    // Uncomment this section when deploying to Cloudflare
-    /*
-    const response = await context.env.AI.run('@cf/meta/llama-2-7b-chat-int8', {
+    // Check if AI is available
+    if (!context.env.AI) {
+      console.warn('AI binding not available, using mock response');
+      const aiResponse = generateMockResponse(message);
+      return new Response(
+        JSON.stringify({
+          success: true,
+          response: aiResponse,
+          timestamp: new Date().toISOString(),
+          mock: true,
+        }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
+    }
+
+    // Use Cloudflare Workers AI with Llama 3.1 8B (faster and more capable)
+    const response = await context.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
       messages: messages.map(msg => ({
-        role: msg.role === 'assistant' ? 'assistant' : 'user',
+        role: msg.role,
         content: msg.content
       })),
+      max_tokens: 512,
+      temperature: 0.7,
     });
 
-    const aiResponse = response.response;
-    */
-
-    // For local development or testing, use a simple response
-    // Remove this in production and use the AI response above
-    const aiResponse = generateMockResponse(message);
+    const aiResponse = response.response || response.result?.response || "I'm here to help! Could you please rephrase your question?";
 
     return new Response(
       JSON.stringify({
