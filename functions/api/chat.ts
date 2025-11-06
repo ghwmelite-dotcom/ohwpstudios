@@ -1,4 +1,8 @@
 // Cloudflare Pages Function for AI Chatbot using Workers AI
+interface Env {
+  AI: any;
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
@@ -9,16 +13,22 @@ interface ChatRequest {
   history?: ChatMessage[];
 }
 
-export const onRequestPost: PagesFunction<{
-  AI: any;
-}> = async (context) => {
+// POST - Handle chat requests
+export async function onRequestPost({ request, env }: { request: Request; env: Env }) {
   try {
-    const { message, history = [] }: ChatRequest = await context.request.json();
+    const body = await request.json() as ChatRequest;
+    const { message, history = [] } = body;
 
     if (!message || message.trim().length === 0) {
       return new Response(
         JSON.stringify({ error: 'Message is required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          }
+        }
       );
     }
 
@@ -47,7 +57,7 @@ Guidelines:
     ];
 
     // Check if AI is available
-    if (!context.env.AI) {
+    if (!env.AI) {
       console.warn('AI binding not available, using mock response');
       const aiResponse = generateMockResponse(message);
       return new Response(
@@ -68,7 +78,7 @@ Guidelines:
     }
 
     // Use Cloudflare Workers AI with Llama 3.1 8B (faster and more capable)
-    const response = await context.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+    const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
       messages: messages.map(msg => ({
         role: msg.role,
         content: msg.content
@@ -101,7 +111,7 @@ Guidelines:
     console.error('Error details:', {
       message: errorMessage,
       stack: errorStack,
-      hasAI: !!context.env.AI,
+      hasAI: !!(env && env.AI),
     });
 
     return new Response(
@@ -109,7 +119,7 @@ Guidelines:
         error: 'Sorry, I encountered an error. Please try again or contact us directly.',
         details: errorMessage,
         debug: {
-          hasAI: !!context.env.AI,
+          hasAI: !!(env && env.AI),
           timestamp: new Date().toISOString(),
         }
       }),
@@ -122,7 +132,7 @@ Guidelines:
       }
     );
   }
-};
+}
 
 // Mock response for development/testing
 function generateMockResponse(message: string): string {
@@ -156,7 +166,7 @@ function generateMockResponse(message: string): string {
 }
 
 // Handle OPTIONS request for CORS
-export const onRequestOptions: PagesFunction = () => {
+export function onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
@@ -165,4 +175,4 @@ export const onRequestOptions: PagesFunction = () => {
       'Access-Control-Allow-Headers': 'Content-Type',
     },
   });
-};
+}
