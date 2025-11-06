@@ -22,7 +22,7 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" id="favicon-link" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->
@@ -104,6 +104,41 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
 
       initScrollAnimations();
       document.addEventListener('astro:page-load', initScrollAnimations);
+    </script>
+
+    <!-- Dynamic Favicon -->
+    <script>
+      async function loadFavicon() {
+        try {
+          const response = await fetch('/api/admin/content');
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.content && data.content.site_favicon) {
+              const faviconUrl = data.content.site_favicon.trim();
+              if (faviconUrl !== '') {
+                const faviconLink = document.getElementById('favicon-link') as HTMLLinkElement;
+                if (faviconLink) {
+                  faviconLink.href = faviconUrl;
+
+                  // Update type based on file extension
+                  if (faviconUrl.endsWith('.svg')) {
+                    faviconLink.type = 'image/svg+xml';
+                  } else if (faviconUrl.endsWith('.png')) {
+                    faviconLink.type = 'image/png';
+                  } else if (faviconUrl.endsWith('.ico')) {
+                    faviconLink.type = 'image/x-icon';
+                  }
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error loading favicon:', error);
+        }
+      }
+
+      loadFavicon();
+      document.addEventListener('astro:page-load', loadFavicon);
     </script>
   </body>
 </html>

@@ -5,6 +5,7 @@ import { SITE_CONFIG } from '@/config';
 <header class="header">
   <nav class="nav container">
     <a href="/" class="logo">
+      <img id="header-logo-img" alt="Logo" style="display: none; height: 40px; object-fit: contain;" />
       <span class="logo-text text-gradient" id="header-site-name">{SITE_CONFIG.name}</span>
     </a>
 
@@ -257,16 +258,43 @@ import { SITE_CONFIG } from '@/config';
   initMobileMenu();
   document.addEventListener('astro:page-load', initMobileMenu);
 
-  // Load dynamic site name from API
+  // Load dynamic site name and logo from API
   async function loadSiteName() {
     try {
       const response = await fetch('/api/admin/content');
       if (response.ok) {
         const data = await response.json();
-        if (data.success && data.content.site_name) {
-          const siteNameEl = document.getElementById('header-site-name');
-          if (siteNameEl) {
-            siteNameEl.textContent = data.content.site_name;
+        if (data.success && data.content) {
+          // Update site name
+          if (data.content.site_name) {
+            const siteNameEl = document.getElementById('header-site-name');
+            if (siteNameEl) {
+              siteNameEl.textContent = data.content.site_name;
+            }
+          }
+
+          // Update logo if available
+          if (data.content.site_logo && data.content.site_logo.trim() !== '') {
+            const logoImg = document.getElementById('header-logo-img') as HTMLImageElement;
+            const logoText = document.getElementById('header-site-name');
+
+            if (logoImg) {
+              logoImg.src = data.content.site_logo;
+              logoImg.style.display = 'block';
+
+              // Hide text logo when image logo is shown
+              if (logoText) {
+                logoText.style.display = 'none';
+              }
+
+              // Fallback to text if image fails to load
+              logoImg.onerror = () => {
+                logoImg.style.display = 'none';
+                if (logoText) {
+                  logoText.style.display = 'inline';
+                }
+              };
+            }
           }
         }
       }

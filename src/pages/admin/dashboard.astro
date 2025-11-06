@@ -205,6 +205,25 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               <label>Phone</label>
               <input type="tel" id="site_phone" placeholder="+1 (555) 123-4567" />
             </div>
+
+            <div class="form-group">
+              <label>Logo URL</label>
+              <input type="url" id="site_logo" placeholder="https://example.com/logo.png" />
+              <small class="field-hint">URL to your logo image (PNG, SVG, or WEBP recommended)</small>
+            </div>
+
+            <div class="form-group">
+              <label>Favicon URL</label>
+              <input type="url" id="site_favicon" placeholder="https://example.com/favicon.svg" />
+              <small class="field-hint">URL to your favicon (SVG or ICO format)</small>
+            </div>
+
+            <div class="logo-preview" id="logo-preview-container" style="display: none;">
+              <h4>Logo Preview</h4>
+              <div class="preview-box">
+                <img id="logo-preview" alt="Logo preview" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -438,6 +457,42 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     border: 1px solid rgba(239, 68, 68, 0.3);
   }
 
+  .field-hint {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .logo-preview {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .logo-preview h4 {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .preview-box {
+    background: var(--color-bg-alt);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+  }
+
+  .preview-box img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+  }
+
   @media (max-width: 1024px) {
     .admin-sidebar {
       width: 240px;
@@ -505,7 +560,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     try {
       const response = await fetch('/api/admin/content');
       const data = await response.json();
-      
+
       if (data.success) {
         // Populate form fields with existing content
         Object.keys(data.content).forEach(key => {
@@ -514,10 +569,44 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             element.value = data.content[key];
           }
         });
+
+        // Update logo preview if logo URL exists
+        if (data.content.site_logo) {
+          updateLogoPreview(data.content.site_logo);
+        }
       }
     } catch (error) {
       console.error('Error loading content:', error);
     }
+  }
+
+  // Logo preview functionality
+  function updateLogoPreview(url: string) {
+    const previewContainer = document.getElementById('logo-preview-container');
+    const previewImg = document.getElementById('logo-preview') as HTMLImageElement;
+
+    if (url && url.trim() !== '') {
+      if (previewImg) {
+        previewImg.src = url;
+        previewImg.onerror = () => {
+          if (previewContainer) previewContainer.style.display = 'none';
+        };
+        previewImg.onload = () => {
+          if (previewContainer) previewContainer.style.display = 'block';
+        };
+      }
+    } else {
+      if (previewContainer) previewContainer.style.display = 'none';
+    }
+  }
+
+  // Add event listener for logo URL input
+  const logoInput = document.getElementById('site_logo') as HTMLInputElement;
+  if (logoInput) {
+    logoInput.addEventListener('input', (e) => {
+      const url = (e.target as HTMLInputElement).value;
+      updateLogoPreview(url);
+    });
   }
 
   // Save changes
@@ -531,7 +620,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     // Hero content
     ['hero_title', 'hero_subtitle', 'hero_stat1_number', 'hero_stat1_label',
      'hero_stat2_number', 'hero_stat2_label', 'hero_stat3_number', 'hero_stat3_label',
-     'site_name', 'site_tagline', 'site_email', 'site_phone'].forEach(id => {
+     'site_name', 'site_tagline', 'site_email', 'site_phone', 'site_logo', 'site_favicon'].forEach(id => {
       const element = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
       if (element) {
         content[id] = element.value;
