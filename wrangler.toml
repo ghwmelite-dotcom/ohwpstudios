@@ -8,12 +8,10 @@ compatibility_date = "2024-01-01"
 # binding = "AI"
 
 # D1 Database for CMS content storage
-# Uncomment after creating database: wrangler d1 create agency-db
-# Then run: wrangler d1 execute agency-db --file=./schema.sql
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "agency-db"
-# database_id = "YOUR_DATABASE_ID_HERE"
+[[d1_databases]]
+binding = "DB"
+database_name = "agency-db"
+database_id = "ddff1c97-f090-43eb-9f8d-4a4f68517faf"
 
 # Environment variables (add your API keys here)
 # [vars]
