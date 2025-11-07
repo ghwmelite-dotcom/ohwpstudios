@@ -10,10 +10,86 @@ import { SITE_CONFIG } from '@/config';
     </a>
 
     <ul class="nav-links">
-      <li><a href="/#services">Services</a></li>
+      <li class="nav-dropdown">
+        <a href="/#services" class="dropdown-trigger">
+          Services
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
+        <div class="dropdown-menu">
+          <div class="dropdown-grid">
+            <div class="dropdown-col">
+              <h4>Web & Mobile</h4>
+              <a href="/services/custom-web-application-development">Web Development</a>
+              <a href="/services/mobile-app-development-services">Mobile Apps</a>
+              <a href="/services/ios-app-development">iOS Development</a>
+              <a href="/services/android-app-development">Android Development</a>
+            </div>
+            <div class="dropdown-col">
+              <h4>Design & UX</h4>
+              <a href="/services/ui-ux-design-services">UI/UX Design</a>
+              <a href="/services/web-design-services">Web Design</a>
+              <a href="/services/progressive-web-app-development">Progressive Web Apps</a>
+            </div>
+            <div class="dropdown-col">
+              <h4>Enterprise</h4>
+              <a href="/services/enterprise-software-development">Enterprise Software</a>
+              <a href="/services/saas-application-development">SaaS Development</a>
+              <a href="/services/api-development-services">API Development</a>
+            </div>
+            <div class="dropdown-col">
+              <h4>More Services</h4>
+              <a href="/services/ecommerce-development">E-Commerce</a>
+              <a href="/services/cms-development">CMS Development</a>
+              <a href="/services/mvp-development">MVP Development</a>
+              <a href="/sitemap-pages" class="view-all">View All →</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="nav-dropdown">
+        <a href="/sitemap-pages" class="dropdown-trigger">
+          Solutions
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
+        <div class="dropdown-menu">
+          <div class="dropdown-grid">
+            <div class="dropdown-col">
+              <h4>By Industry</h4>
+              <a href="/industries/healthcare-software-development">Healthcare</a>
+              <a href="/industries/fintech-software-development">Fintech</a>
+              <a href="/industries/education-software-development">Education</a>
+              <a href="/industries/elearning-platform-development">E-Learning</a>
+            </div>
+            <div class="dropdown-col">
+              <h4>By Technology</h4>
+              <a href="/technologies/react-development">React</a>
+              <a href="/technologies/flutter-development">Flutter</a>
+              <a href="/technologies/nextjs-development">Next.js</a>
+              <a href="/technologies/python-development">Python</a>
+            </div>
+            <div class="dropdown-col">
+              <h4>By Solution</h4>
+              <a href="/solutions/startup-mvp-development">Startup MVP</a>
+              <a href="/solutions/ai-powered-application-development">AI Development</a>
+              <a href="/solutions/cloud-migration-services">Cloud Migration</a>
+              <a href="/solutions/enterprise-digital-transformation">Digital Transformation</a>
+            </div>
+            <div class="dropdown-col">
+              <h4>Explore</h4>
+              <a href="/sitemap-pages" class="view-all">All Solutions →</a>
+              <a href="/industries/retail-software-development">Retail</a>
+              <a href="/technologies/nodejs-development">Node.js</a>
+              <a href="/solutions/custom-crm-development">Custom CRM</a>
+            </div>
+          </div>
+        </div>
+      </li>
       <li><a href="/#portfolio">Portfolio</a></li>
       <li><a href="/blog">Blog</a></li>
-      <li><a href="/#about">About</a></li>
       <li><a href="/booking">Book a Call</a></li>
     </ul>
 
@@ -117,6 +193,90 @@ import { SITE_CONFIG } from '@/config';
     width: 100%;
   }
 
+  /* Dropdown Navigation */
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .dropdown-trigger svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .nav-dropdown:hover .dropdown-trigger svg {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    min-width: 600px;
+    padding: var(--spacing-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: all var(--transition-base);
+    pointer-events: none;
+  }
+
+  .nav-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: all;
+  }
+
+  .dropdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .dropdown-col h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+  }
+
+  .dropdown-col a {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+  }
+
+  .dropdown-col a::after {
+    display: none;
+  }
+
+  .dropdown-col a:hover {
+    color: var(--color-primary);
+    padding-left: 0.5rem;
+  }
+
+  .dropdown-col a.view-all {
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-top: var(--spacing-sm);
+  }
+
   .nav-actions {
     display: flex;
     align-items: center;
@@ -205,12 +365,41 @@ import { SITE_CONFIG } from '@/config';
       opacity: 0;
       pointer-events: none;
       transition: all var(--transition-base);
+      max-height: calc(100vh - 70px);
+      overflow-y: auto;
     }
 
     .nav-links.active {
       transform: translateY(0);
       opacity: 1;
       pointer-events: all;
+    }
+
+    /* Mobile dropdown styles */
+    .dropdown-menu {
+      position: static;
+      transform: none;
+      margin-top: 0.5rem;
+      min-width: auto;
+      width: 100%;
+      padding: var(--spacing-md);
+      display: none;
+    }
+
+    .nav-dropdown.active .dropdown-menu {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dropdown-trigger {
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .dropdown-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
     }
 
     .mobile-menu-toggle {
@@ -253,6 +442,18 @@ import { SITE_CONFIG } from '@/config';
         toggle.classList.toggle('active');
       });
     }
+
+    // Mobile dropdown toggle
+    const dropdownTriggers = document.querySelectorAll('.nav-dropdown .dropdown-trigger');
+    dropdownTriggers.forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          const parent = trigger.closest('.nav-dropdown');
+          parent?.classList.toggle('active');
+        }
+      });
+    });
   }
 
   initMobileMenu();
