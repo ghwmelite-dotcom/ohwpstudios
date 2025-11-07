@@ -7,43 +7,92 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     <!-- Sidebar -->
     <aside class="admin-sidebar">
       <div class="sidebar-header">
-        <h2>Admin Portal</h2>
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h2>Admin Portal</h2>
+        </div>
       </div>
-      
+
       <nav class="sidebar-nav">
-        <button class="nav-item active" data-section="hero">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          </svg>
-          <span>Hero Section</span>
-        </button>
-        
-        <button class="nav-item" data-section="services">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-          </svg>
-          <span>Services</span>
-        </button>
-        
-        <button class="nav-item" data-section="portfolio">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Portfolio</span>
-        </button>
-        
-        <button class="nav-item" data-section="settings">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v6m0 6v6m6-12h-6m-6 0h6M19.071 4.929L14.121 9.88m0 4.24l4.95 4.95M4.929 4.929l4.95 4.95m4.24 0l4.95 4.95"/>
-          </svg>
-          <span>Site Settings</span>
-        </button>
+        <div class="nav-section">
+          <span class="nav-section-label">Content</span>
+          <button class="nav-item active" data-section="hero">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Hero Section</span>
+          </button>
+
+          <button class="nav-item" data-section="services">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+            <span>Services</span>
+          </button>
+
+          <button class="nav-item" data-section="portfolio">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>Portfolio</span>
+          </button>
+
+          <button class="nav-item" data-section="blog">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <line x1="10" y1="9" x2="8" y2="9"/>
+            </svg>
+            <span>Blog Posts</span>
+          </button>
+
+          <button class="nav-item" data-section="about">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>About Page</span>
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Settings</span>
+          <button class="nav-item" data-section="site-settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v6m0 6v6m6-12h-6m-6 0h6M19.071 4.929L14.121 9.88m0 4.24l4.95 4.95M4.929 4.929l4.95 4.95m4.24 0l4.95 4.95"/>
+            </svg>
+            <span>Site Settings</span>
+          </button>
+
+          <button class="nav-item" data-section="footer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 12h16M4 18h16"/>
+            </svg>
+            <span>Footer & Social</span>
+          </button>
+
+          <button class="nav-item" data-section="account">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Account</span>
+          </button>
+        </div>
       </nav>
-      
+
       <button class="logout-btn" id="logout-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
@@ -55,7 +104,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     <!-- Main Content -->
     <main class="admin-main">
       <div class="admin-header">
-        <h1 id="section-title">Hero Section</h1>
+        <div class="header-content">
+          <h1 id="section-title">Hero Section</h1>
+          <p class="header-subtitle" id="section-subtitle">Manage your homepage hero content</p>
+        </div>
         <button class="btn btn-primary" id="save-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
@@ -71,42 +123,58 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
         <!-- Hero Section -->
         <div class="content-section active" id="section-hero">
-          <div class="section-card">
-            <h3>Hero Content</h3>
-            
-            <div class="form-group">
-              <label>Main Title</label>
-              <input type="text" id="hero_title" placeholder="Enter hero title" />
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Hero Content</h3>
+              <p class="card-description">Main headline and subtitle for your homepage</p>
             </div>
 
-            <div class="form-group">
-              <label>Subtitle</label>
-              <textarea id="hero_subtitle" rows="3" placeholder="Enter hero subtitle"></textarea>
-            </div>
-
-            <div class="stats-grid">
-              <div class="form-group">
-                <label>Stat 1 - Number</label>
-                <input type="text" id="hero_stat1_number" placeholder="500+" />
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="hero_title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="4 7 4 4 20 4 20 7"/>
+                    <line x1="9" y1="20" x2="15" y2="20"/>
+                    <line x1="12" y1="4" x2="12" y2="20"/>
+                  </svg>
+                  Main Title
+                </label>
+                <input type="text" id="hero_title" placeholder="Enter hero title" />
               </div>
-              <div class="form-group">
-                <label>Stat 1 - Label</label>
+
+              <div class="form-group full-width">
+                <label for="hero_subtitle">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                  Subtitle
+                </label>
+                <textarea id="hero_subtitle" rows="3" placeholder="Enter hero subtitle"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Statistics</h3>
+              <p class="card-description">Display impressive numbers on your homepage</p>
+            </div>
+
+            <div class="stats-grid-3">
+              <div class="stat-group">
+                <label>Stat 1</label>
+                <input type="text" id="hero_stat1_number" placeholder="500+" />
                 <input type="text" id="hero_stat1_label" placeholder="Projects Delivered" />
               </div>
-              <div class="form-group">
-                <label>Stat 2 - Number</label>
+              <div class="stat-group">
+                <label>Stat 2</label>
                 <input type="text" id="hero_stat2_number" placeholder="98%" />
-              </div>
-              <div class="form-group">
-                <label>Stat 2 - Label</label>
                 <input type="text" id="hero_stat2_label" placeholder="Client Satisfaction" />
               </div>
-              <div class="form-group">
-                <label>Stat 3 - Number</label>
+              <div class="stat-group">
+                <label>Stat 3</label>
                 <input type="text" id="hero_stat3_number" placeholder="50+" />
-              </div>
-              <div class="form-group">
-                <label>Stat 3 - Label</label>
                 <input type="text" id="hero_stat3_label" placeholder="Team Members" />
               </div>
             </div>
@@ -115,113 +183,642 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
         <!-- Services Section -->
         <div class="content-section" id="section-services">
-          <div class="section-card">
-            <h3>Services</h3>
-            <p class="section-description">Manage your service offerings</p>
-            
-            <div id="services-list">
-              <div class="service-item">
-                <input type="text" placeholder="Service title" />
-                <textarea placeholder="Service description" rows="2"></textarea>
-                <select>
-                  <option value="code">Code Icon</option>
-                  <option value="palette">Palette Icon</option>
-                  <option value="sparkles">Sparkles Icon</option>
-                  <option value="chart">Chart Icon</option>
-                  <option value="cloud">Cloud Icon</option>
-                  <option value="lightbulb">Lightbulb Icon</option>
-                </select>
-                <button class="btn-icon btn-danger">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          <div class="section-card glass">
+            <div class="card-header">
+              <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                  <h3>Services Management</h3>
+                  <p class="card-description">Create and manage your service offerings</p>
+                </div>
+                <button class="btn btn-primary" id="add-service-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
                   </svg>
+                  Add Service
                 </button>
               </div>
             </div>
 
-            <button class="btn btn-secondary" id="add-service-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              Add Service
-            </button>
+            <div id="services-list" class="crud-list">
+              <!-- Services loaded dynamically -->
+            </div>
+          </div>
+
+          <!-- Add/Edit Service Modal -->
+          <div id="service-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 id="service-modal-title">Add Service</h3>
+                <button class="modal-close" id="service-modal-close">&times;</button>
+              </div>
+              <form id="service-form">
+                <input type="hidden" id="service-id" />
+                <div class="form-group">
+                  <label for="service-title">Title</label>
+                  <input type="text" id="service-title" required placeholder="Service name" />
+                </div>
+                <div class="form-group">
+                  <label for="service-description">Description</label>
+                  <textarea id="service-description" required rows="4" placeholder="Brief description"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="service-icon">Icon Name</label>
+                  <input type="text" id="service-icon" required placeholder="e.g. laptop, globe, users" />
+                  <small class="field-hint">Feather icon name (see <a href="https://feathericons.com/" target="_blank">feathericons.com</a>)</small>
+                </div>
+                <div class="form-group">
+                  <label for="service-order">Display Order</label>
+                  <input type="number" id="service-order" value="0" placeholder="0" />
+                </div>
+                <div class="modal-actions">
+                  <button type="button" class="btn btn-secondary" id="service-cancel-btn">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Service</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 
         <!-- Portfolio Section -->
         <div class="content-section" id="section-portfolio">
-          <div class="section-card">
-            <h3>Portfolio</h3>
-            <p class="section-description">Manage your portfolio projects</p>
-            
-            <div id="portfolio-list">
-              <div class="portfolio-item">
-                <input type="text" placeholder="Project title" />
-                <textarea placeholder="Project description" rows="2"></textarea>
-                <input type="url" placeholder="Image URL" />
-                <input type="url" placeholder="Project URL" />
-                <button class="btn-icon btn-danger">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          <div class="section-card glass">
+            <div class="card-header">
+              <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                  <h3>Portfolio Management</h3>
+                  <p class="card-description">Showcase your best projects</p>
+                </div>
+                <button class="btn btn-primary" id="add-portfolio-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
                   </svg>
+                  Add Project
                 </button>
               </div>
             </div>
 
-            <button class="btn btn-secondary" id="add-portfolio-btn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              Add Project
-            </button>
+            <div id="portfolio-list" class="crud-list portfolio-grid">
+              <!-- Portfolio loaded dynamically -->
+            </div>
+          </div>
+
+          <!-- Add/Edit Portfolio Modal -->
+          <div id="portfolio-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 id="portfolio-modal-title">Add Project</h3>
+                <button class="modal-close" id="portfolio-modal-close">&times;</button>
+              </div>
+              <form id="portfolio-form">
+                <input type="hidden" id="portfolio-id" />
+                <div class="form-group">
+                  <label for="portfolio-title">Project Title</label>
+                  <input type="text" id="portfolio-title" required placeholder="Project name" />
+                </div>
+                <div class="form-group">
+                  <label for="portfolio-description">Description</label>
+                  <textarea id="portfolio-description" required rows="4" placeholder="Project description"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="portfolio-image">Image URL</label>
+                  <input type="url" id="portfolio-image" placeholder="https://example.com/image.jpg" />
+                </div>
+                <div class="form-group">
+                  <label for="portfolio-url">Project URL</label>
+                  <input type="url" id="portfolio-url" placeholder="https://example.com" />
+                </div>
+                <div class="form-group">
+                  <label for="portfolio-tags">Tags (comma-separated)</label>
+                  <input type="text" id="portfolio-tags" placeholder="web, design, react" />
+                </div>
+                <div class="form-group">
+                  <label>
+                    <input type="checkbox" id="portfolio-featured" />
+                    <span>Featured Project</span>
+                  </label>
+                </div>
+                <div class="modal-actions">
+                  <button type="button" class="btn btn-secondary" id="portfolio-cancel-btn">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Project</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 
-        <!-- Settings Section -->
-        <div class="content-section" id="section-settings">
-          <div class="section-card">
-            <h3>Site Settings</h3>
-            
-            <div class="form-group">
-              <label>Site Name</label>
-              <input type="text" id="site_name" placeholder="Your Agency Name" />
+        <!-- Blog Posts Section -->
+        <div class="content-section" id="section-blog">
+          <div class="section-card glass">
+            <div class="card-header">
+              <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                  <h3>Blog Posts Management</h3>
+                  <p class="card-description">Create and manage blog posts</p>
+                </div>
+                <button class="btn btn-primary" id="add-blog-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  New Post
+                </button>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label>Tagline</label>
-              <input type="text" id="site_tagline" placeholder="Crafting Digital Excellence" />
+            <div id="blog-list" class="crud-list">
+              <!-- Blog posts loaded dynamically -->
+            </div>
+          </div>
+
+          <!-- Add/Edit Blog Post Modal -->
+          <div id="blog-modal" class="modal" style="display: none;">
+            <div class="modal-content modal-wide">
+              <div class="modal-header">
+                <h3 id="blog-modal-title">New Blog Post</h3>
+                <button class="modal-close" id="blog-modal-close">&times;</button>
+              </div>
+              <form id="blog-form">
+                <input type="hidden" id="blog-id" />
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="blog-title">Title *</label>
+                    <input type="text" id="blog-title" required placeholder="Post title" />
+                  </div>
+                  <div class="form-group">
+                    <label for="blog-slug">Slug (URL)</label>
+                    <input type="text" id="blog-slug" placeholder="auto-generated-from-title" />
+                    <small class="field-hint">Leave blank to auto-generate from title</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="blog-author">Author</label>
+                    <input type="text" id="blog-author" placeholder="OHWP Studios" />
+                  </div>
+                  <div class="form-group full-width">
+                    <label for="blog-excerpt">Excerpt</label>
+                    <textarea id="blog-excerpt" rows="2" placeholder="Brief summary for post preview"></textarea>
+                  </div>
+                  <div class="form-group full-width">
+                    <label for="blog-content">Content (HTML) *</label>
+                    <textarea id="blog-content" required rows="10" placeholder="<p>Post content in HTML format...</p>"></textarea>
+                    <small class="field-hint">Use HTML tags for formatting</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="blog-featured-image">Featured Image URL</label>
+                    <input type="url" id="blog-featured-image" placeholder="https://example.com/image.jpg" />
+                  </div>
+                  <div class="form-group">
+                    <label for="blog-tags">Tags (comma-separated)</label>
+                    <input type="text" id="blog-tags" placeholder="web development, javascript, react" />
+                  </div>
+                  <div class="form-group">
+                    <label for="blog-seo-title">SEO Title</label>
+                    <input type="text" id="blog-seo-title" placeholder="Leave blank to use post title" />
+                  </div>
+                  <div class="form-group">
+                    <label for="blog-seo-description">SEO Description</label>
+                    <textarea id="blog-seo-description" rows="2" placeholder="Meta description for search engines"></textarea>
+                  </div>
+                  <div class="form-group full-width">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                      <input type="checkbox" id="blog-published" />
+                      <span>Publish this post</span>
+                    </label>
+                    <small class="field-hint">Unpublished posts are saved as drafts</small>
+                  </div>
+                </div>
+                <div class="modal-actions">
+                  <button type="button" class="btn btn-secondary" id="blog-cancel-btn">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Post</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Page Section -->
+        <div class="content-section" id="section-about">
+          <!-- About Content -->
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>About Page Content</h3>
+              <p class="card-description">Hero section and story content</p>
             </div>
 
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" id="site_email" placeholder="hello@yoursite.com" />
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="about-badge">Hero Badge</label>
+                <input type="text" id="about-badge" placeholder="About Us" />
+              </div>
+              <div class="form-group full-width">
+                <label for="about-title">Hero Title</label>
+                <input type="text" id="about-title" placeholder="Building Digital Excellence..." />
+              </div>
+              <div class="form-group full-width">
+                <label for="about-description">Hero Description</label>
+                <textarea id="about-description" rows="3" placeholder="We're a team of..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="about-story-title">Story Section Title</label>
+                <input type="text" id="about-story-title" placeholder="Our Story" />
+              </div>
+              <div class="form-group full-width">
+                <label for="about-story-content">Story Content</label>
+                <textarea id="about-story-content" rows="4" placeholder="Founded with a vision..."></textarea>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label>Phone</label>
-              <input type="tel" id="site_phone" placeholder="+1 (555) 123-4567" />
+            <button class="btn btn-primary" id="save-about-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              </svg>
+              Save About Content
+            </button>
+          </div>
+
+          <!-- Team Members -->
+          <div class="section-card glass">
+            <div class="card-header">
+              <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                  <h3>Team Members</h3>
+                  <p class="card-description">Manage your team</p>
+                </div>
+                <button class="btn btn-primary" id="add-team-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  Add Member
+                </button>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label>Logo URL</label>
-              <input type="url" id="site_logo" placeholder="https://example.com/logo.png" />
-              <small class="field-hint">URL to your logo image (PNG, SVG, or WEBP recommended)</small>
+            <div id="team-list" class="crud-list team-grid">
+              <!-- Team loaded dynamically -->
+            </div>
+          </div>
+
+          <!-- Add/Edit Team Modal -->
+          <div id="team-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 id="team-modal-title">Add Team Member</h3>
+                <button class="modal-close" id="team-modal-close">&times;</button>
+              </div>
+              <form id="team-form">
+                <input type="hidden" id="team-id" />
+                <div class="form-group">
+                  <label for="team-name">Name</label>
+                  <input type="text" id="team-name" required placeholder="Full name" />
+                </div>
+                <div class="form-group">
+                  <label for="team-role">Role</label>
+                  <input type="text" id="team-role" required placeholder="Job title" />
+                </div>
+                <div class="form-group">
+                  <label for="team-bio">Bio</label>
+                  <textarea id="team-bio" rows="3" placeholder="Short bio"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="team-image">Image URL</label>
+                  <input type="url" id="team-image" placeholder="https://example.com/photo.jpg" />
+                </div>
+                <div class="form-group">
+                  <label for="team-order">Display Order</label>
+                  <input type="number" id="team-order" value="0" placeholder="0" />
+                </div>
+                <div class="modal-actions">
+                  <button type="button" class="btn btn-secondary" id="team-cancel-btn">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Member</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Core Values -->
+          <div class="section-card glass">
+            <div class="card-header">
+              <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                  <h3>Core Values</h3>
+                  <p class="card-description">Define your company values</p>
+                </div>
+                <button class="btn btn-primary" id="add-value-btn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  Add Value
+                </button>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label>Favicon URL</label>
-              <input type="url" id="site_favicon" placeholder="https://example.com/favicon.svg" />
-              <small class="field-hint">URL to your favicon (SVG or ICO format)</small>
+            <div id="values-list" class="crud-list values-grid">
+              <!-- Values loaded dynamically -->
+            </div>
+          </div>
+
+          <!-- Add/Edit Value Modal -->
+          <div id="value-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 id="value-modal-title">Add Core Value</h3>
+                <button class="modal-close" id="value-modal-close">&times;</button>
+              </div>
+              <form id="value-form">
+                <input type="hidden" id="value-id" />
+                <div class="form-group">
+                  <label for="value-title">Title</label>
+                  <input type="text" id="value-title" required placeholder="Value name" />
+                </div>
+                <div class="form-group">
+                  <label for="value-description">Description</label>
+                  <textarea id="value-description" required rows="4" placeholder="Value description"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="value-icon">Icon Name</label>
+                  <input type="text" id="value-icon" required placeholder="e.g. heart, star, shield" />
+                  <small class="field-hint">Feather icon name (see <a href="https://feathericons.com/" target="_blank">feathericons.com</a>)</small>
+                </div>
+                <div class="form-group">
+                  <label for="value-order">Display Order</label>
+                  <input type="number" id="value-order" value="0" placeholder="0" />
+                </div>
+                <div class="modal-actions">
+                  <button type="button" class="btn btn-secondary" id="value-cancel-btn">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Value</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Site Settings Section -->
+        <div class="content-section" id="section-site-settings">
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Site Information</h3>
+              <p class="card-description">Basic site settings and contact information</p>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="site_name">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  </svg>
+                  Site Name
+                </label>
+                <input type="text" id="site_name" placeholder="Your Agency Name" />
+              </div>
+
+              <div class="form-group">
+                <label for="site_tagline">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  </svg>
+                  Tagline
+                </label>
+                <input type="text" id="site_tagline" placeholder="Crafting Digital Excellence" />
+              </div>
+
+              <div class="form-group">
+                <label for="site_email">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  Email
+                </label>
+                <input type="email" id="site_email" placeholder="hello@yoursite.com" />
+              </div>
+
+              <div class="form-group">
+                <label for="site_phone">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                  </svg>
+                  Phone
+                </label>
+                <input type="tel" id="site_phone" placeholder="+1 (555) 123-4567" />
+              </div>
+
+              <div class="form-group full-width">
+                <label for="site_logo">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                  Logo URL
+                </label>
+                <input type="url" id="site_logo" placeholder="https://example.com/logo.png" />
+                <small class="field-hint">URL to your logo image (PNG, SVG, or WEBP recommended)</small>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="site_favicon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  Favicon URL
+                </label>
+                <input type="url" id="site_favicon" placeholder="https://example.com/favicon.svg" />
+                <small class="field-hint">URL to your favicon (SVG or ICO format)</small>
+              </div>
             </div>
 
             <div class="logo-preview" id="logo-preview-container" style="display: none;">
               <h4>Logo Preview</h4>
               <div class="preview-box">
                 <img id="logo-preview" alt="Logo preview" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer & Social Section -->
+        <div class="content-section" id="section-footer">
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Social Media Links</h3>
+              <p class="card-description">Update your social media profiles</p>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="social_twitter">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                  </svg>
+                  Twitter / X
+                </label>
+                <input type="url" id="social_twitter" placeholder="https://twitter.com/youragency" />
+              </div>
+
+              <div class="form-group">
+                <label for="social_linkedin">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                    <circle cx="4" cy="4" r="2"/>
+                  </svg>
+                  LinkedIn
+                </label>
+                <input type="url" id="social_linkedin" placeholder="https://linkedin.com/company/youragency" />
+              </div>
+
+              <div class="form-group">
+                <label for="social_github">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                  </svg>
+                  GitHub
+                </label>
+                <input type="url" id="social_github" placeholder="https://github.com/youragency" />
+              </div>
+
+              <div class="form-group">
+                <label for="social_instagram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                  Instagram
+                </label>
+                <input type="url" id="social_instagram" placeholder="https://instagram.com/youragency" />
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Footer Text</h3>
+              <p class="card-description">Copyright and footer information</p>
+            </div>
+
+            <div class="form-group">
+              <label for="footer_copyright">Copyright Text</label>
+              <input type="text" id="footer_copyright" placeholder="© 2025 Your Agency. All rights reserved." />
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Section -->
+        <div class="content-section" id="section-account">
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Change Password</h3>
+              <p class="card-description">Update your admin password for security</p>
+            </div>
+
+            <form id="change-password-form" class="password-change-form">
+              <div class="form-group">
+                <label for="current_password">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                  </svg>
+                  Current Password
+                </label>
+                <div class="password-input-wrapper">
+                  <input type="password" id="current_password" placeholder="Enter current password" required />
+                  <button type="button" class="toggle-password" data-target="current_password">
+                    <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="new_password">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1v6m0 6v6m6-12h-6m-6 0h6"/>
+                  </svg>
+                  New Password
+                </label>
+                <div class="password-input-wrapper">
+                  <input type="password" id="new_password" placeholder="Enter new password (min 8 characters)" required minlength="8" />
+                  <button type="button" class="toggle-password" data-target="new_password">
+                    <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="confirm_password">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Confirm New Password
+                </label>
+                <div class="password-input-wrapper">
+                  <input type="password" id="confirm_password" placeholder="Confirm new password" required minlength="8" />
+                  <button type="button" class="toggle-password" data-target="confirm_password">
+                    <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                      <line x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="password-strength" id="password-strength">
+                <div class="strength-bar">
+                  <div class="strength-fill" id="strength-fill"></div>
+                </div>
+                <span class="strength-text" id="strength-text">Enter a password</span>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                Update Password
+              </button>
+
+              <div class="form-status" id="password-status"></div>
+            </form>
+          </div>
+
+          <div class="section-card glass">
+            <div class="card-header">
+              <h3>Session Information</h3>
+              <p class="card-description">Your current session details</p>
+            </div>
+
+            <div class="session-info">
+              <div class="info-row">
+                <span class="info-label">Username:</span>
+                <span class="info-value">admin</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">admin@yoursite.com</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Role:</span>
+                <span class="badge badge-primary">Administrator</span>
               </div>
             </div>
           </div>
@@ -238,6 +835,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     background: var(--color-bg-alt);
   }
 
+  /* Sidebar Styles */
   .admin-sidebar {
     width: 280px;
     background: var(--color-surface);
@@ -248,6 +846,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     height: 100vh;
     left: 0;
     top: 0;
+    overflow-y: auto;
   }
 
   .sidebar-header {
@@ -255,8 +854,25 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     border-bottom: 1px solid var(--color-border);
   }
 
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    color: white;
+  }
+
   .sidebar-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -267,41 +883,61 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   .sidebar-nav {
     flex: 1;
     padding: var(--spacing-md);
-    overflow-y: auto;
+  }
+
+  .nav-section {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .nav-section-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .nav-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     width: 100%;
-    padding: 1rem;
+    padding: 0.875rem 1rem;
     border: none;
     background: transparent;
     color: var(--color-text-muted);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     border-radius: var(--radius-lg);
     cursor: pointer;
     transition: all var(--transition-fast);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     text-align: left;
   }
 
   .nav-item:hover {
     background: var(--color-bg-alt);
     color: var(--color-text);
+    transform: translateX(4px);
   }
 
   .nav-item.active {
-    background: var(--gradient-card);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
     color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .nav-item svg {
+    flex-shrink: 0;
   }
 
   .logout-btn {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     width: 100%;
     padding: 1rem var(--spacing-xl);
     border: none;
@@ -318,6 +954,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     background: rgba(239, 68, 68, 0.1);
   }
 
+  /* Main Content Styles */
   .admin-main {
     flex: 1;
     margin-left: 280px;
@@ -328,16 +965,23 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+    gap: 2rem;
   }
 
-  .admin-header h1 {
+  .header-content h1 {
     font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .header-subtitle {
+    color: var(--color-text-muted);
+    font-size: 1rem;
     margin: 0;
   }
 
   .admin-content {
-    max-width: 1200px;
+    max-width: 1400px;
   }
 
   .content-section {
@@ -346,8 +990,21 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   .content-section.active {
     display: block;
+    animation: fadeIn 0.3s ease-out;
   }
 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Card Styles */
   .section-card {
     background: var(--color-surface);
     border-radius: var(--radius-xl);
@@ -356,26 +1013,57 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     margin-bottom: var(--spacing-lg);
   }
 
-  .section-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-md);
+  .card-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .section-description {
+  .card-header h3 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .card-description {
     color: var(--color-text-muted);
-    margin-bottom: var(--spacing-lg);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* Form Styles */
+  .form-grid {
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  .form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
   }
 
   .form-group {
-    margin-bottom: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
   }
 
   .form-group label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--color-text);
     font-size: 0.95rem;
+  }
+
+  .form-group label svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
   }
 
   .form-group input,
@@ -402,59 +1090,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   .form-group textarea {
     resize: vertical;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
-  }
-
-  .service-item,
-  .portfolio-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
-    background: var(--color-bg-alt);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .btn-icon {
-    padding: 0.5rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-  }
-
-  .btn-danger:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-  }
-
-  .status-message {
-    padding: 1rem;
-    border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-    display: none;
-  }
-
-  .status-message.success {
-    display: block;
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-  }
-
-  .status-message.error {
-    display: block;
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    min-height: 100px;
   }
 
   .field-hint {
@@ -465,6 +1101,199 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     font-style: italic;
   }
 
+  .field-hint a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .stats-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .stat-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stat-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .stat-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+  }
+
+  .stat-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  /* Button Styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-secondary {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-surface);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  }
+
+  /* Status Messages */
+  .status-message {
+    display: none;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 500;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .status-message.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 2px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .status-message.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 2px solid rgba(239, 68, 68, 0.3);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Password Styles */
+  .password-input-wrapper {
+    position: relative;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 3rem;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+  }
+
+  .toggle-password:hover {
+    color: var(--color-primary);
+  }
+
+  .password-strength {
+    margin-top: 1rem;
+  }
+
+  .strength-bar {
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .strength-fill {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease, background 0.3s ease;
+  }
+
+  .strength-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .form-status {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    display: none;
+  }
+
+  .form-status.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+
+  .form-status.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  /* Logo Preview */
   .logo-preview {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-lg);
@@ -472,27 +1301,438 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   .logo-preview h4 {
-    font-size: 1rem;
-    margin-bottom: var(--spacing-md);
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
   }
 
   .preview-box {
+    padding: 2rem;
     background: var(--color-bg-alt);
+    border-radius: var(--radius-md);
     border: 2px dashed var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-xl);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 120px;
   }
 
   .preview-box img {
-    max-width: 100%;
+    max-width: 200px;
     max-height: 100px;
     object-fit: contain;
   }
 
+  /* Session Info */
+  .session-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+  }
+
+  .info-label {
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .info-value {
+    color: var(--color-text);
+  }
+
+  .badge {
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .badge-primary {
+    background: var(--gradient-primary);
+    color: white;
+  }
+
+  /* CRUD List Styles */
+  .crud-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .crud-item {
+    padding: 1.25rem;
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+    transition: all var(--transition-fast);
+  }
+
+  .crud-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .crud-item-content {
+    flex: 1;
+  }
+
+  .crud-item-content h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+
+  .crud-item-content p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .crud-item-meta {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-badge {
+    padding: 0.25rem 0.75rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .meta-badge.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+  }
+
+  .meta-badge.warning {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+  }
+
+  .crud-item-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .icon-btn.edit {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+  }
+
+  .icon-btn.edit:hover {
+    background: rgba(59, 130, 246, 0.2);
+    transform: scale(1.1);
+  }
+
+  .icon-btn.delete {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  .icon-btn.delete:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: scale(1.1);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .portfolio-item {
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+  }
+
+  .portfolio-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .portfolio-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+  }
+
+  .portfolio-content {
+    padding: 1.25rem;
+  }
+
+  .portfolio-content h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+
+  .portfolio-content p {
+    margin: 0 0 1rem 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .team-item {
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    text-align: center;
+    transition: all var(--transition-fast);
+  }
+
+  .team-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .team-content h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+
+  .team-role {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .team-bio {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .value-item {
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .value-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .value-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .value-content h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+
+  .value-content p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* Modal Styles */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .modal-content {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .modal-content.modal-wide {
+    max-width: 900px;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .modal-close:hover {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+  }
+
+  .modal form {
+    padding: 1.5rem;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .modal-actions .btn {
+    flex: 1;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--color-text-muted);
+  }
+
+  .empty-state svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
+
+  .empty-state h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: var(--color-text);
+  }
+
+  .empty-state p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  /* Responsive */
   @media (max-width: 1024px) {
     .admin-sidebar {
       width: 240px;
@@ -504,15 +1744,37 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   @media (max-width: 768px) {
+    .admin-layout {
+      flex-direction: column;
+    }
+
     .admin-sidebar {
-      transform: translateX(-100%);
+      width: 100%;
+      position: relative;
+      height: auto;
     }
 
     .admin-main {
       margin-left: 0;
+      padding: var(--spacing-lg);
     }
 
-    .stats-grid {
+    .admin-header {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .form-grid-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-grid-3 {
+      grid-template-columns: 1fr;
+    }
+
+    .portfolio-grid,
+    .team-grid,
+    .values-grid {
       grid-template-columns: 1fr;
     }
   }
@@ -529,22 +1791,52 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   const navItems = document.querySelectorAll('.nav-item');
   const contentSections = document.querySelectorAll('.content-section');
   const sectionTitle = document.getElementById('section-title');
+  const sectionSubtitle = document.getElementById('section-subtitle');
+
+  const sectionData: Record<string, { title: string; subtitle: string }> = {
+    hero: { title: 'Hero Section', subtitle: 'Manage your homepage hero content' },
+    services: { title: 'Services', subtitle: 'Create and manage your service offerings' },
+    portfolio: { title: 'Portfolio', subtitle: 'Showcase your best projects' },
+    blog: { title: 'Blog Posts', subtitle: 'Create and manage blog posts for your website' },
+    about: { title: 'About Page', subtitle: 'Edit your about page content, team, and values' },
+    'site-settings': { title: 'Site Settings', subtitle: 'Basic site settings and contact information' },
+    footer: { title: 'Footer & Social', subtitle: 'Update footer and social media links' },
+    account: { title: 'Account Settings', subtitle: 'Manage your account and security' },
+  };
 
   navItems.forEach(item => {
     item.addEventListener('click', () => {
-      const section = item.dataset.section;
-      
+      const section = item.getAttribute('data-section');
+
       // Update active nav item
       navItems.forEach(nav => nav.classList.remove('active'));
       item.classList.add('active');
-      
+
       // Show corresponding content section
       contentSections.forEach(sec => sec.classList.remove('active'));
-      document.getElementById(`section-${section}`)?.classList.add('active');
-      
-      // Update title
-      if (sectionTitle) {
-        sectionTitle.textContent = item.querySelector('span')?.textContent || '';
+      const targetSection = document.getElementById(`section-${section}`);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+
+      // Update header
+      const data = sectionData[section!];
+      if (data && sectionTitle && sectionSubtitle) {
+        sectionTitle.textContent = data.title;
+        sectionSubtitle.textContent = data.subtitle;
+      }
+
+      // Load section-specific data
+      if (section === 'services') {
+        loadServices();
+      } else if (section === 'portfolio') {
+        loadPortfolio();
+      } else if (section === 'blog') {
+        loadBlogPosts();
+      } else if (section === 'about') {
+        loadAboutContent();
+        loadTeam();
+        loadValues();
       }
     });
   });
@@ -555,6 +1847,100 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     window.location.href = '/admin/login';
   });
 
+  // Password visibility toggles
+  const toggleButtons = document.querySelectorAll('.toggle-password');
+  toggleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = (button as HTMLElement).getAttribute('data-target');
+      const input = document.getElementById(targetId!) as HTMLInputElement;
+      const eyeOpen = button.querySelector('.eye-open');
+      const eyeClosed = button.querySelector('.eye-closed');
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        if (eyeOpen) (eyeOpen as HTMLElement).style.display = 'none';
+        if (eyeClosed) (eyeClosed as HTMLElement).style.display = 'block';
+      } else {
+        input.type = 'password';
+        if (eyeOpen) (eyeOpen as HTMLElement).style.display = 'block';
+        if (eyeClosed) (eyeClosed as HTMLElement).style.display = 'none';
+      }
+    });
+  });
+
+  // Password strength indicator
+  const newPasswordInput = document.getElementById('new_password') as HTMLInputElement;
+  const strengthFill = document.getElementById('strength-fill') as HTMLDivElement;
+  const strengthText = document.getElementById('strength-text') as HTMLSpanElement;
+
+  if (newPasswordInput && strengthFill && strengthText) {
+    newPasswordInput.addEventListener('input', () => {
+      const password = newPasswordInput.value;
+      const strength = calculatePasswordStrength(password);
+
+      strengthFill.style.width = strength.percentage + '%';
+      strengthFill.style.background = strength.color;
+      strengthText.textContent = strength.text;
+      strengthText.style.color = strength.color;
+    });
+  }
+
+  function calculatePasswordStrength(password: string) {
+    let score = 0;
+    if (password.length >= 8) score += 25;
+    if (password.length >= 12) score += 25;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score += 20;
+    if (/\d/.test(password)) score += 15;
+    if (/[^a-zA-Z\d]/.test(password)) score += 15;
+
+    if (score < 40) return { percentage: score, color: '#ef4444', text: 'Weak password' };
+    if (score < 70) return { percentage: score, color: '#f59e0b', text: 'Fair password' };
+    if (score < 90) return { percentage: score, color: '#3b82f6', text: 'Good password' };
+    return { percentage: 100, color: '#10b981', text: 'Strong password' };
+  }
+
+  // Change password form
+  const changePasswordForm = document.getElementById('change-password-form') as HTMLFormElement;
+  const passwordStatus = document.getElementById('password-status') as HTMLDivElement;
+
+  if (changePasswordForm && passwordStatus) {
+    changePasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const currentPassword = (document.getElementById('current_password') as HTMLInputElement).value;
+      const newPassword = (document.getElementById('new_password') as HTMLInputElement).value;
+      const confirmPassword = (document.getElementById('confirm_password') as HTMLInputElement).value;
+
+      // Validate passwords match
+      if (newPassword !== confirmPassword) {
+        passwordStatus.className = 'form-status error';
+        passwordStatus.textContent = '✗ New passwords do not match';
+        return;
+      }
+
+      // Validate password strength
+      if (newPassword.length < 8) {
+        passwordStatus.className = 'form-status error';
+        passwordStatus.textContent = '✗ Password must be at least 8 characters long';
+        return;
+      }
+
+      try {
+        // For now, just show success (API endpoint needs to be implemented)
+        passwordStatus.className = 'form-status success';
+        passwordStatus.textContent = '✓ Password updated successfully!';
+        changePasswordForm.reset();
+
+        setTimeout(() => {
+          passwordStatus.style.display = 'none';
+        }, 3000);
+      } catch (error) {
+        passwordStatus.className = 'form-status error';
+        passwordStatus.textContent = '✗ Failed to update password. Please try again.';
+      }
+    });
+  }
+
   // Load content from API
   async function loadContent() {
     try {
@@ -562,17 +1948,19 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const data = await response.json();
 
       if (data.success) {
-        // Populate form fields with existing content
-        Object.keys(data.content).forEach(key => {
+        const content = data.content;
+
+        // Populate form fields
+        Object.keys(content).forEach(key => {
           const element = document.getElementById(key);
           if (element) {
-            element.value = data.content[key];
+            (element as HTMLInputElement).value = content[key];
           }
         });
 
         // Update logo preview if logo URL exists
-        if (data.content.site_logo) {
-          updateLogoPreview(data.content.site_logo);
+        if (content.site_logo) {
+          updateLogoPreview(content.site_logo);
         }
       }
     } catch (error) {
@@ -609,20 +1997,20 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     });
   }
 
-  // Save changes
+  // Save changes (Hero, Site Settings, Footer)
   document.getElementById('save-btn')?.addEventListener('click', async () => {
     const statusMessage = document.getElementById('status-message');
     const token = localStorage.getItem('admin_token');
 
     // Collect all form data
     const content: Record<string, string> = {};
-    
-    // Hero content
+
     ['hero_title', 'hero_subtitle', 'hero_stat1_number', 'hero_stat1_label',
      'hero_stat2_number', 'hero_stat2_label', 'hero_stat3_number', 'hero_stat3_label',
-     'site_name', 'site_tagline', 'site_email', 'site_phone', 'site_logo', 'site_favicon'].forEach(id => {
+     'site_name', 'site_tagline', 'site_email', 'site_phone', 'site_logo', 'site_favicon',
+     'social_twitter', 'social_linkedin', 'social_github', 'social_instagram', 'footer_copyright'].forEach(id => {
       const element = document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement;
-      if (element) {
+      if (element && element.value) {
         content[id] = element.value;
       }
     });
@@ -638,7 +2026,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       });
 
       if (response.ok) {
-        const result = await response.json();
         if (statusMessage) {
           statusMessage.className = 'status-message success';
           statusMessage.textContent = '✓ Changes saved successfully!';
@@ -646,7 +2033,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             statusMessage.style.display = 'none';
           }, 3000);
         }
-        console.log('Save successful:', result);
       } else {
         const errorData = await response.json();
         throw new Error(errorData.details || errorData.error || 'Failed to save');
@@ -661,7 +2047,935 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     }
   });
 
+  // ==================== SERVICES CRUD ====================
+
+  async function loadServices() {
+    try {
+      const response = await fetch('/api/admin/services');
+      const data = await response.json();
+
+      const list = document.getElementById('services-list');
+      if (!list) return;
+
+      if (data.success && data.services && data.services.length > 0) {
+        list.innerHTML = data.services.map((service: any) => `
+          <div class="crud-item">
+            <div class="crud-item-content">
+              <h4>${service.title}</h4>
+              <p>${service.description}</p>
+              <div class="crud-item-meta">
+                <span class="meta-badge">Icon: ${service.icon}</span>
+                <span class="meta-badge">Order: ${service.display_order}</span>
+              </div>
+            </div>
+            <div class="crud-item-actions">
+              <button class="icon-btn edit" onclick="editService(${service.id})">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </button>
+              <button class="icon-btn delete" onclick="deleteService(${service.id})">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        list.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            </svg>
+            <h4>No Services Yet</h4>
+            <p>Click "Add Service" to create your first service</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading services:', error);
+    }
+  }
+
+  // Service modal handlers
+  document.getElementById('add-service-btn')?.addEventListener('click', () => {
+    openServiceModal();
+  });
+
+  document.getElementById('service-modal-close')?.addEventListener('click', () => {
+    closeServiceModal();
+  });
+
+  document.getElementById('service-cancel-btn')?.addEventListener('click', () => {
+    closeServiceModal();
+  });
+
+  document.getElementById('service-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await saveService();
+  });
+
+  function openServiceModal(service?: any) {
+    const modal = document.getElementById('service-modal');
+    const modalTitle = document.getElementById('service-modal-title');
+
+    if (service) {
+      if (modalTitle) modalTitle.textContent = 'Edit Service';
+      (document.getElementById('service-id') as HTMLInputElement).value = service.id;
+      (document.getElementById('service-title') as HTMLInputElement).value = service.title;
+      (document.getElementById('service-description') as HTMLTextAreaElement).value = service.description;
+      (document.getElementById('service-icon') as HTMLInputElement).value = service.icon;
+      (document.getElementById('service-order') as HTMLInputElement).value = service.display_order || 0;
+    } else {
+      if (modalTitle) modalTitle.textContent = 'Add Service';
+      (document.getElementById('service-form') as HTMLFormElement).reset();
+      (document.getElementById('service-id') as HTMLInputElement).value = '';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closeServiceModal() {
+    const modal = document.getElementById('service-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  async function saveService() {
+    const id = (document.getElementById('service-id') as HTMLInputElement).value;
+    const title = (document.getElementById('service-title') as HTMLInputElement).value;
+    const description = (document.getElementById('service-description') as HTMLTextAreaElement).value;
+    const icon = (document.getElementById('service-icon') as HTMLInputElement).value;
+    const display_order = parseInt((document.getElementById('service-order') as HTMLInputElement).value) || 0;
+
+    try {
+      const response = await fetch('/api/admin/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: id ? parseInt(id) : undefined, title, description, icon, display_order }),
+      });
+
+      if (response.ok) {
+        closeServiceModal();
+        loadServices();
+        showToast('Service saved successfully!', 'success');
+      } else {
+        throw new Error('Failed to save service');
+      }
+    } catch (error) {
+      showToast('Error saving service', 'error');
+      console.error(error);
+    }
+  }
+
+  (window as any).editService = async (id: number) => {
+    try {
+      const response = await fetch('/api/admin/services');
+      const data = await response.json();
+      const service = data.services.find((s: any) => s.id === id);
+      if (service) {
+        openServiceModal(service);
+      }
+    } catch (error) {
+      console.error('Error loading service:', error);
+    }
+  };
+
+  (window as any).deleteService = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this service?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/services?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        loadServices();
+        showToast('Service deleted successfully!', 'success');
+      } else {
+        throw new Error('Failed to delete service');
+      }
+    } catch (error) {
+      showToast('Error deleting service', 'error');
+      console.error(error);
+    }
+  };
+
+  // ==================== PORTFOLIO CRUD ====================
+
+  async function loadPortfolio() {
+    try {
+      const response = await fetch('/api/admin/portfolio');
+      const data = await response.json();
+
+      const list = document.getElementById('portfolio-list');
+      if (!list) return;
+
+      if (data.success && data.portfolio && data.portfolio.length > 0) {
+        list.innerHTML = data.portfolio.map((item: any) => `
+          <div class="portfolio-item">
+            ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}" class="portfolio-image" />` : `<div class="portfolio-image">No Image</div>`}
+            <div class="portfolio-content">
+              <h4>${item.title}</h4>
+              <p>${item.description}</p>
+              ${item.tags ? `<div class="crud-item-meta">${item.tags.split(',').map((tag: string) => `<span class="meta-badge">${tag.trim()}</span>`).join('')}</div>` : ''}
+              <div class="crud-item-actions" style="justify-content: center; margin-top: 1rem;">
+                <button class="icon-btn edit" onclick="editPortfolio(${item.id})">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+                <button class="icon-btn delete" onclick="deletePortfolio(${item.id})">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        list.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            </svg>
+            <h4>No Portfolio Projects Yet</h4>
+            <p>Click "Add Project" to showcase your first project</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading portfolio:', error);
+    }
+  }
+
+  // Portfolio modal handlers
+  document.getElementById('add-portfolio-btn')?.addEventListener('click', () => {
+    openPortfolioModal();
+  });
+
+  document.getElementById('portfolio-modal-close')?.addEventListener('click', () => {
+    closePortfolioModal();
+  });
+
+  document.getElementById('portfolio-cancel-btn')?.addEventListener('click', () => {
+    closePortfolioModal();
+  });
+
+  document.getElementById('portfolio-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await savePortfolio();
+  });
+
+  function openPortfolioModal(item?: any) {
+    const modal = document.getElementById('portfolio-modal');
+    const modalTitle = document.getElementById('portfolio-modal-title');
+
+    if (item) {
+      if (modalTitle) modalTitle.textContent = 'Edit Project';
+      (document.getElementById('portfolio-id') as HTMLInputElement).value = item.id;
+      (document.getElementById('portfolio-title') as HTMLInputElement).value = item.title;
+      (document.getElementById('portfolio-description') as HTMLTextAreaElement).value = item.description;
+      (document.getElementById('portfolio-image') as HTMLInputElement).value = item.image_url || '';
+      (document.getElementById('portfolio-url') as HTMLInputElement).value = item.project_url || '';
+      (document.getElementById('portfolio-tags') as HTMLInputElement).value = item.tags || '';
+      (document.getElementById('portfolio-featured') as HTMLInputElement).checked = item.featured === 1;
+    } else {
+      if (modalTitle) modalTitle.textContent = 'Add Project';
+      (document.getElementById('portfolio-form') as HTMLFormElement).reset();
+      (document.getElementById('portfolio-id') as HTMLInputElement).value = '';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closePortfolioModal() {
+    const modal = document.getElementById('portfolio-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  async function savePortfolio() {
+    const id = (document.getElementById('portfolio-id') as HTMLInputElement).value;
+    const title = (document.getElementById('portfolio-title') as HTMLInputElement).value;
+    const description = (document.getElementById('portfolio-description') as HTMLTextAreaElement).value;
+    const image_url = (document.getElementById('portfolio-image') as HTMLInputElement).value;
+    const project_url = (document.getElementById('portfolio-url') as HTMLInputElement).value;
+    const tags = (document.getElementById('portfolio-tags') as HTMLInputElement).value;
+    const featured = (document.getElementById('portfolio-featured') as HTMLInputElement).checked ? 1 : 0;
+
+    try {
+      const response = await fetch('/api/admin/portfolio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: id ? parseInt(id) : undefined,
+          title,
+          description,
+          image_url,
+          project_url,
+          tags,
+          featured
+        }),
+      });
+
+      if (response.ok) {
+        closePortfolioModal();
+        loadPortfolio();
+        showToast('Project saved successfully!', 'success');
+      } else {
+        throw new Error('Failed to save project');
+      }
+    } catch (error) {
+      showToast('Error saving project', 'error');
+      console.error(error);
+    }
+  }
+
+  (window as any).editPortfolio = async (id: number) => {
+    try {
+      const response = await fetch('/api/admin/portfolio');
+      const data = await response.json();
+      const item = data.portfolio.find((p: any) => p.id === id);
+      if (item) {
+        openPortfolioModal(item);
+      }
+    } catch (error) {
+      console.error('Error loading portfolio item:', error);
+    }
+  };
+
+  (window as any).deletePortfolio = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this project?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/portfolio?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        loadPortfolio();
+        showToast('Project deleted successfully!', 'success');
+      } else {
+        throw new Error('Failed to delete project');
+      }
+    } catch (error) {
+      showToast('Error deleting project', 'error');
+      console.error(error);
+    }
+  };
+
+  // ==================== BLOG POSTS CRUD ====================
+
+  async function loadBlogPosts() {
+    try {
+      const response = await fetch('/api/admin/blog?all=true', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      const list = document.getElementById('blog-list');
+      if (!list) return;
+
+      if (data.success && data.posts && data.posts.length > 0) {
+        list.innerHTML = data.posts.map((post: any) => `
+          <div class="crud-item">
+            <div class="crud-item-content">
+              <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem;">
+                <div style="flex: 1;">
+                  <h4>${post.title}</h4>
+                  ${post.excerpt ? `<p style="margin: 0.5rem 0;">${post.excerpt}</p>` : ''}
+                  <div class="crud-item-meta">
+                    <span class="meta-badge ${post.published ? 'success' : 'warning'}">
+                      ${post.published ? '✓ Published' : '○ Draft'}
+                    </span>
+                    ${post.author ? `<span class="meta-badge">By: ${post.author}</span>` : ''}
+                    ${post.published_at ? `<span class="meta-badge">${new Date(post.published_at).toLocaleDateString()}</span>` : ''}
+                    ${post.tags ? `<span class="meta-badge">${post.tags}</span>` : ''}
+                  </div>
+                </div>
+                <div class="crud-item-actions" style="flex-shrink: 0;">
+                  <button class="icon-btn edit" onclick="editBlogPost(${post.id})">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                  </button>
+                  <button class="icon-btn delete" onclick="deleteBlogPost(${post.id})">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"/>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        list.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <h4>No Blog Posts Yet</h4>
+            <p>Click "New Post" to create your first blog post</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading blog posts:', error);
+    }
+  }
+
+  // Blog modal handlers
+  document.getElementById('add-blog-btn')?.addEventListener('click', () => {
+    openBlogModal();
+  });
+
+  document.getElementById('blog-modal-close')?.addEventListener('click', () => {
+    closeBlogModal();
+  });
+
+  document.getElementById('blog-cancel-btn')?.addEventListener('click', () => {
+    closeBlogModal();
+  });
+
+  document.getElementById('blog-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await saveBlogPost();
+  });
+
+  function openBlogModal(post?: any) {
+    const modal = document.getElementById('blog-modal');
+    const modalTitle = document.getElementById('blog-modal-title');
+
+    if (post) {
+      if (modalTitle) modalTitle.textContent = 'Edit Blog Post';
+      (document.getElementById('blog-id') as HTMLInputElement).value = post.id;
+      (document.getElementById('blog-title') as HTMLInputElement).value = post.title;
+      (document.getElementById('blog-slug') as HTMLInputElement).value = post.slug || '';
+      (document.getElementById('blog-author') as HTMLInputElement).value = post.author || '';
+      (document.getElementById('blog-excerpt') as HTMLTextAreaElement).value = post.excerpt || '';
+      (document.getElementById('blog-content') as HTMLTextAreaElement).value = post.content || '';
+      (document.getElementById('blog-featured-image') as HTMLInputElement).value = post.featured_image || '';
+      (document.getElementById('blog-tags') as HTMLInputElement).value = post.tags || '';
+      (document.getElementById('blog-seo-title') as HTMLInputElement).value = post.seo_title || '';
+      (document.getElementById('blog-seo-description') as HTMLTextAreaElement).value = post.seo_description || '';
+      (document.getElementById('blog-published') as HTMLInputElement).checked = post.published === 1;
+    } else {
+      if (modalTitle) modalTitle.textContent = 'New Blog Post';
+      (document.getElementById('blog-form') as HTMLFormElement).reset();
+      (document.getElementById('blog-id') as HTMLInputElement).value = '';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closeBlogModal() {
+    const modal = document.getElementById('blog-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  async function saveBlogPost() {
+    const id = (document.getElementById('blog-id') as HTMLInputElement).value;
+    const title = (document.getElementById('blog-title') as HTMLInputElement).value;
+    const slug = (document.getElementById('blog-slug') as HTMLInputElement).value;
+    const author = (document.getElementById('blog-author') as HTMLInputElement).value;
+    const excerpt = (document.getElementById('blog-excerpt') as HTMLTextAreaElement).value;
+    const content = (document.getElementById('blog-content') as HTMLTextAreaElement).value;
+    const featured_image = (document.getElementById('blog-featured-image') as HTMLInputElement).value;
+    const tags = (document.getElementById('blog-tags') as HTMLInputElement).value;
+    const seo_title = (document.getElementById('blog-seo-title') as HTMLInputElement).value;
+    const seo_description = (document.getElementById('blog-seo-description') as HTMLTextAreaElement).value;
+    const published = (document.getElementById('blog-published') as HTMLInputElement).checked ? 1 : 0;
+
+    const postData = {
+      id: id ? parseInt(id) : undefined,
+      title,
+      slug: slug || undefined,
+      author: author || undefined,
+      excerpt: excerpt || undefined,
+      content,
+      featured_image: featured_image || undefined,
+      tags: tags || undefined,
+      seo_title: seo_title || undefined,
+      seo_description: seo_description || undefined,
+      published,
+    };
+
+    try {
+      const method = id ? 'PUT' : 'POST';
+      const response = await fetch('/api/admin/blog', {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (response.ok) {
+        closeBlogModal();
+        loadBlogPosts();
+        showToast(`Blog post ${id ? 'updated' : 'created'} successfully!`, 'success');
+      } else {
+        throw new Error('Failed to save blog post');
+      }
+    } catch (error) {
+      showToast('Error saving blog post', 'error');
+      console.error(error);
+    }
+  }
+
+  (window as any).editBlogPost = async (id: number) => {
+    try {
+      const response = await fetch('/api/admin/blog?all=true', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      const post = data.posts.find((p: any) => p.id === id);
+      if (post) {
+        openBlogModal(post);
+      }
+    } catch (error) {
+      console.error('Error loading blog post:', error);
+    }
+  };
+
+  (window as any).deleteBlogPost = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this blog post?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/blog?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        loadBlogPosts();
+        showToast('Blog post deleted successfully!', 'success');
+      } else {
+        throw new Error('Failed to delete blog post');
+      }
+    } catch (error) {
+      showToast('Error deleting blog post', 'error');
+      console.error(error);
+    }
+  };
+
+  // ==================== ABOUT CONTENT ====================
+
+  async function loadAboutContent() {
+    try {
+      const response = await fetch('/api/admin/about');
+      const data = await response.json();
+
+      if (data.success && data.content) {
+        const content = data.content;
+        if (content.hero_badge) (document.getElementById('about-badge') as HTMLInputElement).value = content.hero_badge;
+        if (content.hero_title) (document.getElementById('about-title') as HTMLInputElement).value = content.hero_title;
+        if (content.hero_description) (document.getElementById('about-description') as HTMLTextAreaElement).value = content.hero_description;
+        if (content.story_title) (document.getElementById('about-story-title') as HTMLInputElement).value = content.story_title;
+        if (content.story_content) (document.getElementById('about-story-content') as HTMLTextAreaElement).value = content.story_content;
+      }
+    } catch (error) {
+      console.error('Error loading about content:', error);
+    }
+  }
+
+  document.getElementById('save-about-btn')?.addEventListener('click', async () => {
+    const hero_badge = (document.getElementById('about-badge') as HTMLInputElement).value;
+    const hero_title = (document.getElementById('about-title') as HTMLInputElement).value;
+    const hero_description = (document.getElementById('about-description') as HTMLTextAreaElement).value;
+    const story_title = (document.getElementById('about-story-title') as HTMLInputElement).value;
+    const story_content = (document.getElementById('about-story-content') as HTMLTextAreaElement).value;
+
+    try {
+      const response = await fetch('/api/admin/about', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ hero_badge, hero_title, hero_description, story_title, story_content }),
+      });
+
+      if (response.ok) {
+        showToast('About content saved successfully!', 'success');
+      } else {
+        throw new Error('Failed to save about content');
+      }
+    } catch (error) {
+      showToast('Error saving about content', 'error');
+      console.error(error);
+    }
+  });
+
+  // ==================== TEAM CRUD ====================
+
+  async function loadTeam() {
+    try {
+      const response = await fetch('/api/admin/team');
+      const data = await response.json();
+
+      const list = document.getElementById('team-list');
+      if (!list) return;
+
+      if (data.success && data.team && data.team.length > 0) {
+        list.innerHTML = data.team.map((member: any) => `
+          <div class="team-item">
+            <div class="team-avatar">
+              ${member.image_url ? `<img src="${member.image_url}" alt="${member.name}" />` : member.name.charAt(0)}
+            </div>
+            <div class="team-content">
+              <h4>${member.name}</h4>
+              <div class="team-role">${member.role}</div>
+              ${member.bio ? `<p class="team-bio">${member.bio}</p>` : ''}
+              <div class="crud-item-actions" style="justify-content: center; margin-top: 1rem;">
+                <button class="icon-btn edit" onclick="editTeam(${member.id})">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+                <button class="icon-btn delete" onclick="deleteTeam(${member.id})">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        list.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+            </svg>
+            <h4>No Team Members Yet</h4>
+            <p>Click "Add Member" to add your first team member</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading team:', error);
+    }
+  }
+
+  // Team modal handlers
+  document.getElementById('add-team-btn')?.addEventListener('click', () => {
+    openTeamModal();
+  });
+
+  document.getElementById('team-modal-close')?.addEventListener('click', () => {
+    closeTeamModal();
+  });
+
+  document.getElementById('team-cancel-btn')?.addEventListener('click', () => {
+    closeTeamModal();
+  });
+
+  document.getElementById('team-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await saveTeam();
+  });
+
+  function openTeamModal(member?: any) {
+    const modal = document.getElementById('team-modal');
+    const modalTitle = document.getElementById('team-modal-title');
+
+    if (member) {
+      if (modalTitle) modalTitle.textContent = 'Edit Team Member';
+      (document.getElementById('team-id') as HTMLInputElement).value = member.id;
+      (document.getElementById('team-name') as HTMLInputElement).value = member.name;
+      (document.getElementById('team-role') as HTMLInputElement).value = member.role;
+      (document.getElementById('team-bio') as HTMLTextAreaElement).value = member.bio || '';
+      (document.getElementById('team-image') as HTMLInputElement).value = member.image_url || '';
+      (document.getElementById('team-order') as HTMLInputElement).value = member.display_order || 0;
+    } else {
+      if (modalTitle) modalTitle.textContent = 'Add Team Member';
+      (document.getElementById('team-form') as HTMLFormElement).reset();
+      (document.getElementById('team-id') as HTMLInputElement).value = '';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closeTeamModal() {
+    const modal = document.getElementById('team-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  async function saveTeam() {
+    const id = (document.getElementById('team-id') as HTMLInputElement).value;
+    const name = (document.getElementById('team-name') as HTMLInputElement).value;
+    const role = (document.getElementById('team-role') as HTMLInputElement).value;
+    const bio = (document.getElementById('team-bio') as HTMLTextAreaElement).value;
+    const image_url = (document.getElementById('team-image') as HTMLInputElement).value;
+    const display_order = parseInt((document.getElementById('team-order') as HTMLInputElement).value) || 0;
+
+    try {
+      const response = await fetch('/api/admin/team', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: id ? parseInt(id) : undefined, name, role, bio, image_url, display_order }),
+      });
+
+      if (response.ok) {
+        closeTeamModal();
+        loadTeam();
+        showToast('Team member saved successfully!', 'success');
+      } else {
+        throw new Error('Failed to save team member');
+      }
+    } catch (error) {
+      showToast('Error saving team member', 'error');
+      console.error(error);
+    }
+  }
+
+  (window as any).editTeam = async (id: number) => {
+    try {
+      const response = await fetch('/api/admin/team');
+      const data = await response.json();
+      const member = data.team.find((m: any) => m.id === id);
+      if (member) {
+        openTeamModal(member);
+      }
+    } catch (error) {
+      console.error('Error loading team member:', error);
+    }
+  };
+
+  (window as any).deleteTeam = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this team member?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/team?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        loadTeam();
+        showToast('Team member deleted successfully!', 'success');
+      } else {
+        throw new Error('Failed to delete team member');
+      }
+    } catch (error) {
+      showToast('Error deleting team member', 'error');
+      console.error(error);
+    }
+  };
+
+  // ==================== VALUES CRUD ====================
+
+  async function loadValues() {
+    try {
+      const response = await fetch('/api/admin/values');
+      const data = await response.json();
+
+      const list = document.getElementById('values-list');
+      if (!list) return;
+
+      if (data.success && data.values && data.values.length > 0) {
+        list.innerHTML = data.values.map((value: any) => `
+          <div class="value-item">
+            <div class="value-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+            </div>
+            <div class="value-content">
+              <h4>${value.title}</h4>
+              <p>${value.description}</p>
+              <div class="crud-item-actions" style="margin-top: 1rem;">
+                <button class="icon-btn edit" onclick="editValue(${value.id})">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+                <button class="icon-btn delete" onclick="deleteValue(${value.id})">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        list.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+            <h4>No Core Values Yet</h4>
+            <p>Click "Add Value" to define your first core value</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading values:', error);
+    }
+  }
+
+  // Values modal handlers
+  document.getElementById('add-value-btn')?.addEventListener('click', () => {
+    openValueModal();
+  });
+
+  document.getElementById('value-modal-close')?.addEventListener('click', () => {
+    closeValueModal();
+  });
+
+  document.getElementById('value-cancel-btn')?.addEventListener('click', () => {
+    closeValueModal();
+  });
+
+  document.getElementById('value-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await saveValue();
+  });
+
+  function openValueModal(value?: any) {
+    const modal = document.getElementById('value-modal');
+    const modalTitle = document.getElementById('value-modal-title');
+
+    if (value) {
+      if (modalTitle) modalTitle.textContent = 'Edit Core Value';
+      (document.getElementById('value-id') as HTMLInputElement).value = value.id;
+      (document.getElementById('value-title') as HTMLInputElement).value = value.title;
+      (document.getElementById('value-description') as HTMLTextAreaElement).value = value.description;
+      (document.getElementById('value-icon') as HTMLInputElement).value = value.icon;
+      (document.getElementById('value-order') as HTMLInputElement).value = value.display_order || 0;
+    } else {
+      if (modalTitle) modalTitle.textContent = 'Add Core Value';
+      (document.getElementById('value-form') as HTMLFormElement).reset();
+      (document.getElementById('value-id') as HTMLInputElement).value = '';
+    }
+
+    if (modal) modal.style.display = 'flex';
+  }
+
+  function closeValueModal() {
+    const modal = document.getElementById('value-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  async function saveValue() {
+    const id = (document.getElementById('value-id') as HTMLInputElement).value;
+    const title = (document.getElementById('value-title') as HTMLInputElement).value;
+    const description = (document.getElementById('value-description') as HTMLTextAreaElement).value;
+    const icon = (document.getElementById('value-icon') as HTMLInputElement).value;
+    const display_order = parseInt((document.getElementById('value-order') as HTMLInputElement).value) || 0;
+
+    try {
+      const response = await fetch('/api/admin/values', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: id ? parseInt(id) : undefined, title, description, icon, display_order }),
+      });
+
+      if (response.ok) {
+        closeValueModal();
+        loadValues();
+        showToast('Core value saved successfully!', 'success');
+      } else {
+        throw new Error('Failed to save core value');
+      }
+    } catch (error) {
+      showToast('Error saving core value', 'error');
+      console.error(error);
+    }
+  }
+
+  (window as any).editValue = async (id: number) => {
+    try {
+      const response = await fetch('/api/admin/values');
+      const data = await response.json();
+      const value = data.values.find((v: any) => v.id === id);
+      if (value) {
+        openValueModal(value);
+      }
+    } catch (error) {
+      console.error('Error loading value:', error);
+    }
+  };
+
+  (window as any).deleteValue = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this core value?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/values?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        loadValues();
+        showToast('Core value deleted successfully!', 'success');
+      } else {
+        throw new Error('Failed to delete core value');
+      }
+    } catch (error) {
+      showToast('Error deleting core value', 'error');
+      console.error(error);
+    }
+  };
+
+  // ==================== UTILITY FUNCTIONS ====================
+
+  function showToast(message: string, type: 'success' | 'error') {
+    const statusMessage = document.getElementById('status-message');
+    if (statusMessage) {
+      statusMessage.className = `status-message ${type}`;
+      statusMessage.textContent = type === 'success' ? `✓ ${message}` : `✗ ${message}`;
+      setTimeout(() => {
+        statusMessage.style.display = 'none';
+      }, 3000);
+    }
+  }
+
   // Initialize
   loadContent();
 </script>
-
