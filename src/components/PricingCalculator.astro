@@ -21,72 +21,72 @@
           <h3>1. Choose Your Services</h3>
           <div class="service-options">
             <label class="service-option" data-magnetic>
-              <input type="checkbox" name="service" value="web-development" data-price="5000">
+              <input type="checkbox" name="service" value="web-development" data-price="60000">
               <div class="option-card">
                 <div class="option-icon">💻</div>
                 <div class="option-details">
                   <div class="option-name">Web Development</div>
-                  <div class="option-price">Starting at $5,000</div>
+                  <div class="option-price">Starting at GH₵60,000</div>
                 </div>
                 <div class="option-checkmark">✓</div>
               </div>
             </label>
 
             <label class="service-option" data-magnetic>
-              <input type="checkbox" name="service" value="ui-ux-design" data-price="3000">
+              <input type="checkbox" name="service" value="ui-ux-design" data-price="36000">
               <div class="option-card">
                 <div class="option-icon">🎨</div>
                 <div class="option-details">
                   <div class="option-name">UI/UX Design</div>
-                  <div class="option-price">Starting at $3,000</div>
+                  <div class="option-price">Starting at GH₵36,000</div>
                 </div>
                 <div class="option-checkmark">✓</div>
               </div>
             </label>
 
             <label class="service-option" data-magnetic>
-              <input type="checkbox" name="service" value="branding" data-price="2500">
+              <input type="checkbox" name="service" value="branding" data-price="30000">
               <div class="option-card">
                 <div class="option-icon">✨</div>
                 <div class="option-details">
                   <div class="option-name">Branding & Identity</div>
-                  <div class="option-price">Starting at $2,500</div>
+                  <div class="option-price">Starting at GH₵30,000</div>
                 </div>
                 <div class="option-checkmark">✓</div>
               </div>
             </label>
 
             <label class="service-option" data-magnetic>
-              <input type="checkbox" name="service" value="seo" data-price="1500">
+              <input type="checkbox" name="service" value="seo" data-price="18000">
               <div class="option-card">
                 <div class="option-icon">📈</div>
                 <div class="option-details">
                   <div class="option-name">SEO & Marketing</div>
-                  <div class="option-price">Starting at $1,500/mo</div>
+                  <div class="option-price">Starting at GH₵18,000/mo</div>
                 </div>
                 <div class="option-checkmark">✓</div>
               </div>
             </label>
 
             <label class="service-option" data-magnetic>
-              <input type="checkbox" name="service" value="cloud" data-price="3500">
+              <input type="checkbox" name="service" value="cloud" data-price="42000">
               <div class="option-card">
                 <div class="option-icon">☁️</div>
                 <div class="option-details">
                   <div class="option-name">Cloud Solutions</div>
-                  <div class="option-price">Starting at $3,500</div>
+                  <div class="option-price">Starting at GH₵42,000</div>
                 </div>
                 <div class="option-checkmark">✓</div>
               </div>
             </label>
 
             <label class="service-option" data-magnetic>
-              <input type="checkbox" name="service" value="support" data-price="500">
+              <input type="checkbox" name="service" value="support" data-price="6000">
               <div class="option-card">
                 <div class="option-icon">🛡️</div>
                 <div class="option-details">
                   <div class="option-name">Premium Support</div>
-                  <div class="option-price">$500/month</div>
+                  <div class="option-price">GH₵6,000/month</div>
                 </div>
                 <div class="option-checkmark">✓</div>
               </div>
@@ -159,7 +159,7 @@
             <div class="price-breakdown" id="price-breakdown" style="display: none;">
               <div class="breakdown-line">
                 <span>Subtotal</span>
-                <span id="subtotal-price">$0</span>
+                <span id="subtotal-price">GH₵0</span>
               </div>
               <div class="breakdown-line complexity-multiplier" id="complexity-line" style="display: none;">
                 <span>Complexity adjustment</span>
@@ -172,7 +172,7 @@
               <div class="breakdown-divider"></div>
               <div class="breakdown-total">
                 <span>Estimated Total</span>
-                <span id="total-price" class="total-amount">$0</span>
+                <span id="total-price" class="total-amount">GH₵0</span>
               </div>
             </div>
 
@@ -684,7 +684,7 @@
         servicesHTML += `
           <div class="service-item">
             <span>${displayName}</span>
-            <span>$${price.toLocaleString()}</span>
+            <span>GH₵${price.toLocaleString()}</span>
           </div>
         `;
       });
@@ -700,22 +700,38 @@
       }
 
       // Update price breakdown
-      document.getElementById('subtotal-price')!.textContent = `$${subtotal.toLocaleString()}`;
+      document.getElementById('subtotal-price')!.textContent = `GH₵${subtotal.toLocaleString()}`;
       document.getElementById('complexity-adjustment')!.textContent = `×${this.complexityMultiplier.toFixed(1)}`;
       document.getElementById('timeline-adjustment')!.textContent = `×${this.timelineMultiplier.toFixed(2)}`;
-      document.getElementById('total-price')!.textContent = `$${Math.round(total).toLocaleString()}`;
+      document.getElementById('total-price')!.textContent = `GH₵${Math.round(total).toLocaleString()}`;
 
       priceBreakdownEl.style.display = 'block';
       if (quoteBtn) quoteBtn.disabled = false;
     }
 
     getQuote() {
-      // In a real app, this would open a modal or redirect to a quote form
-      const total = document.getElementById('total-price')?.textContent || '$0';
-      alert(`Your estimated total is ${total}!\n\nClick OK to schedule a consultation and get your detailed quote.`);
+      const total = document.getElementById('total-price')?.textContent || 'GH₵0';
 
-      // Could redirect to contact form with pre-filled data
-      // window.location.href = '/contact?estimate=' + total;
+      // Get selected services
+      const services = Array.from(this.selectedServices.keys())
+        .map(s => s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '))
+        .join(', ');
+
+      // Redirect to contact section with query params
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        // Scroll to contact
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+
+        // Pre-fill the message
+        setTimeout(() => {
+          const messageField = document.getElementById('message') as HTMLTextAreaElement;
+          if (messageField) {
+            messageField.value = `I'm interested in the following services:\n\n${services}\n\nEstimated Budget: ${total}\n\nPlease contact me to discuss this project in detail.`;
+            messageField.focus();
+          }
+        }, 800);
+      }
     }
   }
 
