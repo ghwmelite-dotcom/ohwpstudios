@@ -71,8 +71,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
             .bind(user.id)
             .run();
 
+          // Generate token
           const token = `token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-          console.log('✅ Login successful');
+
+          // Create session in database (expires in 7 days)
+          await DB.prepare(
+            'INSERT INTO sessions (user_id, token, created_at, expires_at) VALUES (?, ?, datetime(\'now\'), datetime(\'now\', \'+7 days\'))'
+          ).bind(user.id, token).run();
+
+          console.log('✅ Login successful, session created');
 
           return new Response(
             JSON.stringify({

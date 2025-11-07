@@ -1,5 +1,7 @@
 ---
-const projects = [
+// Fetch portfolio from API
+let projects: any[] = [];
+const fallbackProjects = [
   {
     title: "E-Commerce Platform",
     category: "Web Development",
@@ -15,40 +17,29 @@ const projects = [
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop",
     tags: ["Figma", "React", "TypeScript"],
     link: "/portfolio/saas"
-  },
-  {
-    title: "Brand Identity",
-    category: "Branding",
-    description: "Complete rebrand for fintech startup raising $10M Series A",
-    image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?w=800&auto=format&fit=crop",
-    tags: ["Brand Design", "Motion", "Web"],
-    link: "/portfolio/brand"
-  },
-  {
-    title: "Mobile Banking App",
-    category: "Web Development",
-    description: "Secure, lightning-fast banking experience for 100K+ users",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop",
-    tags: ["React Native", "Security", "UX"],
-    link: "/portfolio/banking"
-  },
-  {
-    title: "AI Content Platform",
-    category: "Full Stack",
-    description: "ML-powered content generation tool used by Fortune 500",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
-    tags: ["Python", "AI/ML", "React"],
-    link: "/portfolio/ai"
-  },
-  {
-    title: "Real Estate Portal",
-    category: "Web Development",
-    description: "Property search platform with 3D tours and AR visualization",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&auto=format&fit=crop",
-    tags: ["Next.js", "3D", "Maps"],
-    link: "/portfolio/realestate"
   }
 ];
+
+try {
+  const response = await fetch(Astro.url.origin + '/api/admin/portfolio');
+  const data = await response.json();
+  if (data.success && data.portfolio && data.portfolio.length > 0) {
+    // Transform database format to component format
+    projects = data.portfolio.map((item: any) => ({
+      title: item.title,
+      category: item.featured ? "Featured Project" : "Project",
+      description: item.description,
+      image: item.image_url || "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&auto=format&fit=crop",
+      tags: item.tags ? item.tags.split(',').map((t: string) => t.trim()) : [],
+      link: item.project_url || `/portfolio/${item.title.toLowerCase().replace(/\s/g, '-')}`
+    }));
+  } else {
+    projects = fallbackProjects;
+  }
+} catch (error) {
+  console.error('Error fetching portfolio:', error);
+  projects = fallbackProjects;
+}
 ---
 
 <section id="portfolio" class="section portfolio">

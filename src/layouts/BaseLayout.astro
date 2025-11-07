@@ -1,17 +1,20 @@
 ---
 import '@/styles/design-system.css';
 import { SITE_CONFIG } from '@/config';
+import LoadingScreen from '@/components/LoadingScreen.astro';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noLoader?: boolean;
 }
 
 const {
   title = SITE_CONFIG.name,
   description = SITE_CONFIG.description,
-  image = '/og-image.jpg'
+  image = '/og-image.jpg',
+  noLoader = false
 } = Astro.props;
 
 const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG.name}`;
@@ -49,14 +52,94 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
+    <!-- Performance & SEO -->
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="msapplication-TileColor" content="#6366f1" />
+    <link rel="canonical" href={Astro.url} />
+
     <!-- Inline critical theme script -->
     <script is:inline>
       // Prevent flash of unstyled content
       const theme = localStorage.getItem('theme') || 'light';
       document.documentElement.setAttribute('data-theme', theme);
+
+      // Load custom theme colors and fonts
+      (async function() {
+        try {
+          const response = await fetch('/api/theme');
+          const data = await response.json();
+
+          if (data.success && data.settings) {
+            const settings = data.settings;
+            const root = document.documentElement;
+
+            // Apply custom colors
+            if (settings.color_primary) {
+              root.style.setProperty('--color-primary', settings.color_primary);
+              root.style.setProperty('--color-primary-dark', shadeColor(settings.color_primary, -20));
+              root.style.setProperty('--color-primary-light', shadeColor(settings.color_primary, 20));
+            }
+            if (settings.color_secondary) {
+              root.style.setProperty('--color-secondary', settings.color_secondary);
+            }
+            if (settings.color_accent) {
+              root.style.setProperty('--color-accent', settings.color_accent);
+            }
+            if (settings.color_wordpress) {
+              root.style.setProperty('--color-wordpress', settings.color_wordpress);
+              root.style.setProperty('--color-wordpress-dark', shadeColor(settings.color_wordpress, -20));
+              root.style.setProperty('--color-wordpress-light', shadeColor(settings.color_wordpress, 20));
+            }
+
+            // Update gradients
+            if (settings.color_primary && settings.color_secondary) {
+              root.style.setProperty('--gradient-primary', `linear-gradient(135deg, ${settings.color_primary} 0%, ${settings.color_secondary} 100%)`);
+            }
+            if (settings.color_wordpress) {
+              root.style.setProperty('--gradient-wordpress', `linear-gradient(135deg, ${settings.color_wordpress} 0%, ${shadeColor(settings.color_wordpress, 20)} 100%)`);
+            }
+
+            // Load Google Fonts
+            if (settings.font_heading || settings.font_body) {
+              const fontsToLoad = new Set();
+              if (settings.font_heading) fontsToLoad.add(settings.font_heading);
+              if (settings.font_body) fontsToLoad.add(settings.font_body);
+
+              const fontFamilies = Array.from(fontsToLoad).map(f => `family=${String(f).replace(/ /g, '+')}:wght@300;400;500;600;700;800`).join('&');
+              const link = document.createElement('link');
+              link.href = `https://fonts.googleapis.com/css2?${fontFamilies}&display=swap`;
+              link.rel = 'stylesheet';
+              document.head.appendChild(link);
+
+              // Apply font families
+              if (settings.font_heading) {
+                root.style.setProperty('--font-display', `'${settings.font_heading}', ${root.style.getPropertyValue('--font-display') || 'sans-serif'}`);
+              }
+              if (settings.font_body) {
+                root.style.setProperty('--font-sans', `'${settings.font_body}', ${root.style.getPropertyValue('--font-sans') || 'sans-serif'}`);
+              }
+            }
+          }
+        } catch (error) {
+          console.log('Using default theme');
+        }
+      })();
+
+      // Helper to darken/lighten colors
+      function shadeColor(color, percent) {
+        const num = parseInt(color.replace("#",""), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = (num >> 16) + amt;
+        const G = (num >> 8 & 0x00FF) + amt;
+        const B = (num & 0x0000FF) + amt;
+        return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
+          (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255))
+          .toString(16).slice(1);
+      }
     </script>
   </head>
   <body>
+    {!noLoader && <LoadingScreen />}
     <slot />
 
     <!-- Theme toggle script -->
@@ -140,5 +223,8 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
       loadFavicon();
       document.addEventListener('astro:page-load', loadFavicon);
     </script>
+
+    <!-- World-Class Animations System -->
+    <script is:inline src="/animations.js"></script>
   </body>
 </html>

@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
-import HeroDynamic from '@/components/HeroDynamic.astro';
+import HeroWorld from '@/components/HeroWorld.astro';
 import Services from '@/components/Services.astro';
+import Statistics from '@/components/Statistics.astro';
 import Portfolio from '@/components/Portfolio.astro';
+import Testimonials from '@/components/Testimonials.astro';
 import Contact from '@/components/Contact.astro';
 import Footer from '@/components/Footer.astro';
 import Chatbot from '@/components/Chatbot.astro';
@@ -13,9 +15,11 @@ import { SITE_CONFIG } from '@/config';
 <BaseLayout title={SITE_CONFIG.name} description={SITE_CONFIG.description}>
   <Header />
   <main>
-    <HeroDynamic />
+    <HeroWorld />
     <Services />
+    <Statistics />
     <Portfolio />
+    <Testimonials />
     <Contact />
   </main>
   <Footer />

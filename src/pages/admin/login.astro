@@ -4,16 +4,34 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 <BaseLayout title="Admin Login" description="Admin login portal">
   <main class="login-page">
+    <div class="login-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+
     <div class="login-container">
-      <div class="login-card">
+      <div class="login-card glass">
         <div class="login-header">
-          <h1>Admin Portal</h1>
-          <p>Sign in to manage your site content</p>
+          <div class="header-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h1>Welcome Back</h1>
+          <p>Sign in to access your admin portal</p>
         </div>
 
         <form class="login-form" id="login-form">
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              Username
+            </label>
             <input
               type="text"
               id="username"
@@ -25,19 +43,45 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           </div>
 
           <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              required
-              autocomplete="current-password"
-              placeholder="Enter your password"
-            />
+            <label for="password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              Password
+            </label>
+            <div class="password-input-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                autocomplete="current-password"
+                placeholder="Enter your password"
+              />
+              <button type="button" class="toggle-password" id="toggle-password" aria-label="Toggle password visibility">
+                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember" name="remember" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-password" id="forgot-password-link">Forgot password?</a>
           </div>
 
           <button type="submit" class="btn btn-primary btn-full">
-            Sign In
+            <span>Sign In</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/>
             </svg>
@@ -47,9 +91,30 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         </form>
 
         <div class="login-footer">
-          <p>Default credentials: admin / admin123</p>
-          <p class="warning">⚠️ Please change the default password after first login!</p>
+          <div class="divider">
+            <span>Default Credentials</span>
+          </div>
+          <div class="credentials-info">
+            <code>admin / admin123</code>
+          </div>
+          <div class="warning-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>Change the default password after first login</span>
+          </div>
         </div>
+      </div>
+
+      <div class="back-to-site">
+        <a href="/">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back to website
+        </a>
       </div>
     </div>
   </main>
@@ -61,35 +126,128 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
     padding: 2rem;
+  }
+
+  .login-background {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      #667eea 0%,
+      #764ba2 50%,
+      #f093fb 100%
+    );
+    z-index: 0;
+  }
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: float 20s infinite ease-in-out;
+  }
+
+  .orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent);
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+  }
+
+  .orb-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.6), transparent);
+    bottom: -10%;
+    right: -10%;
+    animation-delay: 7s;
+  }
+
+  .orb-3 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.7), transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 14s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
   }
 
   .login-container {
     width: 100%;
-    max-width: 450px;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .login-card {
-    background: var(--color-surface);
-    border-radius: var(--radius-2xl);
-    padding: var(--spacing-2xl);
-    box-shadow: var(--shadow-2xl);
-    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  :global(.dark) .login-card {
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .login-header {
     text-align: center;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 2rem;
+  }
+
+  .header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
   }
 
   .login-header h1 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--color-text);
+    font-weight: 700;
   }
 
   .login-header p {
@@ -98,83 +256,235 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   .login-form {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 2rem;
   }
 
   .form-group {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 1.5rem;
   }
 
   .form-group label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--color-text);
     font-size: 0.95rem;
   }
 
+  .form-group label svg {
+    color: var(--color-primary);
+  }
+
   .form-group input {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 1rem 1.25rem;
     border: 2px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     background: var(--color-bg);
     color: var(--color-text);
     font-size: 1rem;
     font-family: var(--font-sans);
-    transition: all var(--transition-fast);
+    transition: all var(--transition-base);
   }
 
   .form-group input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .password-input-wrapper {
+    position: relative;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 3rem;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+  }
+
+  .toggle-password:hover {
+    color: var(--color-primary);
+  }
+
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+  }
+
+  .forgot-password {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+  }
+
+  .forgot-password:hover {
+    text-decoration: underline;
+    color: #5558d9;
   }
 
   .btn-full {
     width: 100%;
     justify-content: center;
-    margin-top: var(--spacing-md);
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all var(--transition-base);
+  }
+
+  .btn-full:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
   }
 
   .form-status {
-    margin-top: var(--spacing-md);
+    margin-top: 1rem;
     padding: 1rem;
-    border-radius: var(--radius-md);
+    border-radius: 12px;
     text-align: center;
     font-size: 0.95rem;
     display: none;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .form-status.success {
     display: block;
     background: rgba(16, 185, 129, 0.1);
     color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 2px solid rgba(16, 185, 129, 0.3);
   }
 
   .form-status.error {
     display: block;
     background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    border: 2px solid rgba(239, 68, 68, 0.3);
   }
 
   .login-footer {
-    text-align: center;
-    padding-top: var(--spacing-lg);
+    padding-top: 2rem;
     border-top: 1px solid var(--color-border);
   }
 
-  .login-footer p {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    margin-bottom: 0.5rem;
+  .divider {
+    text-align: center;
+    margin-bottom: 1rem;
   }
 
-  .login-footer .warning {
-    color: #f59e0b;
+  .divider span {
+    font-size: 0.85rem;
     font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .credentials-info {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .credentials-info code {
+    background: var(--color-bg-alt);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .warning-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 10px;
+    color: #f59e0b;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .warning-badge svg {
+    flex-shrink: 0;
+  }
+
+  .back-to-site {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .back-to-site a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all var(--transition-fast);
+  }
+
+  .back-to-site a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
   }
 
   @media (max-width: 640px) {
@@ -183,7 +493,38 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     }
 
     .login-card {
-      padding: var(--spacing-xl);
+      padding: 2rem 1.5rem;
+    }
+
+    .header-icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    .header-icon svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .login-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .form-options {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .login-card {
+      padding: 1.5rem;
+    }
+
+    .btn-full {
+      padding: 0.875rem 1.5rem;
+      font-size: 1rem;
     }
   }
 </style>
@@ -192,6 +533,35 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   function initLogin() {
     const form = document.getElementById('login-form') as HTMLFormElement;
     const status = document.getElementById('login-status') as HTMLDivElement;
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+
+    // Password visibility toggle
+    if (togglePassword && passwordInput) {
+      togglePassword.addEventListener('click', () => {
+        const eyeOpen = togglePassword.querySelector('.eye-open');
+        const eyeClosed = togglePassword.querySelector('.eye-closed');
+
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          if (eyeOpen) (eyeOpen as HTMLElement).style.display = 'none';
+          if (eyeClosed) (eyeClosed as HTMLElement).style.display = 'block';
+        } else {
+          passwordInput.type = 'password';
+          if (eyeOpen) (eyeOpen as HTMLElement).style.display = 'block';
+          if (eyeClosed) (eyeClosed as HTMLElement).style.display = 'none';
+        }
+      });
+    }
+
+    // Forgot password link
+    if (forgotPasswordLink) {
+      forgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = '/admin/reset-password';
+      });
+    }
 
     if (!form || !status) return;
 
@@ -215,22 +585,22 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
         if (response.ok && result.success) {
           status.className = 'form-status success';
-          status.textContent = 'Login successful! Redirecting...';
-          
+          status.textContent = '✓ Login successful! Redirecting to dashboard...';
+
           // Store auth token
           localStorage.setItem('admin_token', result.token);
-          
+
           // Redirect to admin dashboard
           setTimeout(() => {
             window.location.href = '/admin/dashboard';
           }, 1000);
         } else {
           status.className = 'form-status error';
-          status.textContent = result.error || 'Invalid credentials. Please try again.';
+          status.textContent = '✗ ' + (result.error || 'Invalid credentials. Please try again.');
         }
       } catch (error) {
         status.className = 'form-status error';
-        status.textContent = 'Connection error. Please try again.';
+        status.textContent = '✗ Connection error. Please try again.';
       }
     });
   }

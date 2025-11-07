@@ -1,0 +1,748 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Theme Customization | Admin" noLoader>
+  <div class="admin-theme-page">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="container">
+        <div class="header-content">
+          <div>
+            <h1>🎨 Theme Customization</h1>
+            <p>Customize your website's colors and typography</p>
+          </div>
+          <div class="header-actions">
+            <a href="/admin/dashboard" class="btn btn-secondary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Back to Dashboard
+            </a>
+            <button id="saveTheme" class="btn btn-primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                <polyline points="17 21 17 13 7 13 7 21"/>
+                <polyline points="7 3 7 8 15 8"/>
+              </svg>
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="container">
+        <div class="theme-grid">
+
+          <!-- Left Panel - Settings -->
+          <div class="settings-panel">
+
+            <!-- Color Schemes Section -->
+            <section class="settings-section card">
+              <h2>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z"/>
+                  <path d="M7 21h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343"/>
+                </svg>
+                Color Schemes
+              </h2>
+              <p class="section-description">Choose a preset or customize your own colors</p>
+
+              <div class="color-presets" id="colorPresets">
+                <!-- Populated by JavaScript -->
+              </div>
+
+              <div class="custom-colors">
+                <h3>Custom Colors</h3>
+                <div class="color-inputs">
+                  <div class="color-input-group">
+                    <label for="colorPrimary">Primary Color</label>
+                    <div class="color-picker">
+                      <input type="color" id="colorPrimary" value="#6366f1">
+                      <input type="text" id="colorPrimaryText" value="#6366f1" placeholder="#6366f1">
+                    </div>
+                  </div>
+                  <div class="color-input-group">
+                    <label for="colorSecondary">Secondary Color</label>
+                    <div class="color-picker">
+                      <input type="color" id="colorSecondary" value="#ec4899">
+                      <input type="text" id="colorSecondaryText" value="#ec4899" placeholder="#ec4899">
+                    </div>
+                  </div>
+                  <div class="color-input-group">
+                    <label for="colorAccent">Accent Color</label>
+                    <div class="color-picker">
+                      <input type="color" id="colorAccent" value="#f59e0b">
+                      <input type="text" id="colorAccentText" value="#f59e0b" placeholder="#f59e0b">
+                    </div>
+                  </div>
+                  <div class="color-input-group">
+                    <label for="colorWordPress">WordPress Color</label>
+                    <div class="color-picker">
+                      <input type="color" id="colorWordPress" value="#0073aa">
+                      <input type="text" id="colorWordPressText" value="#0073aa" placeholder="#0073aa">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Typography Section -->
+            <section class="settings-section card">
+              <h2>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="4 7 4 4 20 4 20 7"/>
+                  <line x1="9" y1="20" x2="15" y2="20"/>
+                  <line x1="12" y1="4" x2="12" y2="20"/>
+                </svg>
+                Typography
+              </h2>
+              <p class="section-description">Select fonts for your website</p>
+
+              <div class="font-selectors">
+                <div class="font-selector-group">
+                  <label for="fontHeading">Heading Font</label>
+                  <select id="fontHeading" class="font-select">
+                    <option value="">Loading fonts...</option>
+                  </select>
+                  <p class="font-preview heading-preview" id="headingPreview">The Quick Brown Fox</p>
+                </div>
+
+                <div class="font-selector-group">
+                  <label for="fontBody">Body Font</label>
+                  <select id="fontBody" class="font-select">
+                    <option value="">Loading fonts...</option>
+                  </select>
+                  <p class="font-preview body-preview" id="bodyPreview">The quick brown fox jumps over the lazy dog.</p>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- Right Panel - Live Preview -->
+          <div class="preview-panel">
+            <div class="preview-sticky">
+              <div class="card">
+                <h2>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  Live Preview
+                </h2>
+                <div class="preview-content" id="livePreview">
+                  <div class="preview-hero">
+                    <h1 class="preview-heading">Your Amazing Headline</h1>
+                    <p class="preview-text">This is a preview of how your website will look with the selected theme. Customize colors and fonts to match your brand perfectly.</p>
+                    <div class="preview-buttons">
+                      <button class="preview-btn preview-btn-primary">Primary Button</button>
+                      <button class="preview-btn preview-btn-secondary">Secondary Button</button>
+                    </div>
+                  </div>
+                  <div class="preview-card">
+                    <div class="preview-card-icon"></div>
+                    <h3>Service Card</h3>
+                    <p>This is how your service cards will appear with the current theme settings.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .admin-theme-page {
+    min-height: 100vh;
+    background: var(--color-bg-alt);
+  }
+
+  .admin-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .admin-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .admin-header p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .admin-main {
+    padding: 3rem 0;
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 2rem;
+  }
+
+  .settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .settings-section {
+    padding: 2rem;
+  }
+
+  .settings-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .settings-section h2 svg {
+    color: var(--color-primary);
+  }
+
+  .section-description {
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .settings-section h3 {
+    font-size: 1.125rem;
+    margin: 2rem 0 1rem;
+  }
+
+  /* Color Presets */
+  .color-presets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .color-preset {
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+  }
+
+  .color-preset:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .color-preset.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+  }
+
+  .preset-colors {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 100%;
+  }
+
+  .preset-color {
+    height: 100%;
+  }
+
+  .preset-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  /* Custom Colors */
+  .color-inputs {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .color-input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .color-picker {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .color-picker input[type="color"] {
+    width: 60px;
+    height: 45px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-border);
+    cursor: pointer;
+  }
+
+  .color-picker input[type="text"] {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: monospace;
+    font-size: 0.9375rem;
+    transition: all 0.3s ease;
+  }
+
+  .color-picker input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  /* Typography */
+  .font-selectors {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .font-selector-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .font-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .font-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .font-preview {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+
+  .heading-preview {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .body-preview {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Preview Panel */
+  .preview-panel {
+    position: relative;
+  }
+
+  .preview-sticky {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem + 80px);
+  }
+
+  .preview-content {
+    margin-top: 1.5rem;
+    padding: 2rem;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+
+  .preview-hero {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .preview-heading {
+    background: linear-gradient(135deg, var(--preview-primary, #6366f1), var(--preview-secondary, #ec4899));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+  }
+
+  .preview-text {
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .preview-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .preview-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .preview-btn-primary {
+    background: linear-gradient(135deg, var(--preview-primary, #6366f1), var(--preview-secondary, #ec4899));
+    color: white;
+    border: none;
+  }
+
+  .preview-btn-secondary {
+    background: transparent;
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+  }
+
+  .preview-card {
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+
+  .preview-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--preview-primary, #6366f1) 10%, var(--preview-secondary, #ec4899) 100%);
+    opacity: 0.2;
+    margin-bottom: 1rem;
+  }
+
+  .preview-card h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .preview-card p {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .theme-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .preview-sticky {
+      position: relative;
+      top: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .header-actions {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .color-presets {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .preview-buttons {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  // Theme Customization Logic
+  let colorPresets: any[] = [];
+  let fontPresets: any[] = [];
+  let currentSettings: any = {};
+
+  // Load theme settings
+  async function loadThemeSettings() {
+    try {
+      const response = await fetch('/api/theme');
+      const data = await response.json();
+
+      if (data.success) {
+        currentSettings = data.settings;
+        colorPresets = data.colorPresets;
+        fontPresets = data.fontPresets;
+
+        renderColorPresets();
+        renderFontSelectors();
+        applyCurrentSettings();
+      }
+    } catch (error) {
+      console.error('Error loading theme settings:', error);
+    }
+  }
+
+  // Render color presets
+  function renderColorPresets() {
+    const container = document.getElementById('colorPresets');
+    if (!container) return;
+
+    container.innerHTML = colorPresets.map(preset => `
+      <div class="color-preset" data-preset-id="${preset.id}" onclick="applyColorPreset(${preset.id})">
+        <div class="preset-colors">
+          <div class="preset-color" style="background: ${preset.primary_color}"></div>
+          <div class="preset-color" style="background: ${preset.secondary_color}"></div>
+          <div class="preset-color" style="background: ${preset.accent_color}"></div>
+          <div class="preset-color" style="background: ${preset.wordpress_color}"></div>
+        </div>
+        <div class="preset-name">${preset.name}</div>
+      </div>
+    `).join('');
+  }
+
+  // Render font selectors
+  function renderFontSelectors() {
+    const headingSelect = document.getElementById('fontHeading') as HTMLSelectElement;
+    const bodySelect = document.getElementById('fontBody') as HTMLSelectElement;
+
+    if (!headingSelect || !bodySelect) return;
+
+    const fontOptions = fontPresets.map(font =>
+      `<option value="${font.google_font_name}">${font.name}</option>`
+    ).join('');
+
+    headingSelect.innerHTML = fontOptions;
+    bodySelect.innerHTML = fontOptions;
+  }
+
+  // Apply current settings to inputs
+  function applyCurrentSettings() {
+    // Apply colors
+    ['Primary', 'Secondary', 'Accent', 'WordPress'].forEach(colorType => {
+      const key = `color${colorType}`;
+      const value = currentSettings[`color_${colorType.toLowerCase()}`] || '';
+      const colorInput = document.getElementById(key) as HTMLInputElement;
+      const textInput = document.getElementById(`${key}Text`) as HTMLInputElement;
+
+      if (colorInput && textInput && value) {
+        colorInput.value = value;
+        textInput.value = value;
+      }
+    });
+
+    // Apply fonts
+    const headingFont = document.getElementById('fontHeading') as HTMLSelectElement;
+    const bodyFont = document.getElementById('fontBody') as HTMLSelectElement;
+
+    if (headingFont && currentSettings.font_heading) {
+      headingFont.value = currentSettings.font_heading;
+    }
+    if (bodyFont && currentSettings.font_body) {
+      bodyFont.value = currentSettings.font_body;
+    }
+
+    updatePreview();
+  }
+
+  // Apply color preset
+  (window as any).applyColorPreset = function(presetId: number) {
+    const preset = colorPresets.find(p => p.id === presetId);
+    if (!preset) return;
+
+    // Update inputs
+    (document.getElementById('colorPrimary') as HTMLInputElement).value = preset.primary_color;
+    (document.getElementById('colorPrimaryText') as HTMLInputElement).value = preset.primary_color;
+    (document.getElementById('colorSecondary') as HTMLInputElement).value = preset.secondary_color;
+    (document.getElementById('colorSecondaryText') as HTMLInputElement).value = preset.secondary_color;
+    (document.getElementById('colorAccent') as HTMLInputElement).value = preset.accent_color;
+    (document.getElementById('colorAccentText') as HTMLInputElement).value = preset.accent_color;
+    (document.getElementById('colorWordPress') as HTMLInputElement).value = preset.wordpress_color;
+    (document.getElementById('colorWordPressText') as HTMLInputElement).value = preset.wordpress_color;
+
+    // Update active state
+    document.querySelectorAll('.color-preset').forEach(el => el.classList.remove('active'));
+    document.querySelector(`[data-preset-id="${presetId}"]`)?.classList.add('active');
+
+    updatePreview();
+  };
+
+  // Update preview
+  function updatePreview() {
+    const preview = document.getElementById('livePreview');
+    if (!preview) return;
+
+    const primary = (document.getElementById('colorPrimary') as HTMLInputElement).value;
+    const secondary = (document.getElementById('colorSecondary') as HTMLInputElement).value;
+    const heading = (document.getElementById('fontHeading') as HTMLSelectElement).value;
+    const body = (document.getElementById('fontBody') as HTMLSelectElement).value;
+
+    preview.style.setProperty('--preview-primary', primary);
+    preview.style.setProperty('--preview-secondary', secondary);
+
+    const headingPreview = document.getElementById('headingPreview');
+    const bodyPreview = document.getElementById('bodyPreview');
+
+    if (headingPreview) {
+      headingPreview.style.fontFamily = `'${heading}', sans-serif`;
+      loadGoogleFont(heading);
+    }
+
+    if (bodyPreview) {
+      bodyPreview.style.fontFamily = `'${body}', sans-serif`;
+      loadGoogleFont(body);
+    }
+  }
+
+  // Load Google Font
+  const loadedFonts = new Set<string>();
+  function loadGoogleFont(fontName: string) {
+    if (loadedFonts.has(fontName)) return;
+
+    const link = document.createElement('link');
+    link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, '+')}:wght@300;400;500;600;700;800&display=swap`;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    loadedFonts.add(fontName);
+  }
+
+  // Save theme
+  async function saveTheme() {
+    const saveBtn = document.getElementById('saveTheme');
+    if (!saveBtn) return;
+
+    saveBtn.textContent = 'Saving...';
+    saveBtn.setAttribute('disabled', 'true');
+
+    try {
+      const settings = {
+        color_scheme: 'custom',
+        color_primary: (document.getElementById('colorPrimary') as HTMLInputElement).value,
+        color_secondary: (document.getElementById('colorSecondary') as HTMLInputElement).value,
+        color_accent: (document.getElementById('colorAccent') as HTMLInputElement).value,
+        color_wordpress: (document.getElementById('colorWordPress') as HTMLInputElement).value,
+        font_heading: (document.getElementById('fontHeading') as HTMLSelectElement).value,
+        font_body: (document.getElementById('fontBody') as HTMLSelectElement).value
+      };
+
+      const token = localStorage.getItem('admin_token');
+
+      if (!token) {
+        alert('You are not logged in. Please log in again.');
+        window.location.href = '/admin/login';
+        return;
+      }
+
+      console.log('Saving theme with token:', token.substring(0, 10) + '...');
+
+      const response = await fetch('/api/theme', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ settings })
+      });
+
+      const data = await response.json();
+      console.log('Response:', data);
+
+      if (data.success) {
+        alert('✅ Theme settings saved successfully! Refresh the page to see changes site-wide.');
+        location.reload();
+      } else {
+        if (data.error.includes('expired') || data.error.includes('Invalid session')) {
+          alert('Your session has expired. Please log in again.');
+          window.location.href = '/admin/login';
+        } else {
+          alert('Error saving theme: ' + data.error);
+        }
+      }
+    } catch (error) {
+      console.error('Error saving theme:', error);
+      alert('Network error saving theme. Please try again.');
+    } finally {
+      saveBtn.textContent = 'Save Changes';
+      saveBtn.removeAttribute('disabled');
+    }
+  }
+
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    loadThemeSettings();
+
+    // Color input synchronization
+    ['Primary', 'Secondary', 'Accent', 'WordPress'].forEach(type => {
+      const colorInput = document.getElementById(`color${type}`) as HTMLInputElement;
+      const textInput = document.getElementById(`color${type}Text`) as HTMLInputElement;
+
+      if (colorInput && textInput) {
+        colorInput.addEventListener('input', (e) => {
+          textInput.value = (e.target as HTMLInputElement).value;
+          updatePreview();
+        });
+
+        textInput.addEventListener('input', (e) => {
+          const value = (e.target as HTMLInputElement).value;
+          if (/^#[0-9A-F]{6}$/i.test(value)) {
+            colorInput.value = value;
+            updatePreview();
+          }
+        });
+      }
+    });
+
+    // Font changes
+    document.getElementById('fontHeading')?.addEventListener('change', updatePreview);
+    document.getElementById('fontBody')?.addEventListener('change', updatePreview);
+
+    // Save button
+    document.getElementById('saveTheme')?.addEventListener('click', saveTheme);
+  });
+</script>

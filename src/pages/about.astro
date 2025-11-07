@@ -1,0 +1,561 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Chatbot from '@/components/Chatbot.astro';
+
+// Fetch about content
+let aboutContent: any = {
+  hero_badge: 'About Us',
+  hero_title: 'Building Digital Excellence One Project at a Time',
+  hero_description: "We're a team of passionate designers, developers, and strategists dedicated to creating digital experiences that make a difference.",
+  story_title: 'Our Story',
+  story_content: 'Founded with a vision to transform the digital landscape, our agency has grown from a small team of passionate creators into a full-service digital powerhouse. We believe in the power of great design and cutting-edge technology to solve real business challenges.'
+};
+
+try {
+  const response = await fetch(Astro.url.origin + '/api/admin/about');
+  const data = await response.json();
+  if (data.success && data.content) {
+    aboutContent = { ...aboutContent, ...data.content };
+  }
+} catch (error) {
+  console.error('Error fetching about content:', error);
+}
+
+// Fetch core values
+let values: any[] = [];
+const fallbackValues = [
+  { title: 'Innovation First', description: 'We stay ahead of the curve, constantly exploring new technologies and methodologies to deliver cutting-edge solutions.', icon: 'layers' },
+  { title: 'Client Partnership', description: 'Your success is our success. We work closely with you, treating your goals as our own throughout the entire journey.', icon: 'users' },
+  { title: 'Quality Obsessed', description: 'We sweat the details. Every pixel, every line of code, every interaction is crafted with precision and care.', icon: 'activity' },
+  { title: 'Timely Delivery', description: 'We respect deadlines. Our agile processes ensure projects are delivered on time without compromising quality.', icon: 'clock' },
+  { title: 'Continuous Growth', description: "We're always learning. Our team is committed to personal and professional development to serve you better.", icon: 'trending-up' },
+  { title: 'Passion Driven', description: 'We love what we do. This passion fuels our creativity and drives us to create extraordinary digital experiences.', icon: 'heart' }
+];
+
+try {
+  const response = await fetch(Astro.url.origin + '/api/admin/values');
+  const data = await response.json();
+  if (data.success && data.values && data.values.length > 0) {
+    values = data.values;
+  } else {
+    values = fallbackValues;
+  }
+} catch (error) {
+  console.error('Error fetching core values:', error);
+  values = fallbackValues;
+}
+
+// Fetch team members
+let team: any[] = [];
+const fallbackTeam = [
+  { name: 'John Smith', role: 'CEO & Founder', bio: 'Visionary leader with 15+ years in digital innovation.', image_url: '' },
+  { name: 'Sarah Johnson', role: 'Creative Director', bio: 'Award-winning designer crafting beautiful experiences.', image_url: '' },
+  { name: 'Michael Chen', role: 'Lead Developer', bio: 'Full-stack expert passionate about clean code.', image_url: '' },
+  { name: 'Emily Rodriguez', role: 'Marketing Director', bio: 'Strategic thinker driving growth and engagement.', image_url: '' }
+];
+
+try {
+  const response = await fetch(Astro.url.origin + '/api/admin/team');
+  const data = await response.json();
+  if (data.success && data.team && data.team.length > 0) {
+    team = data.team;
+  } else {
+    team = fallbackTeam;
+  }
+} catch (error) {
+  console.error('Error fetching team members:', error);
+  team = fallbackTeam;
+}
+
+// Icon map for values (same as Services component)
+const iconMap: Record<string, string> = {
+  layers: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+  users: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+  activity: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+  clock: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+  'trending-up': 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
+  heart: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+  sparkles: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'
+};
+
+const getIcon = (iconName: string) => {
+  return iconMap[iconName] || iconMap.sparkles;
+};
+---
+
+<BaseLayout
+  title="About Us - Your Agency Name"
+  description="Learn more about our team, our mission, and what drives us to create exceptional digital experiences."
+>
+  <Header />
+
+  <main class="about-page">
+    <!-- Hero Section -->
+    <section class="about-hero">
+      <div class="container">
+        <div class="hero-content" data-animate>
+          <span class="hero-badge">{aboutContent.hero_badge}</span>
+          <h1 set:html={aboutContent.hero_title.replace(/ One /g, '<br />One ')}></h1>
+          <p class="hero-lead">
+            {aboutContent.hero_description}
+          </p>
+        </div>
+      </div>
+      <div class="hero-gradient"></div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="section story-section">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-content" data-animate>
+            <h2>{aboutContent.story_title}</h2>
+            <p>
+              {aboutContent.story_content}
+            </p>
+          </div>
+          <div class="story-stats" data-animate>
+            <div class="stat-card glass">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Projects Delivered</div>
+            </div>
+            <div class="stat-card glass">
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Client Satisfaction</div>
+            </div>
+            <div class="stat-card glass">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Team Members</div>
+            </div>
+            <div class="stat-card glass">
+              <div class="stat-number">10+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="section values-section">
+      <div class="container">
+        <div class="section-header" data-animate>
+          <h2>Our Core Values</h2>
+          <p>The principles that guide everything we do</p>
+        </div>
+
+        <div class="values-grid">
+          {values.map((value) => (
+            <div class="value-card glass" data-animate>
+              <div class="value-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d={getIcon(value.icon)} />
+                </svg>
+              </div>
+              <h3>{value.title}</h3>
+              <p>{value.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section team-section">
+      <div class="container">
+        <div class="section-header" data-animate>
+          <h2>Meet Our Team</h2>
+          <p>The talented people behind the magic</p>
+        </div>
+
+        <div class="team-grid">
+          {team.map((member) => (
+            <div class="team-card glass" data-animate>
+              <div class="team-avatar">
+                {member.image_url ? (
+                  <img src={member.image_url} alt={member.name} />
+                ) : (
+                  <div class="avatar-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <h3>{member.name}</h3>
+              <p class="team-role">{member.role}</p>
+              <p class="team-bio">{member.bio}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+      <div class="container">
+        <div class="cta-card glass" data-animate>
+          <h2>Ready to Work Together?</h2>
+          <p>Let's create something amazing. Get in touch and let's discuss your project.</p>
+          <div class="cta-buttons">
+            <a href="/#contact" class="btn btn-primary">
+              Get Started
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a href="/booking" class="btn btn-secondary">
+              Book a Call
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <Chatbot />
+</BaseLayout>
+
+<style>
+  .about-page {
+    position: relative;
+  }
+
+  /* Hero Section */
+  .about-hero {
+    position: relative;
+    padding: 8rem 0 6rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+    z-index: -1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: var(--gradient-card);
+    border: 1px solid var(--color-border);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-lead {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    color: var(--color-text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Story Section */
+  .story-section {
+    background: var(--color-bg);
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .story-content h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .story-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .story-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    transition: all var(--transition-base);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  /* Values Section */
+  .values-section {
+    background: var(--color-bg-alt);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-2xl);
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .section-header p {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .value-card {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    transition: all var(--transition-base);
+  }
+
+  .value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-2xl);
+  }
+
+  .value-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    color: white;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .value-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .value-card p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  /* Team Section */
+  .team-section {
+    background: var(--color-bg);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .team-card {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    transition: all var(--transition-base);
+  }
+
+  .team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-2xl);
+  }
+
+  .team-avatar {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto var(--spacing-md);
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .team-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .team-role {
+    font-size: 0.95rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .team-bio {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--color-bg-alt);
+    padding: 6rem 0;
+  }
+
+  .cta-card {
+    padding: 4rem;
+    border-radius: var(--radius-2xl);
+    text-align: center;
+  }
+
+  .cta-card h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cta-card p {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .story-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .story-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .values-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-hero {
+      padding: 6rem 0 4rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+    }
+
+    .story-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-card {
+      padding: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .cta-buttons .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    }
+  );
+
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    observer.observe(el);
+  });
+</script>

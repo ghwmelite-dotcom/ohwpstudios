@@ -21,7 +21,7 @@ import { SITE_CONFIG } from '@/config';
             </div>
             <div>
               <h4>Email Us</h4>
-              <a href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a>
+              <a href="#" id="contact-email-link" data-default-email={SITE_CONFIG.email}>Loading...</a>
             </div>
           </div>
 
@@ -33,7 +33,7 @@ import { SITE_CONFIG } from '@/config';
             </div>
             <div>
               <h4>Call Us</h4>
-              <a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`}>{SITE_CONFIG.phone}</a>
+              <a href="#" id="contact-phone-link" data-default-phone={SITE_CONFIG.phone}>Loading...</a>
             </div>
           </div>
 
@@ -296,6 +296,63 @@ import { SITE_CONFIG } from '@/config';
 </style>
 
 <script>
+  // Load contact information from API
+  async function loadContactInfo() {
+    try {
+      const response = await fetch('/api/admin/content');
+
+      if (!response.ok) {
+        console.error('Failed to fetch contact info');
+        useDefaultContactInfo();
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.content) {
+        const content = data.content;
+
+        // Update email
+        const emailLink = document.getElementById('contact-email-link');
+        if (emailLink) {
+          const email = content.site_email || emailLink.getAttribute('data-default-email');
+          emailLink.textContent = email;
+          emailLink.setAttribute('href', `mailto:${email}`);
+        }
+
+        // Update phone
+        const phoneLink = document.getElementById('contact-phone-link');
+        if (phoneLink) {
+          const phone = content.site_phone || phoneLink.getAttribute('data-default-phone');
+          phoneLink.textContent = phone;
+          phoneLink.setAttribute('href', `tel:${phone.replace(/\s/g, '')}`);
+        }
+      } else {
+        useDefaultContactInfo();
+      }
+    } catch (error) {
+      console.error('Error loading contact info:', error);
+      useDefaultContactInfo();
+    }
+  }
+
+  // Use default contact info from config
+  function useDefaultContactInfo() {
+    const emailLink = document.getElementById('contact-email-link');
+    if (emailLink) {
+      const defaultEmail = emailLink.getAttribute('data-default-email') || 'hello@yoursite.com';
+      emailLink.textContent = defaultEmail;
+      emailLink.setAttribute('href', `mailto:${defaultEmail}`);
+    }
+
+    const phoneLink = document.getElementById('contact-phone-link');
+    if (phoneLink) {
+      const defaultPhone = phoneLink.getAttribute('data-default-phone') || '+1 (555) 123-4567';
+      phoneLink.textContent = defaultPhone;
+      phoneLink.setAttribute('href', `tel:${defaultPhone.replace(/\s/g, '')}`);
+    }
+  }
+
   function initContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const status = document.getElementById('form-status') as HTMLDivElement;
@@ -333,6 +390,20 @@ import { SITE_CONFIG } from '@/config';
     });
   }
 
-  initContactForm();
-  document.addEventListener('astro:page-load', initContactForm);
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      loadContactInfo();
+      initContactForm();
+    });
+  } else {
+    loadContactInfo();
+    initContactForm();
+  }
+
+  // Reload on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    loadContactInfo();
+    initContactForm();
+  });
 </script>

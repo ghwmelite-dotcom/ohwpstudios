@@ -1,0 +1,358 @@
+---
+// Testimonials Carousel Component
+// World-class testimonials with smooth animations
+
+// Fetch testimonials from database
+let testimonials: any[] = [];
+try {
+  const response = await fetch(Astro.url.origin + '/api/testimonials');
+  const data = await response.json();
+  if (data.success && data.testimonials && data.testimonials.length > 0) {
+    testimonials = data.testimonials.filter((t: any) => t.is_active);
+  }
+} catch (error) {
+  console.error('Error fetching testimonials:', error);
+}
+
+// Fallback testimonials if API fails
+if (testimonials.length === 0) {
+  testimonials = [
+    {
+      name: 'Oliver B.',
+      role: 'Marketing Director',
+      company: 'TechSolutions Inc.',
+      content: 'Working with this team has been an absolute game-changer for our business. Their attention to detail and commitment to excellence is unmatched. Our website traffic increased by 300% in just 3 months!',
+      rating: 5,
+      avatar_initials: 'OB',
+      avatar_gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    },
+    {
+      name: 'Sarah M.',
+      role: 'Founder',
+      company: 'GreenLeaf Organics',
+      content: 'The custom WordPress solution they built for us exceeded all expectations. Our conversion rate jumped 40%, and customer engagement has never been higher. Truly exceptional work!',
+      rating: 5,
+      avatar_initials: 'SM',
+      avatar_gradient: 'linear-gradient(135deg, #0073aa 0%, #00a0d2 100%)'
+    },
+    {
+      name: 'Michael T.',
+      role: 'CEO',
+      company: 'BlueWave Consulting',
+      content: 'We\'ve been partners for over 3 years now, and their consistent quality and innovative solutions keep impressing us. They\'re not just developers - they\'re strategic partners in our growth.',
+      rating: 5,
+      avatar_initials: 'MT',
+      avatar_gradient: 'linear-gradient(135deg, #ec4899 0%, #f59e0b 100%)'
+    },
+    {
+      name: 'Johny T.',
+      role: 'Blogger',
+      company: 'Travel Tales',
+      content: 'As a blogger, I needed a fast, beautiful, and SEO-friendly site. They delivered beyond my wildest dreams! The learning resources they provided were the cherry on top. Highly recommended!',
+      rating: 5,
+      avatar_initials: 'JT',
+      avatar_gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)'
+    }
+  ];
+}
+
+// Generate unique gradient ID for each testimonial
+const generateGradientId = (index: number) => `gradient${index + 1}`;
+---
+
+<section id="testimonials" class="section testimonials-section" data-animate>
+  <div class="container">
+    <!-- Section Header -->
+    <div class="section-header" style="text-align: center; max-width: 700px; margin: 0 auto 4rem;">
+      <span class="badge" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--gradient-wordpress); color: white; border-radius: var(--radius-full); font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">
+        Client Success Stories
+      </span>
+      <h2 data-text-reveal>Loved by 400+ Happy Clients</h2>
+      <p style="font-size: 1.25rem; margin-top: 1rem;">
+        Don't just take our word for it - hear from businesses we've helped transform
+      </p>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div class="testimonials-carousel">
+      <div class="testimonials-track" id="testimonialsTrack">
+
+        {testimonials.map((testimonial: any, index: number) => (
+          <div class="testimonial-card glass" data-tilt data-stagger>
+            <div class="quote-icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M10 20C10 14.477 14.477 10 20 10C25.523 10 30 14.477 30 20C30 25.523 25.523 30 20 30C14.477 30 10 25.523 10 20Z" fill={`url(#${generateGradientId(index)})`}/>
+                <path d="M15 18L17 20L15 22M22 18L24 20L22 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                  <linearGradient id={generateGradientId(index)} x1="10" y1="10" x2="30" y2="30">
+                    <stop offset="0%" stop-color={testimonial.avatar_gradient?.split(',')[0]?.split('(')[1]?.trim() || '#6366f1'}/>
+                    <stop offset="100%" stop-color={testimonial.avatar_gradient?.split(',')[1]?.split(')')[0]?.trim() || '#ec4899'}/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="stars">
+              {Array(testimonial.rating || 5).fill('⭐').join('')}
+            </div>
+            <p class="testimonial-text">
+              "{testimonial.content}"
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style={`background: ${testimonial.avatar_gradient}`}>
+                {testimonial.avatar_initials}
+              </div>
+              <div class="author-info">
+                <div class="author-name">{testimonial.name}</div>
+                <div class="author-role">{testimonial.role}, {testimonial.company}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+      </div>
+
+      <!-- Carousel Controls -->
+      <div class="carousel-controls">
+        <button class="carousel-btn carousel-prev" data-magnetic data-ripple aria-label="Previous testimonial">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn carousel-next" data-magnetic data-ripple aria-label="Next testimonial">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 18L15 12L9 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Trust Indicators -->
+    <div class="trust-indicators" style="display: flex; justify-content: center; gap: 4rem; margin-top: 4rem; flex-wrap: wrap;">
+      <div class="trust-item" data-animate style="text-align: center;">
+        <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">4.9/5</div>
+        <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Average Rating</div>
+      </div>
+      <div class="trust-item" data-animate style="text-align: center;">
+        <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">400+</div>
+        <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Happy Clients</div>
+      </div>
+      <div class="trust-item" data-animate style="text-align: center;">
+        <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">99%</div>
+        <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Would Recommend</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    background: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimonials-carousel {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .testimonials-track {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .testimonial-card {
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    transition: all 0.4s var(--ease-smooth);
+    position: relative;
+    border: 1px solid var(--color-border);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .quote-icon {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+
+  .stars {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .testimonial-text {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-weight: 700;
+    color: var(--color-text);
+    font-size: 1.0625rem;
+  }
+
+  .author-role {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  .carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .carousel-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+  }
+
+  .carousel-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: scale(1.1);
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .testimonials-track {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonial-card {
+      padding: 2rem;
+    }
+
+    .trust-indicators {
+      gap: 2rem !important;
+    }
+
+    .trust-number {
+      font-size: 2rem !important;
+    }
+  }
+</style>
+
+<script>
+  // Testimonials Carousel Logic
+  function initTestimonialsCarousel() {
+    const track = document.getElementById('testimonialsTrack');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    const dotsContainer = document.getElementById('carouselDots');
+
+    if (!track || !prevBtn || !nextBtn || !dotsContainer) return;
+
+    const cards = track.querySelectorAll('.testimonial-card');
+    const totalCards = cards.length;
+    let currentIndex = 0;
+
+    // Create dots
+    for (let i = 0; i < totalCards; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot';
+      dot.style.cssText = `
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: none;
+        background: var(--color-border);
+        cursor: pointer;
+        transition: all 0.3s;
+      `;
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    const dots = dotsContainer.querySelectorAll('.carousel-dot');
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        if (index === currentIndex) {
+          dot.style.background = 'var(--gradient-primary)';
+          dot.style.width = '24px';
+        } else {
+          dot.style.background = 'var(--color-border)';
+          dot.style.width = '10px';
+        }
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateDots();
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+      goToSlide(currentIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % totalCards;
+      goToSlide(currentIndex);
+    });
+
+    // Auto-rotate
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalCards;
+      goToSlide(currentIndex);
+    }, 5000);
+
+    updateDots();
+  }
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
+  } else {
+    initTestimonialsCarousel();
+  }
+</script>

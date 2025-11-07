@@ -5,7 +5,7 @@ import { SITE_CONFIG } from '@/config';
 <header class="header">
   <nav class="nav container">
     <a href="/" class="logo">
-      <img id="header-logo-img" alt="Logo" style="display: none; height: 40px; object-fit: contain;" />
+      <img id="header-logo-img" alt="Logo" style="display: none; height: 45px; max-width: 180px; object-fit: contain;" />
       <span class="logo-text text-gradient" id="header-site-name">{SITE_CONFIG.name}</span>
     </a>
 
@@ -153,6 +153,8 @@ import { SITE_CONFIG } from '@/config';
     font-weight: 800;
     font-family: var(--font-display);
     text-decoration: none;
+    display: flex;
+    align-items: center;
   }
 
   .logo-text {
@@ -160,6 +162,14 @@ import { SITE_CONFIG } from '@/config';
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  #header-logo-img {
+    transition: transform 0.3s ease;
+  }
+
+  #header-logo-img:hover {
+    transform: scale(1.05);
   }
 
   .nav-links {
@@ -371,6 +381,11 @@ import { SITE_CONFIG } from '@/config';
       font-size: 1.25rem;
     }
 
+    #header-logo-img {
+      height: 38px !important;
+      max-width: 140px !important;
+    }
+
     .nav-links {
       position: absolute;
       top: 70px;
@@ -452,6 +467,11 @@ import { SITE_CONFIG } from '@/config';
 
     .logo {
       font-size: 1.125rem;
+    }
+
+    #header-logo-img {
+      height: 32px !important;
+      max-width: 120px !important;
     }
 
     .nav-links {
