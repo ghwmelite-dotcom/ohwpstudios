@@ -1,0 +1,857 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Management - Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #f9fafb;
+      color: #1a1a2e;
+    }
+
+    .admin-nav {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: #64748b;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #6366f1;
+    }
+
+    .chat-container {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      height: calc(100vh - 73px);
+      background: white;
+    }
+
+    /* Conversations Sidebar */
+    .conversations-sidebar {
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      background: #f9fafb;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat-card {
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border-radius: 8px;
+      color: white;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-tab {
+      flex: 1;
+      padding: 0.5rem;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-tab:hover {
+      border-color: #6366f1;
+      color: #6366f1;
+    }
+
+    .filter-tab.active {
+      background: #6366f1;
+      color: white;
+      border-color: #6366f1;
+    }
+
+    .conversations-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+
+    .conversation-item {
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .conversation-item:hover {
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+    }
+
+    .conversation-item.active {
+      border-color: #6366f1;
+      background: #f0f9ff;
+    }
+
+    .conversation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .conversation-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #1a1a2e;
+    }
+
+    .conversation-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .conversation-preview {
+      font-size: 0.875rem;
+      color: #64748b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-bottom: 0.5rem;
+    }
+
+    .conversation-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .conversation-status {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .status-active {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .status-resolved {
+      background: #e0e7ff;
+      color: #4f46e5;
+    }
+
+    .unread-badge {
+      background: #ef4444;
+      color: white;
+      font-size: 0.75rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    /* Chat Area */
+    .chat-area {
+      display: flex;
+      flex-direction: column;
+      background: white;
+    }
+
+    .chat-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .chat-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .chat-visitor-details h3 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .chat-visitor-email {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1px solid #e5e7eb;
+      color: #64748b;
+    }
+
+    .btn-secondary:hover {
+      border-color: #6366f1;
+      color: #6366f1;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 70%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.visitor {
+      align-self: flex-start;
+    }
+
+    .message.operator {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .message.operator .message-avatar {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+    }
+
+    .message-content {
+      flex: 1;
+    }
+
+    .message-bubble {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .message.visitor .message-bubble {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px 12px 12px 4px;
+    }
+
+    .message.operator .message-bubble {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      border-radius: 12px 12px 4px 12px;
+    }
+
+    .message-time {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+      padding: 0 0.25rem;
+    }
+
+    .message.operator .message-time {
+      text-align: right;
+    }
+
+    .chat-input-area {
+      padding: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .canned-responses {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .canned-btn {
+      padding: 0.5rem 0.75rem;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .canned-btn:hover {
+      background: #e0e7ff;
+      border-color: #6366f1;
+      color: #6366f1;
+    }
+
+    .chat-input-form {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 24px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    #message-input:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .send-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #94a3b8;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .empty-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .empty-state h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #64748b;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      color: #94a3b8;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #e5e7eb;
+      border-top-color: #6366f1;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="admin-nav">
+    <div class="nav-brand">OH WP Studios - Admin</div>
+    <div class="nav-links">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/chat" class="active">Chat</a>
+      <a href="/admin/portfolio">Portfolio</a>
+      <a href="/admin/blog">Blog</a>
+      <a href="/">View Site</a>
+    </div>
+  </nav>
+
+  <!-- Chat Container -->
+  <div class="chat-container">
+    <!-- Conversations Sidebar -->
+    <div class="conversations-sidebar">
+      <div class="sidebar-header">
+        <h2>Conversations</h2>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Active</div>
+            <div class="stat-value" id="stat-active">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value" id="stat-pending">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total</div>
+            <div class="stat-value" id="stat-total">0</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-status="all">All</button>
+          <button class="filter-tab" data-status="active">Active</button>
+          <button class="filter-tab" data-status="pending">Pending</button>
+          <button class="filter-tab" data-status="resolved">Resolved</button>
+        </div>
+      </div>
+
+      <!-- Conversations List -->
+      <div class="conversations-list" id="conversations-list">
+        <div class="loading">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </div>
+        <h3>No conversation selected</h3>
+        <p>Select a conversation from the list to view messages</p>
+      </div>
+
+      <!-- Active Chat (hidden by default) -->
+      <div id="active-chat" style="display: none; height: 100%; display: flex; flex-direction: column;">
+        <div class="chat-header">
+          <div class="chat-header-info">
+            <div class="chat-avatar" id="chat-avatar">V</div>
+            <div class="chat-visitor-details">
+              <h3 id="chat-visitor-name">-</h3>
+              <div class="chat-visitor-email" id="chat-visitor-email">-</div>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="btn btn-secondary" id="resolve-btn">Mark as Resolved</button>
+            <button class="btn btn-primary" id="assign-btn">Assign to Me</button>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages will be inserted here -->
+        </div>
+
+        <div class="chat-input-area">
+          <div class="canned-responses" id="canned-responses">
+            <!-- Canned responses will be inserted here -->
+          </div>
+
+          <form class="chat-input-form" id="message-form">
+            <input
+              type="text"
+              id="message-input"
+              placeholder="Type your message..."
+              autocomplete="off"
+              required
+            />
+            <button type="submit" class="send-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let conversations: any[] = [];
+    let activeConversation: any = null;
+    let currentFilter = 'all';
+    let pollingInterval: any = null;
+
+    // Load conversations on page load
+    loadConversations();
+    loadCannedResponses();
+
+    // Set up polling
+    pollingInterval = setInterval(() => {
+      if (activeConversation) {
+        loadMessages(activeConversation.id, true);
+      }
+      loadConversations();
+    }, 5000);
+
+    // Filter tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        target.classList.add('active');
+        currentFilter = target.dataset.status || 'all';
+        renderConversations();
+      });
+    });
+
+    // Message form
+    document.getElementById('message-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!activeConversation) return;
+
+      const input = document.getElementById('message-input') as HTMLInputElement;
+      const message = input.value.trim();
+      if (!message) return;
+
+      try {
+        const response = await fetch('/api/chat/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            conversation_id: activeConversation.id,
+            message: message,
+            sender_type: 'operator',
+            sender_name: 'Support Team'
+          })
+        });
+
+        if (response.ok) {
+          input.value = '';
+          await loadMessages(activeConversation.id);
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
+    });
+
+    // Load conversations
+    async function loadConversations() {
+      try {
+        const response = await fetch('/api/chat/conversations');
+        const data = await response.json();
+
+        if (data.success) {
+          conversations = data.conversations;
+          renderConversations();
+
+          // Update stats
+          if (data.stats) {
+            document.getElementById('stat-active')!.textContent = data.stats.active || 0;
+            document.getElementById('stat-pending')!.textContent = data.stats.pending || 0;
+            document.getElementById('stat-total')!.textContent = data.stats.total || 0;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading conversations:', error);
+      }
+    }
+
+    // Render conversations
+    function renderConversations() {
+      const list = document.getElementById('conversations-list');
+      if (!list) return;
+
+      const filtered = currentFilter === 'all'
+        ? conversations
+        : conversations.filter(c => c.status === currentFilter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="loading" style="color: #94a3b8; padding: 2rem; text-align: center;">No conversations found</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(conv => `
+        <div class="conversation-item ${activeConversation?.id === conv.id ? 'active' : ''}" data-id="${conv.id}">
+          <div class="conversation-header">
+            <div class="conversation-name">${conv.visitor_name || 'Unknown Visitor'}</div>
+            <div class="conversation-time">${formatTime(conv.last_message_at)}</div>
+          </div>
+          <div class="conversation-preview">${conv.last_message || 'No messages yet'}</div>
+          <div class="conversation-meta">
+            <span class="conversation-status status-${conv.status}">${conv.status}</span>
+            ${conv.unread_count > 0 ? `<span class="unread-badge">${conv.unread_count}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      // Add click handlers
+      list.querySelectorAll('.conversation-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const id = parseInt(item.getAttribute('data-id') || '0');
+          const conv = conversations.find(c => c.id === id);
+          if (conv) {
+            selectConversation(conv);
+          }
+        });
+      });
+    }
+
+    // Select conversation
+    function selectConversation(conv: any) {
+      activeConversation = conv;
+      renderConversations();
+
+      // Show chat area
+      document.getElementById('empty-state')!.style.display = 'none';
+      const chatArea = document.getElementById('active-chat')!;
+      chatArea.style.display = 'flex';
+
+      // Update header
+      const initial = (conv.visitor_name || 'V').charAt(0).toUpperCase();
+      document.getElementById('chat-avatar')!.textContent = initial;
+      document.getElementById('chat-visitor-name')!.textContent = conv.visitor_name || 'Unknown';
+      document.getElementById('chat-visitor-email')!.textContent = conv.visitor_email || '';
+
+      // Load messages
+      loadMessages(conv.id);
+    }
+
+    // Load messages
+    async function loadMessages(conversationId: number, polling = false) {
+      try {
+        const response = await fetch(`/api/chat/messages?conversation_id=${conversationId}`);
+        const data = await response.json();
+
+        if (data.success && data.messages) {
+          if (!polling || data.messages.length > 0) {
+            renderMessages(data.messages);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading messages:', error);
+      }
+    }
+
+    // Render messages
+    function renderMessages(messages: any[]) {
+      const container = document.getElementById('chat-messages');
+      if (!container) return;
+
+      container.innerHTML = messages.map(msg => {
+        const initial = (msg.sender_name || 'U').charAt(0).toUpperCase();
+        const time = new Date(msg.sent_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+        return `
+          <div class="message ${msg.sender_type}">
+            <div class="message-avatar">${initial}</div>
+            <div class="message-content">
+              <div class="message-bubble">${escapeHtml(msg.message_text)}</div>
+              <div class="message-time">${time}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Scroll to bottom
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Load canned responses
+    async function loadCannedResponses() {
+      try {
+        const response = await fetch('/api/chat/canned-responses');
+        const data = await response.json();
+
+        if (data.success && data.responses) {
+          const container = document.getElementById('canned-responses');
+          if (container) {
+            container.innerHTML = data.responses.slice(0, 6).map((resp: any) =>
+              `<button class="canned-btn" data-message="${escapeHtml(resp.message)}">${resp.title}</button>`
+            ).join('');
+
+            // Add click handlers
+            container.querySelectorAll('.canned-btn').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const input = document.getElementById('message-input') as HTMLInputElement;
+                input.value = btn.getAttribute('data-message') || '';
+                input.focus();
+              });
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error loading canned responses:', error);
+      }
+    }
+
+    // Helper functions
+    function formatTime(timestamp: string): string {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diff = now.getTime() - date.getTime();
+      const minutes = Math.floor(diff / 60000);
+
+      if (minutes < 1) return 'Just now';
+      if (minutes < 60) return `${minutes}m ago`;
+      if (minutes < 1440) return `${Math.floor(minutes / 60)}h ago`;
+      return date.toLocaleDateString();
+    }
+
+    function escapeHtml(text: string): string {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Cleanup on unload
+    window.addEventListener('beforeunload', () => {
+      if (pollingInterval) clearInterval(pollingInterval);
+    });
+  </script>
+</body>
+</html>

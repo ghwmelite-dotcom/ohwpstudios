@@ -1,0 +1,945 @@
+---
+// Live Chat Widget Component
+---
+
+<div id="chat-widget-container">
+  <!-- Chat Toggle Button -->
+  <button id="chat-toggle-btn" class="chat-toggle-btn" aria-label="Open chat">
+    <svg class="chat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+    <span class="notification-badge" id="chat-badge" style="display: none;">0</span>
+  </button>
+
+  <!-- Chat Window -->
+  <div id="chat-window" class="chat-window">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-header-content">
+        <div class="chat-header-avatar">
+          <div class="avatar-placeholder">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <span class="online-indicator"></span>
+        </div>
+        <div class="chat-header-info">
+          <h4 id="chat-operator-name">Kodie - AI Assistant 🤖</h4>
+          <p class="chat-status" id="chat-status">Online • Instant Response</p>
+        </div>
+      </div>
+      <button class="chat-minimize-btn" id="chat-minimize-btn" aria-label="Minimize chat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Welcome Screen (shown before conversation starts) -->
+    <div id="chat-welcome" class="chat-welcome">
+      <div class="welcome-content">
+        <div class="welcome-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </div>
+        <h3>Hi! 👋 I'm Kodie, your AI assistant</h3>
+        <p>I can help with services, pricing, technical issues, and more. I'm available 24/7 and will connect you to a human agent if needed!</p>
+
+        <form id="chat-start-form" class="chat-start-form">
+          <div class="form-group">
+            <label for="visitor-name">Name *</label>
+            <input type="text" id="visitor-name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="visitor-email">Email *</label>
+            <input type="email" id="visitor-email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="visitor-message">How can we help? *</label>
+            <textarea id="visitor-message" name="message" placeholder="Describe your inquiry..." rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn-start-chat">
+            Start Chat
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div id="chat-messages" class="chat-messages" style="display: none;">
+      <!-- Messages will be inserted here -->
+    </div>
+
+    <!-- Chat Input -->
+    <div id="chat-input-area" class="chat-input-area" style="display: none;">
+      <form id="chat-message-form" class="chat-message-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Type your message..."
+          autocomplete="off"
+        />
+        <button type="submit" class="chat-send-btn" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
+      <div class="chat-powered-by">
+        Powered by <span>OH WP Studios</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Chat Widget Container */
+  #chat-widget-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: var(--font-body, system-ui, sans-serif);
+  }
+
+  /* Chat Toggle Button */
+  .chat-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .chat-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+  }
+
+  .chat-toggle-btn .close-icon {
+    display: none;
+    position: absolute;
+  }
+
+  .chat-toggle-btn.active .chat-icon {
+    display: none;
+  }
+
+  .chat-toggle-btn.active .close-icon {
+    display: block;
+  }
+
+  .notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    border: 2px solid white;
+    animation: badge-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes badge-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Chat Window */
+  .chat-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 400px;
+    max-width: calc(100vw - 48px);
+    height: 600px;
+    max-height: calc(100vh - 140px);
+    background: var(--color-bg, white);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  .chat-window.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Chat Header */
+  .chat-header {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .chat-header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .chat-header-avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+  }
+
+  .avatar-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .online-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border: 2px solid white;
+    border-radius: 50%;
+    animation: pulse-indicator 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-indicator {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .chat-header-info h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .chat-status {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .chat-minimize-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .chat-minimize-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Welcome Screen */
+  .chat-welcome {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 24px;
+  }
+
+  .welcome-content {
+    text-align: center;
+  }
+
+  .welcome-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .welcome-content h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .welcome-content p {
+    margin: 0 0 24px;
+    color: var(--color-text-muted, #64748b);
+    font-size: 14px;
+  }
+
+  /* Chat Start Form */
+  .chat-start-form {
+    text-align: left;
+    margin-top: 24px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--color-border, #e5e7eb);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    background: var(--color-surface, white);
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .btn-start-chat {
+    width: 100%;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-start-chat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+  }
+
+  /* Messages Area */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: var(--color-bg-alt, #f9fafb);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 3px;
+  }
+
+  .message {
+    display: flex;
+    gap: 8px;
+    animation: message-appear 0.3s ease;
+  }
+
+  @keyframes message-appear {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .message.visitor {
+    flex-direction: row-reverse;
+  }
+
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .message.visitor .message-avatar {
+    background: var(--color-surface, #e5e7eb);
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .message-content {
+    max-width: 70%;
+  }
+
+  .message-bubble {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+
+  .message.operator .message-bubble {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    border-radius: 12px 12px 12px 4px;
+  }
+
+  .message.visitor .message-bubble {
+    background: var(--color-surface, white);
+    color: var(--color-text, #1a1a2e);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 12px 12px 4px 12px;
+  }
+
+  .message-time {
+    font-size: 11px;
+    color: var(--color-text-muted, #94a3b8);
+    margin-top: 4px;
+    padding: 0 4px;
+  }
+
+  .message.visitor .message-time {
+    text-align: right;
+  }
+
+  .typing-indicator {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--color-surface, white);
+    border-radius: 12px 12px 12px 4px;
+    width: fit-content;
+  }
+
+  .typing-dot {
+    width: 8px;
+    height: 8px;
+    background: #94a3b8;
+    border-radius: 50%;
+    animation: typing-bounce 1.4s ease-in-out infinite;
+  }
+
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+  }
+
+  /* Chat Input */
+  .chat-input-area {
+    padding: 16px;
+    background: var(--color-bg, white);
+    border-top: 1px solid var(--color-border, #e5e7eb);
+  }
+
+  .chat-message-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  #chat-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--color-border, #e5e7eb);
+    border-radius: 24px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: var(--color-surface, white);
+    color: var(--color-text, #1a1a2e);
+  }
+
+  #chat-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .chat-send-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .chat-send-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+
+  .chat-powered-by {
+    text-align: center;
+    font-size: 11px;
+    color: var(--color-text-muted, #94a3b8);
+  }
+
+  .chat-powered-by span {
+    font-weight: 600;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    #chat-widget-container {
+      bottom: 16px;
+      right: 16px;
+    }
+
+    .chat-window {
+      width: calc(100vw - 32px);
+      height: calc(100vh - 100px);
+      max-height: calc(100vh - 100px);
+      bottom: 70px;
+    }
+
+    .chat-toggle-btn {
+      width: 56px;
+      height: 56px;
+    }
+  }
+
+  /* Dark Mode Support */
+  [data-theme="dark"] .chat-window {
+    background: #1a1a2e;
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+
+  [data-theme="dark"] .chat-messages {
+    background: #0f0f1e;
+  }
+
+  [data-theme="dark"] .message.visitor .message-bubble {
+    background: #252538;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="dark"] .form-group input,
+  [data-theme="dark"] .form-group textarea,
+  [data-theme="dark"] #chat-input {
+    background: #252538;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="dark"] .chat-input-area {
+    background: #1a1a2e;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+</style>
+
+<script>
+  // Chat Widget State
+  let conversationId: number | null = null;
+  let visitorInfo: any = null;
+  let messagesPollingInterval: any = null;
+  let conversationHistory: any[] = [];
+  let isKodieActive = true; // Kodie is active by default
+
+  // DOM Elements
+  const toggleBtn = document.getElementById('chat-toggle-btn');
+  const chatWindow = document.getElementById('chat-window');
+  const minimizeBtn = document.getElementById('chat-minimize-btn');
+  const startForm = document.getElementById('chat-start-form');
+  const messageForm = document.getElementById('chat-message-form');
+  const chatInput = document.getElementById('chat-input') as HTMLInputElement;
+  const welcomeScreen = document.getElementById('chat-welcome');
+  const messagesArea = document.getElementById('chat-messages');
+  const inputArea = document.getElementById('chat-input-area');
+
+  // Toggle Chat Window
+  toggleBtn?.addEventListener('click', () => {
+    const isOpen = chatWindow?.classList.contains('open');
+    if (isOpen) {
+      closeChat();
+    } else {
+      openChat();
+    }
+  });
+
+  minimizeBtn?.addEventListener('click', closeChat);
+
+  function openChat() {
+    chatWindow?.classList.add('open');
+    toggleBtn?.classList.add('active');
+  }
+
+  function closeChat() {
+    chatWindow?.classList.remove('open');
+    toggleBtn?.classList.remove('active');
+  }
+
+  // Start Chat - Handle Form Submission
+  startForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    try {
+      // Start new conversation
+      const response = await fetch('/api/chat/conversations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          visitor_name: name,
+          visitor_email: email,
+          initial_message: message
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        conversationId = data.conversation_id;
+        visitorInfo = { name, email };
+
+        // Switch to chat view
+        welcomeScreen!.style.display = 'none';
+        messagesArea!.style.display = 'flex';
+        inputArea!.style.display = 'block';
+
+        // Add initial message to chat
+        addMessage(message, 'visitor', name);
+        conversationHistory.push({ role: 'visitor', message });
+
+        // Show typing indicator
+        showTypingIndicator();
+
+        // Get Kodie's response
+        await getKodieResponse(message);
+
+        // Start polling for human agent responses (in case Kodie escalates)
+        startPolling();
+
+        // Focus input
+        chatInput?.focus();
+      }
+    } catch (error) {
+      console.error('Error starting chat:', error);
+      alert('Failed to start chat. Please try again.');
+    }
+  });
+
+  // Send Message
+  messageForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const message = chatInput?.value?.trim();
+    if (!message || !conversationId) return;
+
+    // Add message to UI immediately
+    addMessage(message, 'visitor', visitorInfo?.name || 'You');
+    conversationHistory.push({ role: 'visitor', message });
+
+    // Clear input
+    chatInput!.value = '';
+
+    try {
+      // Send message to API
+      await fetch('/api/chat/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          conversation_id: conversationId,
+          message: message,
+          sender_type: 'visitor'
+        })
+      });
+
+      // Show typing indicator
+      showTypingIndicator();
+
+      // Get Kodie's response (if Kodie is still active)
+      if (isKodieActive) {
+        await getKodieResponse(message);
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  });
+
+  // Add Message to UI
+  function addMessage(text: string, type: 'operator' | 'visitor', senderName: string) {
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${type}`;
+
+    const initial = senderName.charAt(0).toUpperCase();
+    const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    messageEl.innerHTML = `
+      <div class="message-avatar">${initial}</div>
+      <div class="message-content">
+        <div class="message-bubble">${escapeHtml(text)}</div>
+        <div class="message-time">${time}</div>
+      </div>
+    `;
+
+    messagesArea?.appendChild(messageEl);
+    scrollToBottom();
+  }
+
+  // Show Typing Indicator
+  function showTypingIndicator() {
+    // Remove existing indicator
+    document.querySelector('.typing-indicator')?.remove();
+
+    const typingEl = document.createElement('div');
+    typingEl.className = 'message operator';
+    typingEl.innerHTML = `
+      <div class="message-avatar">S</div>
+      <div class="message-content">
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+    `;
+
+    messagesArea?.appendChild(typingEl);
+    scrollToBottom();
+  }
+
+  // Poll for New Messages
+  function startPolling() {
+    messagesPollingInterval = setInterval(async () => {
+      if (!conversationId) return;
+
+      try {
+        const response = await fetch(`/api/chat/messages?conversation_id=${conversationId}`);
+        const data = await response.json();
+
+        if (data.success && data.messages) {
+          // Remove typing indicator
+          document.querySelector('.typing-indicator')?.closest('.message')?.remove();
+
+          // Add new operator messages
+          data.messages.forEach((msg: any) => {
+            if (msg.sender_type === 'operator' && !document.querySelector(`[data-message-id="${msg.id}"]`)) {
+              addMessage(msg.message_text, 'operator', msg.sender_name || 'Support');
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error polling messages:', error);
+      }
+    }, 3000); // Poll every 3 seconds
+  }
+
+  // Scroll to Bottom
+  function scrollToBottom() {
+    if (messagesArea) {
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+  }
+
+  // Get Kodie's AI Response
+  async function getKodieResponse(userMessage: string) {
+    try {
+      const response = await fetch('/api/chat/kodie', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage,
+          conversation_id: conversationId,
+          conversation_history: conversationHistory
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.response) {
+        const kodieResponse = data.response;
+
+        // Remove typing indicator
+        document.querySelector('.typing-indicator')?.closest('.message')?.remove();
+
+        // Add Kodie's message
+        addMessage(kodieResponse.message, 'operator', 'Kodie');
+        conversationHistory.push({ role: 'kodie', message: kodieResponse.message });
+
+        // Check if Kodie escalated to human agent
+        if (kodieResponse.escalate) {
+          isKodieActive = false;
+
+          // Update header to show human agent mode
+          const operatorName = document.getElementById('chat-operator-name');
+          const chatStatus = document.getElementById('chat-status');
+          if (operatorName) operatorName.textContent = 'OH WP Studios Support 👋';
+          if (chatStatus) chatStatus.textContent = 'Waiting for agent...';
+
+          // Add system message about escalation (already added by backend)
+          // The polling will pick up the system message
+        }
+
+        // Show suggested actions if provided
+        if (kodieResponse.suggestedActions && kodieResponse.suggestedActions.length > 0) {
+          showSuggestedActions(kodieResponse.suggestedActions);
+        }
+      }
+    } catch (error) {
+      console.error('Error getting Kodie response:', error);
+      // Remove typing indicator
+      document.querySelector('.typing-indicator')?.closest('.message')?.remove();
+      // Show fallback message
+      addMessage("I'm having trouble responding right now. Let me connect you with a human agent who can help.", 'operator', 'Kodie');
+      isKodieActive = false;
+    }
+  }
+
+  // Show suggested action buttons
+  function showSuggestedActions(actions: string[]) {
+    // Remove existing suggested actions
+    document.querySelectorAll('.suggested-actions').forEach(el => el.remove());
+
+    const actionsContainer = document.createElement('div');
+    actionsContainer.className = 'suggested-actions';
+    actionsContainer.style.cssText = 'display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0 1rem; margin-top: -0.5rem;';
+
+    actions.forEach(action => {
+      const btn = document.createElement('button');
+      btn.textContent = action;
+      btn.style.cssText = `
+        padding: 0.5rem 0.75rem;
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 500;
+      `;
+      btn.onmouseover = () => {
+        btn.style.borderColor = '#6366f1';
+        btn.style.color = '#6366f1';
+        btn.style.background = '#f0f9ff';
+      };
+      btn.onmouseout = () => {
+        btn.style.borderColor = '#e5e7eb';
+        btn.style.color = '';
+        btn.style.background = 'white';
+      };
+      btn.onclick = () => {
+        if (chatInput) {
+          chatInput.value = action;
+          chatInput.focus();
+        }
+      };
+      actionsContainer.appendChild(btn);
+    });
+
+    messagesArea?.appendChild(actionsContainer);
+    scrollToBottom();
+  }
+
+  // Escape HTML
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (messagesPollingInterval) {
+      clearInterval(messagesPollingInterval);
+    }
+  });
+</script>
