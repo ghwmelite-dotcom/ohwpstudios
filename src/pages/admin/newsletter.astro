@@ -1,0 +1,186 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export const prerender = false;
+
+const title = 'Newsletter Subscribers';
+---
+
+<BaseLayout title={title} noLoader={true}>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div class="header-left">
+        <a href="/admin/dashboard" class="back-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Back to Dashboard
+        </a>
+        <h1>{title}</h1>
+      </div>
+      <button id="export-csv" class="button-export">Export CSV</button>
+    </div>
+
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Subscribers</div>
+        <div class="stat-value" id="stat-total">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active</div>
+        <div class="stat-value" id="stat-active">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pending</div>
+        <div class="stat-value" id="stat-pending">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Unsubscribed</div>
+        <div class="stat-value" id="stat-unsubscribed">-</div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <select id="status-filter" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="active">Active</option>
+        <option value="pending">Pending</option>
+        <option value="unsubscribed">Unsubscribed</option>
+      </select>
+    </div>
+
+    <div class="loading-state" id="loading-state">
+      <div class="spinner"></div>
+      <p>Loading subscribers...</p>
+    </div>
+
+    <div class="empty-state" id="empty-state" style="display: none;">
+      <p>No subscribers found</p>
+    </div>
+
+    <div class="subscribers-list" id="subscribers-list"></div>
+  </div>
+</BaseLayout>
+
+<style>
+  .admin-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  .admin-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; }
+  .back-link { display: flex; align-items: center; gap: 0.5rem; color: var(--color-primary); text-decoration: none; margin-bottom: 1rem; }
+  h1 { font-size: 2rem; font-weight: 800; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card { padding: 1.5rem; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 12px; }
+  .stat-label { color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem; }
+  .stat-value { font-size: 2rem; font-weight: 800; color: var(--color-text); }
+  .filters { margin-bottom: 2rem; }
+  .filter-select { padding: 0.75rem 1rem; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 8px; font-size: 1rem; }
+  .button-export { padding: 0.75rem 1.5rem; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .loading-state, .empty-state { text-align: center; padding: 3rem; }
+  .spinner { width: 40px; height: 40px; border: 4px solid var(--color-border); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .subscribers-list { display: grid; gap: 1rem; }
+  .subscriber-card { padding: 1.5rem; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 12px; }
+  .subscriber-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; }
+  .subscriber-email { font-weight: 700; font-size: 1.125rem; }
+  .badge { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; }
+  .badge-active { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+  .badge-pending { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+  .badge-unsubscribed { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+  .subscriber-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.875rem; }
+  .info-item { color: var(--color-text-secondary); }
+  .info-label { font-weight: 600; color: var(--color-text); }
+  .delete-btn { margin-top: 1rem; padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem; }
+</style>
+
+<script>
+  let currentFilters = { status: 'all' };
+
+  async function loadSubscribers() {
+    const loadingState = document.getElementById('loading-state');
+    const emptyState = document.getElementById('empty-state');
+    const subscribersList = document.getElementById('subscribers-list');
+
+    if (loadingState) loadingState.style.display = 'block';
+    if (subscribersList) subscribersList.innerHTML = '';
+
+    try {
+      const params = new URLSearchParams({ limit: '100', offset: '0', ...currentFilters });
+      const response = await fetch(`/api/admin/newsletter?${params}`);
+      const data = await response.json();
+
+      if (loadingState) loadingState.style.display = 'none';
+
+      if (data.success && data.subscribers.length > 0) {
+        if (emptyState) emptyState.style.display = 'none';
+        renderSubscribers(data.subscribers);
+        updateStats(data.stats);
+      } else {
+        if (emptyState) emptyState.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Error loading subscribers:', error);
+    }
+  }
+
+  function renderSubscribers(subscribers: any[]) {
+    const list = document.getElementById('subscribers-list');
+    if (!list) return;
+
+    list.innerHTML = subscribers.map(sub => `
+      <div class="subscriber-card">
+        <div class="subscriber-header">
+          <div class="subscriber-email">${sub.email}</div>
+          <span class="badge badge-${sub.status}">${sub.status}</span>
+        </div>
+        <div class="subscriber-info">
+          <div class="info-item"><span class="info-label">Source:</span> ${sub.source || 'N/A'}</div>
+          <div class="info-item"><span class="info-label">Subscribed:</span> ${new Date(sub.subscribed_at).toLocaleString()}</div>
+          ${sub.confirmed_at ? `<div class="info-item"><span class="info-label">Confirmed:</span> ${new Date(sub.confirmed_at).toLocaleString()}</div>` : ''}
+        </div>
+        <button class="delete-btn" onclick="deleteSubscriber(${sub.id})">Delete</button>
+      </div>
+    `).join('');
+  }
+
+  function updateStats(stats: any) {
+    document.getElementById('stat-total')!.textContent = stats.total;
+    document.getElementById('stat-active')!.textContent = stats.active;
+    document.getElementById('stat-pending')!.textContent = stats.pending;
+    document.getElementById('stat-unsubscribed')!.textContent = stats.unsubscribed;
+  }
+
+  (window as any).deleteSubscriber = async (id: number) => {
+    if (!confirm('Delete this subscriber?')) return;
+    try {
+      await fetch(`/api/admin/newsletter?id=${id}`, { method: 'DELETE' });
+      loadSubscribers();
+    } catch (error) {
+      console.error('Error deleting subscriber:', error);
+    }
+  };
+
+  document.getElementById('status-filter')?.addEventListener('change', (e) => {
+    currentFilters.status = (e.target as HTMLSelectElement).value;
+    loadSubscribers();
+  });
+
+  document.getElementById('export-csv')?.addEventListener('click', async () => {
+    try {
+      const response = await fetch('/api/admin/newsletter?limit=10000');
+      const data = await response.json();
+      if (data.success) {
+        const csv = 'Email,Status,Source,Subscribed At,Confirmed At\n' +
+          data.subscribers.map((s: any) => `${s.email},${s.status},${s.source},${s.subscribed_at},${s.confirmed_at || ''}`).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'newsletter-subscribers.csv';
+        a.click();
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+    }
+  });
+
+  loadSubscribers();
+</script>

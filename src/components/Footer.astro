@@ -1,5 +1,6 @@
 ---
 import { SITE_CONFIG } from '@/config';
+import NewsletterSubscribe from '@/components/NewsletterSubscribe.astro';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -67,6 +68,14 @@ const currentYear = new Date().getFullYear();
       </div>
     </div>
 
+    <div class="footer-newsletter">
+      <NewsletterSubscribe
+        variant="footer"
+        title="Subscribe to Our Newsletter"
+        description="Get the latest updates, tips, and exclusive content delivered straight to your inbox."
+      />
+    </div>
+
     <div class="footer-bottom">
       <p>&copy; {currentYear} <span id="footer-copyright-name">{SITE_CONFIG.name}</span>. All rights reserved.</p>
       <div class="footer-legal">
@@ -90,6 +99,13 @@ const currentYear = new Date().getFullYear();
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
     gap: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
+  }
+
+  .footer-newsletter {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .footer-about h3 {

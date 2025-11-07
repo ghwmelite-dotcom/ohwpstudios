@@ -1,0 +1,363 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const title = 'Unsubscribe from Newsletter';
+const description = 'Manage your newsletter subscription preferences';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main class="unsubscribe-page">
+    <div class="container">
+      <div class="unsubscribe-card">
+        <div class="unsubscribe-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+            <line x1="2" y1="18" x2="22" y2="18" stroke-width="3"></line>
+          </svg>
+        </div>
+
+        <h1 class="unsubscribe-title">We're Sorry to See You Go</h1>
+        <p class="unsubscribe-description">
+          If you no longer wish to receive our newsletter, enter your email address below to unsubscribe.
+        </p>
+
+        <form class="unsubscribe-form" id="unsubscribe-form">
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-message" id="form-message"></div>
+
+          <button type="submit" class="button-submit" id="submit-button">
+            <span class="button-text">Unsubscribe</span>
+            <span class="button-loading" style="display: none;">
+              <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+
+          <p class="form-note">
+            Changed your mind? You can always
+            <a href="/#newsletter" class="link-inline">resubscribe</a> later.
+          </p>
+        </form>
+
+        <div class="success-state" id="success-state" style="display: none;">
+          <div class="success-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h2 class="success-title">Successfully Unsubscribed</h2>
+          <p class="success-message">
+            You have been removed from our mailing list. You won't receive any more emails from us.
+          </p>
+          <div class="success-actions">
+            <a href="/" class="button-primary">Go to Homepage</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .unsubscribe-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: var(--color-background);
+  }
+
+  .container {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .unsubscribe-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    text-align: center;
+  }
+
+  .unsubscribe-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .unsubscribe-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
+
+  .unsubscribe-description {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  .unsubscribe-form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    color: var(--color-text);
+    background: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .form-message {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+
+  .form-message.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  .form-message.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .button-submit {
+    width: 100%;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .button-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+  }
+
+  .button-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .form-note {
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .link-inline {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .link-inline:hover {
+    text-decoration: underline;
+  }
+
+  .success-state {
+    text-align: center;
+  }
+
+  .success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .success-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
+
+  .success-message {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .success-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .button-primary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    background: var(--gradient-primary);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .unsubscribe-card {
+      padding: 3rem 2rem;
+    }
+
+    .unsubscribe-title {
+      font-size: 1.5rem;
+    }
+
+    .unsubscribe-description {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('unsubscribe-form') as HTMLFormElement;
+  const emailInput = document.getElementById('email') as HTMLInputElement;
+  const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
+  const buttonText = submitButton?.querySelector('.button-text') as HTMLElement;
+  const buttonLoading = submitButton?.querySelector('.button-loading') as HTMLElement;
+  const messageDiv = document.getElementById('form-message') as HTMLElement;
+  const successState = document.getElementById('success-state') as HTMLElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      showMessage('Please enter a valid email address', 'error');
+      return;
+    }
+
+    // Show loading state
+    submitButton.disabled = true;
+    buttonText.style.display = 'none';
+    buttonLoading.style.display = 'inline-flex';
+    messageDiv.style.display = 'none';
+
+    try {
+      const response = await fetch('/api/newsletter/unsubscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Hide form, show success state
+        form.style.display = 'none';
+        successState.style.display = 'block';
+      } else {
+        showMessage(data.message || 'Something went wrong. Please try again.', 'error');
+      }
+    } catch (error) {
+      console.error('Unsubscribe error:', error);
+      showMessage('Network error. Please try again later.', 'error');
+    } finally {
+      // Reset button state
+      submitButton.disabled = false;
+      buttonText.style.display = 'inline';
+      buttonLoading.style.display = 'none';
+    }
+  });
+
+  function showMessage(message: string, type: 'success' | 'error') {
+    messageDiv.textContent = message;
+    messageDiv.className = `form-message ${type}`;
+    messageDiv.style.display = 'block';
+  }
+</script>

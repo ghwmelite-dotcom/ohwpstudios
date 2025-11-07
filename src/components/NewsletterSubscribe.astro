@@ -1,0 +1,280 @@
+---
+interface Props {
+  variant?: 'footer' | 'inline' | 'popup';
+  title?: string;
+  description?: string;
+}
+
+const {
+  variant = 'footer',
+  title = 'Subscribe to Our Newsletter',
+  description = 'Get the latest updates, articles, and resources delivered to your inbox.'
+} = Astro.props;
+---
+
+<div class={`newsletter-subscribe newsletter-${variant}`}>
+  <div class="newsletter-content">
+    <h3 class="newsletter-title">{title}</h3>
+    <p class="newsletter-description">{description}</p>
+  </div>
+
+  <form class="newsletter-form" id="newsletter-form">
+    <div class="form-group">
+      <input
+        type="email"
+        id="newsletter-email"
+        name="email"
+        placeholder="Enter your email address"
+        required
+        class="newsletter-input"
+      />
+      <button type="submit" class="newsletter-button">
+        <span class="button-text">Subscribe</span>
+        <span class="button-loading" style="display: none;">
+          <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="form-message" id="newsletter-message"></div>
+    <p class="newsletter-privacy">
+      We respect your privacy. Unsubscribe at any time.
+    </p>
+  </form>
+</div>
+
+<style>
+  .newsletter-subscribe {
+    width: 100%;
+  }
+
+  .newsletter-content {
+    margin-bottom: 1.5rem;
+  }
+
+  .newsletter-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .newsletter-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .newsletter-button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .newsletter-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  }
+
+  .newsletter-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .button-loading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .form-message {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    display: none;
+  }
+
+  .form-message.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  .form-message.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+
+  .newsletter-privacy {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  /* Footer variant styles */
+  .newsletter-footer {
+    max-width: 500px;
+  }
+
+  .newsletter-footer .newsletter-title {
+    font-size: 1.25rem;
+  }
+
+  .newsletter-footer .newsletter-description {
+    font-size: 0.9rem;
+  }
+
+  /* Inline variant styles */
+  .newsletter-inline {
+    padding: 3rem;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    text-align: center;
+  }
+
+  .newsletter-inline .newsletter-title {
+    font-size: 2rem;
+  }
+
+  .newsletter-inline .form-group {
+    max-width: 500px;
+    margin: 0 auto 1rem;
+  }
+
+  /* Popup variant styles */
+  .newsletter-popup {
+    max-width: 450px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column;
+    }
+
+    .newsletter-button {
+      width: 100%;
+    }
+
+    .newsletter-inline {
+      padding: 2rem 1.5rem;
+    }
+
+    .newsletter-inline .newsletter-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
+  const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
+  const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const buttonText = submitButton?.querySelector('.button-text') as HTMLElement;
+  const buttonLoading = submitButton?.querySelector('.button-loading') as HTMLElement;
+  const messageDiv = document.getElementById('newsletter-message') as HTMLElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      showMessage('Please enter a valid email address', 'error');
+      return;
+    }
+
+    // Show loading state
+    submitButton.disabled = true;
+    buttonText.style.display = 'none';
+    buttonLoading.style.display = 'inline-flex';
+    messageDiv.style.display = 'none';
+
+    try {
+      const response = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          source: form.closest('[class*="newsletter-"]')?.className.includes('footer') ? 'footer' :
+                  form.closest('[class*="newsletter-"]')?.className.includes('popup') ? 'popup' : 'inline'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showMessage(data.message || 'Thanks for subscribing! Please check your email to confirm.', 'success');
+        form.reset();
+      } else {
+        showMessage(data.message || 'Something went wrong. Please try again.', 'error');
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      showMessage('Network error. Please try again later.', 'error');
+    } finally {
+      // Reset button state
+      submitButton.disabled = false;
+      buttonText.style.display = 'inline';
+      buttonLoading.style.display = 'none';
+    }
+  });
+
+  function showMessage(message: string, type: 'success' | 'error') {
+    messageDiv.textContent = message;
+    messageDiv.className = `form-message ${type}`;
+    messageDiv.style.display = 'block';
+  }
+</script>

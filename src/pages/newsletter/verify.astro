@@ -1,0 +1,237 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const title = 'Verify Newsletter Subscription';
+const description = 'Confirm your newsletter subscription';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main class="verify-page">
+    <div class="container">
+      <div class="verify-card" id="verify-card">
+        <div class="verify-icon" id="verify-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </div>
+        <h1 class="verify-title" id="verify-title">Verifying...</h1>
+        <p class="verify-message" id="verify-message">
+          Please wait while we confirm your subscription.
+        </p>
+        <div class="verify-actions" id="verify-actions" style="display: none;">
+          <a href="/" class="button-primary">Go to Homepage</a>
+          <a href="/blog" class="button-secondary">Read Our Blog</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .verify-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: var(--color-background);
+  }
+
+  .container {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .verify-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .verify-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .verify-icon svg {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .verify-icon.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+
+  .verify-icon.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  .verify-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
+
+  .verify-message {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .verify-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .button-primary,
+  .button-secondary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .button-primary {
+    color: white;
+    background: var(--gradient-primary);
+  }
+
+  .button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  }
+
+  .button-secondary {
+    color: var(--color-text);
+    background: transparent;
+    border: 2px solid var(--color-border);
+  }
+
+  .button-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .verify-card {
+      padding: 3rem 2rem;
+    }
+
+    .verify-title {
+      font-size: 1.5rem;
+    }
+
+    .verify-actions {
+      flex-direction: column;
+    }
+
+    .button-primary,
+    .button-secondary {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  async function verifySubscription() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    const iconEl = document.getElementById('verify-icon');
+    const titleEl = document.getElementById('verify-title');
+    const messageEl = document.getElementById('verify-message');
+    const actionsEl = document.getElementById('verify-actions');
+
+    if (!token) {
+      showError('Verification token is missing', 'Invalid Link');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/newsletter/verify?token=${token}`);
+      const data = await response.json();
+
+      if (data.success) {
+        showSuccess(data.message, 'Verified!');
+      } else {
+        showError(data.message, 'Verification Failed');
+      }
+    } catch (error) {
+      console.error('Verification error:', error);
+      showError('Unable to verify your subscription. Please try again later.', 'Error');
+    }
+  }
+
+  function showSuccess(message: string, title: string) {
+    const iconEl = document.getElementById('verify-icon');
+    const titleEl = document.getElementById('verify-title');
+    const messageEl = document.getElementById('verify-message');
+    const actionsEl = document.getElementById('verify-actions');
+
+    if (iconEl) {
+      iconEl.className = 'verify-icon success';
+      iconEl.innerHTML = `
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      `;
+    }
+
+    if (titleEl) titleEl.textContent = title;
+    if (messageEl) messageEl.textContent = message;
+    if (actionsEl) actionsEl.style.display = 'flex';
+  }
+
+  function showError(message: string, title: string) {
+    const iconEl = document.getElementById('verify-icon');
+    const titleEl = document.getElementById('verify-title');
+    const messageEl = document.getElementById('verify-message');
+    const actionsEl = document.getElementById('verify-actions');
+
+    if (iconEl) {
+      iconEl.className = 'verify-icon error';
+      iconEl.innerHTML = `
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="15" y1="9" x2="9" y2="15"></line>
+          <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+      `;
+    }
+
+    if (titleEl) titleEl.textContent = title;
+    if (messageEl) messageEl.textContent = message;
+    if (actionsEl) actionsEl.style.display = 'flex';
+  }
+
+  // Run verification on page load
+  document.addEventListener('DOMContentLoaded', verifySubscription);
+</script>
