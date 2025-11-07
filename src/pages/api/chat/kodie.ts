@@ -126,6 +126,132 @@ async function getKodieResponse(message: string, history: any[]): Promise<KodieR
     };
   }
 
+  // WordPress technical questions
+  if (lowerMessage.includes('plugin') || lowerMessage.includes('plugins')) {
+    if (lowerMessage.includes('recommend') || lowerMessage.includes('best') || lowerMessage.includes('which')) {
+      return {
+        message: "Great question about WordPress plugins! Here are my top recommendations:\n\n🔌 **Essential Plugins:**\n• **Security**: Wordfence or Sucuri Security\n• **Performance**: WP Rocket or W3 Total Cache\n• **SEO**: Yoast SEO or Rank Math\n• **Backup**: UpdraftPlus or BackWPup\n• **Forms**: Contact Form 7 or WPForms\n• **Page Builder**: Elementor or Beaver Builder\n\nWhat specific functionality are you looking for? I can give you more targeted recommendations!",
+        escalate: false,
+        confidence: 0.95,
+        suggestedActions: ['Security plugins', 'Performance optimization', 'SEO plugins', 'Talk to specialist']
+      };
+    }
+    if (lowerMessage.includes('conflict') || lowerMessage.includes('error') || lowerMessage.includes('not working')) {
+      return {
+        message: "Plugin conflicts can be tricky! Here's how to troubleshoot:\n\n🔍 **Step-by-step:**\n1. Deactivate all plugins\n2. Reactivate them one by one\n3. Test after each activation\n4. Identify which plugin causes the issue\n5. Check for updates or alternatives\n\n**Pro tip**: Use a staging site to test plugin combinations safely!\n\nNeed help with a specific plugin conflict? I can guide you through it or connect you with our WordPress specialist.",
+        escalate: false,
+        confidence: 0.9,
+        suggestedActions: ['Troubleshooting guide', 'Talk to specialist', 'Emergency support']
+      };
+    }
+    return {
+      message: "I can help with WordPress plugins! Common topics I cover:\n\n• Plugin recommendations for specific needs\n• Troubleshooting plugin conflicts\n• Performance optimization\n• Security best practices\n• Plugin alternatives\n\nWhat specific aspect of plugins would you like to know about?",
+      escalate: false,
+      confidence: 0.85
+    };
+  }
+
+  // SEO questions
+  if (lowerMessage.includes('seo') || lowerMessage.includes('search engine') || lowerMessage.includes('ranking') || lowerMessage.includes('google')) {
+    if (lowerMessage.includes('improve') || lowerMessage.includes('increase') || lowerMessage.includes('better')) {
+      return {
+        message: "Let me share proven SEO strategies! 📈\n\n**Technical SEO:**\n• Optimize page speed (aim for <3s load time)\n• Ensure mobile responsiveness\n• Create XML sitemap\n• Fix broken links\n• Implement schema markup\n\n**On-Page SEO:**\n• Target relevant keywords\n• Write compelling meta descriptions\n• Use header tags (H1, H2, H3) properly\n• Optimize images (alt text, compression)\n• Internal linking strategy\n\n**Content Strategy:**\n• Create high-quality, original content\n• Answer user search intent\n• Regular content updates\n• Long-form content (1500+ words)\n\nWant to dive deeper into any of these? We also offer comprehensive SEO audits!",
+        escalate: false,
+        confidence: 0.95,
+        suggestedActions: ['SEO audit', 'Technical SEO help', 'Content strategy', 'Get quote']
+      };
+    }
+    if (lowerMessage.includes('keyword')) {
+      return {
+        message: "Keyword research is crucial for SEO success! Here's my approach:\n\n🔍 **Keyword Research Process:**\n1. **Brainstorm** - List topics relevant to your business\n2. **Use Tools** - Google Keyword Planner, Ahrefs, SEMrush\n3. **Analyze** - Look for high volume, low competition\n4. **Check Intent** - Informational, navigational, or transactional\n5. **Long-tail** - Target specific phrases (less competition)\n\n**Pro Tips:**\n• Focus on search intent, not just volume\n• Analyze competitor keywords\n• Group keywords by topic\n• Target featured snippets\n\nWant help with keyword strategy for your site?",
+        escalate: false,
+        confidence: 0.92
+      };
+    }
+    return {
+      message: "I'm well-versed in SEO! I can help with:\n\n🎯 **SEO Topics:**\n• Technical SEO optimization\n• Keyword research & strategy\n• On-page SEO best practices\n• Link building strategies\n• Local SEO\n• Core Web Vitals\n• Content optimization\n• SEO audits\n\nWhat SEO challenge are you facing?",
+      escalate: false,
+      confidence: 0.88,
+      suggestedActions: ['Technical SEO', 'Keyword research', 'SEO audit', 'Get expert help']
+    };
+  }
+
+  // Web development questions
+  if (lowerMessage.includes('javascript') || lowerMessage.includes('react') || lowerMessage.includes('vue') ||
+      lowerMessage.includes('angular') || lowerMessage.includes('frontend') || lowerMessage.includes('backend') ||
+      lowerMessage.includes('node') || lowerMessage.includes('api') || lowerMessage.includes('database')) {
+    if (lowerMessage.includes('which') || lowerMessage.includes('best') || lowerMessage.includes('should i use')) {
+      return {
+        message: "Great question about technology choices! Here's my take:\n\n**Frontend Frameworks:**\n• **React** - Most popular, great ecosystem, flexible\n• **Vue.js** - Easy to learn, progressive framework\n• **Angular** - Enterprise-grade, full-featured\n• **Next.js** - React with SSR, excellent performance\n\n**Backend:**\n• **Node.js** - JavaScript everywhere, fast, scalable\n• **Python/Django** - Rapid development, clean syntax\n• **PHP/Laravel** - Mature ecosystem, great for web apps\n\n**Databases:**\n• **PostgreSQL** - Robust relational database\n• **MongoDB** - Flexible NoSQL option\n• **MySQL** - Reliable, widely supported\n\n💡 **My recommendation depends on your project:**\nWhat are you building? I can give more specific advice!",
+        escalate: false,
+        confidence: 0.9,
+        suggestedActions: ['Project consultation', 'Tech stack advice', 'Development services']
+      };
+    }
+    if (lowerMessage.includes('error') || lowerMessage.includes('debug') || lowerMessage.includes('fix')) {
+      return {
+        message: "Debugging can be challenging! Here are my tips:\n\n🐛 **Debugging Strategy:**\n1. **Read the error** - Understanding the message is key\n2. **Check console** - Browser DevTools or server logs\n3. **Isolate the issue** - Comment out code sections\n4. **Use debugger** - Set breakpoints, step through code\n5. **Search solutions** - Stack Overflow, GitHub issues\n6. **Ask for help** - Fresh eyes catch things we miss\n\n**Common issues:**\n• Syntax errors (missing brackets, semicolons)\n• Type mismatches\n• Async/await problems\n• CORS issues\n• Undefined variables\n\nWhat error are you encountering? Share the details and I can help troubleshoot or connect you with a developer!",
+        escalate: false,
+        confidence: 0.85,
+        suggestedActions: ['Describe error', 'Talk to developer', 'Emergency support']
+      };
+    }
+    return {
+      message: "I love talking web development! 💻\n\n**Areas I can help with:**\n• Frontend frameworks (React, Vue, Angular)\n• Backend development (Node.js, Python, PHP)\n• API design & integration\n• Database architecture\n• Performance optimization\n• Security best practices\n• Modern web technologies\n• Architecture decisions\n\nWhat development topic would you like to explore?",
+      escalate: false,
+      confidence: 0.87
+    };
+  }
+
+  // AI/Machine Learning questions
+  if (lowerMessage.includes('ai') || lowerMessage.includes('artificial intelligence') ||
+      lowerMessage.includes('machine learning') || lowerMessage.includes('ml') ||
+      lowerMessage.includes('chatbot') || lowerMessage.includes('automation')) {
+    if (lowerMessage.includes('how') || lowerMessage.includes('what is') || lowerMessage.includes('explain')) {
+      return {
+        message: "AI and machine learning are transforming technology! Let me break it down:\n\n🤖 **AI Basics:**\n• **AI** - Systems that mimic human intelligence\n• **Machine Learning** - AI that learns from data\n• **Deep Learning** - ML using neural networks\n• **NLP** - Understanding human language (like I do!)\n\n**Common AI Applications:**\n• Chatbots & virtual assistants\n• Image recognition\n• Recommendation systems\n• Predictive analytics\n• Process automation\n• Content generation\n\n**AI in Web Development:**\n• Personalized user experiences\n• Smart search functionality\n• Automated testing\n• Content optimization\n• Security threat detection\n\nInterested in implementing AI in your project? We build custom AI solutions!",
+        escalate: false,
+        confidence: 0.92,
+        suggestedActions: ['AI development services', 'Chatbot solutions', 'Automation consulting']
+      };
+    }
+    if (lowerMessage.includes('implement') || lowerMessage.includes('integrate') || lowerMessage.includes('build')) {
+      return {
+        message: "Implementing AI in your project is exciting! Here's what to consider:\n\n**AI Integration Options:**\n\n1️⃣ **API Services** (Fastest)\n• OpenAI GPT models\n• Google Cloud AI\n• AWS AI services\n• Pros: Quick setup, no ML expertise needed\n\n2️⃣ **Pre-trained Models**\n• TensorFlow.js\n• ONNX models\n• Hugging Face transformers\n• Pros: Customizable, works offline\n\n3️⃣ **Custom ML Models** (Most powerful)\n• Train on your data\n• Full control\n• Pros: Tailored to your needs\n\n**Popular Use Cases:**\n• Smart chatbots (like me!)\n• Content recommendations\n• Image/video analysis\n• Sentiment analysis\n• Predictive analytics\n\nWant to discuss AI implementation for your project? Our team can help!",
+        escalate: false,
+        confidence: 0.88,
+        suggestedActions: ['AI consultation', 'Custom AI development', 'Get quote']
+      };
+    }
+    return {
+      message: "I'm passionate about AI! 🤖 Here's what I can discuss:\n\n• AI fundamentals & concepts\n• Machine learning basics\n• Chatbot development (I'm proof it works!)\n• AI integration strategies\n• Popular AI tools & frameworks\n• Practical AI applications\n• Automation opportunities\n• Ethical AI considerations\n\nWhat aspect of AI interests you most?",
+      escalate: false,
+      confidence: 0.85
+    };
+  }
+
+  // Performance optimization
+  if (lowerMessage.includes('performance') || lowerMessage.includes('speed') ||
+      lowerMessage.includes('slow') || lowerMessage.includes('optimize') || lowerMessage.includes('faster')) {
+    return {
+      message: "Website performance is critical! Here's how to optimize:\n\n⚡ **Performance Optimization:**\n\n**Frontend:**\n• Minimize HTTP requests\n• Compress images (WebP format)\n• Use CDN for static assets\n• Implement lazy loading\n• Minify CSS/JavaScript\n• Enable browser caching\n\n**Backend:**\n• Database query optimization\n• Server-side caching (Redis)\n• Use efficient algorithms\n• Optimize API responses\n• Enable GZIP compression\n\n**WordPress Specific:**\n• WP Rocket or W3 Total Cache\n• Image optimization plugins\n• Limit plugins\n• Use quality hosting\n• PHP 8+ for better performance\n\n**Target Metrics:**\n• First Contentful Paint < 1.8s\n• Largest Contentful Paint < 2.5s\n• Total Blocking Time < 200ms\n\nWant a performance audit of your site?",
+      escalate: false,
+      confidence: 0.93,
+      suggestedActions: ['Performance audit', 'Optimization service', 'Speed test']
+    };
+  }
+
+  // Security questions
+  if (lowerMessage.includes('security') || lowerMessage.includes('hack') ||
+      lowerMessage.includes('secure') || lowerMessage.includes('ssl') || lowerMessage.includes('https')) {
+    return {
+      message: "Security is paramount! Here's how to protect your site:\n\n🔒 **Essential Security Measures:**\n\n**WordPress Security:**\n• Use strong, unique passwords\n• Enable 2FA (Two-Factor Authentication)\n• Keep WordPress, themes & plugins updated\n• Install security plugin (Wordfence/Sucuri)\n• Limit login attempts\n• Hide WordPress version\n• Regular backups\n\n**General Web Security:**\n• SSL certificate (HTTPS)\n• WAF (Web Application Firewall)\n• DDoS protection (Cloudflare)\n• Regular security audits\n• Input validation & sanitization\n• SQL injection prevention\n• XSS protection\n\n**Red Flags:**\n⚠️ Suspicious login attempts\n⚠️ Unexpected file changes\n⚠️ Slow site performance\n⚠️ Strange admin users\n\nThink your site is compromised? Let's connect you with our security team immediately!",
+      escalate: false,
+      confidence: 0.91,
+      suggestedActions: ['Security audit', 'Emergency security help', 'SSL setup']
+    };
+  }
+
   // Greeting detection
   if (lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
     return {

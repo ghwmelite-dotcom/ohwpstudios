@@ -841,6 +841,9 @@
   // Get Kodie's AI Response
   async function getKodieResponse(userMessage: string) {
     try {
+      // Keep typing indicator visible
+      const startTime = Date.now();
+
       const response = await fetch('/api/chat/kodie', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -856,10 +859,25 @@
       if (data.success && data.response) {
         const kodieResponse = data.response;
 
+        // Calculate typing delay based on message length (simulate natural typing)
+        const messageLength = kodieResponse.message.length;
+        const baseDelay = 800; // Minimum delay
+        const typingSpeed = 30; // milliseconds per character
+        const calculatedDelay = Math.min(baseDelay + (messageLength * typingSpeed / 10), 3000); // Max 3 seconds
+
+        // Ensure minimum typing time
+        const elapsedTime = Date.now() - startTime;
+        const remainingDelay = Math.max(0, calculatedDelay - elapsedTime);
+
+        // Wait for the remaining delay
+        if (remainingDelay > 0) {
+          await new Promise(resolve => setTimeout(resolve, remainingDelay));
+        }
+
         // Remove typing indicator
         document.querySelector('.typing-indicator')?.closest('.message')?.remove();
 
-        // Add Kodie's message
+        // Add Kodie's message with fade-in
         addMessage(kodieResponse.message, 'operator', 'Kodie');
         conversationHistory.push({ role: 'kodie', message: kodieResponse.message });
 
