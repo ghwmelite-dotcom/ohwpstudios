@@ -1,6 +1,7 @@
 ---
 import { SITE_CONFIG } from '@/config';
 import NewsletterSubscribe from '@/components/NewsletterSubscribe.astro';
+import Logo from '@/components/Logo.astro';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -9,7 +10,9 @@ const currentYear = new Date().getFullYear();
   <div class="container">
     <div class="footer-grid">
       <div class="footer-about">
-        <h3 class="text-gradient" id="footer-site-name">{SITE_CONFIG.name}</h3>
+        <div class="footer-logo-container">
+          <Logo size="md" showText={true} />
+        </div>
         <p id="footer-site-tagline">{SITE_CONFIG.tagline}</p>
         <div class="social-links">
           <a href={SITE_CONFIG.social.twitter} target="_blank" rel="noopener" aria-label="Twitter">
@@ -106,6 +109,10 @@ const currentYear = new Date().getFullYear();
     padding: var(--spacing-xl) 0;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+  }
+
+  .footer-logo-container {
+    margin-bottom: var(--spacing-md);
   }
 
   .footer-about h3 {
