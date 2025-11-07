@@ -1,0 +1,527 @@
+---
+// WORLD-CLASS Social Proof Notification System V2
+// Premium design with stunning animations and effects
+---
+
+<div id="social-proof-container" class="social-proof-container"></div>
+
+<style>
+  .social-proof-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 9999;
+    max-width: 420px;
+    pointer-events: none;
+  }
+
+  .social-proof-notification {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(248, 250, 252, 0.98) 100%);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.1),
+      0 10px 30px rgba(0, 0, 0, 0.08),
+      0 20px 60px rgba(99, 102, 241, 0.12),
+      0 0 100px rgba(236, 72, 153, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    pointer-events: all;
+    cursor: pointer;
+    animation: slideInBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    position: relative;
+    overflow: visible;
+  }
+
+  /* Animated gradient border */
+  .social-proof-notification::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899, #f59e0b);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderRotate 3s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes borderRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Shine effect */
+  .social-proof-notification::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 70%
+    );
+    animation: shine 3s infinite;
+    pointer-events: none;
+  }
+
+  @keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+
+  [data-theme="dark"] .social-proof-notification {
+    background: linear-gradient(135deg,
+      rgba(30, 30, 40, 0.98) 0%,
+      rgba(25, 25, 35, 0.98) 100%);
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.2),
+      0 10px 30px rgba(0, 0, 0, 0.4),
+      0 20px 60px rgba(99, 102, 241, 0.2),
+      0 0 100px rgba(236, 72, 153, 0.15);
+  }
+
+  @keyframes slideInBounce {
+    0% {
+      opacity: 0;
+      transform: translateX(-120%) scale(0.6) rotate(-5deg);
+    }
+    60% {
+      transform: translateX(10px) scale(1.05) rotate(1deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1) rotate(0deg);
+    }
+  }
+
+  .social-proof-notification:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.3),
+      0 15px 40px rgba(0, 0, 0, 0.12),
+      0 30px 80px rgba(99, 102, 241, 0.25),
+      0 0 120px rgba(236, 72, 153, 0.15);
+  }
+
+  [data-theme="dark"] .social-proof-notification:hover {
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.4),
+      0 15px 40px rgba(0, 0, 0, 0.6),
+      0 30px 80px rgba(99, 102, 241, 0.35),
+      0 0 120px rgba(236, 72, 153, 0.25);
+  }
+
+  .social-proof-notification.hide {
+    animation: slideOutBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1) forwards;
+  }
+
+  @keyframes slideOutBounce {
+    0% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-150%) scale(0.6);
+    }
+  }
+
+  /* Live Badge */
+  .live-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.25rem 0.625rem;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow:
+      0 4px 12px rgba(239, 68, 68, 0.4),
+      0 0 20px rgba(239, 68, 68, 0.3);
+    animation: pulse 2s infinite;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .live-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Avatar Container */
+  .social-proof-avatar-container {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .social-proof-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    background-size: 200% 200%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 1.25rem;
+    position: relative;
+    box-shadow:
+      0 0 0 3px rgba(255, 255, 255, 0.95),
+      0 8px 24px rgba(99, 102, 241, 0.5),
+      0 0 60px rgba(236, 72, 153, 0.3);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: gradientShift 3s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  [data-theme="dark"] .social-proof-avatar {
+    box-shadow:
+      0 0 0 3px rgba(30, 30, 40, 0.95),
+      0 8px 24px rgba(99, 102, 241, 0.6),
+      0 0 60px rgba(236, 72, 153, 0.4);
+  }
+
+  .social-proof-notification:hover .social-proof-avatar {
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow:
+      0 0 0 4px rgba(255, 255, 255, 1),
+      0 12px 32px rgba(99, 102, 241, 0.6),
+      0 0 80px rgba(236, 72, 153, 0.5);
+  }
+
+  /* Verified Badge */
+  .verified-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: 3px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 2px 8px rgba(16, 185, 129, 0.5),
+      0 0 20px rgba(16, 185, 129, 0.3);
+    animation: pulse 2s infinite, popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s backwards;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+
+  [data-theme="dark"] .verified-badge {
+    border-color: rgba(30, 30, 40, 0.95);
+  }
+
+  .verified-badge svg {
+    width: 10px;
+    height: 10px;
+    fill: white;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.9;
+    }
+  }
+
+  /* Content */
+  .social-proof-content {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .social-proof-name {
+    font-weight: 800;
+    font-size: 1.0625rem;
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text) 100%);
+    -webkit-background-clip: text;
+    margin-bottom: 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .verified-icon {
+    width: 16px;
+    height: 16px;
+    fill: #3b82f6;
+  }
+
+  .social-proof-action {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .social-proof-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 12px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #6366f1;
+  }
+
+  [data-theme="dark"] .social-proof-time {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .social-proof-time svg {
+    animation: rotate 3s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Icon */
+  .social-proof-icon {
+    flex-shrink: 0;
+    font-size: 2rem;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    animation: float 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-8px) rotate(-3deg);
+    }
+    50% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-4px) rotate(3deg);
+    }
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .social-proof-container {
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      max-width: calc(100% - 2rem);
+    }
+
+    .social-proof-notification {
+      padding: 1.25rem;
+      gap: 1rem;
+    }
+
+    .social-proof-avatar {
+      width: 48px;
+      height: 48px;
+      font-size: 1.125rem;
+      border-radius: 14px;
+    }
+
+    .social-proof-icon {
+      font-size: 1.5rem;
+    }
+
+    .live-badge {
+      font-size: 0.5625rem;
+      padding: 0.2rem 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // World-Class Social Proof Notification System
+  class WorldClassSocialProof {
+    private container: HTMLElement | null;
+    private notifications: Array<{
+      name: string;
+      location: string;
+      action: string;
+      timeAgo: string;
+      initials: string;
+      icon: string;
+    }>;
+    private displayedNotifications: Set<number>;
+    private notificationInterval: number;
+
+    constructor() {
+      this.container = document.getElementById('social-proof-container');
+      this.displayedNotifications = new Set();
+      this.notificationInterval = 8000;
+
+      this.notifications = [
+        { name: 'Kwame Mensah', location: 'Accra', action: 'just requested a quote for Website Redesign', timeAgo: '2 min ago', initials: 'KM', icon: '🚀' },
+        { name: 'Ama Serwaa', location: 'Kumasi', action: 'signed up for SEO consultation', timeAgo: '5 min ago', initials: 'AS', icon: '📊' },
+        { name: 'Kofi Adjei', location: 'Takoradi', action: 'downloaded the Brand Identity Guide', timeAgo: '8 min ago', initials: 'KA', icon: '📥' },
+        { name: 'Abena Owusu', location: 'Tema', action: 'just started a new web project', timeAgo: '12 min ago', initials: 'AO', icon: '💻' },
+        { name: 'Yaw Boateng', location: 'Cape Coast', action: 'booked a discovery call', timeAgo: '15 min ago', initials: 'YB', icon: '📞' },
+        { name: 'Akua Asante', location: 'Ho', action: 'requested cloud hosting setup', timeAgo: '18 min ago', initials: 'AA', icon: '☁️' },
+        { name: 'Kwabena Osei', location: 'Sunyani', action: 'just launched their new website', timeAgo: '22 min ago', initials: 'KO', icon: '🎉' },
+        { name: 'Efua Amoah', location: 'Tamale', action: 'requested a performance audit', timeAgo: '25 min ago', initials: 'EA', icon: '⚡' },
+        { name: 'Nana Appiah', location: 'Koforidua', action: 'signed up for premium support', timeAgo: '30 min ago', initials: 'NA', icon: '🛡️' },
+        { name: 'Adjoa Darko', location: 'Bolgatanga', action: 'downloaded the pricing guide', timeAgo: '35 min ago', initials: 'AD', icon: '💰' },
+        { name: 'Kojo Acheampong', location: 'Wa', action: 'requested branding package quote', timeAgo: '40 min ago', initials: 'KA', icon: '🎨' },
+        { name: 'Adwoa Prempeh', location: 'Sekondi', action: 'just started SEO campaign', timeAgo: '45 min ago', initials: 'AP', icon: '📈' },
+      ];
+
+      this.init();
+    }
+
+    init() {
+      if (!this.container) return;
+
+      setTimeout(() => {
+        this.showRandomNotification();
+      }, 3000);
+
+      setInterval(() => {
+        this.showRandomNotification();
+      }, this.notificationInterval);
+    }
+
+    showRandomNotification() {
+      if (!this.container) return;
+
+      let randomIndex: number;
+      let attempts = 0;
+
+      do {
+        randomIndex = Math.floor(Math.random() * this.notifications.length);
+        attempts++;
+      } while (this.displayedNotifications.has(randomIndex) && attempts < 50);
+
+      this.displayedNotifications.add(randomIndex);
+
+      if (this.displayedNotifications.size >= this.notifications.length) {
+        this.displayedNotifications.clear();
+      }
+
+      const notification = this.notifications[randomIndex];
+      this.displayNotification(notification);
+    }
+
+    displayNotification(data: typeof this.notifications[0]) {
+      if (!this.container) return;
+
+      const el = document.createElement('div');
+      el.className = 'social-proof-notification';
+      el.innerHTML = `
+        <div class="live-badge">
+          LIVE
+        </div>
+        <div class="social-proof-avatar-container">
+          <div class="social-proof-avatar">
+            ${data.initials}
+          </div>
+          <div class="verified-badge">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="social-proof-content">
+          <div class="social-proof-name">
+            ${data.name}
+            <svg class="verified-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="social-proof-action">${data.action}</div>
+          <div class="social-proof-time">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            ${data.timeAgo}
+          </div>
+        </div>
+        <div class="social-proof-icon">${data.icon}</div>
+      `;
+
+      this.container.appendChild(el);
+
+      setTimeout(() => {
+        el.classList.add('hide');
+        setTimeout(() => {
+          el.remove();
+        }, 400);
+      }, 6000);
+
+      el.addEventListener('click', () => {
+        el.classList.add('hide');
+        setTimeout(() => {
+          el.remove();
+        }, 400);
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new WorldClassSocialProof());
+  } else {
+    new WorldClassSocialProof();
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    new WorldClassSocialProof();
+  });
+</script>
