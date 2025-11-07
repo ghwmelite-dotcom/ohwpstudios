@@ -71,7 +71,7 @@ const getIcon = (iconName: string) => {
 <section id="services" class="section services">
   <div class="container">
     <div class="section-header" data-animate>
-      <h2>What We Do Best</h2>
+      <h2 data-text-reveal class="animated-header">What We Do Best</h2>
       <p class="section-description">
         Comprehensive digital solutions tailored to your business needs
       </p>
@@ -128,6 +128,25 @@ const getIcon = (iconName: string) => {
 
   .section-header h2 {
     margin-bottom: var(--spacing-md);
+    position: relative;
+  }
+
+  .animated-header {
+    animation: headerFadeIn 1s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes headerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+      letter-spacing: 0.1em;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      letter-spacing: normal;
+    }
   }
 
   .section-description {

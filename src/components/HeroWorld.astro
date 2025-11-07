@@ -363,6 +363,11 @@ const { content } = Astro.props;
     line-height: 1.1;
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
+    color: var(--color-text);
+  }
+
+  [data-theme="dark"] .hero-title {
+    color: var(--color-text);
   }
 
   .hero-subtitle {
@@ -370,6 +375,11 @@ const { content } = Astro.props;
     line-height: 1.7;
     color: var(--color-text-muted);
     margin-bottom: 2.5rem;
+  }
+
+  [data-theme="dark"] .hero-subtitle {
+    color: var(--color-text-muted);
+    opacity: 0.9;
   }
 
   .hero-ctas {

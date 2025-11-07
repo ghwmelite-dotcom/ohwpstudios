@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(npm install:*)",
+      "Bash(npx wrangler:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout:*)",
+      "Bash(exit 0)",
+      "Bash(npm run deploy:*)",
+      "Bash(git mv:*)",
+      "Bash(git checkout:*)",
+      "Bash(if [ -f claude.md ])",
+      "Bash(then mkdir -p dontlookinhere)",
+      "Bash(else echo \"claude.md not found\")",
+      "Bash(fi)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

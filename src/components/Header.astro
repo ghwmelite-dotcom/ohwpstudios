@@ -188,6 +188,10 @@ import { SITE_CONFIG } from '@/config';
     position: relative;
   }
 
+  [data-theme="dark"] .nav-links a {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
   .nav-links a::after {
     content: '';
     position: absolute;
@@ -201,6 +205,10 @@ import { SITE_CONFIG } from '@/config';
 
   .nav-links a:hover {
     color: var(--color-primary);
+  }
+
+  [data-theme="dark"] .nav-links a:hover {
+    color: #818cf8;
   }
 
   .nav-links a:hover::after {

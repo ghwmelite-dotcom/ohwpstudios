@@ -45,7 +45,7 @@ try {
 <section id="portfolio" class="section portfolio">
   <div class="container">
     <div class="section-header" data-animate>
-      <h2>Our Work Speaks Volumes</h2>
+      <h2 data-text-reveal class="animated-header">Our Work Speaks Volumes</h2>
       <p class="section-description">
         Explore our portfolio of successful projects that transformed businesses
       </p>
@@ -92,6 +92,40 @@ try {
 <style>
   .portfolio {
     background: var(--color-bg);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-3xl);
+  }
+
+  .section-header h2 {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+  }
+
+  .section-description {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .animated-header {
+    animation: headerFadeIn 1s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes headerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+      letter-spacing: 0.1em;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      letter-spacing: normal;
+    }
   }
 
   .portfolio-grid {

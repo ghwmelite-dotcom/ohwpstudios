@@ -6,7 +6,7 @@ import { SITE_CONFIG } from '@/config';
   <div class="container">
     <div class="contact-grid">
       <div class="contact-info" data-animate>
-        <h2>Let's Build Something Amazing</h2>
+        <h2 data-text-reveal class="animated-header">Let's Build Something Amazing</h2>
         <p class="lead">
           Ready to transform your digital presence? Get in touch and let's discuss how we can help your business thrive.
         </p>
@@ -148,6 +148,25 @@ import { SITE_CONFIG } from '@/config';
   .contact-info h2 {
     font-size: clamp(2rem, 4vw, 3rem);
     margin-bottom: var(--spacing-md);
+    position: relative;
+  }
+
+  .animated-header {
+    animation: headerFadeIn 1s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes headerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+      letter-spacing: 0.1em;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      letter-spacing: normal;
+    }
   }
 
   .lead {
