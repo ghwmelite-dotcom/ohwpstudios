@@ -1,0 +1,1631 @@
+---
+// Advanced Multi-Step Contact Form with Conditional Fields
+---
+
+<section class="contact-form-section">
+  <div class="container">
+    <div class="form-header">
+      <h2 class="form-title">Let's Start Your Project</h2>
+      <p class="form-subtitle">Tell us about your needs and we'll get back to you within 24 hours</p>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+      <div class="progress-steps">
+        <div class="progress-step active" data-step="1">
+          <div class="step-circle">
+            <span class="step-number">1</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-label">Contact Info</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="2">
+          <div class="step-circle">
+            <span class="step-number">2</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-label">Project Details</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="3">
+          <div class="step-circle">
+            <span class="step-number">3</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-label">Additional Info</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="4">
+          <div class="step-circle">
+            <span class="step-number">4</span>
+            <svg class="step-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="step-label">Review & Submit</span>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 25%"></div>
+      </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-card">
+      <form id="advanced-contact-form" class="multi-step-form">
+
+        <!-- Step 1: Contact Information -->
+        <div class="form-step active" data-step="1">
+          <h3 class="step-title">Contact Information</h3>
+          <p class="step-description">Let's start with your basic information</p>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="full_name" class="form-label">
+                Full Name <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                class="form-input"
+                placeholder="John Doe"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">
+                Email Address <span class="required">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="john@example.com"
+                required
+              />
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="phone" class="form-label">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="form-input"
+                placeholder="+233 XX XXX XXXX"
+              />
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="company" class="form-label">
+                Company Name
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                class="form-input"
+                placeholder="Your Company Ltd."
+              />
+              <span class="error-message"></span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-next" data-next="2">
+              Continue
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Project Details -->
+        <div class="form-step" data-step="2">
+          <h3 class="step-title">Project Details</h3>
+          <p class="step-description">Tell us about what you need</p>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="service_type" class="form-label">
+                Service Type <span class="required">*</span>
+              </label>
+              <select
+                id="service_type"
+                name="service_type"
+                class="form-select"
+                required
+              >
+                <option value="">Select a service...</option>
+                <option value="web-development">Web Development</option>
+                <option value="ui-ux-design">UI/UX Design</option>
+                <option value="branding">Branding & Identity</option>
+                <option value="seo-marketing">SEO & Marketing</option>
+                <option value="cloud-solutions">Cloud Solutions</option>
+                <option value="premium-support">Premium Support</option>
+                <option value="other">Other</option>
+              </select>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="budget_range" class="form-label">
+                Budget Range
+              </label>
+              <select
+                id="budget_range"
+                name="budget_range"
+                class="form-select"
+              >
+                <option value="">Select budget range...</option>
+                <option value="under-5k">Under GH₵5,000 ($415)</option>
+                <option value="5k-10k">GH₵5,000 - GH₵10,000 ($415 - $830)</option>
+                <option value="10k-20k">GH₵10,000 - GH₵20,000 ($830 - $1,660)</option>
+                <option value="20k-50k">GH₵20,000 - GH₵50,000 ($1,660 - $4,150)</option>
+                <option value="over-50k">Over GH₵50,000 ($4,150+)</option>
+              </select>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="project_timeline" class="form-label">
+                Project Timeline
+              </label>
+              <select
+                id="project_timeline"
+                name="project_timeline"
+                class="form-select"
+              >
+                <option value="">Select timeline...</option>
+                <option value="urgent">Urgent (1-2 weeks)</option>
+                <option value="standard">Standard (3-4 weeks)</option>
+                <option value="flexible">Flexible (1-2 months)</option>
+                <option value="long-term">Long-term (3+ months)</option>
+              </select>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="project_description" class="form-label">
+                Project Description <span class="required">*</span>
+              </label>
+              <textarea
+                id="project_description"
+                name="project_description"
+                class="form-textarea"
+                rows="5"
+                placeholder="Please describe your project requirements, goals, and any specific features you need..."
+                required
+              ></textarea>
+              <span class="error-message"></span>
+            </div>
+
+            <!-- Conditional Fields for Web Development -->
+            <div class="conditional-fields" data-service="web-development" style="display: none;">
+              <div class="form-group full-width">
+                <label class="form-label">Website Type</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="website_type" value="corporate" />
+                    <span>Corporate Website</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="website_type" value="ecommerce" />
+                    <span>E-commerce</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="website_type" value="portfolio" />
+                    <span>Portfolio</span>
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" name="website_type" value="blog" />
+                    <span>Blog/Magazine</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conditional Fields for SEO & Marketing -->
+            <div class="conditional-fields" data-service="seo-marketing" style="display: none;">
+              <div class="form-group full-width">
+                <label for="current_website" class="form-label">
+                  Current Website URL
+                </label>
+                <input
+                  type="url"
+                  id="current_website"
+                  name="current_website"
+                  class="form-input"
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" data-back="1">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Back
+            </button>
+            <button type="button" class="btn-next" data-next="3">
+              Continue
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Additional Information -->
+        <div class="form-step" data-step="3">
+          <h3 class="step-title">Additional Information</h3>
+          <p class="step-description">Help us understand your needs better</p>
+
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="how_found" class="form-label">
+                How did you hear about us?
+              </label>
+              <select
+                id="how_found"
+                name="how_found"
+                class="form-select"
+              >
+                <option value="">Select an option...</option>
+                <option value="google">Google Search</option>
+                <option value="social-media">Social Media</option>
+                <option value="referral">Referral</option>
+                <option value="advertising">Online Advertising</option>
+                <option value="event">Event/Conference</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="attachments" class="form-label">
+                Attachments (Optional)
+              </label>
+              <div class="file-upload-area" id="file-upload-area">
+                <input
+                  type="file"
+                  id="attachments"
+                  name="attachments"
+                  class="file-input"
+                  multiple
+                  accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                />
+                <div class="file-upload-content">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <p class="file-upload-text">Click to upload or drag and drop</p>
+                  <p class="file-upload-hint">PDF, DOC, TXT, JPG, PNG (Max 10MB)</p>
+                </div>
+                <div class="file-list" id="file-list"></div>
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="checkbox-label consent-checkbox">
+                <input type="checkbox" name="consent" id="consent" required />
+                <span>I agree to receive communications about my inquiry and accept the <a href="/privacy" target="_blank">Privacy Policy</a></span>
+              </label>
+              <span class="error-message"></span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" data-back="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Back
+            </button>
+            <button type="button" class="btn-next" data-next="4">
+              Review
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Submit -->
+        <div class="form-step" data-step="4">
+          <h3 class="step-title">Review Your Information</h3>
+          <p class="step-description">Please review your details before submitting</p>
+
+          <div class="review-container" id="review-container">
+            <!-- Dynamically populated -->
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-back" data-back="3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Back
+            </button>
+            <button type="submit" class="btn-submit">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Submit Request
+            </button>
+          </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="form-step success-step" data-step="success" style="display: none;">
+          <div class="success-animation">
+            <div class="success-circle">
+              <svg class="success-checkmark" viewBox="0 0 52 52">
+                <circle class="success-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="success-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="success-title">Thank You!</h3>
+          <p class="success-message">
+            Your inquiry has been submitted successfully. We'll review your request and get back to you within 24 hours.
+          </p>
+          <p class="success-submessage">
+            Check your email for a confirmation message with next steps.
+          </p>
+          <button type="button" class="btn-new-form" onclick="window.location.reload()">
+            Submit Another Request
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Loading Overlay -->
+      <div class="form-loading" id="form-loading" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Submitting your request...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-form-section {
+    padding: 6rem 0;
+    background: linear-gradient(180deg,
+      var(--color-background) 0%,
+      rgba(99, 102, 241, 0.03) 50%,
+      var(--color-background) 100%
+    );
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .form-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+  }
+
+  .form-subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Progress Indicator */
+  .progress-container {
+    margin-bottom: 3rem;
+  }
+
+  .progress-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 3px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .step-number {
+    display: block;
+  }
+
+  .step-check {
+    display: none;
+    width: 28px;
+    height: 28px;
+    color: white;
+  }
+
+  .progress-step.active .step-circle {
+    background: var(--gradient-primary);
+    border-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    animation: pulse-step 2s infinite;
+  }
+
+  .progress-step.completed .step-circle {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: white;
+  }
+
+  .progress-step.completed .step-number {
+    display: none;
+  }
+
+  .progress-step.completed .step-check {
+    display: block;
+  }
+
+  @keyframes pulse-step {
+    0%, 100% {
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    }
+    50% {
+      box-shadow: 0 4px 24px rgba(99, 102, 241, 0.6);
+    }
+  }
+
+  .step-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 100px;
+  }
+
+  .progress-step.active .step-label {
+    color: var(--color-primary);
+  }
+
+  .progress-line {
+    flex: 1;
+    height: 3px;
+    background: var(--color-border);
+    position: relative;
+    top: -20px;
+  }
+
+  .progress-line.completed {
+    background: var(--color-success);
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    transition: width 0.4s ease;
+    border-radius: 3px;
+  }
+
+  /* Form Card */
+  .form-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .multi-step-form {
+    position: relative;
+  }
+
+  .form-step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .form-step.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .step-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-description {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  /* Form Elements */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9375rem;
+  }
+
+  .required {
+    color: var(--color-danger);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    transition: all 0.3s ease;
+    font-family: var(--font-sans);
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .form-input.error,
+  .form-select.error,
+  .form-textarea.error {
+    border-color: var(--color-danger);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .error-message {
+    font-size: 0.875rem;
+    color: var(--color-danger);
+    display: none;
+  }
+
+  .error-message.show {
+    display: block;
+  }
+
+  /* Checkbox Group */
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .checkbox-label:hover {
+    border-color: var(--color-primary);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .consent-checkbox {
+    padding: 1rem;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  /* File Upload */
+  .file-upload-area {
+    border: 2px dashed var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .file-upload-area:hover {
+    border-color: var(--color-primary);
+    background: rgba(99, 102, 241, 0.02);
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  .file-upload-content svg {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+
+  .file-upload-text {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .file-upload-hint {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  .file-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    text-align: left;
+  }
+
+  .file-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .file-remove {
+    background: none;
+    border: none;
+    color: var(--color-danger);
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 1.25rem;
+  }
+
+  /* Conditional Fields */
+  .conditional-fields {
+    grid-column: 1 / -1;
+    padding: 1.5rem;
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: 12px;
+    border: 1px dashed var(--color-primary);
+  }
+
+  /* Form Actions */
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-border);
+  }
+
+  .btn-back,
+  .btn-next,
+  .btn-submit {
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+  }
+
+  .btn-back {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+  }
+
+  .btn-back:hover {
+    background: var(--color-background);
+  }
+
+  .btn-next,
+  .btn-submit {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-next:hover,
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+  }
+
+  /* Review Container */
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .review-section {
+    padding: 1.5rem;
+    background: var(--color-background);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .review-section-title {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .review-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .review-item:last-child {
+    border-bottom: none;
+  }
+
+  .review-label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .review-value {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  /* Success Step */
+  .success-step {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .success-animation {
+    margin-bottom: 2rem;
+  }
+
+  .success-circle {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .success-checkmark {
+    width: 100%;
+    height: 100%;
+  }
+
+  .success-checkmark-circle {
+    stroke: var(--color-success);
+    stroke-width: 2;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .success-checkmark-check {
+    stroke: var(--color-success);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+  }
+
+  @keyframes stroke {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .success-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-success);
+    margin-bottom: 1rem;
+  }
+
+  .success-message {
+    font-size: 1.25rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .success-submessage {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .btn-new-form {
+    padding: 1rem 2rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .btn-new-form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+  }
+
+  /* Loading Overlay */
+  .form-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-radius: 24px;
+    z-index: 100;
+  }
+
+  [data-theme="dark"] .form-loading {
+    background: rgba(26, 26, 35, 0.95);
+  }
+
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .form-loading p {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 1.125rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .contact-form-section {
+      padding: 3rem 0;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .form-title {
+      font-size: 2rem;
+    }
+
+    .form-subtitle {
+      font-size: 1rem;
+    }
+
+    .progress-steps {
+      gap: 0.5rem;
+    }
+
+    .step-circle {
+      width: 44px;
+      height: 44px;
+      font-size: 1rem;
+    }
+
+    .step-check {
+      width: 20px;
+      height: 20px;
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      max-width: 70px;
+    }
+
+    .form-card {
+      padding: 1.5rem;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .form-actions {
+      flex-direction: column-reverse;
+    }
+
+    .btn-back,
+    .btn-next,
+    .btn-submit {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .review-item {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>
+
+<script>
+  class AdvancedContactForm {
+    private form: HTMLFormElement;
+    private currentStep: number = 1;
+    private totalSteps: number = 4;
+    private formData: Record<string, any> = {};
+    private sessionId: string;
+    private startTime: number;
+    private fieldInteractions: Record<string, any> = {};
+
+    constructor() {
+      this.form = document.getElementById('advanced-contact-form') as HTMLFormElement;
+      this.sessionId = this.generateSessionId();
+      this.startTime = Date.now();
+
+      if (this.form) {
+        this.init();
+      }
+    }
+
+    init() {
+      // Navigation buttons
+      this.form.querySelectorAll('.btn-next').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          const nextStep = parseInt(target.dataset.next || '2');
+          this.goToStep(nextStep);
+        });
+      });
+
+      this.form.querySelectorAll('.btn-back').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          const backStep = parseInt(target.dataset.back || '1');
+          this.currentStep = backStep;
+          this.showStep(backStep);
+          this.updateProgress();
+        });
+      });
+
+      // Service type change - show conditional fields
+      const serviceSelect = document.getElementById('service_type') as HTMLSelectElement;
+      if (serviceSelect) {
+        serviceSelect.addEventListener('change', (e) => {
+          this.handleServiceChange((e.target as HTMLSelectElement).value);
+        });
+      }
+
+      // File upload
+      this.initFileUpload();
+
+      // Track field interactions
+      this.trackFieldInteractions();
+
+      // Form submission
+      this.form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.handleSubmit();
+      });
+    }
+
+    generateSessionId(): string {
+      return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    goToStep(nextStep: number) {
+      // Validate current step before proceeding
+      if (!this.validateStep(this.currentStep)) {
+        return;
+      }
+
+      // Save current step data
+      this.saveStepData(this.currentStep);
+
+      // If going to review step, populate review
+      if (nextStep === 4) {
+        this.populateReview();
+      }
+
+      // Update step
+      this.currentStep = nextStep;
+      this.showStep(nextStep);
+      this.updateProgress();
+
+      // Track analytics
+      this.trackStepProgress(nextStep);
+    }
+
+    showStep(step: number) {
+      // Hide all steps
+      this.form.querySelectorAll('.form-step').forEach(s => {
+        s.classList.remove('active');
+      });
+
+      // Show current step
+      const currentStepEl = this.form.querySelector(`.form-step[data-step="${step}"]`);
+      if (currentStepEl) {
+        currentStepEl.classList.add('active');
+      }
+
+      // Scroll to top of form
+      this.form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    updateProgress() {
+      const progress = (this.currentStep / this.totalSteps) * 100;
+      const progressFill = document.querySelector('.progress-fill') as HTMLElement;
+      if (progressFill) {
+        progressFill.style.width = `${progress}%`;
+      }
+
+      // Update step indicators
+      document.querySelectorAll('.progress-step').forEach((step, index) => {
+        const stepNum = index + 1;
+        step.classList.remove('active', 'completed');
+
+        if (stepNum < this.currentStep) {
+          step.classList.add('completed');
+          // Mark line as completed
+          const nextLine = step.nextElementSibling;
+          if (nextLine && nextLine.classList.contains('progress-line')) {
+            nextLine.classList.add('completed');
+          }
+        } else if (stepNum === this.currentStep) {
+          step.classList.add('active');
+        }
+      });
+    }
+
+    validateStep(step: number): boolean {
+      const stepEl = this.form.querySelector(`.form-step[data-step="${step}"]`) as HTMLElement;
+      if (!stepEl) return true;
+
+      const inputs = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
+      let isValid = true;
+
+      inputs.forEach(input => {
+        const inputEl = input as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+        const errorMsg = inputEl.parentElement?.querySelector('.error-message') as HTMLElement;
+
+        // Clear previous errors
+        inputEl.classList.remove('error');
+        if (errorMsg) {
+          errorMsg.classList.remove('show');
+        }
+
+        // Validate
+        if (!inputEl.value.trim()) {
+          isValid = false;
+          inputEl.classList.add('error');
+          if (errorMsg) {
+            errorMsg.textContent = 'This field is required';
+            errorMsg.classList.add('show');
+          }
+        } else if (inputEl.type === 'email' && !this.isValidEmail(inputEl.value)) {
+          isValid = false;
+          inputEl.classList.add('error');
+          if (errorMsg) {
+            errorMsg.textContent = 'Please enter a valid email address';
+            errorMsg.classList.add('show');
+          }
+        }
+      });
+
+      // Special validation for consent checkbox in step 3
+      if (step === 3) {
+        const consentCheckbox = document.getElementById('consent') as HTMLInputElement;
+        if (consentCheckbox && !consentCheckbox.checked) {
+          isValid = false;
+          const errorMsg = consentCheckbox.closest('.form-group')?.querySelector('.error-message') as HTMLElement;
+          if (errorMsg) {
+            errorMsg.textContent = 'You must agree to continue';
+            errorMsg.classList.add('show');
+          }
+        }
+      }
+
+      return isValid;
+    }
+
+    isValidEmail(email: string): boolean {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    }
+
+    saveStepData(step: number) {
+      const stepEl = this.form.querySelector(`.form-step[data-step="${step}"]`) as HTMLElement;
+      if (!stepEl) return;
+
+      const inputs = stepEl.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        const inputEl = input as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+        if (inputEl.name) {
+          if (inputEl.type === 'checkbox' && !inputEl.name.includes('consent')) {
+            if (!this.formData[inputEl.name]) {
+              this.formData[inputEl.name] = [];
+            }
+            if ((inputEl as HTMLInputElement).checked) {
+              this.formData[inputEl.name].push(inputEl.value);
+            }
+          } else if (inputEl.type === 'checkbox') {
+            this.formData[inputEl.name] = (inputEl as HTMLInputElement).checked;
+          } else if (inputEl.type !== 'file') {
+            this.formData[inputEl.name] = inputEl.value;
+          }
+        }
+      });
+    }
+
+    handleServiceChange(service: string) {
+      // Hide all conditional fields
+      this.form.querySelectorAll('.conditional-fields').forEach(field => {
+        (field as HTMLElement).style.display = 'none';
+      });
+
+      // Show relevant conditional fields
+      const conditionalField = this.form.querySelector(`.conditional-fields[data-service="${service}"]`) as HTMLElement;
+      if (conditionalField) {
+        conditionalField.style.display = 'block';
+      }
+    }
+
+    initFileUpload() {
+      const fileUploadArea = document.getElementById('file-upload-area');
+      const fileInput = document.getElementById('attachments') as HTMLInputElement;
+      const fileList = document.getElementById('file-list');
+
+      if (!fileUploadArea || !fileInput || !fileList) return;
+
+      // Click to upload
+      fileUploadArea.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      // File selection
+      fileInput.addEventListener('change', (e) => {
+        const files = (e.target as HTMLInputElement).files;
+        if (files) {
+          this.displayFiles(files);
+        }
+      });
+
+      // Drag and drop
+      fileUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = 'var(--color-primary)';
+        fileUploadArea.style.background = 'rgba(99, 102, 241, 0.05)';
+      });
+
+      fileUploadArea.addEventListener('dragleave', () => {
+        fileUploadArea.style.borderColor = 'var(--color-border)';
+        fileUploadArea.style.background = 'transparent';
+      });
+
+      fileUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = 'var(--color-border)';
+        fileUploadArea.style.background = 'transparent';
+
+        const files = e.dataTransfer?.files;
+        if (files) {
+          fileInput.files = files;
+          this.displayFiles(files);
+        }
+      });
+    }
+
+    displayFiles(files: FileList) {
+      const fileList = document.getElementById('file-list');
+      if (!fileList) return;
+
+      fileList.innerHTML = '';
+
+      Array.from(files).forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        fileItem.innerHTML = `
+          <span class="file-name">${file.name} (${this.formatFileSize(file.size)})</span>
+          <button type="button" class="file-remove" data-index="${index}">&times;</button>
+        `;
+
+        const removeBtn = fileItem.querySelector('.file-remove');
+        removeBtn?.addEventListener('click', () => {
+          this.removeFile(index);
+        });
+
+        fileList.appendChild(fileItem);
+      });
+    }
+
+    formatFileSize(bytes: number): string {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    removeFile(index: number) {
+      const fileInput = document.getElementById('attachments') as HTMLInputElement;
+      if (!fileInput.files) return;
+
+      const dt = new DataTransfer();
+      Array.from(fileInput.files).forEach((file, i) => {
+        if (i !== index) dt.items.add(file);
+      });
+
+      fileInput.files = dt.files;
+      this.displayFiles(fileInput.files);
+    }
+
+    populateReview() {
+      const reviewContainer = document.getElementById('review-container');
+      if (!reviewContainer) return;
+
+      reviewContainer.innerHTML = `
+        <div class="review-section">
+          <h4 class="review-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Contact Information
+          </h4>
+          ${this.createReviewItem('Full Name', this.formData.full_name)}
+          ${this.createReviewItem('Email', this.formData.email)}
+          ${this.formData.phone ? this.createReviewItem('Phone', this.formData.phone) : ''}
+          ${this.formData.company ? this.createReviewItem('Company', this.formData.company) : ''}
+        </div>
+
+        <div class="review-section">
+          <h4 class="review-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+            </svg>
+            Project Details
+          </h4>
+          ${this.createReviewItem('Service Type', this.getServiceLabel(this.formData.service_type))}
+          ${this.formData.budget_range ? this.createReviewItem('Budget Range', this.getBudgetLabel(this.formData.budget_range)) : ''}
+          ${this.formData.project_timeline ? this.createReviewItem('Timeline', this.getTimelineLabel(this.formData.project_timeline)) : ''}
+          ${this.createReviewItem('Description', this.formData.project_description)}
+        </div>
+
+        ${this.formData.how_found ? `
+        <div class="review-section">
+          <h4 class="review-section-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Additional Information
+          </h4>
+          ${this.createReviewItem('How Found Us', this.getHowFoundLabel(this.formData.how_found))}
+        </div>
+        ` : ''}
+      `;
+    }
+
+    createReviewItem(label: string, value: string): string {
+      if (!value) return '';
+      return `
+        <div class="review-item">
+          <div class="review-label">${label}:</div>
+          <div class="review-value">${value}</div>
+        </div>
+      `;
+    }
+
+    getServiceLabel(value: string): string {
+      const labels: Record<string, string> = {
+        'web-development': 'Web Development',
+        'ui-ux-design': 'UI/UX Design',
+        'branding': 'Branding & Identity',
+        'seo-marketing': 'SEO & Marketing',
+        'cloud-solutions': 'Cloud Solutions',
+        'premium-support': 'Premium Support',
+        'other': 'Other'
+      };
+      return labels[value] || value;
+    }
+
+    getBudgetLabel(value: string): string {
+      const labels: Record<string, string> = {
+        'under-5k': 'Under GH₵5,000 ($415)',
+        '5k-10k': 'GH₵5,000 - GH₵10,000 ($415 - $830)',
+        '10k-20k': 'GH₵10,000 - GH₵20,000 ($830 - $1,660)',
+        '20k-50k': 'GH₵20,000 - GH₵50,000 ($1,660 - $4,150)',
+        'over-50k': 'Over GH₵50,000 ($4,150+)'
+      };
+      return labels[value] || value;
+    }
+
+    getTimelineLabel(value: string): string {
+      const labels: Record<string, string> = {
+        'urgent': 'Urgent (1-2 weeks)',
+        'standard': 'Standard (3-4 weeks)',
+        'flexible': 'Flexible (1-2 months)',
+        'long-term': 'Long-term (3+ months)'
+      };
+      return labels[value] || value;
+    }
+
+    getHowFoundLabel(value: string): string {
+      const labels: Record<string, string> = {
+        'google': 'Google Search',
+        'social-media': 'Social Media',
+        'referral': 'Referral',
+        'advertising': 'Online Advertising',
+        'event': 'Event/Conference',
+        'other': 'Other'
+      };
+      return labels[value] || value;
+    }
+
+    trackFieldInteractions() {
+      const fields = this.form.querySelectorAll('input, select, textarea');
+      fields.forEach(field => {
+        const fieldEl = field as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+        if (fieldEl.name) {
+          fieldEl.addEventListener('focus', () => {
+            if (!this.fieldInteractions[fieldEl.name]) {
+              this.fieldInteractions[fieldEl.name] = { focused: 0, changed: 0 };
+            }
+            this.fieldInteractions[fieldEl.name].focused++;
+          });
+
+          fieldEl.addEventListener('change', () => {
+            if (!this.fieldInteractions[fieldEl.name]) {
+              this.fieldInteractions[fieldEl.name] = { focused: 0, changed: 0 };
+            }
+            this.fieldInteractions[fieldEl.name].changed++;
+          });
+        }
+      });
+    }
+
+    trackStepProgress(step: number) {
+      // This will be sent to analytics endpoint
+      const analyticsData = {
+        session_id: this.sessionId,
+        step_reached: step,
+        total_steps: this.totalSteps,
+        time_spent_seconds: Math.floor((Date.now() - this.startTime) / 1000),
+        user_agent: navigator.userAgent,
+        referrer: document.referrer
+      };
+
+      // Send to analytics endpoint (to be created)
+      // fetch('/api/forms/analytics', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(analyticsData)
+      // });
+    }
+
+    async handleSubmit() {
+      // Save final step data
+      this.saveStepData(this.currentStep);
+
+      // Show loading
+      const loadingEl = document.getElementById('form-loading');
+      if (loadingEl) {
+        loadingEl.style.display = 'flex';
+      }
+
+      try {
+        // Prepare form data
+        const submitData = new FormData();
+
+        // Add all form fields
+        Object.keys(this.formData).forEach(key => {
+          if (Array.isArray(this.formData[key])) {
+            submitData.append(key, JSON.stringify(this.formData[key]));
+          } else {
+            submitData.append(key, this.formData[key]);
+          }
+        });
+
+        // Add files
+        const fileInput = document.getElementById('attachments') as HTMLInputElement;
+        if (fileInput.files) {
+          Array.from(fileInput.files).forEach(file => {
+            submitData.append('files[]', file);
+          });
+        }
+
+        // Add analytics data
+        submitData.append('session_id', this.sessionId);
+        submitData.append('time_spent', Math.floor((Date.now() - this.startTime) / 1000).toString());
+        submitData.append('field_interactions', JSON.stringify(this.fieldInteractions));
+        submitData.append('user_agent', navigator.userAgent);
+        submitData.append('referrer', document.referrer);
+
+        // Get UTM parameters if present
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmSource = urlParams.get('utm_source');
+        const utmMedium = urlParams.get('utm_medium');
+        const utmCampaign = urlParams.get('utm_campaign');
+
+        if (utmSource) submitData.append('utm_source', utmSource);
+        if (utmMedium) submitData.append('utm_medium', utmMedium);
+        if (utmCampaign) submitData.append('utm_campaign', utmCampaign);
+
+        // Submit to API
+        const response = await fetch('/api/contact/submit', {
+          method: 'POST',
+          body: submitData
+        });
+
+        const result = await response.json();
+
+        if (loadingEl) {
+          loadingEl.style.display = 'none';
+        }
+
+        if (result.success) {
+          // Show success step
+          this.form.querySelectorAll('.form-step').forEach(s => {
+            s.classList.remove('active');
+          });
+          const successStep = this.form.querySelector('.success-step') as HTMLElement;
+          if (successStep) {
+            successStep.style.display = 'block';
+          }
+        } else {
+          alert('There was an error submitting your request. Please try again.');
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        if (loadingEl) {
+          loadingEl.style.display = 'none';
+        }
+        alert('There was an error submitting your request. Please try again.');
+      }
+    }
+  }
+
+  // Initialize form
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new AdvancedContactForm());
+  } else {
+    new AdvancedContactForm();
+  }
+
+  // Re-initialize on page navigation
+  document.addEventListener('astro:page-load', () => {
+    new AdvancedContactForm();
+  });
+</script>

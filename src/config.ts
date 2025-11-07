@@ -1,16 +1,16 @@
 export const SITE_CONFIG = {
-  name: "Your Agency Name",
+  name: "OhWP Studios",
   tagline: "Crafting Digital Excellence",
   description: "We create stunning, high-performance websites and digital experiences that drive results for forward-thinking businesses.",
-  url: "https://yoursite.com",
-  author: "Your Agency",
-  email: "hello@yoursite.com",
-  phone: "+1 (555) 123-4567",
+  url: "https://ohwpstudios.org",
+  author: "OhWP Studios",
+  email: "ohwpstudios@gmail.com",
+  phone: "+233 (123) 456-789",
   social: {
-    twitter: "https://twitter.com/youragency",
-    linkedin: "https://linkedin.com/company/youragency",
-    github: "https://github.com/youragency",
-    instagram: "https://instagram.com/youragency",
+    twitter: "https://twitter.com/ohwpstudios",
+    linkedin: "https://linkedin.com/company/ohwpstudios",
+    github: "https://github.com/ohwpstudios",
+    instagram: "https://instagram.com/ohwpstudios",
   },
   services: [
     {
