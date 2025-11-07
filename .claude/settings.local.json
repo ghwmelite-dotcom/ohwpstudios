@@ -10,7 +10,11 @@
       "Bash(timeout:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nAdd world-class design system with premium animations and features\n\nMajor enhancements:\n- Add stunning loading screen with 3D animations, rotating rings, particles, and animated progress\n- Implement world-class hero section with 3D floating elements and code mockup\n- Add comprehensive theme customization system (10 color presets, 20+ Google Fonts)\n- Create advanced animation system with 20+ premium keyframes (float, morph, shimmer, glow, etc.)\n- Add dynamic logo support with database integration (header + loading screen)\n- Implement testimonials carousel with database integration and fallback data\n- Add statistics section with animated counters and gradient effects\n- Enhance code editor mockup with syntax highlighting, line numbers, and animated cursor\n- Add floating tech badges with gradient borders and sparkle effects\n- Fix authentication flow: proper session storage and token validation\n- Add Astro API routes for theme and testimonials (replacing Cloudflare Functions)\n- Update WordPress branding throughout with WP Studios logo\n\nTechnical improvements:\n- Migrate from Cloudflare Functions to Astro API routes for dev mode compatibility\n- Add proper session management with database integration\n- Fix localStorage token key consistency (admin_token)\n- Add prerender: false to API routes for SSR\n- Create comprehensive migrations for theme system and logos\n- Add responsive design for all new components\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run build:*)",
+      "Bash(git rm:*)",
+      "Bash(.gitignore)"
     ],
     "deny": [],
     "ask": []

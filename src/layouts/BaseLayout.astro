@@ -2,6 +2,8 @@
 import '@/styles/design-system.css';
 import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
+import CustomCursor from '@/components/CustomCursor.astro';
+import SocialProof from '@/components/SocialProof.astro';
 
 interface Props {
   title?: string;
@@ -140,6 +142,8 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
   </head>
   <body>
     {!noLoader && <LoadingScreen />}
+    <CustomCursor />
+    <SocialProof />
     <slot />
 
     <!-- Theme toggle script -->

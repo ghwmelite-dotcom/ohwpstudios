@@ -1,0 +1,733 @@
+---
+// Interactive Pricing Calculator
+// Helps visitors estimate project costs and qualify leads
+---
+
+<section class="pricing-calculator-section" id="pricing-calculator" data-animate>
+  <div class="container">
+    <div class="section-header">
+      <span class="badge">Get Instant Quote</span>
+      <h2 class="title-hero">
+        <span class="title-gradient">Calculate Your Project Cost</span>
+        <div class="title-underline"></div>
+      </h2>
+      <p>Build your perfect package and get an instant estimate</p>
+    </div>
+
+    <div class="calculator-container glass">
+      <div class="calculator-grid">
+        <!-- Left Side: Selections -->
+        <div class="calculator-selections">
+          <h3>1. Choose Your Services</h3>
+          <div class="service-options">
+            <label class="service-option" data-magnetic>
+              <input type="checkbox" name="service" value="web-development" data-price="5000">
+              <div class="option-card">
+                <div class="option-icon">💻</div>
+                <div class="option-details">
+                  <div class="option-name">Web Development</div>
+                  <div class="option-price">Starting at $5,000</div>
+                </div>
+                <div class="option-checkmark">✓</div>
+              </div>
+            </label>
+
+            <label class="service-option" data-magnetic>
+              <input type="checkbox" name="service" value="ui-ux-design" data-price="3000">
+              <div class="option-card">
+                <div class="option-icon">🎨</div>
+                <div class="option-details">
+                  <div class="option-name">UI/UX Design</div>
+                  <div class="option-price">Starting at $3,000</div>
+                </div>
+                <div class="option-checkmark">✓</div>
+              </div>
+            </label>
+
+            <label class="service-option" data-magnetic>
+              <input type="checkbox" name="service" value="branding" data-price="2500">
+              <div class="option-card">
+                <div class="option-icon">✨</div>
+                <div class="option-details">
+                  <div class="option-name">Branding & Identity</div>
+                  <div class="option-price">Starting at $2,500</div>
+                </div>
+                <div class="option-checkmark">✓</div>
+              </div>
+            </label>
+
+            <label class="service-option" data-magnetic>
+              <input type="checkbox" name="service" value="seo" data-price="1500">
+              <div class="option-card">
+                <div class="option-icon">📈</div>
+                <div class="option-details">
+                  <div class="option-name">SEO & Marketing</div>
+                  <div class="option-price">Starting at $1,500/mo</div>
+                </div>
+                <div class="option-checkmark">✓</div>
+              </div>
+            </label>
+
+            <label class="service-option" data-magnetic>
+              <input type="checkbox" name="service" value="cloud" data-price="3500">
+              <div class="option-card">
+                <div class="option-icon">☁️</div>
+                <div class="option-details">
+                  <div class="option-name">Cloud Solutions</div>
+                  <div class="option-price">Starting at $3,500</div>
+                </div>
+                <div class="option-checkmark">✓</div>
+              </div>
+            </label>
+
+            <label class="service-option" data-magnetic>
+              <input type="checkbox" name="service" value="support" data-price="500">
+              <div class="option-card">
+                <div class="option-icon">🛡️</div>
+                <div class="option-details">
+                  <div class="option-name">Premium Support</div>
+                  <div class="option-price">$500/month</div>
+                </div>
+                <div class="option-checkmark">✓</div>
+              </div>
+            </label>
+          </div>
+
+          <div class="project-scope">
+            <h3>2. Project Complexity</h3>
+            <div class="slider-container">
+              <input type="range" id="complexity-slider" min="1" max="3" value="2" step="1">
+              <div class="slider-labels">
+                <span>Simple</span>
+                <span>Medium</span>
+                <span>Complex</span>
+              </div>
+              <div class="complexity-description" id="complexity-desc">
+                Standard features with clean design
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <h3>3. Timeline</h3>
+            <div class="timeline-options">
+              <label class="timeline-option" data-magnetic>
+                <input type="radio" name="timeline" value="rush" data-multiplier="1.5">
+                <div class="timeline-card">
+                  <div class="timeline-icon">⚡</div>
+                  <div class="timeline-name">Rush (2-4 weeks)</div>
+                  <div class="timeline-note">+50% cost</div>
+                </div>
+              </label>
+
+              <label class="timeline-option" data-magnetic>
+                <input type="radio" name="timeline" value="standard" data-multiplier="1" checked>
+                <div class="timeline-card">
+                  <div class="timeline-icon">📅</div>
+                  <div class="timeline-name">Standard (6-8 weeks)</div>
+                  <div class="timeline-note">Best value</div>
+                </div>
+              </label>
+
+              <label class="timeline-option" data-magnetic>
+                <input type="radio" name="timeline" value="flexible" data-multiplier="0.85">
+                <div class="timeline-card">
+                  <div class="timeline-icon">🕐</div>
+                  <div class="timeline-name">Flexible (3+ months)</div>
+                  <div class="timeline-note">-15% discount</div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Price Summary -->
+        <div class="price-summary">
+          <div class="summary-card glass">
+            <h3>Your Estimate</h3>
+
+            <div class="selected-services" id="selected-services">
+              <div class="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M9 11l3 3L22 4"></path>
+                </svg>
+                <p>Select services to see your estimate</p>
+              </div>
+            </div>
+
+            <div class="price-breakdown" id="price-breakdown" style="display: none;">
+              <div class="breakdown-line">
+                <span>Subtotal</span>
+                <span id="subtotal-price">$0</span>
+              </div>
+              <div class="breakdown-line complexity-multiplier" id="complexity-line" style="display: none;">
+                <span>Complexity adjustment</span>
+                <span id="complexity-adjustment">×1.0</span>
+              </div>
+              <div class="breakdown-line timeline-multiplier" id="timeline-line" style="display: none;">
+                <span>Timeline adjustment</span>
+                <span id="timeline-adjustment">×1.0</span>
+              </div>
+              <div class="breakdown-divider"></div>
+              <div class="breakdown-total">
+                <span>Estimated Total</span>
+                <span id="total-price" class="total-amount">$0</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-full" id="get-quote-btn" disabled data-magnetic>
+              Get Detailed Quote
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+
+            <div class="trust-badges">
+              <div class="trust-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>Money-back guarantee</span>
+              </div>
+              <div class="trust-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span>No hidden fees</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="savings-note">
+            💡 <strong>Bundle & Save:</strong> Get 15% off when you select 3+ services!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing-calculator-section {
+    padding: var(--spacing-4xl) 0;
+    background: var(--color-bg);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-header h2 {
+    margin-bottom: 1rem;
+  }
+
+  .section-header p {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+  }
+
+  .calculator-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: var(--radius-2xl);
+  }
+
+  .calculator-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+  }
+
+  .calculator-selections h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .service-options {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .service-option input[type="checkbox"],
+  .timeline-option input[type="radio"] {
+    display: none;
+  }
+
+  .option-card, .timeline-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-smooth);
+  }
+
+  .option-card:hover, .timeline-card:hover {
+    border-color: var(--color-primary);
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.1);
+  }
+
+  .service-option input:checked + .option-card,
+  .timeline-option input:checked + .timeline-card {
+    border-color: var(--color-primary);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .option-icon, .timeline-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .option-details {
+    flex: 1;
+  }
+
+  .option-name, .timeline-name {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .option-price, .timeline-note {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .option-checkmark {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .service-option input:checked + .option-card .option-checkmark {
+    opacity: 1;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .slider-container {
+    margin-bottom: 3rem;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #6366f1 0%, #ec4899 100%);
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #6366f1;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #6366f1;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .complexity-description {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(99, 102, 241, 0.05);
+    border-left: 3px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+  }
+
+  .timeline-options {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .price-summary {
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+  }
+
+  .summary-card {
+    padding: 2rem;
+    border-radius: var(--radius-2xl);
+    margin-bottom: 1rem;
+  }
+
+  .summary-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .empty-state svg {
+    opacity: 0.3;
+    margin-bottom: 1rem;
+  }
+
+  .selected-services {
+    margin-bottom: 1.5rem;
+    min-height: 150px;
+  }
+
+  .service-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .service-item:last-child {
+    border-bottom: none;
+  }
+
+  .breakdown-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 1rem 0;
+  }
+
+  .breakdown-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .total-amount {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2rem;
+  }
+
+  .btn-full {
+    width: 100%;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .btn-full:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .trust-badges {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .trust-badge svg {
+    color: var(--color-primary);
+  }
+
+  .savings-note {
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
+    border-left: 3px solid #10b981;
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    color: var(--color-text);
+  }
+
+  /* Title animations */
+  .title-hero {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+    display: inline-block;
+    font-weight: 800;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .title-underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    border-radius: 2px;
+    animation: underlineExpand 1.5s ease-out forwards 0.5s;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+  }
+
+  @keyframes underlineExpand {
+    to { width: 80%; }
+  }
+
+  @media (max-width: 1024px) {
+    .calculator-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .price-summary {
+      position: static;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .calculator-container {
+      padding: 2rem 1.5rem;
+    }
+
+    .timeline-options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Pricing Calculator Logic
+  class PricingCalculator {
+    private selectedServices: Map<string, number>;
+    private complexityMultiplier: number;
+    private timelineMultiplier: number;
+    private bundleDiscount: number;
+
+    constructor() {
+      this.selectedServices = new Map();
+      this.complexityMultiplier = 1.0;
+      this.timelineMultiplier = 1.0;
+      this.bundleDiscount = 0;
+
+      this.init();
+    }
+
+    init() {
+      // Service checkboxes
+      const serviceCheckboxes = document.querySelectorAll('.service-option input[type="checkbox"]');
+      serviceCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', () => this.updateCalculation());
+      });
+
+      // Complexity slider
+      const complexitySlider = document.getElementById('complexity-slider') as HTMLInputElement;
+      if (complexitySlider) {
+        complexitySlider.addEventListener('input', (e) => {
+          const value = parseInt((e.target as HTMLInputElement).value);
+          this.updateComplexity(value);
+        });
+      }
+
+      // Timeline radios
+      const timelineRadios = document.querySelectorAll('.timeline-option input[type="radio"]');
+      timelineRadios.forEach((radio) => {
+        radio.addEventListener('change', () => this.updateCalculation());
+      });
+
+      // Quote button
+      const quoteBtn = document.getElementById('get-quote-btn');
+      if (quoteBtn) {
+        quoteBtn.addEventListener('click', () => this.getQuote());
+      }
+    }
+
+    updateComplexity(value: number) {
+      const descriptions = [
+        'Basic features with simple design',
+        'Standard features with clean design',
+        'Advanced features with custom design and integrations'
+      ];
+
+      const multipliers = [0.8, 1.0, 1.4];
+
+      const descEl = document.getElementById('complexity-desc');
+      if (descEl) {
+        descEl.textContent = descriptions[value - 1];
+      }
+
+      this.complexityMultiplier = multipliers[value - 1];
+      this.updateCalculation();
+    }
+
+    updateCalculation() {
+      // Get selected services
+      this.selectedServices.clear();
+      const checkboxes = document.querySelectorAll('.service-option input[type="checkbox"]:checked');
+      checkboxes.forEach((checkbox) => {
+        const input = checkbox as HTMLInputElement;
+        const name = input.value;
+        const price = parseInt(input.dataset.price || '0');
+        this.selectedServices.set(name, price);
+      });
+
+      // Get timeline multiplier
+      const selectedTimeline = document.querySelector('.timeline-option input[type="radio"]:checked') as HTMLInputElement;
+      if (selectedTimeline) {
+        this.timelineMultiplier = parseFloat(selectedTimeline.dataset.multiplier || '1');
+      }
+
+      // Calculate bundle discount
+      this.bundleDiscount = this.selectedServices.size >= 3 ? 0.15 : 0;
+
+      this.renderSummary();
+    }
+
+    renderSummary() {
+      const selectedServicesEl = document.getElementById('selected-services');
+      const priceBreakdownEl = document.getElementById('price-breakdown');
+      const quoteBtn = document.getElementById('get-quote-btn') as HTMLButtonElement;
+
+      if (!selectedServicesEl || !priceBreakdownEl) return;
+
+      if (this.selectedServices.size === 0) {
+        selectedServicesEl.innerHTML = `
+          <div class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <path d="M9 11l3 3L22 4"></path>
+            </svg>
+            <p>Select services to see your estimate</p>
+          </div>
+        `;
+        priceBreakdownEl.style.display = 'none';
+        if (quoteBtn) quoteBtn.disabled = true;
+        return;
+      }
+
+      // Render selected services
+      let servicesHTML = '';
+      this.selectedServices.forEach((price, name) => {
+        const displayName = name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        servicesHTML += `
+          <div class="service-item">
+            <span>${displayName}</span>
+            <span>$${price.toLocaleString()}</span>
+          </div>
+        `;
+      });
+      selectedServicesEl.innerHTML = servicesHTML;
+
+      // Calculate totals
+      const subtotal = Array.from(this.selectedServices.values()).reduce((sum, price) => sum + price, 0);
+      let total = subtotal * this.complexityMultiplier * this.timelineMultiplier;
+
+      // Apply bundle discount
+      if (this.bundleDiscount > 0) {
+        total = total * (1 - this.bundleDiscount);
+      }
+
+      // Update price breakdown
+      document.getElementById('subtotal-price')!.textContent = `$${subtotal.toLocaleString()}`;
+      document.getElementById('complexity-adjustment')!.textContent = `×${this.complexityMultiplier.toFixed(1)}`;
+      document.getElementById('timeline-adjustment')!.textContent = `×${this.timelineMultiplier.toFixed(2)}`;
+      document.getElementById('total-price')!.textContent = `$${Math.round(total).toLocaleString()}`;
+
+      priceBreakdownEl.style.display = 'block';
+      if (quoteBtn) quoteBtn.disabled = false;
+    }
+
+    getQuote() {
+      // In a real app, this would open a modal or redirect to a quote form
+      const total = document.getElementById('total-price')?.textContent || '$0';
+      alert(`Your estimated total is ${total}!\n\nClick OK to schedule a consultation and get your detailed quote.`);
+
+      // Could redirect to contact form with pre-filled data
+      // window.location.href = '/contact?estimate=' + total;
+    }
+  }
+
+  // Initialize calculator
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new PricingCalculator());
+  } else {
+    new PricingCalculator();
+  }
+
+  // Reinitialize on page transitions
+  document.addEventListener('astro:page-load', () => {
+    new PricingCalculator();
+  });
+</script>

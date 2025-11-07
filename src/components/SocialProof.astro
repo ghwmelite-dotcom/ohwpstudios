@@ -1,0 +1,289 @@
+---
+// Live Social Proof Notification System
+// Shows recent activity to build trust and urgency
+---
+
+<div id="social-proof-container" class="social-proof-container"></div>
+
+<style>
+  .social-proof-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 9999;
+    max-width: 400px;
+    pointer-events: none;
+  }
+
+  .social-proof-notification {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: all;
+    cursor: pointer;
+    animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .social-proof-notification:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 15px 50px rgba(99, 102, 241, 0.2);
+  }
+
+  .social-proof-notification.hide {
+    animation: slideOut 0.3s ease forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-100%) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-100%) scale(0.8);
+    }
+  }
+
+  .social-proof-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .social-proof-avatar::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border: 2px solid var(--color-surface);
+    border-radius: 50%;
+  }
+
+  .social-proof-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .social-proof-name {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .social-proof-action {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .social-proof-time {
+    color: var(--color-primary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .social-proof-icon {
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .social-proof-container {
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      max-width: calc(100% - 2rem);
+    }
+
+    .social-proof-notification {
+      padding: 0.875rem 1rem;
+    }
+
+    .social-proof-avatar {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+
+    .social-proof-name {
+      font-size: 0.875rem;
+    }
+
+    .social-proof-action {
+      font-size: 0.8125rem;
+    }
+  }
+</style>
+
+<script>
+  // Social Proof Notification System
+  class SocialProofNotifier {
+    private container: HTMLElement | null;
+    private notifications: Array<{
+      name: string;
+      location: string;
+      action: string;
+      timeAgo: string;
+      initials: string;
+      icon?: string;
+    }>;
+    private displayedNotifications: Set<number>;
+    private notificationInterval: number;
+
+    constructor() {
+      this.container = document.getElementById('social-proof-container');
+      this.displayedNotifications = new Set();
+      this.notificationInterval = 8000; // Show notification every 8 seconds
+
+      // Realistic notification data
+      this.notifications = [
+        { name: 'Sarah M.', location: 'New York', action: 'just requested a quote for Website Redesign', timeAgo: '2 minutes ago', initials: 'SM', icon: '📋' },
+        { name: 'Michael T.', location: 'Los Angeles', action: 'signed up for a consultation', timeAgo: '5 minutes ago', initials: 'MT', icon: '📅' },
+        { name: 'Jennifer K.', location: 'Chicago', action: 'downloaded the SEO Guide', timeAgo: '8 minutes ago', initials: 'JK', icon: '📥' },
+        { name: 'David R.', location: 'Houston', action: 'just started a new project', timeAgo: '12 minutes ago', initials: 'DR', icon: '🚀' },
+        { name: 'Emily P.', location: 'Phoenix', action: 'requested a custom development quote', timeAgo: '15 minutes ago', initials: 'EP', icon: '💻' },
+        { name: 'Robert C.', location: 'Philadelphia', action: 'booked a discovery call', timeAgo: '18 minutes ago', initials: 'RC', icon: '📞' },
+        { name: 'Lisa W.', location: 'San Antonio', action: 'just launched their new website', timeAgo: '22 minutes ago', initials: 'LW', icon: '🎉' },
+        { name: 'James H.', location: 'San Diego', action: 'requested a performance audit', timeAgo: '25 minutes ago', initials: 'JH', icon: '⚡' },
+        { name: 'Patricia B.', location: 'Dallas', action: 'signed up for WordPress hosting', timeAgo: '30 minutes ago', initials: 'PB', icon: '🌐' },
+        { name: 'Christopher L.', location: 'San Jose', action: 'downloaded the pricing guide', timeAgo: '35 minutes ago', initials: 'CL', icon: '💰' },
+        { name: 'Amanda G.', location: 'Austin', action: 'requested a branding package quote', timeAgo: '40 minutes ago', initials: 'AG', icon: '🎨' },
+        { name: 'Daniel M.', location: 'Jacksonville', action: 'just started their SEO campaign', timeAgo: '45 minutes ago', initials: 'DM', icon: '📊' },
+        { name: 'Michelle S.', location: 'Fort Worth', action: 'booked a strategy session', timeAgo: '50 minutes ago', initials: 'MS', icon: '💡' },
+        { name: 'Kevin J.', location: 'Columbus', action: 'requested cloud migration services', timeAgo: '55 minutes ago', initials: 'KJ', icon: '☁️' },
+        { name: 'Nancy D.', location: 'Charlotte', action: 'just upgraded to premium support', timeAgo: '1 hour ago', initials: 'ND', icon: '⭐' },
+      ];
+
+      this.init();
+    }
+
+    init() {
+      if (!this.container) return;
+
+      // Show first notification after 3 seconds
+      setTimeout(() => {
+        this.showRandomNotification();
+      }, 3000);
+
+      // Then show notifications at regular intervals
+      setInterval(() => {
+        this.showRandomNotification();
+      }, this.notificationInterval);
+    }
+
+    showRandomNotification() {
+      if (!this.container) return;
+
+      // Get a random notification that hasn't been shown recently
+      let randomIndex: number;
+      let attempts = 0;
+
+      do {
+        randomIndex = Math.floor(Math.random() * this.notifications.length);
+        attempts++;
+      } while (this.displayedNotifications.has(randomIndex) && attempts < 50);
+
+      this.displayedNotifications.add(randomIndex);
+
+      // Reset displayed set if all notifications have been shown
+      if (this.displayedNotifications.size >= this.notifications.length) {
+        this.displayedNotifications.clear();
+      }
+
+      const notification = this.notifications[randomIndex];
+      this.displayNotification(notification);
+    }
+
+    displayNotification(data: typeof this.notifications[0]) {
+      if (!this.container) return;
+
+      const el = document.createElement('div');
+      el.className = 'social-proof-notification';
+      el.innerHTML = `
+        <div class="social-proof-avatar">
+          ${data.initials}
+        </div>
+        <div class="social-proof-content">
+          <div class="social-proof-name">${data.name} from ${data.location}</div>
+          <div class="social-proof-action">${data.action}</div>
+          <div class="social-proof-time">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            ${data.timeAgo}
+          </div>
+        </div>
+        ${data.icon ? `<div class="social-proof-icon" style="font-size: 1.5rem;">${data.icon}</div>` : ''}
+      `;
+
+      this.container.appendChild(el);
+
+      // Auto-dismiss after 5 seconds
+      setTimeout(() => {
+        el.classList.add('hide');
+        setTimeout(() => {
+          el.remove();
+        }, 300);
+      }, 5000);
+
+      // Click to dismiss
+      el.addEventListener('click', () => {
+        el.classList.add('hide');
+        setTimeout(() => {
+          el.remove();
+        }, 300);
+      });
+    }
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new SocialProofNotifier());
+  } else {
+    new SocialProofNotifier();
+  }
+
+  // Reinitialize on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    new SocialProofNotifier();
+  });
+</script>

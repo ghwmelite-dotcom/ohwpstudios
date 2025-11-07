@@ -1,0 +1,286 @@
+---
+// Client Logo Showcase
+// Infinite scrolling carousel of client/partner logos
+---
+
+<section class="client-logos-section" data-animate>
+  <div class="container">
+    <div class="section-header">
+      <span class="badge">Trusted By</span>
+      <h2>Powering Success for Leading Brands</h2>
+      <p>Join 400+ companies that trust us with their digital presence</p>
+    </div>
+
+    <div class="logos-carousel">
+      <div class="logos-track" id="logos-track">
+        <!-- Logo items will be duplicated for seamless loop -->
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <span>TechCorp</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <span>InnovateLabs</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <span>CloudSync</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+            <span>GreenLeaf</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <span>DesignStudio</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+            <span>DataFlow</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+            <span>MediaHub</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+            <span>SmartSolutions</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+            <span>BrandWorks</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">
+            <span>NextGen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="client-stats">
+      <div class="stat-item">
+        <div class="stat-value">400+</div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">98%</div>
+        <div class="stat-label">Satisfaction Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">50+</div>
+        <div class="stat-label">Industry Awards</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">24/7</div>
+        <div class="stat-label">Support Available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .client-logos-section {
+    padding: 4rem 0;
+    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    overflow: hidden;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+    font-weight: 800;
+  }
+
+  .section-header p {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+  }
+
+  .logos-carousel {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+  }
+
+  .logos-carousel::before,
+  .logos-carousel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .logos-carousel::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--color-bg) 0%, transparent 100%);
+  }
+
+  .logos-carousel::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--color-bg) 0%, transparent 100%);
+  }
+
+  .logos-track {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 40s linear infinite;
+    width: fit-content;
+  }
+
+  .logos-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% - 3rem));
+    }
+  }
+
+  .logo-item {
+    flex-shrink: 0;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    transition: all 0.4s var(--ease-smooth);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+
+  .logo-placeholder:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .client-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--color-border);
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .client-logos-section {
+      padding: 3rem 0;
+    }
+
+    .logo-item {
+      width: 150px;
+      height: 80px;
+    }
+
+    .logo-placeholder span {
+      font-size: 0.9375rem;
+    }
+
+    .client-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // Duplicate logos for seamless infinite scroll
+  function initLogoCarousel() {
+    const track = document.getElementById('logos-track');
+    if (!track) return;
+
+    // Clone all logo items and append them for seamless loop
+    const logos = Array.from(track.children);
+    logos.forEach((logo) => {
+      const clone = logo.cloneNode(true) as HTMLElement;
+      track.appendChild(clone);
+    });
+  }
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLogoCarousel);
+  } else {
+    initLogoCarousel();
+  }
+
+  // Reinitialize on page transitions
+  document.addEventListener('astro:page-load', initLogoCarousel);
+</script>

@@ -1,0 +1,204 @@
+---
+// Premium Custom Cursor Component
+// Magnetic cursor with smooth following and interactive states
+---
+
+<div id="custom-cursor" class="custom-cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+</div>
+
+<style>
+  .custom-cursor {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    mix-blend-mode: difference;
+  }
+
+  .cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    will-change: transform;
+  }
+
+  .cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+  }
+
+  /* Hover states */
+  .custom-cursor.hover .cursor-dot {
+    width: 40px;
+    height: 40px;
+    background: rgba(99, 102, 241, 0.3);
+  }
+
+  .custom-cursor.hover .cursor-outline {
+    width: 60px;
+    height: 60px;
+    border-color: rgba(99, 102, 241, 0.8);
+  }
+
+  /* Click state */
+  .custom-cursor.click .cursor-dot {
+    width: 4px;
+    height: 4px;
+  }
+
+  .custom-cursor.click .cursor-outline {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Hide default cursor on desktop */
+  @media (hover: hover) and (pointer: fine) {
+    body {
+      cursor: none;
+    }
+
+    a, button, input, textarea, select, [data-magnetic], [data-cursor-hover] {
+      cursor: none !important;
+    }
+  }
+
+  /* Hide custom cursor on mobile */
+  @media (hover: none) or (pointer: coarse) {
+    .custom-cursor {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Premium Custom Cursor with Magnetic Effect
+  class CustomCursor {
+    constructor() {
+      this.cursor = document.getElementById('custom-cursor');
+      this.dot = this.cursor?.querySelector('.cursor-dot');
+      this.outline = this.cursor?.querySelector('.cursor-outline');
+
+      if (!this.cursor || !this.dot || !this.outline) return;
+
+      this.cursorPos = { x: 0, y: 0 };
+      this.dotPos = { x: 0, y: 0 };
+      this.outlinePos = { x: 0, y: 0 };
+
+      this.isHovering = false;
+      this.magneticTarget = null;
+
+      this.init();
+    }
+
+    init() {
+      // Track mouse movement
+      document.addEventListener('mousemove', (e) => {
+        this.cursorPos.x = e.clientX;
+        this.cursorPos.y = e.clientY;
+      });
+
+      // Handle click
+      document.addEventListener('mousedown', () => {
+        this.cursor?.classList.add('click');
+      });
+
+      document.addEventListener('mouseup', () => {
+        this.cursor?.classList.remove('click');
+      });
+
+      // Magnetic effect for special elements
+      const magneticElements = document.querySelectorAll('[data-magnetic]');
+      magneticElements.forEach(el => {
+        el.addEventListener('mouseenter', (e) => {
+          this.magneticTarget = e.currentTarget as HTMLElement;
+          this.cursor?.classList.add('hover');
+        });
+
+        el.addEventListener('mouseleave', () => {
+          this.magneticTarget = null;
+          this.cursor?.classList.remove('hover');
+        });
+      });
+
+      // Hover effect for links and buttons
+      const hoverElements = document.querySelectorAll('a, button, [data-cursor-hover]');
+      hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          this.cursor?.classList.add('hover');
+        });
+
+        el.addEventListener('mouseleave', () => {
+          this.cursor?.classList.remove('hover');
+        });
+      });
+
+      // Start animation loop
+      this.animate();
+    }
+
+    animate() {
+      // Magnetic effect
+      if (this.magneticTarget) {
+        const rect = this.magneticTarget.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const distance = Math.sqrt(
+          Math.pow(this.cursorPos.x - centerX, 2) +
+          Math.pow(this.cursorPos.y - centerY, 2)
+        );
+
+        const maxDistance = 100;
+        const strength = Math.max(0, 1 - distance / maxDistance) * 0.3;
+
+        this.cursorPos.x += (centerX - this.cursorPos.x) * strength;
+        this.cursorPos.y += (centerY - this.cursorPos.y) * strength;
+      }
+
+      // Smooth following with easing
+      this.dotPos.x += (this.cursorPos.x - this.dotPos.x) * 0.15;
+      this.dotPos.y += (this.cursorPos.y - this.dotPos.y) * 0.15;
+
+      this.outlinePos.x += (this.cursorPos.x - this.outlinePos.x) * 0.08;
+      this.outlinePos.y += (this.cursorPos.y - this.outlinePos.y) * 0.08;
+
+      // Apply transforms
+      if (this.dot && this.outline) {
+        this.dot.style.transform = `translate(${this.dotPos.x}px, ${this.dotPos.y}px)`;
+        this.outline.style.transform = `translate(${this.outlinePos.x}px, ${this.outlinePos.y}px)`;
+      }
+
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+
+  // Initialize on load (check if desktop)
+  const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (isDesktop) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => new CustomCursor());
+    } else {
+      new CustomCursor();
+    }
+  }
+
+  // Reinitialize on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    if (isDesktop) {
+      new CustomCursor();
+    }
+  });
+</script>
