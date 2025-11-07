@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Restaurant Software Development Services',
+    content: `<p>Streamline restaurant operations with <strong>comprehensive restaurant management software</strong> designed for quick-service restaurants, fine dining, and multi-location chains. We develop point-of-sale systems, kitchen display systems, reservation platforms, and delivery management solutions that optimize operations and enhance customer experience.</p>
+    <p>Our restaurant software experts understand food service operations, inventory management, and the fast-paced environment of hospitality. From table management to online ordering and loyalty programs, we build solutions that increase revenue, reduce costs, and improve customer satisfaction.</p>`
+  },
+  {
+    title: 'Restaurant Challenges We Address',
+    content: `<p>Food service businesses face operational and customer experience challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>Point-of-Sale (POS):</strong> Fast, reliable transaction processing with inventory integration</li>
+      <li><strong>Kitchen Efficiency:</strong> Kitchen display systems (KDS) that streamline food preparation</li>
+      <li><strong>Order Management:</strong> Dine-in, takeout, and delivery orders all in one system</li>
+      <li><strong>Table Management:</strong> Reservation systems with wait list management</li>
+      <li><strong>Inventory Tracking:</strong> Real-time inventory with automated reordering</li>
+      <li><strong>Customer Loyalty:</strong> Loyalty programs and customer data for repeat business</li>
+    </ul>`
+  },
+  {
+    title: 'Restaurant Solutions We Build',
+    content: `<p>Comprehensive software solutions for the entire restaurant lifecycle:</p>
+    <ul>
+      <li><strong>POS Systems:</strong> Fast transactions with inventory tracking and sales reporting</li>
+      <li><strong>Kitchen Display Systems:</strong> Digital kitchen tickets with order prioritization</li>
+      <li><strong>Online Ordering Platform:</strong> Mobile and web platforms for takeout and delivery</li>
+      <li><strong>Reservation System:</strong> Online booking with table management and customer profiles</li>
+      <li><strong>Inventory Management:</strong> Track ingredients with expiration dates and reordering</li>
+      <li><strong>Delivery Integration:</strong> Native delivery management or integration with DoorDash, Uber Eats</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Fast POS System',
+    description: 'Lightning-fast transaction processing with offline capability and seamless sync.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Kitchen Display',
+    description: 'Visual kitchen tickets with preparation tracking and order prioritization.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Payment Processing',
+    description: 'Secure processing of credit cards, cash, and digital wallets with detailed reconciliation.'
+  },
+  {
+    icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+    title: 'Reservation Management',
+    description: 'Online booking, table management, and wait list tracking with customer profiles.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Online Ordering',
+    description: 'Custom-branded mobile and web ordering platforms for takeout and delivery.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Inventory Tracking',
+    description: 'Real-time inventory with expiration tracking, waste reporting, and reordering.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Increased Revenue',
+    description: 'Online ordering and loyalty programs drive repeat business and higher average checks.'
+  },
+  {
+    title: 'Reduced Labor Costs',
+    description: 'Streamlined operations reduce manual tasks and improve staff efficiency by 40%+.'
+  },
+  {
+    title: 'Better Customer Experience',
+    description: 'Fast checkout, online reservations, and loyalty rewards increase customer satisfaction.'
+  },
+  {
+    title: 'Operational Insights',
+    description: 'Real-time analytics on sales, inventory, and staff performance drive better decisions.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Does your POS system work offline?',
+    answer: 'Yes, our POS system operates offline with automatic syncing when connection is restored, ensuring no lost sales.'
+  },
+  {
+    question: 'Can we integrate with third-party delivery services?',
+    answer: 'Absolutely. We integrate with DoorDash, Uber Eats, Grubhub, and other delivery platforms for seamless order management.'
+  },
+  {
+    question: 'How does inventory management work with multiple locations?',
+    answer: 'We provide centralized inventory management across multiple locations with real-time sync and transfer capabilities.'
+  },
+  {
+    question: 'What payment methods do you support?',
+    answer: 'We support credit cards, debit cards, digital wallets (Apple Pay, Google Pay), and cash payments with complete PCI compliance.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Restaurant Software Development | POS & Restaurant Management | OHWP Studios"
+  description="Expert restaurant software development. Build POS systems, kitchen display systems, online ordering platforms, and reservation systems for restaurants."
+  keywords="restaurant software development, POS system development, restaurant management software, kitchen display system, online ordering platform"
+  h1="Restaurant Software Development"
+  heroTitle="Modern Software Solutions for Food Service"
+  heroSubtitle="Build complete restaurant systems with POS, kitchen management, online ordering, and delivery integration to streamline operations and boost revenue."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Custom CRM Development',
+    content: `<p>Transform your sales and customer management with <strong>purpose-built CRM systems</strong> designed specifically for your business. Generic CRM platforms don't fit everyone—we build custom solutions that match your exact workflows and requirements.</p>
+    <p>A CRM that fits your business drives adoption and efficiency. Stop forcing your processes into software. We build software for your processes.</p>`
+  },
+  {
+    title: 'Custom CRM Development Services',
+    content: `<p>We build CRM systems tailored to your business:</p>
+    <ul>
+      <li><strong>Custom Data Models:</strong> Fields and relationships designed around your data</li>
+      <li><strong>Workflow Automation:</strong> Automated processes that match your sales cycle</li>
+      <li><strong>Integration Platform:</strong> Connect to email, calendar, accounting, and other tools</li>
+      <li><strong>Advanced Reporting:</strong> Custom dashboards and reports for management insights</li>
+      <li><strong>Mobile Access:</strong> Full CRM functionality on smartphones and tablets</li>
+      <li><strong>AI-Powered Features:</strong> Predictive lead scoring, opportunity forecasting, and automation</li>
+    </ul>`
+  },
+  {
+    title: 'CRM ROI & Business Impact',
+    content: `<p>A well-implemented CRM drives measurable business results:</p>
+    <ul>
+      <li><strong>Sales Growth:</strong> 20-30% faster sales cycles through better visibility and automation</li>
+      <li><strong>Productivity Gains:</strong> 15-25% productivity increase by eliminating manual data entry</li>
+      <li><strong>Better Forecasting:</strong> More accurate pipeline forecasting and deal probability</li>
+      <li><strong>Customer Insights:</strong> 360-degree view of customer interactions and preferences</li>
+      <li><strong>Team Alignment:</strong> Better collaboration and transparency across teams</li>
+      <li><strong>Revenue Impact:</strong> Typical ROI of 300-500% within 18-24 months</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Contact Management',
+    description: 'Comprehensive contact database with custom fields and relationships.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Sales Pipeline',
+    description: 'Visual pipeline management with drag-drop deals and custom stages.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Workflow Automation',
+    description: 'Automate tasks and processes that match your sales methodology.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Custom Reporting',
+    description: 'Dashboards and reports built for your key metrics and KPIs.'
+  },
+  {
+    icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
+    title: 'AI & Insights',
+    description: 'Predictive lead scoring, opportunity forecasting, and smart recommendations.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Integration Hub',
+    description: 'Connect to email, calendar, accounting, and third-party tools.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Accelerated Sales Cycles',
+    description: 'Close deals 20-30% faster with better visibility and automated follow-ups.'
+  },
+  {
+    title: 'Improved Sales Team Adoption',
+    description: 'CRM designed for your workflow gets better adoption and usage.'
+  },
+  {
+    title: 'Data-Driven Decisions',
+    description: 'Custom dashboards provide insights into sales performance and forecasting.'
+  },
+  {
+    title: 'Customer Lifetime Value',
+    description: 'Better customer insights drive upselling and retention strategies.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Should we build custom CRM or use Salesforce?',
+    answer: "Salesforce works well for standard sales processes. Custom CRM is better if your process is unique, you have complex integrations, or you want lower costs. We recommend custom CRM if you can't fit your workflow into existing platforms."
+  },
+  {
+    question: 'How much does custom CRM development cost?',
+    answer: 'Custom CRM projects typically range from $80,000 to $250,000 depending on complexity. Simple CRMs start at $50,000. Implementation and training add another 20-30%.'
+  },
+  {
+    question: 'How long does CRM development take?',
+    answer: 'MVP CRM takes 3-4 months. Fully-featured systems take 5-8 months. We recommend a phased approach with core features in phase 1 and advanced features in subsequent phases.'
+  },
+  {
+    question: 'Can you integrate with our existing tools?',
+    answer: 'Yes. We integrate with email, calendar, accounting software, marketing automation, and almost any tool with an API. Integration complexity depends on the platform.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Custom CRM Development | Sales Management Software | OHWP Studios"
+  description="Custom CRM development for your specific business needs. Build sales management systems that fit your process with workflows, automation, and integrations."
+  keywords="custom CRM development, CRM software, sales management system, customer relationship management, CRM development services"
+  h1="Custom CRM Development"
+  heroTitle="CRM Built for Your Sales Process"
+  heroSubtitle="Purpose-built customer relationship management systems designed for your unique business needs. Sales pipelines, workflow automation, and AI-powered insights."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

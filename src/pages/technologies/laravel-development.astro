@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Laravel Development Services',
+    content: `<p>Build robust, feature-rich web applications with <strong>Laravel development services</strong>. Laravel is the most popular PHP framework, providing an elegant and expressive syntax for building modern web applications. With built-in features like authentication, routing, and database management, Laravel accelerates development while maintaining code quality.</p>
+    <p>We leverage Laravel with modern tools like Livewire and Inertia to create full-featured applications that combine the power of PHP with a seamless user experience.</p>`
+  },
+  {
+    title: 'Why Choose Laravel',
+    content: `<p>Laravel advantages for web development:</p>
+    <ul>
+      <li><strong>Elegant Syntax:</strong> Beautiful, expressive code that's easy to read</li>
+      <li><strong>Built-In Features:</strong> Authentication, authorization, and more included</li>
+      <li><strong>Powerful ORM:</strong> Eloquent makes database interactions simple</li>
+      <li><strong>Migration System:</strong> Version control for your database schema</li>
+      <li><strong>Modern Tooling:</strong> Vite, Livewire, Inertia for modern development</li>
+      <li><strong>Great Community:</strong> Large ecosystem with excellent support</li>
+    </ul>`
+  },
+  {
+    title: 'Enterprise-Grade PHP Development',
+    content: `<p>Laravel is the framework of choice for modern PHP development. Its comprehensive features, elegant syntax, and strong community make it perfect for projects of any size.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Elegant Framework',
+    description: 'Beautiful, expressive syntax for productive development.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Full Features',
+    description: 'Authentication, routing, database, and more built-in.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Eloquent ORM',
+    description: 'Powerful, intuitive database management.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'Modern PHP with type hints and strict mode.'
+  },
+  {
+    icon: '21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Modern Tools',
+    description: 'Vite, Livewire, and Inertia for modern development.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Database Migrations',
+    description: 'Version control for your database schema.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Development',
+    description: 'Built-in features and elegant syntax mean faster development.'
+  },
+  {
+    title: 'Better Maintainability',
+    description: 'Clean code structure makes maintenance easier.'
+  },
+  {
+    title: 'Security Built-In',
+    description: 'Laravel includes protection against common web vulnerabilities.'
+  },
+  {
+    title: 'Cost Effective',
+    description: 'Fast development and simple deployment reduce costs.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Laravel suitable for enterprise applications?',
+    answer: 'Yes, Laravel is widely used by enterprises for mission-critical applications. Its features, security, and scalability make it ideal for large projects.'
+  },
+  {
+    question: 'What is Livewire?',
+    answer: 'Livewire is a Laravel package that makes building dynamic UIs with zero JavaScript simple. It enables reactive components within your Laravel application.'
+  },
+  {
+    question: 'Can I build APIs with Laravel?',
+    answer: 'Absolutely. Laravel is excellent for building REST APIs and GraphQL APIs. We use Laravel API routes and packages like Laravel Sanctum for authentication.'
+  },
+  {
+    question: 'What is Inertia.js?',
+    answer: 'Inertia.js bridges Laravel and Vue/React, allowing you to build modern single-page applications within your Laravel application.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Laravel Development Services | Expert Laravel Developers | OHWP Studios"
+  description="Professional Laravel development services. Build robust web applications with Laravel. Expert Laravel developers using latest features and best practices."
+  keywords="Laravel development, Laravel developers, Laravel web development, PHP framework, Laravel applications, Livewire, Inertia.js"
+  h1="Laravel Development Services"
+  heroTitle="Build Modern Web Applications With Laravel"
+  heroSubtitle="Expert Laravel development creating robust, scalable web applications with elegant code and built-in features for rapid development."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

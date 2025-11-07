@@ -1,0 +1,117 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Startup MVP Development',
+    content: `<p>Launch your startup faster with our <strong>Minimum Viable Product (MVP) development</strong> services. We focus on building the core features that validate your business idea while keeping costs and time-to-market low. Get to market quickly, gather user feedback, and iterate based on real data.</p>
+    <p>Stop planning and start validating. Our MVP development approach gets your product in front of users in weeks, not months.</p>`
+  },
+  {
+    title: 'Rapid MVP Development Process',
+    content: `<p>We streamline the development process to deliver results faster:</p>
+    <ul>
+      <li><strong>Lean Requirements:</strong> Focus on 20% of features that deliver 80% of value</li>
+      <li><strong>Agile Methodology:</strong> Two-week sprints with regular feedback and iteration</li>
+      <li><strong>Cost Optimization:</strong> No-code solutions where appropriate, custom code where needed</li>
+      <li><strong>Fast Deployment:</strong> Cloud-ready infrastructure for immediate launch</li>
+      <li><strong>Scalability Built-In:</strong> Architecture that grows from 100 to 100,000 users</li>
+      <li><strong>User Analytics:</strong> Track engagement and gather insights to guide next features</li>
+    </ul>`
+  },
+  {
+    title: 'From MVP to Series A',
+    content: `<p>Your MVP is just the beginning. We architect products that scale:</p>
+    <ul>
+      <li><strong>Validated Metrics:</strong> Launch with analytics to prove product-market fit</li>
+      <li><strong>Fundraising Ready:</strong> Clean code and documented architecture for due diligence</li>
+      <li><strong>Roadmap Planning:</strong> Data-driven feature prioritization for your next phase</li>
+      <li><strong>Technical Debt Prevention:</strong> Code quality that lets you move fast safely</li>
+      <li><strong>Team Enablement:</strong> Handoff documentation so your team can scale independently</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
+    title: 'Fast Launch',
+    description: 'Get to market in 6-12 weeks with a fully functional MVP.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Cost Efficient',
+    description: 'Minimize burn rate with lean development and smart tech choices.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Validated Ideas',
+    description: 'Launch with real user feedback driving development.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Scalable Foundation',
+    description: 'Architecture ready to scale from MVP to millions of users.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Quality Code',
+    description: 'Clean, documented code that stands up to investor scrutiny.'
+  },
+  {
+    icon: 'M13 13h8m-8-6h8m-8 12h8M5 13a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Analytics Ready',
+    description: 'Built-in tracking to measure success and guide iterations.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Reduce Time to Market',
+    description: 'Launch in weeks instead of months and validate your idea with real users faster.'
+  },
+  {
+    title: 'Lower Financial Risk',
+    description: 'Start with a lean MVP to prove concept before investing in full development.'
+  },
+  {
+    title: 'Data-Driven Decisions',
+    description: 'Make feature decisions based on actual user behavior and feedback metrics.'
+  },
+  {
+    title: 'Fundraising Advantage',
+    description: 'Show investors working product, traction, and scalable architecture for higher valuations.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How fast can you deliver an MVP?',
+    answer: 'We typically deliver functional MVPs in 6-12 weeks depending on complexity. For very simple products, we can launch prototypes in 2-3 weeks.'
+  },
+  {
+    question: 'What should be included in an MVP?',
+    answer: 'An MVP includes only the core features that demonstrate your value proposition. We help you identify the 20% of features that deliver 80% of value, cutting development time and costs.'
+  },
+  {
+    question: 'Can an MVP scale to production?',
+    answer: 'Yes! We architect MVPs with scalability in mind from day one. Your MVP foundation supports growth from hundreds to millions of users.'
+  },
+  {
+    question: 'How much does MVP development cost?',
+    answer: 'MVP projects typically range from $25,000 to $75,000 depending on complexity. We provide detailed scoping and fixed proposals for predictable budgets.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Startup MVP Development | Fast Launch & Validation | OHWP Studios"
+  description="Fast, cost-effective MVP development for startups. Get your idea to market in 6-12 weeks with scalable, validated products. Expert startup development services."
+  keywords="MVP development, startup development, minimum viable product, rapid development, startup software development, MVP services"
+  h1="Startup MVP Development"
+  heroTitle="Launch Your Startup in Weeks, Not Months"
+  heroSubtitle="Build and validate your business idea with our rapid MVP development service. Get to market fast, gather user feedback, and scale based on real data."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

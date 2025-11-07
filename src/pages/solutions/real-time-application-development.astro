@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Real-Time Application Development',
+    content: `<p>Build <strong>real-time collaborative applications</strong> where users see live updates instantly. From live chat and notifications to collaborative documents and live dashboards, we create applications that feel responsive and alive.</p>
+    <p>Real-time is no longer a luxury—it's expected. Users demand instant feedback and live data. We build applications that deliver real-time experiences at scale.</p>`
+  },
+  {
+    title: 'Real-Time Technology Stack',
+    content: `<p>We implement real-time capabilities using proven technologies:</p>
+    <ul>
+      <li><strong>WebSockets:</strong> Persistent bi-directional communication for true real-time</li>
+      <li><strong>Live Updating Feeds:</strong> Social feeds, notifications, and activity streams</li>
+      <li><strong>Collaborative Editing:</strong> Multiple users editing the same document simultaneously</li>
+      <li><strong>Live Chat & Messaging:</strong> Instant messaging with presence and typing indicators</li>
+      <li><strong>Live Data Dashboards:</strong> Real-time metrics and KPI dashboards updating live</li>
+      <li><strong>Multiplayer Experiences:</strong> Gaming, whiteboarding, or collaborative tools</li>
+    </ul>`
+  },
+  {
+    title: 'Scalability & Performance',
+    content: `<p>Real-time applications require careful architecture:</p>
+    <ul>
+      <li><strong>Connection Management:</strong> Handle thousands of concurrent connections efficiently</li>
+      <li><strong>Message Broadcasting:</strong> Distribute updates to the right users instantly</li>
+      <li><strong>Conflict Resolution:</strong> Handle simultaneous edits with operational transformation</li>
+      <li><strong>Resilience:</strong> Automatic reconnection and data sync on network issues</li>
+      <li><strong>Security:</strong> Real-time authentication and authorization per message</li>
+      <li><strong>Optimization:</strong> Minimize bandwidth with efficient protocols and compression</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Real-Time Updates',
+    description: 'Instant data updates across all users without page refreshes.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Live Collaboration',
+    description: 'Multiple users working simultaneously with conflict-free editing.'
+  },
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Presence Awareness',
+    description: 'See who is online, typing, or viewing the same content.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Scalable Architecture',
+    description: 'Handle thousands of concurrent real-time connections.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Offline Sync',
+    description: 'Full functionality offline with automatic sync when reconnected.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Push Notifications',
+    description: 'Notify users of important events in real-time across all devices.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Superior User Experience',
+    description: 'Real-time feedback creates fast, responsive applications users love.'
+  },
+  {
+    title: 'Increased Engagement',
+    description: 'Live features and notifications keep users engaged and coming back.'
+  },
+  {
+    title: 'Collaboration Features',
+    description: 'Enable teams to work together seamlessly across locations and time zones.'
+  },
+  {
+    title: 'Competitive Advantage',
+    description: 'Real-time capabilities are a differentiator against competitors.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What technologies do you use for real-time?',
+    answer: 'We use WebSockets for server-client communication, Socket.io or similar libraries for connection management, and operational transformation algorithms for conflict-free collaborative editing.'
+  },
+  {
+    question: 'Can real-time applications scale?',
+    answer: 'Yes. Real-time apps can handle thousands of concurrent connections with proper architecture. We use message queues, load balancing, and horizontal scaling to handle millions of users.'
+  },
+  {
+    question: 'How much does real-time development cost?',
+    answer: 'Real-time applications typically cost 20-30% more than traditional apps due to infrastructure complexity. Costs range from $50,000 for simple real-time features to $200,000+ for complex collaborative platforms.'
+  },
+  {
+    question: 'What about latency and performance?',
+    answer: 'We optimize for sub-second latency using efficient protocols, CDN-backed infrastructure, and regional servers. Most real-time features deliver <100ms latency.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Real-Time Application Development | Live Collaboration Software | OHWP Studios"
+  description="Real-time application development with WebSockets, live updates, and collaborative features. Build responsive apps with instant data synchronization."
+  keywords="real-time application development, WebSocket applications, collaborative software, live updates, real-time web applications"
+  h1="Real-Time Application Development"
+  heroTitle="Build Applications That Feel Alive"
+  heroSubtitle="Expert real-time application development with instant updates, collaborative editing, and live features. Create responsive experiences users love."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

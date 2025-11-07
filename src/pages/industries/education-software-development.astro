@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Education Software Development Services',
+    content: `<p>Revolutionize learning with <strong>comprehensive education software solutions</strong> designed for K-12 schools, universities, training centers, and educational institutions. We develop learning management systems (LMS), student information systems (SIS), and digital classroom platforms that enhance teaching and learning outcomes.</p>
+    <p>Our education software experts understand pedagogical approaches, accreditation requirements, and the unique needs of educators and students. From virtual classrooms to assignment tracking and student progress monitoring, we build solutions that make education more accessible, engaging, and effective.</p>`
+  },
+  {
+    title: 'Education Challenges We Address',
+    content: `<p>Educational institutions face operational and learning challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>Student Information Management:</strong> Centralize enrollment, grades, attendance, and academic records</li>
+      <li><strong>Virtual Learning:</strong> Enable remote instruction with interactive classrooms and live collaboration</li>
+      <li><strong>Assignment Management:</strong> Streamline assignment distribution, submission, and grading</li>
+      <li><strong>Student Engagement:</strong> Create interactive content and adaptive learning paths</li>
+      <li><strong>Parent Communication:</strong> Keep parents informed with progress reports and notifications</li>
+      <li><strong>Compliance & Accreditation:</strong> Meet FERPA, COPPA, and other educational compliance standards</li>
+    </ul>`
+  },
+  {
+    title: 'Education Solutions We Build',
+    content: `<p>Comprehensive educational software across the entire learning ecosystem:</p>
+    <ul>
+      <li><strong>Learning Management Systems (LMS):</strong> Complete platforms for course delivery, assessment, and collaboration</li>
+      <li><strong>Student Information Systems (SIS):</strong> Enrollment, transcripts, grades, and academic records management</li>
+      <li><strong>Virtual Classrooms:</strong> Live video instruction with interactive tools and breakout rooms</li>
+      <li><strong>Assignment Management:</strong> Digital assignment creation, submission, and automated grading</li>
+      <li><strong>Assessment Platforms:</strong> Online testing, quizzes, and adaptive assessments</li>
+      <li><strong>Parent/Student Portals:</strong> Real-time access to grades, assignments, and school communications</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17.5S6.5 28.5 12 28.5s10-4.745 10-10.5S17.493 6.253 12 6.253z',
+    title: 'Virtual Classrooms',
+    description: 'Live video instruction with screen sharing, interactive whiteboards, and breakout rooms.'
+  },
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    title: 'Assignment Management',
+    description: 'Digital assignment creation, collection, grading, and feedback all in one place.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Progress Analytics',
+    description: 'Real-time dashboards showing student performance, engagement, and learning progress.'
+  },
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Parent Engagement',
+    description: 'Parent portals with real-time grades, attendance alerts, and communication tools.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Mobile Learning',
+    description: 'Native iOS and Android apps for students to access coursework and communicate on-the-go.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Adaptive Learning',
+    description: 'AI-powered personalized learning paths that adapt to each student\'s pace and learning style.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Improved Learning Outcomes',
+    description: 'Interactive content and adaptive learning paths increase student engagement and achievement.'
+  },
+  {
+    title: 'Administrative Efficiency',
+    description: 'Automated grading, attendance, and record management reduces teacher workload by 40%+.'
+  },
+  {
+    title: 'Better Communication',
+    description: 'Real-time parent-teacher communication keeps families engaged in student success.'
+  },
+  {
+    title: 'FERPA Compliance',
+    description: 'Student data protection and privacy compliance with built-in security and audit trails.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is your education software FERPA and COPPA compliant?',
+    answer: 'Yes, all our education platforms are built with FERPA (Family Educational Rights and Privacy Act) and COPPA (Children\'s Online Privacy Protection Act) compliance.'
+  },
+  {
+    question: 'Can teachers integrate third-party educational tools?',
+    answer: 'Absolutely. We provide LTI (Learning Tools Interoperability) support for integrating popular educational tools like Google Classroom, Zoom, and others.'
+  },
+  {
+    question: 'Does the platform support different grading systems?',
+    answer: 'Yes, our SIS supports multiple grading scales, weighted grading, and customizable report cards for different educational standards.'
+  },
+  {
+    question: 'Can students access coursework on mobile devices?',
+    answer: 'Yes, our platform is fully responsive and we provide native iOS and Android apps for students to access lessons and assignments anywhere.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Education Software Development | LMS & SIS Solutions | OHWP Studios"
+  description="Expert education software development. Build learning management systems, student information systems, virtual classrooms, and assessment platforms for schools and universities."
+  keywords="education software development, LMS development, student information system, virtual classroom platform, educational technology solutions"
+  h1="Education Software Development"
+  heroTitle="Transform Education With Modern Learning Platforms"
+  heroSubtitle="Build engaging digital learning environments with virtual classrooms, assignment management, and comprehensive student progress tracking."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

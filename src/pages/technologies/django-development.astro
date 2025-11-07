@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Django Development Services',
+    content: `<p>Build secure, scalable web applications with <strong>Django development services</strong>. Django is a high-level Python web framework that emphasizes rapid development and pragmatic design. With built-in features like ORM, admin interface, and authentication, Django is perfect for building feature-rich web applications quickly and securely.</p>
+    <p>We leverage Django REST Framework to build powerful APIs and combine Django with modern frontend frameworks to deliver complete, full-stack applications.</p>`
+  },
+  {
+    title: 'Why Choose Django',
+    content: `<p>Django advantages for web development:</p>
+    <ul>
+      <li><strong>Batteries Included:</strong> Complete framework with everything you need</li>
+      <li><strong>Admin Interface:</strong> Powerful built-in admin for managing content</li>
+      <li><strong>Security First:</strong> Built-in protection against common vulnerabilities</li>
+      <li><strong>Powerful ORM:</strong> Database interactions without writing SQL</li>
+      <li><strong>REST Framework:</strong> Build APIs quickly with DRF</li>
+      <li><strong>Scalable:</strong> Powers applications for Instagram, Pinterest, and Spotify</li>
+    </ul>`
+  },
+  {
+    title: 'Enterprise Python Web Development',
+    content: `<p>Django is trusted by companies worldwide for mission-critical applications. Its comprehensive feature set, security, and scalability make it ideal for enterprise web development.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Complete Framework',
+    description: 'Everything included for full-featured web applications.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Optimized for speed with caching and query optimization.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Secure by Default',
+    description: 'Built-in protection against CSRF, SQL injection, and more.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Admin Interface',
+    description: 'Powerful built-in admin for managing application content.'
+  },
+  {
+    icon: '21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'API Development',
+    description: 'Django REST Framework for building powerful APIs.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'ORM Power',
+    description: 'Query builders and ORM for database management.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Rapid Development',
+    description: 'Built-in features accelerate development significantly.'
+  },
+  {
+    title: 'Secure Applications',
+    description: 'Security best practices built into the framework.'
+  },
+  {
+    title: 'Easy Maintenance',
+    description: 'Clean code structure and documentation make maintenance simple.'
+  },
+  {
+    title: 'Enterprise Grade',
+    description: 'Powers some of the world\'s largest web applications.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Django only for monolithic applications?',
+    answer: 'No. While Django is great for monolithic apps, Django REST Framework makes it perfect for building microservices and APIs that work with modern frontend frameworks.'
+  },
+  {
+    question: 'Can I use Django with React or Vue?',
+    answer: 'Absolutely. Django APIs work seamlessly with React, Vue, or any frontend framework. We often build Django backends powering modern frontend applications.'
+  },
+  {
+    question: 'What is Django REST Framework?',
+    answer: 'DRF is a powerful, flexible toolkit for building Web APIs. It makes building REST APIs with Django quick and simple.'
+  },
+  {
+    question: 'How does Django scale?',
+    answer: 'Django scales well with proper architecture. You can scale horizontally with multiple servers, use caching, database optimization, and async tasks with Celery.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Django Development Services | Expert Django Developers | OHWP Studios"
+  description="Professional Django development services. Build robust web applications and APIs with Django. Expert Django developers using latest features and best practices."
+  keywords="Django development, Django developers, Django REST Framework, Python web development, web applications, API development, Django CMS"
+  h1="Django Development Services"
+  heroTitle="Build Secure, Scalable Web Applications With Django"
+  heroSubtitle="Expert Django development creating robust, feature-rich applications with built-in security, powerful ORM, and rapid development capabilities."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

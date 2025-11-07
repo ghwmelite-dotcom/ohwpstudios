@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Real Estate Software Development Services',
+    content: `<p>Transform property management and real estate transactions with <strong>specialized real estate software solutions</strong>. We develop comprehensive platforms for brokers, agents, property managers, and developers that streamline operations and enhance client experiences.</p>
+    <p>Our real estate software experts understand the unique workflows of property listing, tenant management, lease administration, and transaction processing. From MLS integration to virtual tours and smart property management systems, we build solutions that connect buyers, sellers, and property managers efficiently.</p>`
+  },
+  {
+    title: 'Real Estate Challenges We Solve',
+    content: `<p>Real estate businesses face operational and sales challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>Property Listing Management:</strong> Centralize and distribute property listings across multiple channels</li>
+      <li><strong>Lead Management:</strong> Capture, nurture, and convert potential buyers and tenants</li>
+      <li><strong>Transaction Management:</strong> Streamline contracts, documents, and closing processes</li>
+      <li><strong>Virtual Tours:</strong> Provide 3D tours, virtual staging, and immersive property viewing</li>
+      <li><strong>Property Management:</strong> Automate rent collection, maintenance requests, and tenant communication</li>
+      <li><strong>Market Analytics:</strong> Provide real-time market data and price predictions</li>
+    </ul>`
+  },
+  {
+    title: 'Real Estate Solutions We Build',
+    content: `<p>Comprehensive software solutions across the real estate lifecycle:</p>
+    <ul>
+      <li><strong>Broker Portals:</strong> Multi-agent platforms with listing management and transaction tracking</li>
+      <li><strong>Property Management Systems:</strong> Tenant management, rent collection, and maintenance coordination</li>
+      <li><strong>Virtual Tour Platforms:</strong> 3D walkthroughs, VR tours, and immersive property experiences</li>
+      <li><strong>Buyer/Renter Portals:</strong> Property search, mortgage calculators, and application processing</li>
+      <li><strong>Document Management:</strong> Secure storage and e-signature integration for contracts and documents</li>
+      <li><strong>Market Analytics Dashboards:</strong> Real-time market data, price trends, and investment analysis</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.5a1 1 0 00-1 1v2.5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2.5a1 1 0 00-1-1H5a2 2 0 00-2 2v4a2 2 0 002 2z',
+    title: 'Listing Management',
+    description: 'Centralize property listings with automated syndication to MLS and popular portals.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Virtual Tours',
+    description: '3D walkthroughs, VR tours, and immersive property viewing experiences for buyers.'
+  },
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Lead Management',
+    description: 'Capture and nurture leads with automated follow-up and CRM integration.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Financial Analysis',
+    description: 'Investment ROI calculators, mortgage estimators, and price trend analysis.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Tenant Management',
+    description: 'Automated rent collection, maintenance requests, and tenant communication portal.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Document Security',
+    description: 'Secure document storage with e-signature and compliance for contracts and leases.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Increased Property Sales',
+    description: 'Virtual tours and better listing visibility increase buyer engagement and close rates.'
+  },
+  {
+    title: 'Operational Efficiency',
+    description: 'Automate property management tasks and reduce administrative workload by 70%+.'
+  },
+  {
+    title: 'Better Client Experience',
+    description: 'Modern interfaces and self-service portals improve satisfaction for buyers, sellers, and tenants.'
+  },
+  {
+    title: 'Data-Driven Decisions',
+    description: 'Real-time market analytics and insights help identify opportunities and optimize pricing.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Do you integrate with MLS and property listing portals?',
+    answer: 'Yes, we integrate with major MLS systems and online portals like Zillow, Realtor.com, and Trulia for seamless property syndication.'
+  },
+  {
+    question: 'Can you create virtual tours for properties?',
+    answer: 'Absolutely. We develop 3D virtual tours, VR walkthroughs, and immersive property viewing experiences that increase buyer engagement.'
+  },
+  {
+    question: 'What payment methods do you support for rent collection?',
+    answer: 'We integrate with multiple payment processors supporting ACH transfers, credit cards, and online banking for secure, convenient rent collection.'
+  },
+  {
+    question: 'Is document storage secure and compliant?',
+    answer: 'Yes, all documents are encrypted and stored securely with access controls and audit trails for compliance.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Real Estate Software Development | Property Management Solutions | OHWP Studios"
+  description="Expert real estate software development. Build property management systems, virtual tours, listing platforms, and CRM solutions for brokers and agents."
+  keywords="real estate software development, property management software, real estate portal development, virtual tour platform, real estate CRM development"
+  h1="Real Estate Software Development"
+  heroTitle="Innovative Real Estate Software Solutions"
+  heroSubtitle="Build modern real estate platforms with virtual tours, property management, and lead generation tools that drive sales and efficiency."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

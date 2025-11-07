@@ -1,0 +1,107 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'MVP Development Services',
+    content: `<p>Validate your idea and reach market faster with <strong>MVP (Minimum Viable Product) development</strong>. We build feature-focused products that let you test your concept with real users while minimizing time and budget.</p>
+    <p>Our lean development approach helps startups and entrepreneurs launch quickly, gather feedback, and iterate based on real user data.</p>`
+  },
+  {
+    title: 'Our MVP Development Process',
+    content: `<p>Rapid yet strategic MVP development:</p>
+    <ul>
+      <li><strong>Idea Validation:</strong> Analyze market fit and target audience</li>
+      <li><strong>Feature Prioritization:</strong> Identify core features for initial launch</li>
+      <li><strong>Rapid Prototyping:</strong> Create clickable prototypes for testing</li>
+      <li><strong>Agile Development:</strong> Build in 2-week sprints for quick iterations</li>
+      <li><strong>Launch & Monitor:</strong> Deploy and track key metrics</li>
+      <li><strong>Iterate & Scale:</strong> Refine based on user feedback</li>
+    </ul>`
+  },
+  {
+    title: 'Why Build an MVP First',
+    content: `<p>Benefits of the MVP approach:</p>
+    <ul>
+      <li>Test your idea with minimal investment</li>
+      <li>Get to market 60% faster than traditional development</li>
+      <li>Attract investors with a working product</li>
+      <li>Build based on actual user feedback, not assumptions</li>
+      <li>Reduce risk of building features nobody wants</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Rapid Development',
+    description: 'Launch in 8-12 weeks instead of 6-12 months.'
+  },
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
+    title: 'Core Features Only',
+    description: 'Focus on essential functionality that validates your idea.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Cost-Effective',
+    description: 'Lower initial investment to validate before scaling.'
+  },
+  {
+    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+    title: 'Iterative Approach',
+    description: 'Continuous improvement based on real user data.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Time to Market',
+    description: 'Launch in weeks, not months, to capture early adopters.'
+  },
+  {
+    title: 'Reduced Risk',
+    description: 'Validate demand before investing heavily in development.'
+  },
+  {
+    title: 'Investor Ready',
+    description: 'Working product and user metrics attract funding.'
+  },
+  {
+    title: 'User-Driven Growth',
+    description: 'Build features users actually want and need.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How much does MVP development cost?',
+    answer: 'MVPs typically range from $25,000 to $75,000 depending on complexity and features. This is significantly less than building a full product upfront.'
+  },
+  {
+    question: 'What happens after the MVP launches?',
+    answer: 'We help you analyze user data, gather feedback, and plan your product roadmap. Then we can continue development to add features and scale based on what you learned.'
+  },
+  {
+    question: 'How do you decide which features to include?',
+    answer: 'We work with you to identify the core value proposition and minimum features needed to test your hypothesis. Everything else is saved for future iterations.'
+  },
+  {
+    question: 'Can the MVP scale into a full product?',
+    answer: 'Yes, we build MVPs with scalable architecture so you can add features and users without rebuilding from scratch.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="MVP Development Services | Minimum Viable Product | OHWP Studios"
+  description="Expert MVP development services for startups. Build and launch your minimum viable product in 8-12 weeks. Validate your idea, attract investors, reduce risk."
+  keywords="MVP development, minimum viable product, startup development, product development, rapid prototyping"
+  h1="MVP Development Services"
+  heroTitle="Validate Your Idea and Launch Faster With MVP Development"
+  heroSubtitle="Expert MVP development services helping startups and entrepreneurs test ideas quickly with minimal investment."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

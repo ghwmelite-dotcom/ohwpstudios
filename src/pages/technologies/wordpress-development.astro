@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'WordPress Development Services',
+    content: `<p>Build powerful, flexible websites with <strong>WordPress development services</strong>. WordPress powers over 40% of the web, providing a robust platform for everything from blogs to complex enterprise websites. Our team builds custom WordPress solutions that combine the platform's flexibility with professional design and functionality.</p>
+    <p>We create custom themes, plugins, and integrate WordPress with modern tools to deliver secure, fast, and maintainable websites that serve your business goals.</p>`
+  },
+  {
+    title: 'Why Choose WordPress',
+    content: `<p>WordPress advantages for web development:</p>
+    <ul>
+      <li><strong>Easy to Use:</strong> Intuitive interface for managing content</li>
+      <li><strong>Highly Flexible:</strong> Custom themes and plugins for any functionality</li>
+      <li><strong>SEO Friendly:</strong> Built-in SEO capabilities and excellent tools</li>
+      <li><strong>Scalable:</strong> Handles from small blogs to enterprise sites</li>
+      <li><strong>Cost Effective:</strong> Open source with no licensing costs</li>
+      <li><strong>Massive Community:</strong> Thousands of themes, plugins, and developers</li>
+    </ul>`
+  },
+  {
+    title: 'Professional WordPress Solutions',
+    content: `<p>We go beyond standard WordPress. Our team builds custom themes, develops specialized plugins, and optimizes WordPress installations for performance and security, delivering professional solutions that grow with your business.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Custom Themes',
+    description: 'Beautiful, custom-designed WordPress themes.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Plugin Development',
+    description: 'Custom plugins for specialized functionality.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'SEO Optimization',
+    description: 'Optimized for search engines and user experience.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Security',
+    description: 'Security hardening and regular maintenance.'
+  },
+  {
+    icon: '21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'E-Commerce Ready',
+    description: 'WooCommerce integration for online stores.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Performance',
+    description: 'Optimized performance and fast loading times.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Quick Launch',
+    description: 'WordPress\' maturity means faster development and deployment.'
+  },
+  {
+    title: 'Easy Content Management',
+    description: 'Intuitive interface makes managing content simple.'
+  },
+  {
+    title: 'SEO Excellence',
+    description: 'Built-in and plugin support for excellent SEO practices.'
+  },
+  {
+    title: 'Cost Effective',
+    description: 'Open source foundation with no licensing fees.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Can WordPress handle large, complex websites?',
+    answer: 'Yes. WordPress powers enterprise websites for major corporations. With proper optimization, caching, and architecture, WordPress scales to handle millions of visitors.'
+  },
+  {
+    question: 'Is WordPress secure?',
+    answer: 'WordPress is secure when properly configured and maintained. We implement security best practices, keep plugins updated, and use security plugins to protect your site.'
+  },
+  {
+    question: 'Can I build custom functionality with WordPress?',
+    answer: 'Absolutely. Custom themes and plugins allow you to build virtually any functionality. We develop custom solutions tailored to your specific needs.'
+  },
+  {
+    question: 'Is WordPress good for SEO?',
+    answer: 'Yes, WordPress is extremely SEO-friendly. With proper configuration, good themes, and SEO plugins like Yoast, WordPress sites rank well in search engines.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="WordPress Development Services | Expert WordPress Developers | OHWP Studios"
+  description="Professional WordPress development services. Build custom websites with WordPress. Expert WordPress developers creating beautiful, functional sites with custom themes and plugins."
+  keywords="WordPress development, WordPress developers, custom WordPress themes, WordPress plugins, WordPress website development, WooCommerce, WordPress SEO"
+  h1="WordPress Development Services"
+  heroTitle="Build Professional Websites With WordPress"
+  heroSubtitle="Expert WordPress development creating beautiful, functional websites with custom themes, plugins, and professional optimization for performance and SEO."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

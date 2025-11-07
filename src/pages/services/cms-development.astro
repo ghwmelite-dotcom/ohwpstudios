@@ -1,0 +1,83 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'CMS Development Services',
+    content: `<p>Empower your team to manage content independently with <strong>CMS development services</strong>. We build custom content management systems and implement leading platforms like WordPress, Strapi, and Contentful tailored to your workflow.</p>
+    <p>A well-designed CMS lets you update content, publish pages, and manage media without developer assistance.</p>`
+  },
+  {
+    title: 'CMS Solutions We Provide',
+    content: `<p>Flexible content management options:</p>
+    <ul>
+      <li><strong>Headless CMS:</strong> API-first systems for multi-channel content delivery</li>
+      <li><strong>WordPress Development:</strong> The world's most popular CMS</li>
+      <li><strong>Custom CMS:</strong> Tailored systems for unique requirements</li>
+      <li><strong>Jamstack CMS:</strong> Modern architectures with Contentful, Strapi, Sanity</li>
+      <li><strong>Migration Services:</strong> Move from legacy systems to modern CMS</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
+    title: 'Easy Content Editing',
+    description: 'Intuitive interface anyone on your team can use.'
+  },
+  {
+    icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
+    title: 'Media Management',
+    description: 'Organize images, videos, and documents effortlessly.'
+  },
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'User Roles',
+    description: 'Control who can create, edit, and publish content.'
+  },
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Multi-Channel',
+    description: 'Distribute content to web, mobile, and other platforms.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Content Independence',
+    description: 'Update your website without technical knowledge.'
+  },
+  {
+    title: 'Faster Updates',
+    description: 'Publish content immediately without waiting for developers.'
+  },
+  {
+    title: 'Better SEO',
+    description: 'Regular content updates improve search rankings.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Should I use WordPress or a headless CMS?',
+    answer: 'WordPress is excellent for traditional websites and blogs. Headless CMS is better when you need to distribute content to multiple platforms (web, mobile, IoT). We help you choose based on your needs.'
+  },
+  {
+    question: 'Can you migrate my existing content?',
+    answer: 'Yes, we provide content migration services to move your content from legacy systems to modern CMS platforms.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="CMS Development Services | Content Management Systems | OHWP Studios"
+  description="Professional CMS development services. Build custom content management systems or implement WordPress, Strapi, Contentful. Easy content updates for your team."
+  keywords="CMS development, content management system, WordPress development, headless CMS, custom CMS development"
+  h1="CMS Development"
+  heroTitle="Empower Your Team With Powerful Content Management"
+  heroSubtitle="Expert CMS development services creating flexible content management systems that put you in control."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Swift Development Services',
+    content: `<p>Build premium native iOS applications with <strong>Swift development services</strong>. Swift is Apple's modern programming language designed specifically for iOS, macOS, and other Apple platforms. With its clean syntax, powerful features, and strong type safety, Swift enables developers to create fast, safe, and intuitive iOS applications.</p>
+    <p>We leverage SwiftUI, Combine, and modern Swift frameworks to build native iOS apps that deliver the best possible experience on Apple devices.</p>`
+  },
+  {
+    title: 'Why Choose Swift',
+    content: `<p>Swift advantages for iOS development:</p>
+    <ul>
+      <li><strong>Native Performance:</strong> Optimized for iOS with direct access to all APIs</li>
+      <li><strong>Modern Language:</strong> Clean, expressive syntax that's easy to read and write</li>
+      <li><strong>Type Safety:</strong> Strong type system prevents many common bugs</li>
+      <li><strong>SwiftUI:</strong> Modern declarative UI framework for beautiful interfaces</li>
+      <li><strong>Full Platform Access:</strong> Access all iOS features and frameworks</li>
+      <li><strong>Apple Ecosystem:</strong> Perfect integration with macOS, watchOS, tvOS</li>
+    </ul>`
+  },
+  {
+    title: 'Premium iOS Excellence',
+    content: `<p>Swift is the language of choice for premium iOS development. Building with Swift ensures your iOS app delivers the performance, design, and user experience that sets it apart in the App Store.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Native iOS Development',
+    description: 'Build apps exclusively for iOS with full platform access.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Direct compilation to native code ensures blazing speed.'
+  },
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Modern Language',
+    description: 'Clean, expressive syntax that\'s safe and efficient.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'Strong typing prevents bugs at compile time.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'SwiftUI Framework',
+    description: 'Modern, declarative UI building for beautiful interfaces.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Apple Ecosystem',
+    description: 'Build for iPhone, iPad, Mac, Watch, and TV from one codebase.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Premium App Store Presence',
+    description: 'Swift apps deliver the quality and performance expected by iOS users.'
+  },
+  {
+    title: 'Better Maintenance',
+    description: 'Strong typing and modern syntax make code easier to maintain.'
+  },
+  {
+    title: 'Faster Performance',
+    description: 'Swift compiles to optimized native code for maximum speed.'
+  },
+  {
+    title: 'Apple Support',
+    description: 'Apple\'s continued investment in Swift ensures future relevance.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Can I deploy iOS apps built with Swift to other platforms?',
+    answer: 'Swift is optimized for Apple platforms. For cross-platform needs, frameworks like Flutter or React Native are better choices.'
+  },
+  {
+    question: 'What is SwiftUI?',
+    answer: 'SwiftUI is Apple\'s modern, declarative UI framework for building native iOS interfaces. It makes UI development faster and more intuitive.'
+  },
+  {
+    question: 'How does Swift compare to Objective-C?',
+    answer: 'Swift is Apple\'s modern replacement for Objective-C, offering cleaner syntax, better safety, and improved performance. Apple recommends Swift for all new iOS development.'
+  },
+  {
+    question: 'Can Swift apps access all iOS features?',
+    answer: 'Yes, Swift has full access to all iOS APIs and frameworks, giving you complete control over app functionality.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Swift Development Services | Expert Swift Developers | OHWP Studios"
+  description="Professional Swift development for iOS apps. Build premium native iOS applications with Swift. Expert iOS developers creating high-performance apps."
+  keywords="Swift development, Swift developers, iOS development, iOS app development, SwiftUI, native iOS applications, iPhone app development"
+  h1="Swift Development Services"
+  heroTitle="Build Premium Native iOS Apps With Swift"
+  heroSubtitle="Expert Swift development creating high-performance, beautiful iOS applications that deliver exceptional user experiences."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

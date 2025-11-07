@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Flutter Development Services',
+    content: `<p>Create beautiful, native mobile applications for iOS and Android with <strong>Flutter development services</strong>. Flutter is Google's UI framework that enables developers to build natively compiled applications from a single codebase. With hot reload, rich pre-built widgets, and excellent performance, Flutter is the modern choice for cross-platform mobile development.</p>
+    <p>We leverage Flutter's comprehensive widget library and Dart language to build stunning, responsive applications that feel completely native on both platforms.</p>`
+  },
+  {
+    title: 'Why Choose Flutter',
+    content: `<p>Flutter advantages for mobile development:</p>
+    <ul>
+      <li><strong>Single Codebase:</strong> Write once, deploy to iOS and Android</li>
+      <li><strong>Beautiful UI:</strong> Rich, customizable widgets for stunning interfaces</li>
+      <li><strong>Hot Reload:</strong> Instant feedback during development</li>
+      <li><strong>Native Performance:</strong> Compiles directly to native code</li>
+      <li><strong>Rich Widgets:</strong> Pre-built Material and Cupertino designs</li>
+      <li><strong>Easy State Management:</strong> Bloc, Provider, and other solutions available</li>
+    </ul>`
+  },
+  {
+    title: 'Cross-Platform Excellence',
+    content: `<p>Flutter delivers native-quality applications with the efficiency of a single codebase. Major companies like Google, Alibaba, and BMW use Flutter for their mission-critical mobile applications.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Cross-Platform',
+    description: 'Build for iOS and Android from one codebase.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Beautiful UIs',
+    description: 'Rich widgets and Material/Cupertino design systems included.'
+  },
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Fast Development',
+    description: 'Hot reload enables instant feedback and rapid iteration.'
+  },
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Native Performance',
+    description: 'Compiles to native ARM code for maximum speed.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'State Management',
+    description: 'Multiple solutions for managing app state easily.'
+  },
+  {
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Google-Backed',
+    description: 'Active development and long-term support from Google.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Reduced Development Cost',
+    description: 'One codebase means faster development and lower maintenance costs.'
+  },
+  {
+    title: 'Consistent Experience',
+    description: 'Deliver the same high-quality experience across both platforms.'
+  },
+  {
+    title: 'Faster Time to Market',
+    description: 'Flutter\'s productivity means your app launches faster.'
+  },
+  {
+    title: 'Future-Proof',
+    description: 'Google\'s continued investment ensures long-term viability.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How does Flutter compare to React Native?',
+    answer: 'Flutter offers better performance and more beautiful UIs out of the box. While React Native shares more code, Flutter delivers superior native experience and is backed by Google.'
+  },
+  {
+    question: 'Can Flutter apps perform as well as native apps?',
+    answer: 'Yes, Flutter apps compile to native code and deliver native-level performance. Many high-performance apps use Flutter.'
+  },
+  {
+    question: 'What is Dart?',
+    answer: 'Dart is the programming language used by Flutter. It\'s optimized for building user interfaces and compiles to native code.'
+  },
+  {
+    question: 'Which companies use Flutter?',
+    answer: 'Google, Alibaba, BMW, eBay, Philips Hue, and many others use Flutter for their mobile applications.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Flutter Development Services | Expert Flutter Developers | OHWP Studios"
+  description="Professional Flutter development for iOS and Android. Build beautiful native apps with Flutter. Expert Flutter developers creating high-performance cross-platform applications."
+  keywords="Flutter development, Flutter developers, cross-platform mobile development, Dart, iOS Android development, Flutter apps"
+  h1="Flutter Development Services"
+  heroTitle="Build Beautiful Cross-Platform Apps With Flutter"
+  heroSubtitle="Expert Flutter development creating stunning, native-quality iOS and Android applications from a single codebase."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

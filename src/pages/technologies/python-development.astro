@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Python Development Services',
+    content: `<p>Build powerful applications with <strong>Python development services</strong>. Python is one of the most versatile and productive programming languages, perfect for backend applications, data science, machine learning, and automation. Its clean syntax and vast ecosystem make Python ideal for rapid development of complex systems.</p>
+    <p>We leverage Django, FastAPI, and other Python frameworks to build scalable applications that combine power with maintainability and readability.</p>`
+  },
+  {
+    title: 'Why Choose Python',
+    content: `<p>Python advantages for application development:</p>
+    <ul>
+      <li><strong>Readable Syntax:</strong> Clean code that's easy to maintain and understand</li>
+      <li><strong>Rapid Development:</strong> Fewer lines of code mean faster development</li>
+      <li><strong>Vast Ecosystem:</strong> Thousands of libraries for every use case</li>
+      <li><strong>Scalable Frameworks:</strong> Django, FastAPI, and others for large applications</li>
+      <li><strong>Data Science Ready:</strong> NumPy, Pandas, Scikit-Learn for analytics and ML</li>
+      <li><strong>Excellent Community:</strong> Large community with extensive resources</li>
+    </ul>`
+  },
+  {
+    title: 'Production-Ready Applications',
+    content: `<p>Python powers applications used by Netflix, Instagram, Pinterest, and Dropbox. We build production-ready systems with proper testing, error handling, and deployment strategies.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Clean Syntax',
+    description: 'Readable code that\'s easy to understand and maintain.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Fast execution with C extensions and optimization tools.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Extensive Libraries',
+    description: 'Thousands of packages for data science, ML, and more.'
+  },
+  {
+    icon: '21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Rapid Development',
+    description: 'Concise syntax means faster development and deployment.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Machine Learning',
+    description: 'Industry-standard ML libraries and frameworks.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Versatile',
+    description: 'Use Python for web, data, automation, and more.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Time to Market',
+    description: 'Python\'s productivity means projects launch faster.'
+  },
+  {
+    title: 'Better Code Quality',
+    description: 'Readable syntax and strong community standards ensure quality.'
+  },
+  {
+    title: 'Easier Maintenance',
+    description: 'Clean code is easier to understand and update.'
+  },
+  {
+    title: 'Data-Driven Insights',
+    description: 'Python\'s data science libraries enable powerful analytics.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Python fast enough for production applications?',
+    answer: 'Yes. While Python is slower than compiled languages like Go, it\'s fast enough for most applications. Performance-critical sections can use C extensions or alternative solutions.'
+  },
+  {
+    question: 'Should I use Django or FastAPI?',
+    answer: 'Django is great for full-featured applications with built-in admin and ORM. FastAPI is lighter and faster for APIs. We choose based on your project requirements.'
+  },
+  {
+    question: 'Can Python be used for machine learning?',
+    answer: 'Absolutely. Python is the language of choice for machine learning, with TensorFlow, PyTorch, scikit-learn, and other powerful libraries.'
+  },
+  {
+    question: 'What databases work with Python?',
+    answer: 'Python works with PostgreSQL, MySQL, MongoDB, Redis, and virtually any database. We typically recommend PostgreSQL for relational data and MongoDB for document data.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Python Development Services | Expert Python Developers | OHWP Studios"
+  description="Professional Python development services. Build scalable backend applications and data solutions with Python. Expert Python developers creating high-performance applications."
+  keywords="Python development, Python developers, Django development, FastAPI, backend development, Python programming, machine learning, data science"
+  h1="Python Development Services"
+  heroTitle="Build Scalable Applications With Python"
+  heroSubtitle="Expert Python development creating high-performance backend systems, data solutions, and machine learning applications with clean, maintainable code."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

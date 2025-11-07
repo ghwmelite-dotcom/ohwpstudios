@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Progressive Web App (PWA) Development',
+    content: `<p>Combine the best of web and mobile with <strong>Progressive Web Applications</strong>. PWAs deliver app-like experiences through web browsers, working offline, sending push notifications, and installable on home screens without app stores.</p>
+    <p>PWAs offer a cost-effective alternative to native apps while providing excellent performance and user experience across all devices and platforms.</p>`
+  },
+  {
+    title: 'PWA Benefits & Features',
+    content: `<p>Progressive Web Apps provide:</p>
+    <ul>
+      <li><strong>Offline Functionality:</strong> Work without internet connection using service workers</li>
+      <li><strong>Push Notifications:</strong> Engage users even when browser is closed</li>
+      <li><strong>Home Screen Installation:</strong> Users can "install" your PWA like a native app</li>
+      <li><strong>Fast Loading:</strong> Optimized performance with caching strategies</li>
+      <li><strong>Responsive Design:</strong> Perfect experience on any device</li>
+      <li><strong>SEO-Friendly:</strong> Discoverable by search engines unlike native apps</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Cross-Platform',
+    description: 'One codebase works on iOS, Android, and desktop browsers.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Offline-First',
+    description: 'Full functionality even without internet connection.'
+  },
+  {
+    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+    title: 'Auto-Updates',
+    description: 'Users always get the latest version, no app store approval needed.'
+  },
+  {
+    icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+    title: 'Discoverable',
+    description: 'Found through search engines, increasing organic reach.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Lower Development Cost',
+    description: 'One codebase for all platforms significantly reduces cost.'
+  },
+  {
+    title: 'No App Store Fees',
+    description: 'Avoid 30% app store commissions on transactions.'
+  },
+  {
+    title: 'Instant Updates',
+    description: 'Deploy updates instantly without app store review process.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Can PWAs replace native apps?',
+    answer: 'For many use cases, yes. PWAs are ideal for content, e-commerce, and business apps. Resource-intensive apps like games may still benefit from native development.'
+  },
+  {
+    question: 'Do PWAs work on iOS?',
+    answer: 'Yes, iOS Safari supports most PWA features. Some features like push notifications have limitations on iOS.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Progressive Web App Development (PWA) | OHWP Studios"
+  description="Professional PWA development services. Build app-like web experiences that work offline, send notifications, and install on home screens. Cost-effective alternative to native apps."
+  keywords="PWA development, Progressive Web Apps, PWA services, web app development, offline web apps"
+  h1="Progressive Web App Development"
+  heroTitle="Build Modern Web Apps With Native-Like Capabilities"
+  heroSubtitle="Expert PWA development delivering fast, reliable, and engaging web applications that work across all platforms."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

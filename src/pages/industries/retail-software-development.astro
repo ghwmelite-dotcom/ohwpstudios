@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Retail Software Development Services',
+    content: `<p>Optimize retail operations with <strong>comprehensive retail management software</strong> designed for single-location stores, multi-store chains, and omnichannel retailers. We develop point-of-sale systems, inventory management platforms, ecommerce solutions, and customer loyalty systems that drive sales and efficiency.</p>
+    <p>Our retail software experts understand inventory complexities, customer expectations, and the omnichannel environment. From smart POS to unified commerce and real-time inventory, we build solutions that integrate online and offline retail for seamless customer experiences.</p>`
+  },
+  {
+    title: 'Retail Challenges We Solve',
+    content: `<p>Retail businesses face operational and sales challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>Omnichannel Integration:</strong> Unify online and offline sales channels with shared inventory</li>
+      <li><strong>Inventory Management:</strong> Real-time inventory across stores and warehouses</li>
+      <li><strong>Customer Experience:</strong> Unified customer profiles and personalized shopping experiences</li>
+      <li><strong>Point-of-Sale:</strong> Fast, intuitive checkout with multiple payment methods</li>
+      <li><strong>Employee Management:</strong> Staff scheduling, training, and performance tracking</li>
+      <li><strong>Sales Analytics:</strong> Real-time insights into sales trends and customer behavior</li>
+    </ul>`
+  },
+  {
+    title: 'Retail Solutions We Build',
+    content: `<p>Comprehensive software solutions for the modern retail environment:</p>
+    <ul>
+      <li><strong>POS Systems:</strong> Fast, intuitive point-of-sale with inventory integration</li>
+      <li><strong>Unified Commerce Platform:</strong> Integrate online and offline sales with shared inventory</li>
+      <li><strong>Inventory Management:</strong> Real-time inventory across multiple locations</li>
+      <li><strong>eCommerce Platforms:</strong> Beautiful online stores with product catalogs and checkout</li>
+      <li><strong>Customer Loyalty Programs:</strong> Rewards programs and customer data management</li>
+      <li><strong>Mobile Commerce:</strong> Native apps for mobile shopping and checkout</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Fast POS',
+    description: 'Intuitive, touch-optimized checkout interface with multiple payment options.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Real-time Inventory',
+    description: 'Unified inventory management across all stores and online channels.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Mobile Commerce',
+    description: 'Native iOS and Android apps for mobile shopping, browsing, and checkout.'
+  },
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Customer Profiles',
+    description: 'Unified customer data across channels for personalized experiences and loyalty programs.'
+  },
+  {
+    icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+    title: 'Ecommerce Platform',
+    description: 'Beautiful, conversion-optimized online stores with product catalogs and checkout.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Security & Compliance',
+    description: 'PCI-DSS compliant payment processing with end-to-end data encryption.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Increased Sales',
+    description: 'Omnichannel experience and personalized recommendations drive higher average transaction values.'
+  },
+  {
+    title: 'Reduced Costs',
+    description: 'Efficient inventory management and labor scheduling reduce operational costs by 30%+.'
+  },
+  {
+    title: 'Better Customer Insights',
+    description: 'Unified customer data provides insights for targeted marketing and personalization.'
+  },
+  {
+    title: 'Operational Flexibility',
+    description: 'Seamless integration of online and offline channels for true omnichannel retail.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Can you integrate our online store with POS inventory?',
+    answer: 'Yes, we create unified commerce platforms that sync inventory in real-time between your online store and physical POS systems.'
+  },
+  {
+    question: 'What payment methods do you support?',
+    answer: 'We support all major credit cards, digital wallets (Apple Pay, Google Pay), and alternative payment methods with PCI-DSS compliance.'
+  },
+  {
+    question: 'How do we manage inventory across multiple locations?',
+    answer: 'Our system provides centralized inventory management with real-time visibility across all stores, automatic reordering, and transfer capabilities.'
+  },
+  {
+    question: 'Can we create customer loyalty programs?',
+    answer: 'Absolutely. We build flexible loyalty program platforms with points, tiered memberships, and integrated rewards.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Retail Software Development | POS & Ecommerce Solutions | OHWP Studios"
+  description="Expert retail software development. Build POS systems, inventory management, ecommerce platforms, and loyalty programs for retail stores and chains."
+  keywords="retail software development, POS system development, inventory management software, ecommerce platform development, omnichannel retail solutions"
+  h1="Retail Software Development"
+  heroTitle="Complete Retail Management Solutions"
+  heroSubtitle="Build omnichannel retail systems with POS, inventory management, ecommerce, and customer loyalty that drive sales and efficiency."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

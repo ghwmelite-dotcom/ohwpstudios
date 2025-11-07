@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Enterprise Software Development',
+    content: `<p>Build mission-critical <strong>enterprise software solutions</strong> that transform operations and drive business growth. Our enterprise development team creates scalable, secure applications designed for the complexity and scale of large organizations.</p>
+    <p>We understand enterprise requirements including compliance, integration with legacy systems, and supporting thousands of users.</p>`
+  },
+  {
+    title: 'Enterprise Solutions We Build',
+    content: `<p>Comprehensive enterprise software services:</p>
+    <ul>
+      <li><strong>ERP Systems:</strong> Enterprise resource planning platforms</li>
+      <li><strong>CRM Solutions:</strong> Customer relationship management systems</li>
+      <li><strong>Business Intelligence:</strong> Data analytics and reporting platforms</li>
+      <li><strong>Workflow Automation:</strong> Streamline business processes</li>
+      <li><strong>Legacy Modernization:</strong> Update outdated systems</li>
+      <li><strong>System Integration:</strong> Connect disparate enterprise systems</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Scalable Architecture',
+    description: 'Handle thousands of concurrent users and massive datasets.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Enterprise Security',
+    description: 'Advanced security features and compliance standards.'
+  },
+  {
+    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
+    title: 'System Integration',
+    description: 'Seamless connection with existing enterprise tools.'
+  },
+  {
+    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+    title: 'Comprehensive Documentation',
+    description: 'Detailed technical documentation and user guides.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Operational Efficiency',
+    description: 'Automate processes and reduce manual work across the organization.'
+  },
+  {
+    title: 'Better Decision Making',
+    description: 'Real-time data and analytics for informed strategic decisions.'
+  },
+  {
+    title: 'Competitive Advantage',
+    description: 'Custom solutions that fit your unique business processes.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How do you ensure enterprise-grade security?',
+    answer: 'We implement multi-layered security including encryption, role-based access control, audit logging, penetration testing, and compliance with standards like SOC 2 and ISO 27001.'
+  },
+  {
+    question: 'Can you integrate with our existing systems?',
+    answer: 'Yes, we specialize in enterprise integrations including legacy systems, ERPs, CRMs, and third-party services through APIs, webhooks, and middleware.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Enterprise Software Development Services | OHWP Studios"
+  description="Professional enterprise software development. Build scalable, secure solutions for large organizations. ERP, CRM, business intelligence, and custom enterprise applications."
+  keywords="enterprise software development, enterprise application development, ERP development, CRM development, business software"
+  h1="Enterprise Software Development"
+  heroTitle="Transform Your Enterprise With Custom Software Solutions"
+  heroSubtitle="Expert enterprise software development creating scalable, secure applications designed for large organizations."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,322 @@
+---
+export interface Props {
+  sections: {
+    title: string;
+    content: string;
+  }[];
+  features?: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+  benefits?: {
+    title: string;
+    description: string;
+  }[];
+  faqs?: {
+    question: string;
+    answer: string;
+  }[];
+}
+
+const { sections, features, benefits, faqs } = Astro.props;
+---
+
+{sections && sections.length > 0 && (
+  <section class="seo-content-section">
+    <div class="container">
+      {sections.map((section) => (
+        <div class="content-block" data-animate>
+          <h2>{section.title}</h2>
+          <div class="content-text" set:html={section.content}></div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
+{features && features.length > 0 && (
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title" data-animate>Key Features</h2>
+      <div class="features-grid">
+        {features.map((feature, index) => (
+          <div class="feature-card glass" data-animate style={`--animation-delay: ${index * 100}ms`}>
+            <div class="feature-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d={feature.icon} />
+              </svg>
+            </div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{benefits && benefits.length > 0 && (
+  <section class="benefits-section">
+    <div class="container">
+      <h2 class="section-title" data-animate>Why Choose Us</h2>
+      <div class="benefits-grid">
+        {benefits.map((benefit, index) => (
+          <div class="benefit-item" data-animate style={`--animation-delay: ${index * 100}ms`}>
+            <div class="benefit-number">{String(index + 1).padStart(2, '0')}</div>
+            <h3>{benefit.title}</h3>
+            <p>{benefit.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{faqs && faqs.length > 0 && (
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title" data-animate>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        {faqs.map((faq, index) => (
+          <div class="faq-item glass" data-animate style={`--animation-delay: ${index * 50}ms`}>
+            <h3>{faq.question}</h3>
+            <p>{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .seo-content-section {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .content-block {
+    max-width: 900px;
+    margin: 0 auto var(--spacing-3xl);
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+  }
+
+  .content-block.animate-in {
+    opacity: 1;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  .content-block h2 {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+  }
+
+  .content-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .content-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+  }
+
+  .content-text :global(p) {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-text :global(ul) {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-lg);
+  }
+
+  .content-text :global(li) {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .content-text :global(strong) {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  /* Features Section */
+  .features-section,
+  .benefits-section,
+  .faq-section {
+    padding: var(--spacing-3xl) 0;
+    background: var(--gradient-card);
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    opacity: 0;
+  }
+
+  .section-title.animate-in {
+    opacity: 1;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+  }
+
+  .feature-card {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: all var(--transition-base);
+  }
+
+  .feature-card.animate-in {
+    opacity: 1;
+    animation: fade-in 0.6s ease-out forwards;
+    animation-delay: var(--animation-delay, 0ms);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+  }
+
+  .feature-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    color: white;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+  }
+
+  .feature-card p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* Benefits Section */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .benefit-item {
+    position: relative;
+    padding-left: var(--spacing-2xl);
+    opacity: 0;
+  }
+
+  .benefit-item.animate-in {
+    opacity: 1;
+    animation: fade-in 0.6s ease-out forwards;
+    animation-delay: var(--animation-delay, 0ms);
+  }
+
+  .benefit-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.3;
+  }
+
+  .benefit-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+  }
+
+  .benefit-item p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* FAQ Section */
+  .faq-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .faq-item {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+  }
+
+  .faq-item.animate-in {
+    opacity: 1;
+    animation: fade-in 0.6s ease-out forwards;
+    animation-delay: var(--animation-delay, 0ms);
+  }
+
+  .faq-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-primary);
+  }
+
+  .faq-item p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .content-block h2 {
+      font-size: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .features-grid,
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .benefit-number {
+      font-size: 2rem;
+    }
+  }
+</style>

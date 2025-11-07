@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Healthcare Software Development Services',
+    content: `<p>Transform patient care and operational efficiency with <strong>HIPAA-compliant healthcare software development</strong>. We specialize in building secure, scalable solutions for hospitals, clinics, medical practices, and healthcare organizations of all sizes.</p>
+    <p>Our healthcare software experts understand the unique regulatory landscape and clinical workflows required for modern healthcare delivery. From electronic health records (EHR) to telemedicine platforms and patient management systems, we develop solutions that improve outcomes while maintaining the highest security standards.</p>`
+  },
+  {
+    title: 'Healthcare Challenges We Solve',
+    content: `<p>Healthcare organizations face complex challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>HIPAA Compliance:</strong> Ensure patient data privacy and security with end-to-end encryption and audit trails</li>
+      <li><strong>Interoperability:</strong> Integrate with existing EHR systems, lab systems, and medical devices seamlessly</li>
+      <li><strong>Patient Engagement:</strong> Build patient portals and telemedicine platforms that increase engagement and outcomes</li>
+      <li><strong>Data Security:</strong> Protect sensitive medical records with multi-layer security and compliance frameworks</li>
+      <li><strong>Workflow Optimization:</strong> Streamline clinical and administrative workflows to reduce costs and improve efficiency</li>
+      <li><strong>Real-time Monitoring:</strong> Implement remote patient monitoring and IoT integration for better care delivery</li>
+    </ul>`
+  },
+  {
+    title: 'Industry-Specific Solutions',
+    content: `<p>We develop comprehensive healthcare software solutions including:</p>
+    <ul>
+      <li><strong>Electronic Health Records (EHR):</strong> Complete patient management systems with clinical documentation</li>
+      <li><strong>Practice Management Software:</strong> Appointment scheduling, billing, insurance claims, and revenue cycle management</li>
+      <li><strong>Telemedicine Platforms:</strong> HIPAA-compliant video consultations and remote patient management</li>
+      <li><strong>Patient Portals:</strong> Secure patient access to medical records, prescriptions, and appointment scheduling</li>
+      <li><strong>Medical Imaging Systems:</strong> DICOM-compatible solutions for imaging storage, retrieval, and analysis</li>
+      <li><strong>Hospital Information Systems (HIS):</strong> Enterprise-level solutions for bed management, inventory, and operations</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    title: 'HIPAA Compliance',
+    description: 'Full HIPAA compliance with encrypted data storage, access controls, and comprehensive audit logs.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Enterprise Security',
+    description: 'Multi-layer security architecture protecting patient data and maintaining regulatory compliance.'
+  },
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Patient Engagement',
+    description: 'Intuitive patient portals and mobile apps that increase engagement and improve health outcomes.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Real-time Analytics',
+    description: 'Comprehensive dashboards with real-time reporting on patient outcomes and operational metrics.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Mobile-First Design',
+    description: 'Responsive mobile apps for iOS and Android for doctors and patients on the go.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Telemedicine Ready',
+    description: 'Built-in video consultation, prescription management, and remote monitoring capabilities.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Improved Patient Outcomes',
+    description: 'Streamlined workflows and better data access enable faster diagnoses and more effective treatments.'
+  },
+  {
+    title: 'Reduced Operational Costs',
+    description: 'Automate administrative tasks, reduce billing errors, and optimize resource allocation.'
+  },
+  {
+    title: 'Enhanced Security & Compliance',
+    description: 'Meet all regulatory requirements with built-in HIPAA compliance and continuous security updates.'
+  },
+  {
+    title: 'Scalable Infrastructure',
+    description: 'Grow from a single clinic to a multi-location healthcare network without system redesign.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is your healthcare software HIPAA compliant?',
+    answer: 'Yes, all our healthcare solutions are built with HIPAA compliance as a core requirement. We implement end-to-end encryption, access controls, audit logging, and secure data transmission to protect patient information.'
+  },
+  {
+    question: 'Can you integrate with our existing EHR system?',
+    answer: 'Absolutely. We build solutions that integrate seamlessly with existing EHR systems like Epic, Cerner, and others through API integrations and HL7 messaging standards.'
+  },
+  {
+    question: 'Do you support telemedicine functionality?',
+    answer: 'Yes, we provide HIPAA-compliant telemedicine platforms with secure video consultation, prescription management, and integration with existing clinical workflows.'
+  },
+  {
+    question: 'What about data backup and disaster recovery?',
+    answer: 'We implement comprehensive backup strategies with redundant systems, automated backups, and disaster recovery plans to ensure business continuity and zero data loss.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Healthcare Software Development | HIPAA Compliant Solutions | OHWP Studios"
+  description="Expert healthcare software development services. Build HIPAA-compliant EHR, telemedicine, and patient management systems. Secure, scalable healthcare solutions for clinics and hospitals."
+  keywords="healthcare software development, HIPAA compliant software, EHR development, telemedicine platform development, healthcare IT solutions"
+  h1="Healthcare Software Development"
+  heroTitle="Secure, HIPAA-Compliant Healthcare Software Solutions"
+  heroSubtitle="Build modern healthcare applications that improve patient outcomes, streamline operations, and ensure regulatory compliance."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

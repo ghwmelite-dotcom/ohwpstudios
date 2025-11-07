@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'TypeScript Development Services',
+    content: `<p>Build robust, scalable applications with <strong>TypeScript development services</strong>. TypeScript adds static typing to JavaScript, enabling developers to catch errors at compile time and write more maintainable code. Whether for frontend or backend development, TypeScript provides the type safety and developer experience that powers modern applications.</p>
+    <p>We leverage TypeScript with React, Node.js, Angular, and other frameworks to build type-safe applications that scale reliably and are easier to maintain.</p>`
+  },
+  {
+    title: 'Why Choose TypeScript',
+    content: `<p>TypeScript advantages for development:</p>
+    <ul>
+      <li><strong>Type Safety:</strong> Catch errors at compile time, not production</li>
+      <li><strong>Better IDE Support:</strong> Excellent autocomplete and refactoring tools</li>
+      <li><strong>Self-Documenting:</strong> Types serve as inline documentation</li>
+      <li><strong>JavaScript Compatible:</strong> Compiles to standard JavaScript</li>
+      <li><strong>Scalability:</strong> Manage complexity in large codebases</li>
+      <li><strong>Industry Standard:</strong> Used by Google, Microsoft, Facebook, and major companies</li>
+    </ul>`
+  },
+  {
+    title: 'Enterprise-Grade Reliability',
+    content: `<p>TypeScript is the choice for companies building mission-critical applications. Its type system provides confidence that your code works as intended, reducing bugs and improving maintainability at scale.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'Static typing catches errors before runtime.'
+  },
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Developer Experience',
+    description: 'Excellent IDE support and autocomplete.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Maintainability',
+    description: 'Type annotations make code easier to understand.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Performance',
+    description: 'Compiles to optimized JavaScript code.'
+  },
+  {
+    icon: '21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'JavaScript Compatible',
+    description: 'Transpiles to standard JavaScript for all environments.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Scalable Systems',
+    description: 'Manage complexity in large applications reliably.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Fewer Bugs',
+    description: 'Type checking catches errors before they reach production.'
+  },
+  {
+    title: 'Faster Development',
+    description: 'Better tooling and autocomplete accelerate coding.'
+  },
+  {
+    title: 'Better Collaboration',
+    description: 'Types serve as documentation, making code easier to understand.'
+  },
+  {
+    title: 'Long-Term Value',
+    description: 'Large codebases are easier to maintain and refactor with types.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is TypeScript slower than JavaScript?',
+    answer: 'No. TypeScript compiles to JavaScript, and the compiled code has the same performance as hand-written JavaScript. There\'s only a compilation step during development.'
+  },
+  {
+    question: 'Can I use TypeScript with any JavaScript framework?',
+    answer: 'Yes. TypeScript works with React, Vue, Angular, Node.js, Express, and virtually any JavaScript library or framework.'
+  },
+  {
+    question: 'Is TypeScript difficult to learn?',
+    answer: 'Not if you know JavaScript. TypeScript extends JavaScript with types, so you gradually add typing as needed. Most developers pick it up quickly.'
+  },
+  {
+    question: 'Should I use TypeScript for small projects?',
+    answer: 'TypeScript adds value even for small projects by catching errors and improving code clarity. As projects grow, the benefits become increasingly obvious.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="TypeScript Development Services | Expert TypeScript Developers | OHWP Studios"
+  description="Professional TypeScript development services. Build type-safe, scalable applications with TypeScript. Expert developers creating robust, maintainable code."
+  keywords="TypeScript development, TypeScript developers, TypeScript programming, type-safe JavaScript, React TypeScript, Node.js TypeScript"
+  h1="TypeScript Development Services"
+  heroTitle="Build Type-Safe Applications With TypeScript"
+  heroSubtitle="Expert TypeScript development creating robust, scalable applications with static typing for reliability and maintainability at scale."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

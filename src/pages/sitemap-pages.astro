@@ -1,0 +1,241 @@
+---
+import SEOPageLayout from '../layouts/SEOPageLayout.astro';
+
+const services = [
+  { title: 'Custom Web Application Development', url: '/services/custom-web-application-development' },
+  { title: 'Mobile App Development Services', url: '/services/mobile-app-development-services' },
+  { title: 'iOS App Development', url: '/services/ios-app-development' },
+  { title: 'Android App Development', url: '/services/android-app-development' },
+  { title: 'Cross-Platform App Development', url: '/services/cross-platform-app-development' },
+  { title: 'Progressive Web App Development', url: '/services/progressive-web-app-development' },
+  { title: 'Web Design Services', url: '/services/web-design-services' },
+  { title: 'UI/UX Design Services', url: '/services/ui-ux-design-services' },
+  { title: 'API Development Services', url: '/services/api-development-services' },
+  { title: 'E-Commerce Development', url: '/services/ecommerce-development' },
+  { title: 'CMS Development', url: '/services/cms-development' },
+  { title: 'SaaS Application Development', url: '/services/saas-application-development' },
+  { title: 'Enterprise Software Development', url: '/services/enterprise-software-development' },
+  { title: 'Web Portal Development', url: '/services/web-portal-development' },
+  { title: 'MVP Development', url: '/services/mvp-development' }
+];
+
+const technologies = [
+  { title: 'React Development', url: '/technologies/react-development' },
+  { title: 'React Native Development', url: '/technologies/react-native-development' },
+  { title: 'Next.js Development', url: '/technologies/nextjs-development' },
+  { title: 'Vue.js Development', url: '/technologies/vuejs-development' },
+  { title: 'Angular Development', url: '/technologies/angular-development' },
+  { title: 'Node.js Development', url: '/technologies/nodejs-development' },
+  { title: 'Flutter Development', url: '/technologies/flutter-development' },
+  { title: 'Swift Development', url: '/technologies/swift-development' },
+  { title: 'Kotlin Development', url: '/technologies/kotlin-development' },
+  { title: 'Python Development', url: '/technologies/python-development' },
+  { title: 'Laravel Development', url: '/technologies/laravel-development' },
+  { title: 'Django Development', url: '/technologies/django-development' },
+  { title: 'WordPress Development', url: '/technologies/wordpress-development' },
+  { title: 'Shopify Development', url: '/technologies/shopify-development' },
+  { title: 'TypeScript Development', url: '/technologies/typescript-development' }
+];
+
+const industries = [
+  { title: 'Healthcare Software Development', url: '/industries/healthcare-software-development' },
+  { title: 'Fintech Software Development', url: '/industries/fintech-software-development' },
+  { title: 'Real Estate Software Development', url: '/industries/real-estate-software-development' },
+  { title: 'Education Software Development', url: '/industries/education-software-development' },
+  { title: 'eLearning Platform Development', url: '/industries/elearning-platform-development' },
+  { title: 'Restaurant Software Development', url: '/industries/restaurant-software-development' },
+  { title: 'Retail Software Development', url: '/industries/retail-software-development' },
+  { title: 'Logistics Software Development', url: '/industries/logistics-software-development' },
+  { title: 'Hospitality Software Development', url: '/industries/hospitality-software-development' },
+  { title: 'Legal Software Development', url: '/industries/legal-software-development' }
+];
+
+const solutions = [
+  { title: 'Startup MVP Development', url: '/solutions/startup-mvp-development' },
+  { title: 'Enterprise Digital Transformation', url: '/solutions/enterprise-digital-transformation' },
+  { title: 'AI-Powered Application Development', url: '/solutions/ai-powered-application-development' },
+  { title: 'Cloud Migration Services', url: '/solutions/cloud-migration-services' },
+  { title: 'Mobile-First Development', url: '/solutions/mobile-first-development' },
+  { title: 'White-Label Software Development', url: '/solutions/white-label-software-development' },
+  { title: 'Custom CRM Development', url: '/solutions/custom-crm-development' },
+  { title: 'Marketplace Platform Development', url: '/solutions/marketplace-platform-development' },
+  { title: 'Real-Time Application Development', url: '/solutions/real-time-application-development' },
+  { title: 'Business Process Automation', url: '/solutions/business-process-automation' }
+];
+---
+
+<SEOPageLayout
+  title="Services & Solutions Sitemap | OHWP Studios"
+  description="Explore our comprehensive range of web and mobile development services, technologies, industry solutions, and custom software development offerings."
+  keywords="web development services, mobile app development, custom software, technology services, industry solutions"
+  h1="Services & Solutions"
+  heroTitle="Comprehensive Web & Mobile Development Services"
+  heroSubtitle="Browse our complete range of services, technologies, industry expertise, and custom solutions."
+>
+  <section class="sitemap-section">
+    <div class="container">
+
+      <!-- Services -->
+      <div class="sitemap-category" data-animate>
+        <h2 class="category-title">Our Services</h2>
+        <p class="category-description">
+          Professional development services for web, mobile, and custom applications
+        </p>
+        <div class="links-grid">
+          {services.map((item) => (
+            <a href={item.url} class="sitemap-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              {item.title}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Technologies -->
+      <div class="sitemap-category" data-animate>
+        <h2 class="category-title">Technologies We Use</h2>
+        <p class="category-description">
+          Expert development with modern frameworks and programming languages
+        </p>
+        <div class="links-grid">
+          {technologies.map((item) => (
+            <a href={item.url} class="sitemap-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              {item.title}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Industries -->
+      <div class="sitemap-category" data-animate>
+        <h2 class="category-title">Industry Expertise</h2>
+        <p class="category-description">
+          Specialized software solutions for various industries and verticals
+        </p>
+        <div class="links-grid">
+          {industries.map((item) => (
+            <a href={item.url} class="sitemap-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              {item.title}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Solutions -->
+      <div class="sitemap-category" data-animate>
+        <h2 class="category-title">Custom Solutions</h2>
+        <p class="category-description">
+          Tailored solutions for startups, enterprises, and specific business needs
+        </p>
+        <div class="links-grid">
+          {solutions.map((item) => (
+            <a href={item.url} class="sitemap-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              {item.title}
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</SEOPageLayout>
+
+<style>
+  .sitemap-section {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .sitemap-category {
+    margin-bottom: var(--spacing-3xl);
+    padding-bottom: var(--spacing-3xl);
+    border-bottom: 1px solid var(--color-border);
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+  }
+
+  .sitemap-category:last-child {
+    border-bottom: none;
+  }
+
+  .sitemap-category.animate-in {
+    opacity: 1;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  .category-title {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .category-description {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .sitemap-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all var(--transition-base);
+  }
+
+  .sitemap-link svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .sitemap-link:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--color-primary);
+    transform: translateX(5px);
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .links-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .category-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

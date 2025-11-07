@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Mobile-First Development',
+    content: `<p>Reach your customers where they are with <strong>mobile-first application development</strong>. We design and build native iOS, Android, and cross-platform applications that deliver exceptional user experiences on phones and tablets.</p>
+    <p>Mobile isn't optional anymore—it's essential. We build apps that users love and come back to every day.</p>`
+  },
+  {
+    title: 'Mobile Platform Services',
+    content: `<p>We develop mobile applications for all major platforms:</p>
+    <ul>
+      <li><strong>Native iOS:</strong> Swift development for iPhone and iPad with latest features</li>
+      <li><strong>Native Android:</strong> Kotlin development for phones, tablets, and wearables</li>
+      <li><strong>Cross-Platform:</strong> React Native and Flutter for efficiency across iOS and Android</li>
+      <li><strong>Responsive Design:</strong> Adaptive interfaces that work on all screen sizes</li>
+      <li><strong>Offline Capability:</strong> Full functionality even without internet connection</li>
+      <li><strong>App Store Optimization:</strong> Launch strategy and store listing optimization</li>
+    </ul>`
+  },
+  {
+    title: 'Mobile Development Best Practices',
+    content: `<p>We follow proven mobile development practices:</p>
+    <ul>
+      <li><strong>Performance First:</strong> Fast loading, smooth animations, and minimal battery drain</li>
+      <li><strong>Accessibility:</strong> VoiceOver, TalkBack, and accessibility standards compliance</li>
+      <li><strong>Security:</strong> Encryption, secure storage, and secure authentication</li>
+      <li><strong>Push Notifications:</strong> Timely, relevant notifications that drive engagement</li>
+      <li><strong>Analytics Integration:</strong> Track user behavior and feature adoption</li>
+      <li><strong>Continuous Updates:</strong> Regular releases with new features and performance improvements</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Native Performance',
+    description: 'Fast, smooth apps optimized for each platform with native APIs.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Cross-Platform Efficiency',
+    description: 'Reach iOS and Android with React Native or Flutter for faster development.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Offline First',
+    description: 'Apps work seamlessly offline with automatic sync when connection returns.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Security Built-In',
+    description: 'Encryption, secure storage, and authentication best practices.'
+  },
+  {
+    icon: 'M13 13h8m-8-6h8m-8 12h8M5 13a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Analytics & Insights',
+    description: 'Track user behavior, feature adoption, and performance metrics.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Cloud Integration',
+    description: 'Seamless integration with backend services and cloud APIs.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Wider Audience Reach',
+    description: 'Access the billion+ smartphone users globally through iOS and Android platforms.'
+  },
+  {
+    title: 'Higher Engagement',
+    description: 'Push notifications and optimized UX drive daily active users and retention.'
+  },
+  {
+    title: 'Competitive Advantage',
+    description: "Be where your competitors aren't with a native mobile app."
+  },
+  {
+    title: 'Direct Customer Relationship',
+    description: 'Build direct relationships through home screen access and notifications.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Should we build native or cross-platform?',
+    answer: 'Native apps offer best performance and platform features but cost more. Cross-platform (React Native, Flutter) is faster to develop and cheaper if you need both iOS and Android. We recommend native for games and graphics-heavy apps.'
+  },
+  {
+    question: 'How much does mobile app development cost?',
+    answer: 'Simple apps start around $30,000-$50,000. Mid-complexity apps range $50,000-$150,000. Complex apps with backend services can exceed $200,000. Cross-platform is typically 30-40% cheaper than native.'
+  },
+  {
+    question: 'How long does it take to build a mobile app?',
+    answer: 'MVP apps take 3-4 months. Feature-rich apps take 5-8 months. Timeline depends on complexity, feature set, and revision cycles.'
+  },
+  {
+    question: 'Can you help with app store launch?',
+    answer: 'Yes. We handle app store preparation, submission to Apple and Google, app store optimization, and initial marketing strategy.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Mobile-First App Development | iOS & Android | OHWP Studios"
+  description="Native and cross-platform mobile app development for iOS and Android. Build engaging mobile experiences with React Native, Swift, Kotlin, and Flutter."
+  keywords="mobile app development, iOS development, Android development, React Native, Flutter, cross-platform app development"
+  h1="Mobile-First Development"
+  heroTitle="Build Mobile Apps Users Love"
+  heroSubtitle="Expert mobile app development for iOS and Android. Native and cross-platform solutions that deliver exceptional user experiences and drive business results."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

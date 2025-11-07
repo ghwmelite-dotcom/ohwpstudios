@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Shopify Development Services',
+    content: `<p>Build and scale profitable e-commerce stores with <strong>Shopify development services</strong>. Shopify is the leading e-commerce platform, powering hundreds of thousands of successful online stores. We create custom Shopify solutions that drive sales, engage customers, and simplify operations.</p>
+    <p>We develop custom apps, design professional storefronts, integrate payment systems, and optimize for conversions to build e-commerce businesses that thrive.</p>`
+  },
+  {
+    title: 'Why Choose Shopify',
+    content: `<p>Shopify advantages for e-commerce:</p>
+    <ul>
+      <li><strong>Easy Setup:</strong> Launch your store quickly without technical expertise</li>
+      <li><strong>Scalable:</strong> Grows with your business from startup to enterprise</li>
+      <li><strong>Secure Payments:</strong> PCI compliant with built-in payment processing</li>
+      <li><strong>Mobile Ready:</strong> Optimized for mobile shopping and browsing</li>
+      <li><strong>App Ecosystem:</strong> Thousands of apps to extend functionality</li>
+      <li><strong>Marketing Tools:</strong> Built-in SEO, email, and social media features</li>
+    </ul>`
+  },
+  {
+    title: 'E-Commerce Excellence',
+    content: `<p>Shopify is trusted by businesses worldwide, from small startups to major brands. We leverage Shopify's powerful platform to build custom stores that convert visitors into customers and scale with your business.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 8c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0h.01M16 16v-4h-4m4 4h3m-3-4l4 4M8 16v-4H4m4 4H1m4-4l4 4',
+    title: 'E-Commerce Platform',
+    description: 'Complete platform for selling online.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Fast Checkout',
+    description: 'Optimized checkout to reduce cart abandonment.'
+  },
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'App Integration',
+    description: 'Thousands of apps to extend your store.'
+  },
+  {
+    icon: '21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Global Reach',
+    description: 'Multi-currency and multi-language support.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Secure',
+    description: 'PCI compliant with advanced security features.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Analytics',
+    description: 'Built-in analytics to understand customer behavior.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Quick Launch',
+    description: 'Launch your store faster without complex technical setup.'
+  },
+  {
+    title: 'Focus on Growth',
+    description: 'Shopify handles infrastructure while you focus on sales.'
+  },
+  {
+    title: 'Reliable Uptime',
+    description: 'Enterprise-grade infrastructure ensures your store is always available.'
+  },
+  {
+    title: 'Lower Technical Burden',
+    description: 'No server management or complex hosting required.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Can I build a custom Shopify store?',
+    answer: 'Absolutely. We develop custom Shopify themes, apps, and integrations tailored to your specific business needs. Your store can be completely customized.'
+  },
+  {
+    question: 'How much does a Shopify store cost?',
+    answer: 'Shopify pricing starts at basic plans around $29/month and goes up to $299+/month for larger operations. Add app costs and custom development based on your needs.'
+  },
+  {
+    question: 'Can I migrate from another platform to Shopify?',
+    answer: 'Yes. We handle migrations from WooCommerce, Magento, or other platforms, transferring products, customers, and order history.'
+  },
+  {
+    question: 'How do I drive sales with Shopify?',
+    answer: 'We optimize product pages, implement conversion strategies, set up marketing integrations, and configure apps for upselling and customer retention.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Shopify Development Services | Expert Shopify Developers | OHWP Studios"
+  description="Professional Shopify development services. Build and scale profitable e-commerce stores. Expert Shopify developers creating custom stores with themes, apps, and optimization."
+  keywords="Shopify development, Shopify developers, Shopify store design, Shopify apps, e-commerce development, Shopify themes, online store development"
+  h1="Shopify Development Services"
+  heroTitle="Build Profitable E-Commerce Stores With Shopify"
+  heroSubtitle="Expert Shopify development creating custom stores, themes, and apps that drive sales and scale with your business."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

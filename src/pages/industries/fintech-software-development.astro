@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Fintech Software Development Services',
+    content: `<p>Build next-generation <strong>fintech applications</strong> with the security and performance required for modern financial services. We develop PCI-DSS compliant payment systems, digital wallets, trading platforms, and lending solutions that power the future of finance.</p>
+    <p>Our fintech experts understand regulatory frameworks, payment processing, cryptocurrency integration, and high-frequency transaction handling. We deliver scalable solutions that securely handle millions of transactions daily while maintaining strict compliance with financial regulations.</p>`
+  },
+  {
+    title: 'Fintech Challenges We Address',
+    content: `<p>Financial technology requires specialized expertise to overcome unique challenges:</p>
+    <ul>
+      <li><strong>PCI-DSS Compliance:</strong> Build payment systems meeting the strictest security standards for card data</li>
+      <li><strong>Real-time Processing:</strong> Handle high-volume transactions with millisecond latency and zero downtime</li>
+      <li><strong>Fraud Detection:</strong> Implement AI-powered fraud detection and prevention systems</li>
+      <li><strong>Regulatory Compliance:</strong> Navigate complex regulations (KYC, AML, GDPR, and local financial laws)</li>
+      <li><strong>Data Security:</strong> Protect sensitive financial data with bank-grade encryption and security</li>
+      <li><strong>API Integration:</strong> Integrate with payment gateways, banks, and trading platforms seamlessly</li>
+    </ul>`
+  },
+  {
+    title: 'Fintech Solutions We Build',
+    content: `<p>Comprehensive fintech software across the financial ecosystem:</p>
+    <ul>
+      <li><strong>Payment Platforms:</strong> PCI-DSS compliant payment processing and digital wallet solutions</li>
+      <li><strong>Digital Banking:</strong> Mobile and web banking platforms with account management and transfers</li>
+      <li><strong>Lending Platforms:</strong> Peer-to-peer lending, loan management, and credit assessment systems</li>
+      <li><strong>Trading Applications:</strong> Real-time trading platforms with advanced charting and portfolio management</li>
+      <li><strong>Investment Platforms:</strong> Robo-advisors, portfolio management, and wealth management solutions</li>
+      <li><strong>Cryptocurrency Solutions:</strong> Digital asset platforms, exchanges, and wallet solutions</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'PCI-DSS Compliance',
+    description: 'Full PCI-DSS Level 1 compliance for secure payment processing and card data handling.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Bank-Grade Security',
+    description: 'End-to-end encryption, tokenization, and multi-factor authentication for maximum protection.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Ultra-low latency processing capable of handling millions of transactions per second.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Advanced Analytics',
+    description: 'Real-time transaction monitoring, fraud detection, and comprehensive financial reporting.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Mobile-First Trading',
+    description: 'Native iOS and Android trading apps with real-time market data and order execution.'
+  },
+  {
+    icon: 'M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'API-First Architecture',
+    description: 'Robust APIs for seamless integration with third-party financial services and partners.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Regulatory Compliance',
+    description: 'Stay compliant with PCI-DSS, KYC, AML, and regional financial regulations automatically.'
+  },
+  {
+    title: 'Fraud Prevention',
+    description: 'Advanced machine learning algorithms detect and prevent fraudulent transactions in real-time.'
+  },
+  {
+    title: 'Market Speed',
+    description: 'Launch faster with pre-built components and accelerated development cycles without compromising security.'
+  },
+  {
+    title: 'Global Scalability',
+    description: 'Process transactions across multiple currencies and jurisdictions with built-in multi-region support.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is your fintech software PCI-DSS compliant?',
+    answer: 'Yes, all our payment solutions are built to PCI-DSS Level 1 compliance standards. We implement tokenization, encryption, and secure data handling practices to protect card data.'
+  },
+  {
+    question: 'Can you help with KYC and AML requirements?',
+    answer: 'Absolutely. We integrate identity verification services and implement AML screening protocols to ensure compliance with regulatory requirements.'
+  },
+  {
+    question: 'What payment gateways and processors do you integrate with?',
+    answer: 'We integrate with major payment processors including Stripe, PayPal, Square, Adyen, and regional payment gateways to ensure global reach.'
+  },
+  {
+    question: 'Do you support cryptocurrency and blockchain integration?',
+    answer: 'Yes, we develop cryptocurrency platforms with blockchain integration, smart contract support, and digital asset management capabilities.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Fintech Software Development | PCI-DSS Compliant Solutions | OHWP Studios"
+  description="Expert fintech software development. Build secure payment platforms, digital banking, trading apps, and lending solutions. PCI-DSS and KYC/AML compliant."
+  keywords="fintech software development, payment platform development, digital banking solution, trading platform development, cryptocurrency software development"
+  h1="Fintech Software Development"
+  heroTitle="Secure, Scalable Financial Technology Solutions"
+  heroSubtitle="Build next-generation fintech applications with PCI-DSS compliance, real-time processing, and advanced fraud detection."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

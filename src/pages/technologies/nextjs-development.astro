@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Next.js Development Services',
+    content: `<p>Build fast, scalable web applications with <strong>Next.js development services</strong>. Next.js is the premier React framework for production, combining server-side rendering, static generation, and API routes in one powerful solution. We create SEO-optimized, lightning-fast applications that convert.</p>
+    <p>Next.js provides the perfect foundation for modern web applications with built-in performance optimization, automatic code-splitting, and seamless deployment options.</p>`
+  },
+  {
+    title: 'Why Choose Next.js',
+    content: `<p>Next.js advantages for modern application development:</p>
+    <ul>
+      <li><strong>Server-Side Rendering:</strong> Perfect SEO optimization with fast initial page loads</li>
+      <li><strong>Static Generation:</strong> Pre-render pages at build time for maximum performance</li>
+      <li><strong>API Routes:</strong> Build backend APIs without separate servers</li>
+      <li><strong>Automatic Code Splitting:</strong> Each page loads only necessary code</li>
+      <li><strong>Full-Stack Framework:</strong> Frontend and backend in one unified framework</li>
+      <li><strong>Easy Deployment:</strong> Deploy to Vercel or any Node.js host</li>
+    </ul>`
+  },
+  {
+    title: 'Enterprise Performance & Scale',
+    content: `<p>Next.js powers some of the world's fastest websites. We leverage Image Optimization, Incremental Static Regeneration, and advanced caching strategies to deliver applications that perform at enterprise scale.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Lightning Fast',
+    description: 'Optimized performance with automatic code-splitting and image optimization.'
+  },
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'SEO Optimized',
+    description: 'Built-in server-side rendering and static generation for perfect SEO.'
+  },
+  {
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Full-Stack Ready',
+    description: 'API routes let you build backend without separate servers.'
+  },
+  {
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Developer Experience',
+    description: 'Fast refresh and intuitive file-based routing for productive development.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'Full TypeScript support for robust, maintainable applications.'
+  },
+  {
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Scalable Architecture',
+    description: 'Incremental Static Regeneration enables efficient updates at scale.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Superior SEO Performance',
+    description: 'Server-side rendering and static generation ensure search engines can perfectly index your content.'
+  },
+  {
+    title: 'Exceptional Page Speed',
+    description: 'Built-in optimizations result in high Core Web Vitals scores and better user engagement.'
+  },
+  {
+    title: 'Simplified Deployment',
+    description: 'Deploy to Vercel with one command or use traditional hosting. Fast, reliable, and secure.'
+  },
+  {
+    title: 'Full-Stack Development',
+    description: 'Build complete applications without switching languages or contexts.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Next.js good for SEO?',
+    answer: 'Yes, Next.js is excellent for SEO. It supports server-side rendering and static generation, both of which ensure search engines can properly crawl and index your content.'
+  },
+  {
+    question: 'Can I use Next.js for real-time applications?',
+    answer: 'Absolutely. Next.js works great for real-time apps when combined with WebSockets or libraries like Socket.io. We build everything from dashboards to collaborative tools with Next.js.'
+  },
+  {
+    question: 'What should I deploy Next.js to?',
+    answer: 'Vercel is the official platform and optimized for Next.js, but you can deploy to AWS, Google Cloud, Azure, or any Node.js-compatible hosting. We recommend Vercel for the best experience.'
+  },
+  {
+    question: 'How does Next.js handle databases?',
+    answer: 'Next.js API routes can connect to any database. We typically use PostgreSQL, MongoDB, or managed databases like Firebase, depending on your project needs.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Next.js Development Services | Expert Next.js Developers | OHWP Studios"
+  description="Professional Next.js development services. Build fast, SEO-optimized web applications with Next.js. Expert developers using latest features and best practices."
+  keywords="Next.js development, Next.js developers, Next.js app development, React framework, full-stack development, server-side rendering"
+  h1="Next.js Development Services"
+  heroTitle="Build Fast, SEO-Optimized Web Applications With Next.js"
+  heroSubtitle="Expert Next.js development creating high-performance, scalable applications with perfect SEO and exceptional user experiences."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

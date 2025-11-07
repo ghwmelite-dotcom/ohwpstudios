@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'AI-Powered Application Development',
+    content: `<p>Harness the power of <strong>artificial intelligence and machine learning</strong> to build intelligent applications that learn, adapt, and deliver exceptional results. From chatbots and predictive analytics to computer vision and natural language processing, we integrate cutting-edge AI into your applications.</p>
+    <p>AI isn't just hype—it's a competitive advantage. Let us help you build smarter applications that delight users and drive business results.</p>`
+  },
+  {
+    title: 'AI Integration & Development Services',
+    content: `<p>We build AI-powered applications across multiple domains:</p>
+    <ul>
+      <li><strong>Generative AI:</strong> ChatGPT, Claude, and other LLM-powered features for content generation, customer support, and automation</li>
+      <li><strong>Machine Learning Models:</strong> Custom models for predictions, recommendations, classification, and optimization</li>
+      <li><strong>Conversational AI:</strong> Intelligent chatbots and voice assistants that understand context and intent</li>
+      <li><strong>Computer Vision:</strong> Image recognition, document processing, and visual analysis</li>
+      <li><strong>Data Analytics:</strong> Predictive analytics, anomaly detection, and business intelligence</li>
+      <li><strong>Process Automation:</strong> Use AI to automate complex business processes and workflows</li>
+    </ul>`
+  },
+  {
+    title: 'AI-First Architecture & Implementation',
+    content: `<p>Building AI applications requires specialized expertise:</p>
+    <ul>
+      <li><strong>Data Strategy:</strong> Identify data needs, collection, processing, and quality requirements</li>
+      <li><strong>Model Selection:</strong> Choose between pre-trained models, fine-tuning, and custom training</li>
+      <li><strong>Integration Patterns:</strong> Seamlessly integrate AI into your existing applications</li>
+      <li><strong>Performance Optimization:</strong> Deploy models efficiently for real-time performance and cost</li>
+      <li><strong>Security & Privacy:</strong> Handle sensitive data with enterprise-grade security</li>
+      <li><strong>Continuous Learning:</strong> Models that improve over time with new data and feedback</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
+    title: 'Generative AI',
+    description: 'Leverage ChatGPT, Claude, and other LLMs for intelligent features.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Fast Implementation',
+    description: 'Quickly integrate AI capabilities using proven patterns and frameworks.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Cost Efficient',
+    description: 'Optimize model costs and reduce infrastructure expenses through smart architecture.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Scalable Models',
+    description: 'Deploy AI at scale with performance optimization for millions of requests.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Data Security',
+    description: 'Enterprise-grade security for sensitive data and model privacy.'
+  },
+  {
+    icon: 'M13 13h8m-8-6h8m-8 12h8M5 13a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Continuous Learning',
+    description: 'Models that improve over time with feedback and new training data.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Competitive Intelligence',
+    description: 'Stay ahead of competition by leveraging AI for insights competitors dont have.'
+  },
+  {
+    title: 'Improved Customer Experience',
+    description: 'Deliver personalized, intelligent interactions that delight users and drive loyalty.'
+  },
+  {
+    title: 'Operational Efficiency',
+    description: 'Automate complex tasks and reduce manual work through intelligent systems.'
+  },
+  {
+    title: 'Revenue Growth',
+    description: 'Enable new revenue streams and increase customer lifetime value through AI-powered features.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How much does AI development cost?',
+    answer: 'AI projects range from $30,000 for simple chatbot integrations to $200,000+ for custom machine learning models. Ongoing costs depend on data volume and API usage.'
+  },
+  {
+    question: 'Can you integrate AI into existing applications?',
+    answer: 'Yes! We integrate AI features into existing apps through APIs, middleware, and pluggable modules. No need for a complete rewrite.'
+  },
+  {
+    question: 'What if we dont have training data?',
+    answer: 'We can start with pre-trained models and fine-tune them with your data. We also help you collect and prepare data for model training.'
+  },
+  {
+    question: 'What about data privacy and security with AI?',
+    answer: 'We implement enterprise-grade security including encryption, data residency options, and comply with GDPR, HIPAA, and other regulations for sensitive applications.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="AI-Powered Application Development | ChatGPT & Machine Learning | OHWP Studios"
+  description="AI application development services including generative AI, machine learning, and intelligent automation. Build smarter applications with ChatGPT, Claude, and custom models."
+  keywords="AI application development, machine learning, generative AI, ChatGPT integration, AI chatbots, AI development services"
+  h1="AI-Powered Application Development"
+  heroTitle="Build Intelligent Applications with Cutting-Edge AI"
+  heroSubtitle="Integrate generative AI, machine learning, and intelligent automation into your applications. From ChatGPT chatbots to predictive analytics and custom models."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

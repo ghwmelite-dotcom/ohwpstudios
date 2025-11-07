@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Professional iOS App Development',
+    content: `<p>Build premium <strong>iOS applications</strong> that delight Apple users. Our expert iOS developers create native iPhone and iPad apps using Swift and the latest iOS frameworks, delivering exceptional performance and user experiences.</p>
+    <p>We follow Apple's Human Interface Guidelines to create apps that feel native to the iOS ecosystem while incorporating your unique brand and functionality requirements.</p>`
+  },
+  {
+    title: 'iOS Development Expertise',
+    content: `<p>Our iOS development capabilities include:</p>
+    <ul>
+      <li><strong>Swift & SwiftUI:</strong> Modern iOS development with Swift 5+</li>
+      <li><strong>UIKit:</strong> Advanced UI components and custom interfaces</li>
+      <li><strong>Core Data:</strong> Robust local data storage</li>
+      <li><strong>CloudKit:</strong> iCloud integration for data sync</li>
+      <li><strong>ARKit:</strong> Augmented reality experiences</li>
+      <li><strong>HealthKit & HomeKit:</strong> Integration with Apple ecosystems</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Native Performance',
+    description: 'Optimized Swift code for lightning-fast, responsive iOS apps.'
+  },
+  {
+    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+    title: 'Beautiful Design',
+    description: 'iOS-native interfaces following Apple design principles.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'App Store Ready',
+    description: 'Apps built to meet all Apple App Store requirements.'
+  },
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Scalable Code',
+    description: 'Clean architecture that grows with your app.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Premium Users',
+    description: 'Reach iOS users who typically have higher engagement and spending.'
+  },
+  {
+    title: 'Apple Ecosystem',
+    description: 'Leverage powerful integrations with iPhone, iPad, Apple Watch, and Mac.'
+  },
+  {
+    title: 'Higher Revenue',
+    description: 'iOS users generate more revenue through in-app purchases.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Why choose native iOS development over cross-platform?',
+    answer: 'Native iOS apps provide the best performance, access to latest iOS features, and superior user experience. They fully leverage Apple hardware and software capabilities.'
+  },
+  {
+    question: 'Do you develop for iPad as well?',
+    answer: 'Yes, we create universal apps optimized for both iPhone and iPad, or iPad-specific apps when needed.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="iOS App Development Services | Swift & SwiftUI Experts | OHWP Studios"
+  description="Professional iOS app development services. Native iPhone & iPad apps built with Swift. Expert iOS developers delivering premium App Store applications."
+  keywords="iOS app development, iPhone app development, iPad app development, Swift development, iOS developers"
+  h1="iOS App Development"
+  heroTitle="Create Premium iOS Apps That Users Love"
+  heroSubtitle="Expert iOS app development services using Swift and SwiftUI to build native applications for iPhone and iPad."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

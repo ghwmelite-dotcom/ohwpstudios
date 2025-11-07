@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'SaaS Application Development',
+    content: `<p>Build scalable <strong>Software-as-a-Service applications</strong> with our expert SaaS development services. We create multi-tenant platforms with subscription management, analytics, and all the features needed to launch and scale your SaaS business.</p>
+    <p>From MVP to enterprise-grade platform, we build SaaS applications that grow with your customer base.</p>`
+  },
+  {
+    title: 'Complete SaaS Development',
+    content: `<p>We handle every aspect of SaaS development:</p>
+    <ul>
+      <li><strong>Multi-Tenancy:</strong> Isolated data and customization per customer</li>
+      <li><strong>Subscription Management:</strong> Integration with Stripe/Paddle for billing</li>
+      <li><strong>User Management:</strong> Teams, permissions, and access control</li>
+      <li><strong>Analytics & Reporting:</strong> Usage tracking and business intelligence</li>
+      <li><strong>API Development:</strong> REST and GraphQL APIs for integrations</li>
+      <li><strong>Security & Compliance:</strong> SOC 2, GDPR, and industry standards</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Multi-Tenancy',
+    description: 'Secure isolation between customer data and configurations.'
+  },
+  {
+    icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z',
+    title: 'Subscription Billing',
+    description: 'Automated recurring payments and plan management.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Analytics Dashboard',
+    description: 'Real-time insights into usage, revenue, and growth.'
+  },
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Scalable Architecture',
+    description: 'Infrastructure that handles 10 or 10,000 customers.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Recurring Revenue',
+    description: 'Build predictable subscription-based income.'
+  },
+  {
+    title: 'Easy Scaling',
+    description: 'Add customers without proportional infrastructure costs.'
+  },
+  {
+    title: 'Continuous Updates',
+    description: 'Deploy improvements to all customers instantly.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How long does it take to build a SaaS application?',
+    answer: 'MVP SaaS apps typically take 3-4 months. Full-featured platforms take 6-12 months depending on complexity and feature set.'
+  },
+  {
+    question: 'What does SaaS development cost?',
+    answer: 'SaaS projects range from $50,000 for MVPs to $200,000+ for enterprise platforms. We provide detailed estimates based on your requirements.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="SaaS Application Development | Build Software-as-a-Service | OHWP Studios"
+  description="Expert SaaS application development services. Build scalable multi-tenant platforms with subscription billing, analytics, and security. From MVP to enterprise."
+  keywords="SaaS development, SaaS application development, software as a service, multi-tenant application, subscription software"
+  h1="SaaS Application Development"
+  heroTitle="Build Scalable SaaS Products That Generate Recurring Revenue"
+  heroSubtitle="Expert SaaS development services creating multi-tenant platforms with everything needed to launch and scale your software business."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

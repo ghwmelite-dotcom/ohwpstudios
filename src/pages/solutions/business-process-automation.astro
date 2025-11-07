@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Business Process Automation',
+    content: `<p>Automate your business processes and eliminate manual work with <strong>intelligent automation solutions</strong>. From workflow automation to intelligent document processing, we help businesses become faster, more efficient, and more accurate.</p>
+    <p>Manual processes are expensive, error-prone, and slow. Automation lets your team focus on high-value work while repetitive tasks run 24/7 without human intervention.</p>`
+  },
+  {
+    title: 'Business Process Automation Services',
+    content: `<p>We automate business processes across all departments:</p>
+    <ul>
+      <li><strong>Workflow Automation:</strong> Multi-step processes with conditional logic and approvals</li>
+      <li><strong>Data Processing:</strong> Extract, transform, and validate data from multiple sources</li>
+      <li><strong>Document Processing:</strong> OCR, intelligent document extraction, and classification</li>
+      <li><strong>Integrations:</strong> Connect systems and move data between applications automatically</li>
+      <li><strong>Scheduling:</strong> Automated tasks running on schedule or triggered by events</li>
+      <li><strong>Notifications:</strong> Alert right people when action is needed or deadlines approach</li>
+    </ul>`
+  },
+  {
+    title: 'ROI & Business Impact',
+    content: `<p>Business automation delivers significant financial benefits:</p>
+    <ul>
+      <li><strong>Labor Cost Reduction:</strong> Eliminate manual work and reduce headcount requirements</li>
+      <li><strong>Error Reduction:</strong> 95%+ reduction in data entry errors and process failures</li>
+      <li><strong>Speed Improvement:</strong> 10x faster process execution through automation</li>
+      <li><strong>Throughput Increase:</strong> Handle 10x more transactions with same team size</li>
+      <li><strong>Compliance Improvement:</strong> Consistent process execution meets regulatory requirements</li>
+      <li><strong>ROI Timeline:</strong> Typical payback in 6-12 months with 300-500% annual ROI</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+    title: 'Workflow Automation',
+    description: 'Multi-step processes with conditional logic, approvals, and routing.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Rapid Implementation',
+    description: 'Get processes automated in weeks rather than months.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Intelligent Extraction',
+    description: 'AI-powered document processing and data extraction from unstructured sources.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Enterprise Integration',
+    description: 'Connect to ERP, CRM, accounting, and all business systems.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Error Handling',
+    description: 'Built-in error handling, retries, and manual intervention workflows.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Monitoring & Analytics',
+    description: 'Real-time dashboards showing process health and performance metrics.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Massive Cost Savings',
+    description: 'Eliminate manual work and reduce operational costs by 30-60%.'
+  },
+  {
+    title: 'Improved Accuracy',
+    description: 'Eliminate human error and ensure consistent process execution.'
+  },
+  {
+    title: 'Faster Operations',
+    description: 'Complete processes in hours instead of days.'
+  },
+  {
+    title: 'Employee Satisfaction',
+    description: 'Let your team focus on meaningful work instead of repetitive tasks.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What kind of processes can be automated?',
+    answer: 'Almost any repetitive business process can be automated. Common examples include invoice processing, customer onboarding, data entry, form processing, report generation, and approval workflows. We evaluate each process for automation feasibility.'
+  },
+  {
+    question: 'How long does implementation take?',
+    answer: 'Simple automations take 2-4 weeks. Complex workflows with multiple integrations take 4-12 weeks. We start with quick wins to show immediate value.'
+  },
+  {
+    question: 'What does business process automation cost?',
+    answer: 'Projects typically range from $20,000 for simple automations to $100,000+ for complex enterprise workflows. Most clients see ROI in 6-12 months.'
+  },
+  {
+    question: 'Will automation eliminate jobs?',
+    answer: 'Automation eliminates repetitive work, not jobs. Your team moves to higher-value activities. We help companies redeploy staff to customer service, innovation, and growth initiatives.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Business Process Automation Services | Workflow Automation | OHWP Studios"
+  description="Business process automation services including workflow automation, document processing, and enterprise integrations. Reduce costs, improve accuracy, and increase speed."
+  keywords="business process automation, workflow automation, RPA, process automation, workflow management, document processing"
+  h1="Business Process Automation"
+  heroTitle="Automate Your Business Processes"
+  heroSubtitle="Eliminate manual work and boost efficiency with intelligent automation. Workflow automation, document processing, and enterprise integrations that deliver immediate ROI."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

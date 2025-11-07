@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Kotlin Development Services',
+    content: `<p>Build modern Android applications with <strong>Kotlin development services</strong>. Kotlin is Google's officially recommended language for Android development, offering modern language features, null safety, and excellent Java interoperability. Kotlin reduces boilerplate code and improves developer productivity while delivering powerful, efficient Android apps.</p>
+    <p>We leverage Kotlin with modern Android frameworks like Jetpack Compose to build beautiful, responsive Android applications that users love.</p>`
+  },
+  {
+    title: 'Why Choose Kotlin',
+    content: `<p>Kotlin advantages for Android development:</p>
+    <ul>
+      <li><strong>Google Recommended:</strong> Official language for Android development</li>
+      <li><strong>Null Safety:</strong> Eliminate null pointer exceptions at compile time</li>
+      <li><strong>Less Boilerplate:</strong> Write more concise, readable code</li>
+      <li><strong>Java Interop:</strong> Seamlessly use existing Java libraries</li>
+      <li><strong>Modern Features:</strong> Coroutines, extension functions, and more</li>
+      <li><strong>Jetpack Compose:</strong> Modern declarative UI framework included</li>
+    </ul>`
+  },
+  {
+    title: 'Modern Android Excellence',
+    content: `<p>Kotlin is the future of Android development. Its modern features and Google's backing ensure your Android apps are built with the latest best practices and technologies.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Android Development',
+    description: 'Build native Android apps with the recommended language.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Safe Code',
+    description: 'Null safety prevents common bugs automatically.'
+  },
+  {
+    icon: '10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Concise Syntax',
+    description: 'Less boilerplate code means faster development.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'Strong typing catches errors at compile time.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Jetpack Compose',
+    description: 'Modern declarative UI framework for beautiful interfaces.'
+  },
+  {
+    icon: '19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Java Integration',
+    description: 'Use Java libraries and mix Kotlin with existing Java code.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Fewer Bugs',
+    description: 'Null safety and strong typing eliminate entire classes of bugs.'
+  },
+  {
+    title: 'Faster Development',
+    description: 'Less boilerplate and modern syntax means quicker development.'
+  },
+  {
+    title: 'Better Maintenance',
+    description: 'Concise, readable code is easier to maintain and update.'
+  },
+  {
+    title: 'Future-Proof',
+    description: 'Google\'s official recommendation ensures long-term support.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Kotlin the official Android language?',
+    answer: 'Yes, Google has declared Kotlin the preferred language for Android app development. It\'s fully supported and recommended for all new projects.'
+  },
+  {
+    question: 'Can I use Kotlin with Java code?',
+    answer: 'Absolutely. Kotlin has 100% interoperability with Java, allowing you to use Java libraries and mix code seamlessly.'
+  },
+  {
+    question: 'What is Jetpack Compose?',
+    answer: 'Jetpack Compose is Android\'s modern, declarative UI toolkit. It makes building Android interfaces faster and simpler than traditional layouts.'
+  },
+  {
+    question: 'How does Kotlin compare to Java for Android?',
+    answer: 'Kotlin offers modern features, null safety, coroutines, and less boilerplate. It\'s the better choice for new Android projects.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Kotlin Development Services | Expert Kotlin Developers | OHWP Studios"
+  description="Professional Kotlin development for Android apps. Build modern Android applications with Kotlin. Expert Android developers creating high-performance apps."
+  keywords="Kotlin development, Kotlin developers, Android development, Android app development, Jetpack Compose, native Android applications"
+  h1="Kotlin Development Services"
+  heroTitle="Build Modern Android Apps With Kotlin"
+  heroSubtitle="Expert Kotlin development creating high-performance, beautiful Android applications with modern language features and best practices."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,83 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Professional API Development Services',
+    content: `<p>Build robust, scalable <strong>APIs and web services</strong> that power your applications and enable seamless integrations. Our expert developers create RESTful APIs, GraphQL services, and microservices architectures using industry best practices.</p>
+    <p>We design APIs that are fast, secure, well-documented, and built to scale with your business needs.</p>`
+  },
+  {
+    title: 'API Development Expertise',
+    content: `<p>We build various types of APIs:</p>
+    <ul>
+      <li><strong>RESTful APIs:</strong> Standard HTTP-based APIs for web and mobile apps</li>
+      <li><strong>GraphQL APIs:</strong> Flexible query language for efficient data fetching</li>
+      <li><strong>WebSocket APIs:</strong> Real-time bidirectional communication</li>
+      <li><strong>Microservices:</strong> Distributed services for complex applications</li>
+      <li><strong>Third-Party Integrations:</strong> Connect with external services and platforms</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+    title: 'Secure APIs',
+    description: 'Authentication, authorization, and encryption built-in.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Optimized for speed with caching and efficient queries.'
+  },
+  {
+    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+    title: 'Well-Documented',
+    description: 'Clear documentation with examples and SDKs.'
+  },
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Scalable Design',
+    description: 'Architecture that grows with increasing demand.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Enable Integrations',
+    description: 'Allow third-party developers to build on your platform.'
+  },
+  {
+    title: 'Mobile & Web Support',
+    description: 'Single API powering multiple client applications.'
+  },
+  {
+    title: 'Faster Development',
+    description: 'Reusable services accelerate future projects.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Should I use REST or GraphQL?',
+    answer: 'REST is simpler and widely adopted, ideal for most use cases. GraphQL is better when you need flexible queries and want to minimize over-fetching. We help you choose based on your requirements.'
+  },
+  {
+    question: 'How do you secure APIs?',
+    answer: 'We implement OAuth 2.0, JWT tokens, API keys, rate limiting, and HTTPS encryption to ensure your APIs are secure from unauthorized access.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="API Development Services | RESTful & GraphQL APIs | OHWP Studios"
+  description="Professional API development services. Build secure, scalable REST and GraphQL APIs. Expert backend developers creating robust web services and microservices."
+  keywords="API development, REST API development, GraphQL API, web services, API integration, microservices"
+  h1="API Development Services"
+  heroTitle="Build Robust APIs That Power Your Applications"
+  heroSubtitle="Expert API development services creating secure, scalable, and well-documented web services for modern applications."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

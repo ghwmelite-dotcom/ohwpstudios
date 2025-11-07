@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Angular Development Services',
+    content: `<p>Build enterprise-grade web applications with <strong>Angular development services</strong>. Angular is a comprehensive, full-featured framework that provides everything needed for large-scale, complex applications. Its strong typing, powerful tooling, and opinionated structure make it ideal for enterprise projects.</p>
+    <p>We leverage Angular's dependency injection, RxJS reactive programming, and TypeScript first approach to deliver robust, maintainable applications that scale with your business.</p>`
+  },
+  {
+    title: 'Why Choose Angular',
+    content: `<p>Angular advantages for enterprise development:</p>
+    <ul>
+      <li><strong>Complete Framework:</strong> Everything included for large applications</li>
+      <li><strong>Strong Typing:</strong> TypeScript-first design for code safety</li>
+      <li><strong>Dependency Injection:</strong> Built-in IoC container for testability</li>
+      <li><strong>RxJS Integration:</strong> Powerful reactive programming patterns</li>
+      <li><strong>Enterprise Support:</strong> Google-backed with long-term commitment</li>
+      <li><strong>Excellent Tooling:</strong> Angular CLI and powerful DevTools included</li>
+    </ul>`
+  },
+  {
+    title: 'Enterprise Solutions',
+    content: `<p>Angular excels at enterprise applications. Banks, insurance companies, and Fortune 500 companies rely on Angular for mission-critical applications that demand reliability, security, and scalability.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'TypeScript first-class support with compile-time type checking.'
+  },
+  {
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Complete Framework',
+    description: 'Routing, HTTP, forms, and more built-in and fully integrated.'
+  },
+  {
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Reactive Programming',
+    description: 'RxJS integration for handling complex async operations.'
+  },
+  {
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Powerful Tooling',
+    description: 'Angular CLI automates scaffolding, testing, and optimization.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Performance',
+    description: 'Ahead-of-time compilation and tree-shaking for minimal bundles.'
+  },
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Enterprise Ready',
+    description: 'Built for large teams and mission-critical applications.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Reduced Bugs',
+    description: 'Strong typing and dependency injection catch errors at compile time.'
+  },
+  {
+    title: 'Better Testability',
+    description: 'Built-in testing tools and injectable dependencies make testing easy.'
+  },
+  {
+    title: 'Long-Term Support',
+    description: 'Google backs Angular with regular updates and long-term stability.'
+  },
+  {
+    title: 'Scalable Teams',
+    description: 'Opinionated structure makes it easy for large teams to collaborate.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Angular good for large applications?',
+    answer: 'Yes, Angular is specifically designed for large-scale applications. Its comprehensive nature, strong typing, and opinionated structure make it ideal for complex enterprise projects.'
+  },
+  {
+    question: 'How does Angular compare to React and Vue?',
+    answer: 'Angular is more comprehensive and opinionated than React or Vue, including routing, HTTP, and forms built-in. This makes it heavier but more complete for large applications.'
+  },
+  {
+    question: 'Can I use Angular for SEO?',
+    answer: 'Client-side Angular apps require server-side rendering for perfect SEO. However, with proper configuration, Angular apps can be SEO-optimized.'
+  },
+  {
+    question: 'What should I use for state management with Angular?',
+    answer: 'NgRx is the most popular state management library for Angular, similar to Redux. It provides predictable state management using RxJS and the Redux pattern.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Angular Development Services | Expert Angular Developers | OHWP Studios"
+  description="Professional Angular development services. Build enterprise-grade web applications with Angular. Expert Angular developers using latest features and best practices."
+  keywords="Angular development, Angular developers, Angular.js development, enterprise web applications, TypeScript, RxJS, Angular framework"
+  h1="Angular Development Services"
+  heroTitle="Build Enterprise-Grade Applications With Angular"
+  heroSubtitle="Expert Angular development creating robust, scalable applications with strong typing, excellent tooling, and proven enterprise reliability."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

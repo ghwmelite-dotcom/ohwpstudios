@@ -1,0 +1,81 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Cross-Platform App Development Solutions',
+    content: `<p>Build once, deploy everywhere with <strong>cross-platform app development</strong>. We create high-performance mobile applications using React Native and Flutter, delivering native-quality apps for iOS and Android from a single codebase.</p>
+    <p>Cross-platform development reduces time-to-market and development costs while maintaining excellent performance and user experience across platforms.</p>`
+  },
+  {
+    title: 'React Native & Flutter Development',
+    content: `<p>Choose the right framework for your project:</p>
+    <ul>
+      <li><strong>React Native:</strong> JavaScript-based framework backed by Meta, perfect for teams with web development experience</li>
+      <li><strong>Flutter:</strong> Google's UI toolkit using Dart, offering exceptional performance and beautiful customizable widgets</li>
+    </ul>
+    <p>Both frameworks provide access to native device features and deliver excellent performance.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
+    title: 'Single Codebase',
+    description: 'Write once, deploy to iOS and Android simultaneously.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Cost-Effective',
+    description: 'Reduce development costs by up to 40% compared to native.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Fast Development',
+    description: 'Launch faster with hot reload and shared codebase.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Native Features',
+    description: 'Full access to device capabilities and native APIs.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Time-to-Market',
+    description: 'Launch on both platforms simultaneously, reaching users faster.'
+  },
+  {
+    title: 'Consistent Experience',
+    description: 'Maintain brand consistency across iOS and Android.'
+  },
+  {
+    title: 'Easier Maintenance',
+    description: 'Update both platforms with single code changes.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Are cross-platform apps as good as native?',
+    answer: 'Modern frameworks like React Native and Flutter deliver near-native performance. For most apps, users cannot tell the difference.'
+  },
+  {
+    question: 'Which is better: React Native or Flutter?',
+    answer: 'Both are excellent. React Native is ideal for teams with JavaScript experience, while Flutter offers slightly better performance and rich UI customization.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Cross-Platform App Development | React Native & Flutter | OHWP Studios"
+  description="Expert cross-platform app development services using React Native and Flutter. Build iOS and Android apps from one codebase. Faster, cost-effective development."
+  keywords="cross-platform app development, React Native development, Flutter development, hybrid app development, mobile app development"
+  h1="Cross-Platform App Development"
+  heroTitle="Build iOS and Android Apps From a Single Codebase"
+  heroSubtitle="Professional cross-platform development using React Native and Flutter, delivering native-quality apps faster and more cost-effectively."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

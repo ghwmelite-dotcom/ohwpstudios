@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Legal Software Development Services',
+    content: `<p>Streamline legal operations with <strong>specialized legal practice management software</strong> designed for law firms, solo practitioners, and legal departments. We develop case management systems, legal document automation, client portals, and billing solutions that improve efficiency and client service.</p>
+    <p>Our legal software experts understand law practice dynamics, confidentiality requirements, and regulatory compliance. From case tracking to document automation and secure client communication, we build solutions that help legal professionals focus on serving clients while reducing administrative overhead.</p>`
+  },
+  {
+    title: 'Legal Challenges We Address',
+    content: `<p>Legal practices face unique operational and compliance challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>Case Management:</strong> Track cases, documents, deadlines, and case progress</li>
+      <li><strong>Document Automation:</strong> Generate legal documents from templates for faster work</li>
+      <li><strong>Time Tracking:</strong> Accurate billing with time tracking and expense management</li>
+      <li><strong>Client Communication:</strong> Secure client portals for document sharing and communication</li>
+      <li><strong>Compliance:</strong> Ensure compliance with attorney-client privilege and GDPR</li>
+      <li><strong>Billing & Collections:</strong> Streamlined invoicing and payment processing</li>
+    </ul>`
+  },
+  {
+    title: 'Legal Solutions We Build',
+    content: `<p>Comprehensive software solutions for legal practice management:</p>
+    <ul>
+      <li><strong>Practice Management System:</strong> Case management, document storage, and matter tracking</li>
+      <li><strong>Document Assembly:</strong> Automated document generation from customizable templates</li>
+      <li><strong>Time & Billing:</strong> Time tracking, expense management, and invoice generation</li>
+      <li><strong>Client Portal:</strong> Secure document sharing and client communication</li>
+      <li><strong>Deadline Calendar:</strong> Automated deadline tracking and reminders</li>
+      <li><strong>Legal Research Integration:</strong> Integration with Westlaw, LexisNexis, and legal databases</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Secure Data Protection',
+    description: 'AES-256 encryption and granular access controls protect sensitive client information.'
+  },
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    title: 'Document Management',
+    description: 'Centralized storage with version control and automated document assembly.'
+  },
+  {
+    icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+    title: 'Deadline Tracking',
+    description: 'Automated deadline calendars with reminders and compliance tracking.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Time & Billing',
+    description: 'Accurate time tracking, expense management, and automated invoice generation.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Client Portal',
+    description: 'Secure client access to case documents, bills, and secure communication.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Case Analytics',
+    description: 'Practice insights with case metrics, billing performance, and productivity trends.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Increased Productivity',
+    description: 'Automation of routine tasks frees up attorney time for billable work.'
+  },
+  {
+    title: 'Better Case Management',
+    description: 'Centralized case information and automated deadlines reduce errors and missed deadlines.'
+  },
+  {
+    title: 'Improved Client Service',
+    description: 'Secure portals and responsive communication improve client satisfaction and retention.'
+  },
+  {
+    title: 'Higher Collections',
+    description: 'Efficient time tracking and faster invoicing improve cash flow and collections.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is your legal software compliant with attorney-client privilege?',
+    answer: 'Yes, our system is designed with attorney-client privilege in mind, with audit trails, access controls, and secure data encryption.'
+  },
+  {
+    question: 'Can we integrate legal research tools like Westlaw?',
+    answer: 'Yes, we can integrate with legal research platforms and provide single sign-on capabilities for seamless workflow.'
+  },
+  {
+    question: 'How do you handle document automation?',
+    answer: 'We provide a document assembly engine that generates legal documents from customizable templates with variable data population.'
+  },
+  {
+    question: 'Is the client portal secure?',
+    answer: 'Absolutely. Our client portal uses end-to-end encryption, two-factor authentication, and granular permission controls.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Legal Software Development | Practice Management Solutions | OHWP Studios"
+  description="Expert legal software development. Build practice management systems, case management, document automation, and client portals for law firms."
+  keywords="legal software development, practice management software, case management system, legal document automation, attorney software"
+  h1="Legal Software Development"
+  heroTitle="Streamlined Legal Practice Management Solutions"
+  heroSubtitle="Build secure legal software with case management, document automation, time tracking, and client portals that improve efficiency and service quality."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

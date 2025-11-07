@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'React Development Services',
+    content: `<p>Build dynamic, high-performance web applications with <strong>React development services</strong>. React's component-based architecture enables us to create scalable, maintainable applications with exceptional user experiences.</p>
+    <p>As React experts, we leverage the full ecosystem including React Hooks, Context API, and modern tooling to build applications that perform beautifully and scale effortlessly.</p>`
+  },
+  {
+    title: 'Why Choose React',
+    content: `<p>React advantages for modern web development:</p>
+    <ul>
+      <li><strong>Component Reusability:</strong> Build once, use everywhere for faster development</li>
+      <li><strong>Virtual DOM:</strong> Exceptional performance with efficient rendering</li>
+      <li><strong>Rich Ecosystem:</strong> Vast library of components and tools</li>
+      <li><strong>SEO-Friendly:</strong> Server-side rendering with Next.js integration</li>
+      <li><strong>Mobile Ready:</strong> Extend to mobile with React Native</li>
+      <li><strong>Strong Community:</strong> Backed by Meta with active development</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Modern React',
+    description: 'Using latest React 18+ features including Hooks and Concurrent Mode.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Optimized rendering and code-splitting for lightning-fast apps.'
+  },
+  {
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Reusable Components',
+    description: 'Modular architecture for maintainable, scalable applications.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safety',
+    description: 'TypeScript integration for robust, error-free code.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Development',
+    description: 'Component reusability and rich ecosystem accelerate delivery.'
+  },
+  {
+    title: 'Easy Maintenance',
+    description: 'Clear component structure makes updates and debugging simple.'
+  },
+  {
+    title: 'Future-Proof',
+    description: 'Active development ensures longevity and continued support.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is React good for SEO?',
+    answer: 'Yes, especially when combined with Next.js for server-side rendering. We build React apps that are fully SEO-optimized with proper meta tags and fast loading times.'
+  },
+  {
+    question: 'How does React compare to other frameworks?',
+    answer: 'React offers the most flexibility and largest ecosystem. It has excellent performance, strong community support, and works well for projects of any size.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="React Development Services | Expert React Developers | OHWP Studios"
+  description="Professional React development services. Build fast, scalable web applications with React. Expert React developers using latest features and best practices."
+  keywords="React development, React developers, React app development, React.js development, React programming"
+  h1="React Development Services"
+  heroTitle="Build Modern Web Applications With React"
+  heroSubtitle="Expert React development creating high-performance, scalable applications with exceptional user experiences."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Logistics Software Development Services',
+    content: `<p>Optimize supply chain and logistics operations with <strong>comprehensive logistics management software</strong>. We develop fleet management systems, route optimization platforms, warehouse management software, and real-time tracking solutions that reduce costs and improve delivery performance.</p>
+    <p>Our logistics software experts understand supply chain complexity, fleet operations, and the importance of real-time visibility. From last-mile delivery to warehouse operations and cross-dock facilities, we build solutions that streamline operations and reduce transportation costs.</p>`
+  },
+  {
+    title: 'Logistics Challenges We Address',
+    content: `<p>Logistics and supply chain businesses face operational challenges requiring specialized solutions:</p>
+    <ul>
+      <li><strong>Fleet Management:</strong> Track vehicles, drivers, and shipments in real-time</li>
+      <li><strong>Route Optimization:</strong> Reduce delivery times and fuel costs with smart routing</li>
+      <li><strong>Warehouse Management:</strong> Streamline receiving, storage, and picking operations</li>
+      <li><strong>Shipment Tracking:</strong> Provide customers with real-time delivery visibility</li>
+      <li><strong>Documentation:</strong> Electronic proof of delivery and shipment documentation</li>
+      <li><strong>Integration:</strong> Connect with carriers, customers, and third-party logistics partners</li>
+    </ul>`
+  },
+  {
+    title: 'Logistics Solutions We Build',
+    content: `<p>Comprehensive software solutions for the entire logistics operation:</p>
+    <ul>
+      <li><strong>Fleet Management Systems:</strong> Vehicle tracking, maintenance scheduling, and driver management</li>
+      <li><strong>Route Optimization:</strong> AI-powered routing that minimizes distance and time</li>
+      <li><strong>Warehouse Management System (WMS):</strong> Inventory tracking, picking, packing, and shipping</li>
+      <li><strong>Transportation Management System (TMS):</strong> Freight management and carrier selection</li>
+      <li><strong>Last-Mile Delivery:</strong> Real-time delivery tracking and proof of delivery</li>
+      <li><strong>Customer Portals:</strong> Shipment tracking and delivery visibility for customers</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a2 2 0 111.828-3.28L12 16.586l3.172-3.172a2 2 0 113.28 1.828z',
+    title: 'Real-time GPS Tracking',
+    description: 'Live vehicle and shipment tracking with geofencing and delivery updates.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Route Optimization',
+    description: 'AI-powered algorithms that optimize routes for minimal distance and fuel costs.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Warehouse Management',
+    description: 'Inventory tracking, picking optimization, and shipping automation.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Cost Reduction',
+    description: 'Analytics showing fuel costs, delivery efficiency, and optimization opportunities.'
+  },
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Mobile Apps',
+    description: 'Native iOS and Android apps for drivers with navigation, delivery, and documentation.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Proof of Delivery',
+    description: 'Electronic signatures, photos, and documentation for complete delivery visibility.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Reduced Transportation Costs',
+    description: 'Optimized routes and better fleet management reduce fuel costs by 20-30%.'
+  },
+  {
+    title: 'Improved Delivery Performance',
+    description: 'Real-time tracking and route optimization improve on-time delivery rates.'
+  },
+  {
+    title: 'Enhanced Visibility',
+    description: 'Complete supply chain visibility from warehouse to final delivery.'
+  },
+  {
+    title: 'Customer Satisfaction',
+    description: 'Real-time tracking and communication improve customer satisfaction and reduce inquiries.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How does route optimization work?',
+    answer: 'Our AI algorithms analyze delivery locations, traffic patterns, and vehicle capacity to create optimal routes that minimize distance and time.'
+  },
+  {
+    question: 'Can your system integrate with existing warehouse systems?',
+    answer: 'Yes, we integrate with existing WMS and ERP systems through API connections and standard data formats.'
+  },
+  {
+    question: 'What mobile features do you provide for drivers?',
+    answer: 'Drivers get GPS navigation, real-time delivery lists, proof of delivery with signatures/photos, and two-way customer communication.'
+  },
+  {
+    question: 'Can customers track their shipments in real-time?',
+    answer: 'Yes, we provide customer-facing portals and mobile apps with real-time shipment tracking and delivery ETAs.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Logistics Software Development | Fleet & Warehouse Management | OHWP Studios"
+  description="Expert logistics software development. Build fleet management systems, route optimization, warehouse management, and delivery tracking platforms."
+  keywords="logistics software development, fleet management software, warehouse management system, route optimization, delivery tracking platform"
+  h1="Logistics Software Development"
+  heroTitle="Streamlined Supply Chain & Logistics Solutions"
+  heroSubtitle="Build intelligent logistics systems with real-time tracking, route optimization, and warehouse management to reduce costs and improve delivery performance."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'White-Label Software Development',
+    content: `<p>Expand your service offerings with <strong>custom white-label software solutions</strong>. We build applications that you brand and resell as your own, giving you new revenue streams without the development burden.</p>
+    <p>White-label development lets agencies and consultants offer software solutions without hiring development teams. Build your brand while we handle the complexity.</p>`
+  },
+  {
+    title: 'White-Label Development Services',
+    content: `<p>We deliver complete white-label solutions across many domains:</p>
+    <ul>
+      <li><strong>Custom Software:</strong> Purpose-built applications tailored to your clients' needs</li>
+      <li><strong>SaaS Platforms:</strong> Multi-tenant applications you can resell to multiple customers</li>
+      <li><strong>Web Applications:</strong> Desktop and mobile web apps with your branding</li>
+      <li><strong>Mobile Apps:</strong> Native or cross-platform apps released under your brand</li>
+      <li><strong>Integrations:</strong> Connect your software to third-party tools and platforms</li>
+      <li><strong>Support & Maintenance:</strong> Ongoing updates, bug fixes, and customer support</li>
+    </ul>`
+  },
+  {
+    title: 'Business Model & Profitability',
+    content: `<p>White-label development creates recurring revenue opportunities:</p>
+    <ul>
+      <li><strong>Revenue Sharing:</strong> Monthly recurring revenue from software licenses and subscriptions</li>
+      <li><strong>Implementation Services:</strong> Charge for customization, integration, and deployment</li>
+      <li><strong>Support Services:</strong> Generate recurring revenue from support contracts and SLAs</li>
+      <li><strong>Margin Growth:</strong> Typical margins of 30-60% after initial development costs</li>
+      <li><strong>Customer Loyalty:</strong> Software creates stickiness and higher lifetime value</li>
+      <li><strong>Scalable Growth:</strong> Add clients with minimal marginal cost after initial development</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z',
+    title: 'Complete Branding',
+    description: 'Fully white-labeled with your logo, colors, and domain.'
+  },
+  {
+    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
+    title: 'Rapid Scaling',
+    description: 'Add clients quickly without proportional development costs.'
+  },
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Customizable',
+    description: 'Easy for you to customize and adapt for each client.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Turnkey Solution',
+    description: 'Complete solution you can deploy to clients immediately.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Ownership & Control',
+    description: 'You own the code and can modify it as needed.'
+  },
+  {
+    icon: 'M13 13h8m-8-6h8m-8 12h8M5 13a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Lifetime Updates',
+    description: 'Continuous improvements and feature updates for your clients.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'New Revenue Streams',
+    description: 'Generate recurring revenue from software licenses and support services.'
+  },
+  {
+    title: 'Competitive Advantage',
+    description: "Offer software solutions competitors can't match without their own development teams."
+  },
+  {
+    title: 'Client Retention',
+    description: 'Software creates switching costs and higher customer lifetime value.'
+  },
+  {
+    title: 'Brand Enhancement',
+    description: 'Enhance your brand perception by offering comprehensive software solutions.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What does white-label development cost?',
+    answer: 'White-label projects range from $50,000 for simple applications to $300,000+ for complex enterprise platforms. We can structure pricing as fixed cost or profit-sharing models.'
+  },
+  {
+    question: 'Can we customize the software for clients?',
+    answer: 'Yes. We build customizable white-label solutions with configuration options and extension points so you can adapt them for different clients.'
+  },
+  {
+    question: 'Do you provide ongoing support?',
+    answer: 'We can include ongoing support, maintenance, and updates as part of the engagement. We support your support team or directly support your end clients.'
+  },
+  {
+    question: 'Can we use this for multiple clients?',
+    answer: "Absolutely. That's the whole point of white-label development. One application serves multiple clients under their respective branding."
+  }
+];
+---
+
+<SEOPageLayout
+  title="White-Label Software Development | Custom SaaS & Apps | OHWP Studios"
+  description="White-label software development services for agencies and consultants. Build and resell custom applications, SaaS platforms, and software solutions."
+  keywords="white-label development, white-label software, SaaS reseller, white-label SaaS, software reselling, custom development"
+  h1="White-Label Software Development"
+  heroTitle="Offer Software Solutions Without Building a Dev Team"
+  heroSubtitle="Custom white-label applications and SaaS platforms you can brand and resell to your clients. Create new revenue streams with recurring licensing and support income."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

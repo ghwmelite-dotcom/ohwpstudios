@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Cloud Migration Services',
+    content: `<p>Migrate your applications and infrastructure to the cloud with <strong>zero downtime and full data integrity</strong>. Our cloud migration experts guide you through every stage—from assessment and planning through execution, optimization, and ongoing management.</p>
+    <p>Cloud migration is more than lifting and shifting. We optimize for performance, cost, and scalability while maintaining security and compliance.</p>`
+  },
+  {
+    title: 'Comprehensive Cloud Migration Services',
+    content: `<p>We handle the complete cloud migration journey:</p>
+    <ul>
+      <li><strong>Assessment & Planning:</strong> Evaluate current infrastructure and design optimal cloud architecture</li>
+      <li><strong>Application Modernization:</strong> Refactor or containerize applications for cloud platforms</li>
+      <li><strong>Data Migration:</strong> Safely transfer large datasets with validation and verification</li>
+      <li><strong>Zero-Downtime Migration:</strong> Execute migrations with no service interruption using proven techniques</li>
+      <li><strong>Infrastructure as Code:</strong> Automate infrastructure deployment with Terraform, CloudFormation, or Kubernetes</li>
+      <li><strong>Cloud Optimization:</strong> Right-size resources, optimize costs, and improve performance post-migration</li>
+    </ul>`
+  },
+  {
+    title: 'Cloud Platforms & Services',
+    content: `<p>We specialize in major cloud platforms:</p>
+    <ul>
+      <li><strong>AWS:</strong> EC2, RDS, S3, Lambda, CloudFront, and managed services</li>
+      <li><strong>Microsoft Azure:</strong> Virtual Machines, App Service, SQL Database, and enterprise services</li>
+      <li><strong>Google Cloud:</strong> Compute Engine, Cloud SQL, BigQuery, and data platforms</li>
+      <li><strong>Multi-Cloud:</strong> Hybrid deployments and workload distribution across platforms</li>
+      <li><strong>Containerization:</strong> Docker, Kubernetes, and container orchestration</li>
+      <li><strong>Serverless:</strong> Lambda, Cloud Functions, and event-driven architectures</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Zero-Downtime Migration',
+    description: 'Execute migrations with no service interruption or data loss.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Cost Optimization',
+    description: 'Reduce cloud costs by 30-50% through right-sizing and intelligent resource management.'
+  },
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Infrastructure as Code',
+    description: 'Automate infrastructure with Terraform and CloudFormation for consistency.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Security & Compliance',
+    description: 'Maintain compliance with HIPAA, PCI-DSS, SOC 2, and regulatory standards.'
+  },
+  {
+    icon: 'M13 13h8m-8-6h8m-8 12h8M5 13a4 4 0 11-8 0 4 4 0 018 0z',
+    title: 'Performance Monitoring',
+    description: 'Real-time monitoring and optimization for peak cloud performance.'
+  },
+  {
+    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+    title: 'Managed Services',
+    description: 'Ongoing management, patches, backups, and infrastructure support.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Scalability on Demand',
+    description: 'Scale resources up or down instantly based on demand without over-provisioning.'
+  },
+  {
+    title: 'Cost Savings',
+    description: 'Eliminate on-premise hardware costs and optimize cloud spending with intelligent resource allocation.'
+  },
+  {
+    title: 'Global Reach',
+    description: 'Deploy applications globally with local performance through content delivery networks.'
+  },
+  {
+    title: 'Enterprise Reliability',
+    description: 'Leverage cloud provider SLAs for 99.99% uptime and automatic failover.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How long does cloud migration take?',
+    answer: 'Timeline depends on application complexity and data volume. Simple applications migrate in 2-4 weeks. Enterprise systems typically take 2-6 months with a phased approach.'
+  },
+  {
+    question: 'Will there be downtime during migration?',
+    answer: 'Our zero-downtime migration techniques use database replication and cutover strategies to ensure no service interruption. We test extensively before execution.'
+  },
+  {
+    question: 'How much will cloud cost after migration?',
+    answer: 'We provide detailed cost projections during planning. Most clients see 20-30% cost reduction compared to on-premise, though some may spend more for new capabilities.'
+  },
+  {
+    question: 'Can we migrate our databases to the cloud?',
+    answer: 'Yes. We migrate databases of any size using AWS DMS, Azure Data Migration Service, or custom solutions. We ensure data integrity and performance throughout.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Cloud Migration Services | Zero-Downtime Migration | OHWP Studios"
+  description="Professional cloud migration services including AWS, Azure, and Google Cloud. Zero-downtime migrations, cost optimization, and infrastructure as code solutions."
+  keywords="cloud migration, AWS migration, Azure migration, cloud services, infrastructure migration, cloud transformation"
+  h1="Cloud Migration Services"
+  heroTitle="Migrate to the Cloud with Zero Downtime"
+  heroSubtitle="Professional cloud migration services moving your applications and data safely to AWS, Azure, or Google Cloud with zero downtime and optimized costs."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

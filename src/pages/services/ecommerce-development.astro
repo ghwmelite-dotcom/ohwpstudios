@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'E-Commerce Development Services',
+    content: `<p>Build powerful online stores that drive sales with our <strong>e-commerce development services</strong>. We create custom e-commerce platforms and integrate leading platforms like Shopify, WooCommerce, and BigCommerce to help you sell online successfully.</p>
+    <p>From product catalogs to payment processing and order management, we build complete e-commerce solutions tailored to your business needs.</p>`
+  },
+  {
+    title: 'E-Commerce Solutions We Offer',
+    content: `<p>Comprehensive e-commerce services:</p>
+    <ul>
+      <li><strong>Custom E-Commerce Platforms:</strong> Tailored solutions for unique requirements</li>
+      <li><strong>Shopify Development:</strong> Theme customization and app integration</li>
+      <li><strong>WooCommerce Development:</strong> WordPress-based online stores</li>
+      <li><strong>Headless Commerce:</strong> API-first architecture for flexibility</li>
+      <li><strong>B2B & B2C Solutions:</strong> Wholesale and retail platforms</li>
+      <li><strong>Marketplace Development:</strong> Multi-vendor platforms</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
+    title: 'Shopping Cart',
+    description: 'Intuitive cart with save-for-later and abandoned cart recovery.'
+  },
+  {
+    icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z',
+    title: 'Secure Payments',
+    description: 'Integration with Stripe, PayPal, and other payment gateways.'
+  },
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    title: 'Order Management',
+    description: 'Complete system for processing and fulfilling orders.'
+  },
+  {
+    icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z',
+    title: 'Product Catalog',
+    description: 'Flexible product management with variants and categories.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Increase Sales',
+    description: 'Optimized checkout process reduces cart abandonment.'
+  },
+  {
+    title: 'Global Reach',
+    description: 'Sell worldwide with multi-currency and shipping support.'
+  },
+  {
+    title: 'Scalable Platform',
+    description: 'Grow from 10 to 10,000 products seamlessly.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Which e-commerce platform should I use?',
+    answer: 'Shopify is great for quick launch and ease of use. WooCommerce offers more customization. Custom platforms are best for unique requirements. We help you choose based on your needs and budget.'
+  },
+  {
+    question: 'How long does e-commerce development take?',
+    answer: 'Shopify stores can launch in 4-6 weeks. Custom e-commerce platforms typically take 3-6 months depending on complexity.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="E-Commerce Development Services | Online Store Development | OHWP Studios"
+  description="Professional e-commerce development services. Build powerful online stores with Shopify, WooCommerce, or custom platforms. Expert developers, proven results."
+  keywords="ecommerce development, online store development, Shopify development, WooCommerce development, ecommerce website"
+  h1="E-Commerce Development"
+  heroTitle="Build Online Stores That Drive Sales"
+  heroSubtitle="Expert e-commerce development creating high-converting online stores with seamless shopping experiences."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

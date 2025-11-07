@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Professional Web Design Services',
+    content: `<p>Create stunning websites that captivate visitors and drive conversions with our <strong>professional web design services</strong>. We combine creative design with user psychology to build websites that not only look beautiful but achieve your business goals.</p>
+    <p>Our design process focuses on your target audience, ensuring every element serves a purpose while maintaining visual appeal and brand consistency.</p>`
+  },
+  {
+    title: 'Our Web Design Approach',
+    content: `<p>We follow a comprehensive design process:</p>
+    <ul>
+      <li><strong>Research:</strong> Understanding your audience, competitors, and industry</li>
+      <li><strong>Strategy:</strong> Defining goals, user flows, and conversion paths</li>
+      <li><strong>Wireframing:</strong> Planning structure and layout</li>
+      <li><strong>Visual Design:</strong> Creating beautiful, on-brand interfaces</li>
+      <li><strong>Prototyping:</strong> Interactive mockups for testing</li>
+      <li><strong>Development:</strong> Bringing designs to life with code</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+    title: 'Custom Design',
+    description: 'Unique designs tailored to your brand, never templates.'
+  },
+  {
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Responsive Design',
+    description: 'Perfect display on all devices and screen sizes.'
+  },
+  {
+    icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
+    title: 'User-Centered',
+    description: 'Designed around your users needs and behaviors.'
+  },
+  {
+    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
+    title: 'Conversion-Focused',
+    description: 'Designed to turn visitors into customers.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Strong First Impression',
+    description: 'Professional design builds trust and credibility instantly.'
+  },
+  {
+    title: 'Better User Experience',
+    description: 'Intuitive design keeps visitors engaged and reduces bounce rate.'
+  },
+  {
+    title: 'Increased Conversions',
+    description: 'Strategic design elements guide users to take action.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How long does web design take?',
+    answer: 'Most projects take 4-8 weeks from kickoff to launch, depending on complexity and number of pages.'
+  },
+  {
+    question: 'Do you redesign existing websites?',
+    answer: 'Yes, we offer website redesign services to modernize your existing site while preserving what works.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Professional Web Design Services | Custom Website Design | OHWP Studios"
+  description="Expert web design services creating stunning, conversion-focused websites. Custom designs that capture your brand and engage your audience. Free consultation."
+  keywords="web design services, website design, custom web design, professional web design, web design company"
+  h1="Web Design Services"
+  heroTitle="Beautiful Websites That Drive Results"
+  heroSubtitle="Professional web design services combining stunning visuals with strategic user experience to create websites that convert."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

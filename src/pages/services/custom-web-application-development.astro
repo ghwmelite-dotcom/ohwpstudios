@@ -1,0 +1,116 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Professional Custom Web Application Development',
+    content: `<p>Transform your business with <strong>custom web applications</strong> built specifically for your unique requirements. Our expert team delivers scalable, secure, and high-performance web solutions that drive business growth and operational efficiency.</p>
+    <p>We specialize in developing enterprise-grade web applications using cutting-edge technologies and best practices. From initial concept to deployment and beyond, we ensure your web application meets the highest standards of quality and performance.</p>`
+  },
+  {
+    title: 'Our Custom Web Development Process',
+    content: `<p>Our proven development process ensures project success:</p>
+    <ul>
+      <li><strong>Discovery & Planning:</strong> Understanding your business goals and technical requirements</li>
+      <li><strong>UI/UX Design:</strong> Creating intuitive and engaging user interfaces</li>
+      <li><strong>Development:</strong> Building robust applications with clean, maintainable code</li>
+      <li><strong>Testing & QA:</strong> Comprehensive testing to ensure reliability and performance</li>
+      <li><strong>Deployment:</strong> Seamless launch with minimal disruption</li>
+      <li><strong>Support & Maintenance:</strong> Ongoing support to keep your application running smoothly</li>
+    </ul>`
+  },
+  {
+    title: 'Technologies We Use',
+    content: `<p>We leverage modern technologies to build powerful web applications:</p>
+    <ul>
+      <li>Frontend: React, Vue.js, Angular, Next.js</li>
+      <li>Backend: Node.js, Python, Laravel, .NET</li>
+      <li>Databases: PostgreSQL, MySQL, MongoDB</li>
+      <li>Cloud: AWS, Azure, Google Cloud, Cloudflare</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+    title: 'Scalable Architecture',
+    description: 'Built to grow with your business, handling increased traffic and functionality seamlessly.'
+  },
+  {
+    icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z',
+    title: 'Enterprise Security',
+    description: 'Industry-standard security practices protecting your data and users.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Optimized for speed and efficiency, delivering exceptional user experiences.'
+  },
+  {
+    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z',
+    title: 'Custom Features',
+    description: 'Tailored functionality designed specifically for your business processes.'
+  },
+  {
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Responsive Design',
+    description: 'Perfect experience across all devices and screen sizes.'
+  },
+  {
+    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+    title: 'Continuous Updates',
+    description: 'Regular updates and improvements to keep your application current.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Improved Efficiency',
+    description: 'Automate workflows and streamline operations with custom-built solutions.'
+  },
+  {
+    title: 'Cost Savings',
+    description: 'Reduce operational costs through automation and optimized processes.'
+  },
+  {
+    title: 'Competitive Advantage',
+    description: 'Stand out with unique features tailored to your business needs.'
+  },
+  {
+    title: 'Better User Experience',
+    description: 'Deliver exceptional experiences designed around your users.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How long does it take to develop a custom web application?',
+    answer: 'Timeline varies based on complexity, but most projects take 3-6 months from concept to launch. We provide detailed timelines during the planning phase.'
+  },
+  {
+    question: 'What is the cost of custom web application development?',
+    answer: 'Costs depend on features, complexity, and integrations required. We offer flexible pricing models and provide detailed quotes after understanding your requirements.'
+  },
+  {
+    question: 'Do you provide ongoing support after launch?',
+    answer: 'Yes, we offer comprehensive maintenance and support packages to ensure your application runs smoothly and stays up-to-date.'
+  },
+  {
+    question: 'Can you integrate with our existing systems?',
+    answer: 'Absolutely. We specialize in creating applications that seamlessly integrate with your existing tools, databases, and third-party services.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Custom Web Application Development Services | OHWP Studios"
+  description="Professional custom web application development services. Build scalable, secure web apps tailored to your business needs. Expert developers, proven process."
+  keywords="custom web application development, web app development, custom web development, enterprise web applications, web application services"
+  h1="Custom Web Application Development"
+  heroTitle="Build Powerful Web Applications That Drive Business Growth"
+  heroSubtitle="Expert custom web development services delivering scalable, secure, and high-performance applications tailored to your unique business requirements."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

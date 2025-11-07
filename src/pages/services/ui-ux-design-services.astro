@@ -1,0 +1,85 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Expert UI/UX Design Services',
+    content: `<p>Create exceptional digital experiences with our <strong>UI/UX design services</strong>. We design intuitive interfaces and user experiences that delight users while achieving your business objectives.</p>
+    <p>Our UX designers combine user research, interaction design, and visual design to create products users love to use.</p>`
+  },
+  {
+    title: 'UI/UX Design Process',
+    content: `<p>Our user-centered design process:</p>
+    <ul>
+      <li><strong>User Research:</strong> Understanding your users through interviews and analytics</li>
+      <li><strong>Personas & Journeys:</strong> Mapping user types and their paths</li>
+      <li><strong>Information Architecture:</strong> Organizing content logically</li>
+      <li><strong>Wireframing:</strong> Sketching layouts and interactions</li>
+      <li><strong>UI Design:</strong> Creating beautiful visual interfaces</li>
+      <li><strong>Prototyping:</strong> Building interactive mockups</li>
+      <li><strong>Usability Testing:</strong> Validating designs with real users</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+    title: 'User Research',
+    description: 'Data-driven insights about your target users.'
+  },
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    title: 'Wireframing',
+    description: 'Clear structure before committing to visual design.'
+  },
+  {
+    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+    title: 'Visual Design',
+    description: 'Beautiful interfaces that match your brand.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
+    title: 'Usability Testing',
+    description: 'Validation with real users before launch.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Higher User Satisfaction',
+    description: 'Well-designed experiences lead to happier, more loyal users.'
+  },
+  {
+    title: 'Reduced Development Costs',
+    description: 'Finding issues in design is cheaper than fixing code.'
+  },
+  {
+    title: 'Competitive Advantage',
+    description: 'Superior UX differentiates you from competitors.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What is the difference between UI and UX?',
+    answer: 'UX (User Experience) focuses on overall user journey and satisfaction, while UI (User Interface) focuses on visual design and interactive elements. Both are essential for great digital products.'
+  },
+  {
+    question: 'Do you conduct user research?',
+    answer: 'Yes, we offer user research services including interviews, surveys, usability testing, and analytics analysis to inform design decisions.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="UI/UX Design Services | User Experience Design | OHWP Studios"
+  description="Professional UI/UX design services. Create intuitive, beautiful interfaces users love. Expert UX research, wireframing, prototyping, and visual design."
+  keywords="UI UX design services, user experience design, UI design, UX design, interface design, user research"
+  h1="UI/UX Design Services"
+  heroTitle="Design Experiences That Users Love"
+  heroSubtitle="Expert UI/UX design services creating intuitive, engaging interfaces backed by user research and best practices."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Marketplace Platform Development',
+    content: `<p>Launch your own multi-vendor marketplace with <strong>custom marketplace platform development</strong>. Connect buyers and sellers, take a commission, and build a network effect business that grows more valuable with each new participant.</p>
+    <p>Marketplaces are incredibly scalable business models. We've helped dozens of companies launch successful marketplaces generating millions in GMV.</p>`
+  },
+  {
+    title: 'Complete Marketplace Platform Services',
+    content: `<p>We build all aspects of successful marketplace platforms:</p>
+    <ul>
+      <li><strong>Vendor Management:</strong> Vendor registration, verification, and dashboard</li>
+      <li><strong>Product Listing:</strong> Product uploads, categories, search, and discovery</li>
+      <li><strong>Order Management:</strong> Shopping cart, checkout, order tracking, and returns</li>
+      <li><strong>Payment Processing:</strong> Stripe Connect or custom split payments to vendors</li>
+      <li><strong>Review & Ratings:</strong> Seller reviews, product ratings, and reputation systems</li>
+      <li><strong>Admin Controls:</strong> Marketplace management, commission settings, and dispute resolution</li>
+    </ul>`
+  },
+  {
+    title: 'Marketplace Business Models',
+    content: `<p>Multiple revenue models to monetize your marketplace:</p>
+    <ul>
+      <li><strong>Commission Model:</strong> Take 5-30% commission on each transaction</li>
+      <li><strong>Subscription Model:</strong> Monthly or annual vendor subscription fees</li>
+      <li><strong>Freemium Model:</strong> Free listing with premium features and ads</li>
+      <li><strong>Advertising:</strong> Promoted listings and sponsored search results</li>
+      <li><strong>Escrow Fees:</strong> Charge transaction fees for payment processing</li>
+      <li><strong>Vendor Services:</strong> Additional revenue from logistics, storage, or fulfillment</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
+    title: 'Multi-Vendor Platform',
+    description: 'Support unlimited vendors selling through your marketplace.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Payment Processing',
+    description: 'Integrated payments with automatic vendor payouts and commission splits.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Vendor Tools',
+    description: 'Complete dashboard for vendors to manage listings, orders, and analytics.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Analytics Dashboard',
+    description: 'Real-time insights into sales, vendors, and marketplace health metrics.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Review & Ratings',
+    description: 'Reputation system with buyer reviews and vendor ratings.'
+  },
+  {
+    icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z',
+    title: 'Escrow & Disputes',
+    description: 'Secure transactions with escrow and dispute resolution system.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Network Effects',
+    description: 'More sellers attract more buyers, and more buyers attract more sellers—exponential growth.'
+  },
+  {
+    title: 'Recurring Revenue',
+    description: 'Commission-based revenue scales with GMV without proportional cost increase.'
+  },
+  {
+    title: 'High Margins',
+    description: 'Marketplace models typically generate 70-80% gross margins.'
+  },
+  {
+    title: 'Defensible Business',
+    description: 'Network effects and switching costs create defensible competitive advantages.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What percentage commission should we charge?',
+    answer: 'Commission rates vary by industry. E-commerce marketplaces typically charge 5-15%, services 15-25%, and specialized markets can go higher. Lower rates attract more vendors; higher rates generate better margins.'
+  },
+  {
+    question: 'How do we prevent vendor fraud?',
+    answer: 'We build verification systems, payment escrow, insurance requirements, buyer protection guarantees, and dispute resolution. Many successful marketplaces also implement seller ratings and reviews.'
+  },
+  {
+    question: 'How much does marketplace development cost?',
+    answer: 'Marketplace platforms typically cost $150,000 to $500,000+ depending on feature complexity, payment integration, and scale. We recommend starting with MVP features and expanding based on traction.'
+  },
+  {
+    question: 'How do we ensure both sides of the marketplace adopt?',
+    answer: 'We help with launch strategy, vendor recruitment, marketing to buyers, and initial incentive programs. This is more important than the software itself for marketplace success.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Marketplace Platform Development | Multi-Vendor Platforms | OHWP Studios"
+  description="Custom marketplace platform development. Build multi-vendor marketplaces with payment processing, vendor tools, and commission management."
+  keywords="marketplace development, multi-vendor platform, e-commerce marketplace, marketplace software, platform development"
+  h1="Marketplace Platform Development"
+  heroTitle="Launch Your Own Multi-Vendor Marketplace"
+  heroSubtitle="Build scalable marketplace platforms connecting buyers and sellers. Commission-based revenue, vendor tools, and payment processing integrated from day one."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Node.js Development Services',
+    content: `<p>Build scalable, high-performance backend applications with <strong>Node.js development services</strong>. Node.js enables JavaScript on the server, allowing full-stack development with a single language. Its event-driven, non-blocking I/O model makes it perfect for I/O-heavy applications, APIs, and microservices.</p>
+    <p>We leverage Node.js with Express, NestJS, and other frameworks to create robust APIs, real-time applications, and scalable backend systems that power modern web and mobile applications.</p>`
+  },
+  {
+    title: 'Why Choose Node.js',
+    content: `<p>Node.js advantages for backend development:</p>
+    <ul>
+      <li><strong>JavaScript Everywhere:</strong> One language for frontend and backend</li>
+      <li><strong>Highly Scalable:</strong> Handle thousands of concurrent connections</li>
+      <li><strong>Event-Driven:</strong> Non-blocking I/O for responsive applications</li>
+      <li><strong>Rich Ecosystem:</strong> npm has millions of packages and libraries</li>
+      <li><strong>Real-Time Capable:</strong> WebSocket support for live applications</li>
+      <li><strong>Microservices Ready:</strong> Perfect for distributed architectures</li>
+    </ul>`
+  },
+  {
+    title: 'Production-Ready APIs and Services',
+    content: `<p>We build production-ready Node.js applications with proper error handling, monitoring, security, and scalability. From REST APIs to GraphQL servers to real-time applications, Node.js delivers the performance you need.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Event-driven, non-blocking I/O handles massive throughput.'
+  },
+  {
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Full-Stack JavaScript',
+    description: 'Use JavaScript for both frontend and backend development.'
+  },
+  {
+    icon: '4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Scalable',
+    description: 'Easily handle growing traffic and data volumes.'
+  },
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Vast Ecosystem',
+    description: 'Millions of packages available through npm.'
+  },
+  {
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Real-Time Ready',
+    description: 'Built-in support for WebSockets and real-time features.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Type Safe',
+    description: 'TypeScript support for safer, more maintainable code.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Development',
+    description: 'JavaScript across the stack means faster development and code reuse.'
+  },
+  {
+    title: 'Better Performance',
+    description: 'Handle more concurrent connections with less hardware.'
+  },
+  {
+    title: 'Real-Time Capabilities',
+    description: 'Build live chat, notifications, and collaborative features easily.'
+  },
+  {
+    title: 'Microservices Ready',
+    description: 'Perfect foundation for distributed, scalable architectures.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Is Node.js suitable for all backend applications?',
+    answer: 'Node.js excels for I/O-heavy applications, APIs, real-time apps, and microservices. For CPU-intensive applications, languages like Python or Go might be better suited.'
+  },
+  {
+    question: 'How does Node.js handle concurrency?',
+    answer: 'Node.js uses an event-driven, non-blocking I/O model with a single-threaded event loop. This allows it to handle thousands of concurrent connections efficiently.'
+  },
+  {
+    question: 'What frameworks do you recommend for Node.js?',
+    answer: 'Express is lightweight and flexible. NestJS is great for large applications. We choose based on your project requirements.'
+  },
+  {
+    question: 'Can Node.js be used in production?',
+    answer: 'Absolutely. Node.js powers applications for Netflix, LinkedIn, Uber, and many other major companies. We build production-ready systems with proper deployment and monitoring.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Node.js Development Services | Expert Node.js Developers | OHWP Studios"
+  description="Professional Node.js development services. Build scalable backend applications with Node.js. Expert Node.js developers creating high-performance APIs and servers."
+  keywords="Node.js development, Node.js developers, backend development, JavaScript backend, Express, NestJS, API development, server-side JavaScript"
+  h1="Node.js Development Services"
+  heroTitle="Build Scalable Backend Applications With Node.js"
+  heroSubtitle="Expert Node.js development creating high-performance APIs, real-time applications, and scalable backend systems that power modern applications."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

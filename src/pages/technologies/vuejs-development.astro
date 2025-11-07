@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Vue.js Development Services',
+    content: `<p>Build elegant, responsive web applications with <strong>Vue.js development services</strong>. Vue.js is a progressive JavaScript framework that makes building interactive user interfaces intuitive and enjoyable. Its gentle learning curve combined with powerful features makes Vue perfect for projects of any scale.</p>
+    <p>We create Vue applications using composition API, single-file components, and Vue 3's latest features to deliver responsive, maintainable applications that users love.</p>`
+  },
+  {
+    title: 'Why Choose Vue.js',
+    content: `<p>Vue.js advantages for modern web development:</p>
+    <ul>
+      <li><strong>Progressive Framework:</strong> Use as little or as much as needed</li>
+      <li><strong>Gentle Learning Curve:</strong> Easy for teams to adopt and master</li>
+      <li><strong>Reactive Data Binding:</strong> UI stays perfectly in sync with your data</li>
+      <li><strong>Single-File Components:</strong> Organize HTML, CSS, and JS in one file</li>
+      <li><strong>Excellent Documentation:</strong> Clear guides and API documentation</li>
+      <li><strong>Vibrant Ecosystem:</strong> Nuxt.js, Vuetify, and more powerful tools</li>
+    </ul>`
+  },
+  {
+    title: 'Developer-Friendly Architecture',
+    content: `<p>Vue.js development is a pleasure. With its intuitive syntax, excellent developer experience, and powerful ecosystem, we deliver applications faster without sacrificing quality.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+    title: 'Progressive Framework',
+    description: 'Start simple and scale as your app grows.'
+  },
+  {
+    icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+    title: 'Reactive Systems',
+    description: 'Automatic UI updates when data changes.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Performance',
+    description: 'Fast, efficient rendering with automatic optimization.'
+  },
+  {
+    icon: '9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Component Reusability',
+    description: 'Build modular, maintainable applications.'
+  },
+  {
+    icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
+    title: 'Great DX',
+    description: 'Intuitive syntax and excellent developer experience.'
+  },
+  {
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+    title: 'Rich Ecosystem',
+    description: 'Nuxt, Vue Router, Vuex, and more tools available.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Faster Development',
+    description: 'Vue.js gentle learning curve means faster onboarding and development.'
+  },
+  {
+    title: 'Easy Maintenance',
+    description: 'Clear, intuitive syntax makes code easy to understand and maintain.'
+  },
+  {
+    title: 'Excellent Performance',
+    description: 'Optimized rendering and reactivity system ensures smooth user experiences.'
+  },
+  {
+    title: 'Scalable Solutions',
+    description: 'Use Vue for simple widgets or full-scale applications with Nuxt.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'How does Vue.js compare to React and Angular?',
+    answer: 'Vue.js offers a gentler learning curve than React and Angular while remaining powerful. It\'s more opinionated than React, making it faster to get started, and simpler than Angular.'
+  },
+  {
+    question: 'Can Vue.js handle large-scale applications?',
+    answer: 'Yes. Vue.js scales beautifully from small components to large applications. Many enterprise companies use Vue for mission-critical applications.'
+  },
+  {
+    question: 'What is Nuxt.js?',
+    answer: 'Nuxt.js is a framework built on Vue.js that adds server-side rendering, static generation, and other features. It\'s similar to Next.js but for Vue.'
+  },
+  {
+    question: 'Is Vue.js good for SEO?',
+    answer: 'Client-side Vue apps need SSR for perfect SEO. Nuxt.js with server-side rendering gives you the best of both worlds.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Vue.js Development Services | Expert Vue.js Developers | OHWP Studios"
+  description="Professional Vue.js development services. Build responsive web applications with Vue.js. Expert Vue developers using latest features and best practices."
+  keywords="Vue.js development, Vue.js developers, Vue app development, Vue.js programming, Vue components, Nuxt.js development"
+  h1="Vue.js Development Services"
+  heroTitle="Build Elegant Web Applications With Vue.js"
+  heroSubtitle="Expert Vue.js development creating responsive, scalable applications with exceptional user experiences and developer satisfaction."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

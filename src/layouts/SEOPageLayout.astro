@@ -1,0 +1,457 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  keywords: string;
+  h1: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  canonicalUrl?: string;
+  schema?: any;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  h1,
+  heroTitle,
+  heroSubtitle,
+  canonicalUrl,
+  schema
+} = Astro.props;
+
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": title,
+  "description": description,
+  "provider": {
+    "@type": "Organization",
+    "name": "OHWP Studios",
+    "url": "https://ohwpstudios.pages.dev"
+  }
+};
+
+const finalSchema = schema || defaultSchema;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="keywords" content={keywords}>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonicalUrl || Astro.url.href}>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+
+  <!-- Canonical URL -->
+  {canonicalUrl && <link rel="canonical" href={canonicalUrl}>}
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(finalSchema)}></script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <link rel="stylesheet" href="/styles/global.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav glass">
+    <div class="container nav-container">
+      <a href="/" class="logo">
+        <span class="logo-text">OHWP</span>
+        <span class="logo-accent">Studios</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#services">Services</a>
+        <a href="/#portfolio">Portfolio</a>
+        <a href="/about">About</a>
+        <a href="/booking" class="btn btn-primary btn-sm">Book Consultation</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SEO Hero Section -->
+  <section class="seo-hero">
+    <div class="container">
+      <div class="seo-hero-content">
+        <h1 class="seo-h1">{h1}</h1>
+        <h2 class="seo-hero-title">{heroTitle}</h2>
+        <p class="seo-hero-subtitle">{heroSubtitle}</p>
+        <div class="seo-cta-group">
+          <a href="/booking" class="btn btn-primary btn-lg">Get Started</a>
+          <a href="/#portfolio" class="btn btn-secondary btn-lg">View Our Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Slot -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- CTA Section -->
+  <section class="seo-cta-section">
+    <div class="container">
+      <div class="seo-cta-content">
+        <h2>Ready to Start Your Project?</h2>
+        <p>Let's discuss how we can help bring your vision to life</p>
+        <a href="/booking" class="btn btn-primary btn-lg">Book Free Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-section">
+        <h3>OHWP Studios</h3>
+        <p>Transforming ideas into exceptional digital experiences</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/booking">Contact</a>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <a href="/services/web-development">Web Development</a>
+        <a href="/services/mobile-development">Mobile Apps</a>
+        <a href="/services/ui-ux-design">UI/UX Design</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {new Date().getFullYear()} OHWP Studios. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <style>
+    :root {
+      --color-primary: #6366f1;
+      --color-secondary: #ec4899;
+      --color-bg: #0a0a0f;
+      --color-bg-alt: #1a1a2e;
+      --color-text: #e2e8f0;
+      --color-text-muted: #94a3b8;
+      --color-border: rgba(226, 232, 240, 0.1);
+      --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+      --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+      --spacing-2xl: 4rem;
+      --spacing-3xl: 6rem;
+      --radius-sm: 0.5rem;
+      --radius-md: 1rem;
+      --radius-lg: 1.5rem;
+      --radius-xl: 2rem;
+      --radius-2xl: 2.5rem;
+      --radius-full: 9999px;
+      --transition-base: 0.3s ease;
+      --transition-slow: 0.5s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-md);
+    }
+
+    /* Navigation */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: var(--spacing-md) 0;
+      backdrop-filter: blur(10px);
+      background: rgba(10, 10, 15, 0.8);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-text {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-accent {
+      color: var(--color-text);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--spacing-lg);
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--color-text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition-base);
+    }
+
+    .nav-links a:hover {
+      color: var(--color-primary);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all var(--transition-base);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+    }
+
+    /* SEO Hero */
+    .seo-hero {
+      padding: var(--spacing-3xl) 0;
+      background: radial-gradient(circle at top, rgba(99, 102, 241, 0.1), transparent 50%);
+    }
+
+    .seo-hero-content {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .seo-h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: var(--spacing-md);
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .seo-hero-title {
+      font-size: 1.5rem;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-md);
+      font-weight: 600;
+    }
+
+    .seo-hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--spacing-xl);
+      line-height: 1.8;
+    }
+
+    .seo-cta-group {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Main Content */
+    main {
+      min-height: 400px;
+    }
+
+    /* CTA Section */
+    .seo-cta-section {
+      padding: var(--spacing-3xl) 0;
+      background: var(--gradient-card);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .seo-cta-content {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .seo-cta-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .seo-cta-content p {
+      font-size: 1.2rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    /* Footer */
+    .footer {
+      padding: var(--spacing-3xl) 0 var(--spacing-lg);
+      background: var(--color-bg-alt);
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .footer-section h3 {
+      margin-bottom: var(--spacing-md);
+      font-size: 1.5rem;
+    }
+
+    .footer-section h4 {
+      margin-bottom: var(--spacing-sm);
+      color: var(--color-primary);
+    }
+
+    .footer-section p {
+      color: var(--color-text-muted);
+    }
+
+    .footer-section a {
+      display: block;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      transition: color var(--transition-base);
+    }
+
+    .footer-section a:hover {
+      color: var(--color-primary);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: var(--spacing-sm);
+      }
+
+      .nav-links a:not(.btn) {
+        display: none;
+      }
+
+      .seo-h1 {
+        font-size: 2.5rem;
+      }
+
+      .seo-hero-title {
+        font-size: 1.2rem;
+      }
+
+      .seo-hero-subtitle {
+        font-size: 1rem;
+      }
+
+      .seo-cta-group {
+        flex-direction: column;
+      }
+
+      .seo-cta-content h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
+  <script>
+    // Simple scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

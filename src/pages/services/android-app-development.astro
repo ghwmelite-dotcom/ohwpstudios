@@ -1,0 +1,84 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Expert Android App Development',
+    content: `<p>Reach billions of users with <strong>professional Android app development</strong>. We create native Android applications using Kotlin and modern Android frameworks, delivering apps that perform beautifully across thousands of Android devices.</p>
+    <p>Our Android development team stays current with Material Design guidelines and latest Android features to build apps that users love.</p>`
+  },
+  {
+    title: 'Android Development Stack',
+    content: `<p>We use cutting-edge Android technologies:</p>
+    <ul>
+      <li><strong>Kotlin:</strong> Modern, concise Android development</li>
+      <li><strong>Jetpack Compose:</strong> Declarative UI toolkit</li>
+      <li><strong>Android Studio:</strong> Official IDE with latest tools</li>
+      <li><strong>Firebase:</strong> Backend services and analytics</li>
+      <li><strong>Material Design:</strong> Beautiful, consistent UI</li>
+      <li><strong>Room & WorkManager:</strong> Data persistence and background tasks</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+    title: 'Device Compatibility',
+    description: 'Apps tested across multiple Android devices and versions.'
+  },
+  {
+    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
+    title: 'Material Design',
+    description: 'Modern interfaces following Google design principles.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'High Performance',
+    description: 'Optimized Kotlin code for smooth, responsive apps.'
+  },
+  {
+    icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Global Reach',
+    description: 'Deploy to billions of Android users worldwide.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Massive Market',
+    description: 'Access the largest mobile platform with 70%+ global market share.'
+  },
+  {
+    title: 'Flexibility',
+    description: 'Android openness allows for greater customization and features.'
+  },
+  {
+    title: 'Diverse Users',
+    description: 'Reach users across all demographics and price points.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What Android versions do you support?',
+    answer: 'We typically support Android 6.0+ (covering 95%+ of active devices) while optimizing for the latest Android versions.'
+  },
+  {
+    question: 'How do you handle Android fragmentation?',
+    answer: 'We use Android best practices, extensive device testing, and responsive design to ensure compatibility across devices.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Android App Development Services | Kotlin Experts | OHWP Studios"
+  description="Professional Android app development services. Native apps built with Kotlin. Expert Android developers creating high-quality Google Play applications."
+  keywords="Android app development, Kotlin development, Android developers, mobile app development, Google Play apps"
+  h1="Android App Development"
+  heroTitle="Build Powerful Android Apps for Billions of Users"
+  heroSubtitle="Expert Android app development using Kotlin and Jetpack Compose to create native applications for the world's largest mobile platform."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

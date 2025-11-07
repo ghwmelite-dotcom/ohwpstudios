@@ -1,0 +1,118 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'eLearning Platform Development Services',
+    content: `<p>Launch your <strong>eLearning business with custom platform development</strong> designed for course creators, training companies, and educational entrepreneurs. We build scalable online learning platforms with content delivery, student management, and monetization tools that engage learners and drive revenue.</p>
+    <p>Our eLearning platform experts understand course design, learner engagement, and the business models that make successful online education. From SCORM-compliant course management to interactive assessments and certification systems, we develop platforms that deliver exceptional learning experiences at scale.</p>`
+  },
+  {
+    title: 'eLearning Platform Challenges We Solve',
+    content: `<p>Online learning platforms face unique challenges requiring specialized development:</p>
+    <ul>
+      <li><strong>Content Delivery:</strong> Stream video and interactive content reliably to thousands of concurrent learners</li>
+      <li><strong>Learner Engagement:</strong> Create interactive features that keep students motivated and progressing</li>
+      <li><strong>Assessment & Certification:</strong> Build robust testing and certification systems that validate learning</li>
+      <li><strong>Progress Tracking:</strong> Comprehensive analytics on learner progress, completion rates, and performance</li>
+      <li><strong>Monetization:</strong> Support multiple payment models (subscriptions, pay-per-course, memberships)</li>
+      <li><strong>SCORM Compliance:</strong> Support industry-standard course formats for corporate training</li>
+    </ul>`
+  },
+  {
+    title: 'eLearning Solutions We Build',
+    content: `<p>Comprehensive online learning platforms and tools:</p>
+    <ul>
+      <li><strong>Course Management Systems:</strong> Create, deliver, and manage courses with rich media and interactivity</li>
+      <li><strong>Video Learning Platforms:</strong> Stream high-quality video content with playback analytics and engagement tracking</li>
+      <li><strong>Live Classes Platform:</strong> Virtual classrooms with interactive tools, recording, and replay capabilities</li>
+      <li><strong>Assessment & Certification:</strong> Online exams, quizzes, certificates, and skills-based assessments</li>
+      <li><strong>Learner Communities:</strong> Discussion forums, peer-to-peer learning, and collaborative tools</li>
+      <li><strong>Corporate Training Platforms:</strong> Enterprise LMS with SCORM/xAPI support and compliance tracking</li>
+    </ul>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M15 10l4.553-2.276A1 1 0 0121 9.127v5.746a1 1 0 01-1.447.894L15 14M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+    title: 'Video Streaming',
+    description: 'High-quality video delivery with adaptive bitrate streaming and detailed engagement analytics.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Interactive Assessments',
+    description: 'Multiple question types, automatic grading, and detailed performance analytics.'
+  },
+  {
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Monetization Tools',
+    description: 'Support for subscriptions, pay-per-course, memberships, and flexible pricing models.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Gamification',
+    description: 'Badges, leaderboards, and progress tracking to increase student motivation and completion.'
+  },
+  {
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+    title: 'Learning Analytics',
+    description: 'Comprehensive dashboards showing learner engagement, progress, and course performance metrics.'
+  },
+  {
+    icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    title: 'Course Authoring',
+    description: 'Intuitive drag-and-drop course builder for creating rich, interactive learning content.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Scalable Revenue',
+    description: 'Support thousands of concurrent learners with flexible monetization models and payment processing.'
+  },
+  {
+    title: 'High Completion Rates',
+    description: 'Gamification and engagement features increase course completion rates by 60%+.'
+  },
+  {
+    title: 'Easy Course Creation',
+    description: 'Drag-and-drop course builder enables instructors to create content without technical skills.'
+  },
+  {
+    title: 'Data-Driven Insights',
+    description: 'Detailed learner analytics help optimize courses and improve student outcomes.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'Do you support SCORM and xAPI standards?',
+    answer: 'Yes, our eLearning platforms support SCORM 1.2, SCORM 2004, and xAPI (Tin Can API) for compatibility with corporate training systems and learning records.'
+  },
+  {
+    question: 'What video formats and streaming quality do you support?',
+    answer: 'We support all major video formats with adaptive bitrate streaming (HLS and DASH) for optimal viewing on any device or connection speed.'
+  },
+  {
+    question: 'Can you integrate with popular payment processors?',
+    answer: 'Absolutely. We integrate with Stripe, PayPal, Razorpay, and other payment providers for secure course and membership payments.'
+  },
+  {
+    question: 'How do you handle student certificates and credentials?',
+    answer: 'We generate dynamic digital certificates with verification links, and can integrate with credential platforms like Credly for verified credentials.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="eLearning Platform Development | Online Course Platform | OHWP Studios"
+  description="Expert eLearning platform development. Build scalable online learning platforms with video streaming, course management, assessments, and monetization tools."
+  keywords="eLearning platform development, online course platform development, learning management system, virtual learning platform, course authoring tool"
+  h1="eLearning Platform Development"
+  heroTitle="Build Scalable Online Learning Platforms"
+  heroSubtitle="Create engaging eLearning solutions with video streaming, interactive assessments, gamification, and flexible monetization models."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>
