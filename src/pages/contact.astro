@@ -21,18 +21,6 @@ const description = 'Get in touch with our team to discuss your project. We resp
           <div class="info-card">
             <div class="info-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-            </div>
-            <h3>Email Us</h3>
-            <p>Send us an email anytime</p>
-            <a href="mailto:ohwpstudios@gmail.com" class="info-link">ohwpstudios@gmail.com</a>
-          </div>
-
-          <div class="info-card">
-            <div class="info-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
             </div>
@@ -69,22 +57,50 @@ const description = 'Get in touch with our team to discuss your project. We resp
         <!-- FAQ Section -->
         <div class="faq-section">
           <h2 class="faq-title">Frequently Asked Questions</h2>
-          <div class="faq-grid">
+          <div class="faq-accordion">
             <div class="faq-item">
-              <h4>How quickly will I hear back?</h4>
-              <p>We aim to respond to all inquiries within 24 hours during business days. Urgent requests are prioritized.</p>
+              <button class="faq-question">
+                <span>How quickly will I hear back?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>We aim to respond to all inquiries within 24 hours during business days. Urgent requests are prioritized.</p>
+              </div>
             </div>
             <div class="faq-item">
-              <h4>What information should I provide?</h4>
-              <p>The more details you can share about your project, timeline, and budget, the better we can tailor our proposal to your needs.</p>
+              <button class="faq-question">
+                <span>What information should I provide?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>The more details you can share about your project, timeline, and budget, the better we can tailor our proposal to your needs.</p>
+              </div>
             </div>
             <div class="faq-item">
-              <h4>Do you offer free consultations?</h4>
-              <p>Yes! We offer a free 30-minute discovery call to discuss your project and determine if we're a good fit.</p>
+              <button class="faq-question">
+                <span>Do you offer free consultations?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Yes! We offer a free 30-minute discovery call to discuss your project and determine if we're a good fit.</p>
+              </div>
             </div>
             <div class="faq-item">
-              <h4>What are your payment terms?</h4>
-              <p>We typically work with a 50% upfront deposit and 50% upon completion. Custom payment plans are available for larger projects.</p>
+              <button class="faq-question">
+                <span>What are your payment terms?</span>
+                <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>We typically work with a 50% upfront deposit and 50% upon completion. Custom payment plans are available for larger projects.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -180,18 +196,18 @@ const description = 'Get in touch with our team to discuss your project. We resp
     margin-bottom: 3rem;
   }
 
-  .faq-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+  .faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
     text-align: left;
   }
 
   .faq-item {
-    padding: 2rem;
     background: var(--color-surface);
     border: 2px solid var(--color-border);
     border-radius: 16px;
+    margin-bottom: 1rem;
+    overflow: hidden;
     transition: all 0.3s ease;
   }
 
@@ -200,16 +216,52 @@ const description = 'Get in touch with our team to discuss your project. We resp
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.1);
   }
 
-  .faq-item h4 {
+  .faq-question {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: 1rem;
+    text-align: left;
+    transition: all 0.3s ease;
   }
 
-  .faq-item p {
+  .faq-question:hover {
+    color: var(--color-primary);
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: var(--color-primary);
+  }
+
+  .faq-item.active .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 2rem;
+  }
+
+  .faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 2rem 1.5rem 2rem;
+  }
+
+  .faq-answer p {
     color: var(--color-text-secondary);
     line-height: 1.6;
+    margin: 0;
   }
 
   @media (max-width: 768px) {
@@ -221,8 +273,7 @@ const description = 'Get in touch with our team to discuss your project. We resp
       padding: 0 1rem;
     }
 
-    .info-grid,
-    .faq-grid {
+    .info-grid {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
@@ -230,5 +281,48 @@ const description = 'Get in touch with our team to discuss your project. We resp
     .faq-title {
       font-size: 2rem;
     }
+
+    .faq-question {
+      font-size: 1.1rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .faq-item.active .faq-answer {
+      padding: 0 1.5rem 1.25rem 1.5rem;
+    }
   }
 </style>
+
+<script>
+  // FAQ Accordion functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+
+      question?.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+
+        // Close all other items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('active');
+          }
+        });
+
+        // Toggle current item
+        if (isActive) {
+          item.classList.remove('active');
+        } else {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // Open first FAQ item by default
+    if (faqItems.length > 0) {
+      faqItems[0].classList.add('active');
+    }
+  });
+</script>
