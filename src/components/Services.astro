@@ -71,7 +71,12 @@ const getIcon = (iconName: string) => {
 <section id="services" class="section services">
   <div class="container">
     <div class="section-header" data-animate>
-      <h2 data-text-reveal class="animated-header">What We Do Best</h2>
+      <h2 data-text-reveal class="animated-header title-hero">
+        <span class="title-sparkle">✨</span>
+        <span class="title-gradient">What We Do Best</span>
+        <span class="title-sparkle">✨</span>
+        <div class="title-underline"></div>
+      </h2>
       <p class="section-description">
         Comprehensive digital solutions tailored to your business needs
       </p>
@@ -100,7 +105,10 @@ const getIcon = (iconName: string) => {
     </div>
 
     <div class="features-section" data-animate>
-      <h3>Why Choose Us?</h3>
+      <h3 class="title-hero features-title">
+        <span class="title-gradient">Why Choose Us?</span>
+        <div class="title-underline"></div>
+      </h3>
       <div class="features-grid">
         {SITE_CONFIG.features.map((feature) => (
           <div class="feature-item">
@@ -146,6 +154,74 @@ const getIcon = (iconName: string) => {
       opacity: 1;
       transform: translateY(0);
       letter-spacing: normal;
+    }
+  }
+
+  /* Beautiful Animated Title Styles */
+  .title-hero {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+    display: inline-block;
+    font-weight: 800;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .title-sparkle {
+    display: inline-block;
+    animation: sparkleRotate 3s ease-in-out infinite;
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+  }
+
+  @keyframes sparkleRotate {
+    0%, 100% {
+      transform: rotate(0deg) scale(1);
+      opacity: 1;
+    }
+    25% {
+      transform: rotate(-15deg) scale(1.2);
+      opacity: 0.8;
+    }
+    50% {
+      transform: rotate(15deg) scale(0.9);
+      opacity: 1;
+    }
+    75% {
+      transform: rotate(-10deg) scale(1.1);
+      opacity: 0.9;
+    }
+  }
+
+  .title-underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    border-radius: 2px;
+    animation: underlineExpand 1.5s ease-out forwards 0.5s;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+  }
+
+  @keyframes underlineExpand {
+    to {
+      width: 80%;
     }
   }
 
@@ -273,6 +349,14 @@ const getIcon = (iconName: string) => {
   .features-section h3 {
     font-size: 2rem;
     margin-bottom: var(--spacing-xl);
+  }
+
+  .features-title {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .features-grid {

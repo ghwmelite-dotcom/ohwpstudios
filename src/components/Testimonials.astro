@@ -85,7 +85,12 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
       <span class="badge" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--gradient-wordpress); color: white; border-radius: var(--radius-full); font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">
         Client Success Stories
       </span>
-      <h2 data-text-reveal>Loved by 400+ Happy Clients</h2>
+      <h2 data-text-reveal class="title-hero testimonials-title">
+        <span class="title-heart">💕</span>
+        <span class="title-gradient">Loved by 400+ Happy Clients</span>
+        <span class="title-heart">💕</span>
+        <div class="title-underline"></div>
+      </h2>
       <p style="font-size: 1.25rem; margin-top: 1rem;">
         Don't just take our word for it - hear from businesses we've helped transform
       </p>
@@ -294,6 +299,81 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
 
     .trust-number {
       font-size: 2rem !important;
+    }
+  }
+
+  /* Beautiful Animated Title Styles */
+  .title-hero {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+  }
+
+  .testimonials-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+    display: inline-block;
+    font-weight: 800;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .title-heart {
+    display: inline-block;
+    animation: heartBeat 1.5s ease-in-out infinite;
+    font-size: 2rem;
+    transform-origin: center;
+  }
+
+  @keyframes heartBeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(1.2);
+    }
+    20% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.2);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
+
+  .title-underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    border-radius: 2px;
+    animation: underlineExpand 1.5s ease-out forwards 0.5s;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+  }
+
+  @keyframes underlineExpand {
+    to {
+      width: 80%;
     }
   }
 </style>

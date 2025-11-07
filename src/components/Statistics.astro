@@ -10,7 +10,12 @@
       <span class="badge" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--gradient-wordpress); color: white; border-radius: var(--radius-full); font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">
         Fun Facts
       </span>
-      <h2 data-text-reveal>The Numbers Speak For Themselves</h2>
+      <h2 data-text-reveal class="title-hero stats-title">
+        <span class="title-number">📊</span>
+        <span class="title-gradient">The Numbers Speak For Themselves</span>
+        <span class="title-number">📊</span>
+        <div class="title-underline"></div>
+      </h2>
       <p style="font-size: 1.25rem; margin-top: 1rem;">
         Our journey in numbers - a testament to our commitment and success
       </p>
@@ -252,6 +257,73 @@
   @media (max-width: 480px) {
     .stats-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* Beautiful Animated Title Styles */
+  .title-hero {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+  }
+
+  .stats-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+    display: inline-block;
+    font-weight: 800;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .title-number {
+    display: inline-block;
+    animation: numberPulse 2s ease-in-out infinite;
+    font-size: 2rem;
+  }
+
+  @keyframes numberPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+  }
+
+  .title-underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    border-radius: 2px;
+    animation: underlineExpand 1.5s ease-out forwards 0.5s;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+  }
+
+  @keyframes underlineExpand {
+    to {
+      width: 80%;
     }
   }
 </style>
