@@ -1926,17 +1926,40 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       }
 
       try {
-        // For now, just show success (API endpoint needs to be implemented)
-        passwordStatus.className = 'form-status success';
-        passwordStatus.textContent = '✓ Password updated successfully!';
-        changePasswordForm.reset();
+        passwordStatus.className = 'form-status';
+        passwordStatus.textContent = 'Updating password...';
+        passwordStatus.style.display = 'block';
 
-        setTimeout(() => {
-          passwordStatus.style.display = 'none';
-        }, 3000);
+        const response = await fetch('/api/admin/change-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          passwordStatus.className = 'form-status success';
+          passwordStatus.textContent = '✓ Password updated successfully!';
+          changePasswordForm.reset();
+
+          setTimeout(() => {
+            passwordStatus.style.display = 'none';
+          }, 3000);
+        } else {
+          passwordStatus.className = 'form-status error';
+          passwordStatus.textContent = `✗ ${data.error || 'Failed to update password'}`;
+        }
       } catch (error) {
         passwordStatus.className = 'form-status error';
         passwordStatus.textContent = '✗ Failed to update password. Please try again.';
+        console.error('Password change error:', error);
       }
     });
   }

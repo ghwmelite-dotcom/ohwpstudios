@@ -9,7 +9,17 @@ function generateToken(): string {
   return `token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }
 
-export async function onRequestPost({ request }: { request: Request }) {
+// Simple password hashing function (matches change-password.ts)
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hash));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}
+
+export async function onRequestPost({ request, env }: { request: Request; env: any }) {
   try {
     const body = await request.json() as LoginRequest;
     const { username, password } = body;
@@ -17,58 +27,93 @@ export async function onRequestPost({ request }: { request: Request }) {
     if (!username || !password) {
       return new Response(
         JSON.stringify({ error: 'Username and password are required' }),
-        { 
-          status: 400, 
-          headers: { 
+        {
+          status: 400,
+          headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-          } 
+          }
         }
       );
     }
 
-    // For development, use simple check (admin/admin123)
-    // In production, query database and verify password hash
-    if (username === 'admin' && password === 'admin123') {
-      // Generate session token
-      const token = generateToken();
+    // Check database for user
+    if (!env?.DB) {
+      // Fallback to hardcoded credentials if database not available (development only)
+      if (username === 'admin' && password === 'admin123') {
+        const token = generateToken();
+        return new Response(
+          JSON.stringify({
+            success: true,
+            token: token,
+            user: { username: 'admin', email: 'admin@yoursite.com' },
+          }),
+          {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+            },
+          }
+        );
+      }
+    } else {
+      // Query database for user
+      const user = await env.DB.prepare('SELECT * FROM admin_users WHERE username = ?')
+        .bind(username)
+        .first();
 
-      return new Response(
-        JSON.stringify({
-          success: true,
-          token: token,
-          user: { username: 'admin', email: 'admin@yoursite.com' },
-        }),
-        {
-          status: 200,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
+      if (user) {
+        // Hash the provided password and compare
+        const passwordHash = await hashPassword(password);
+
+        if (user.password_hash === passwordHash) {
+          // Update last login
+          await env.DB.prepare('UPDATE admin_users SET last_login = datetime(\'now\') WHERE id = ?')
+            .bind(user.id)
+            .run();
+
+          // Generate session token
+          const token = generateToken();
+
+          return new Response(
+            JSON.stringify({
+              success: true,
+              token: token,
+              user: { username: user.username, email: user.email },
+            }),
+            {
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+              },
+            }
+          );
         }
-      );
+      }
     }
 
     return new Response(
       JSON.stringify({ error: 'Invalid username or password' }),
-      { 
-        status: 401, 
-        headers: { 
+      {
+        status: 401,
+        headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-        } 
+        }
       }
     );
   } catch (error) {
     console.error('Login error:', error);
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
-      { 
-        status: 500, 
-        headers: { 
+      {
+        status: 500,
+        headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-        } 
+        }
       }
     );
   }
