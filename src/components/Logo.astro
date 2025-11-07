@@ -141,6 +141,7 @@ const sizes = {
   <!-- Logo Text -->
   {showText && (
     <span class="logo-text" style={`font-size: ${sizes[size].text}`} id="logo-text-dynamic">
+      <span class="logo-text-oh">OH</span>
       <span class="logo-text-wp">WP</span>
       <span class="logo-text-studios">Studios</span>
     </span>
@@ -283,6 +284,16 @@ const sizes = {
     white-space: nowrap;
   }
 
+  .logo-text-oh {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+    font-weight: 900;
+  }
+
   .logo-text-wp {
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
     background-size: 200% 200%;
@@ -327,6 +338,7 @@ const sizes = {
   }
 
   /* Hover Effects */
+  .logo-container:hover .logo-text-oh,
   .logo-container:hover .logo-text-wp {
     animation-duration: 1.5s;
   }
