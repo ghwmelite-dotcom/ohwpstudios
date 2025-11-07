@@ -1,0 +1,701 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+// Fetch project data
+let project: any = null;
+let category: any = null;
+let images: any[] = [];
+let testimonials: any[] = [];
+
+try {
+  // First get all projects to find the one with matching slug
+  const projectsResponse = await fetch(Astro.url.origin + '/api/admin/portfolio');
+  const projectsData = await projectsResponse.json();
+
+  if (projectsData.success) {
+    project = projectsData.projects.find((p: any) => p.slug === slug);
+
+    if (project) {
+      // Fetch full project details
+      const detailsResponse = await fetch(Astro.url.origin + `/api/admin/portfolio/${project.id}`);
+      const detailsData = await detailsResponse.json();
+
+      if (detailsData.success) {
+        images = detailsData.images || [];
+        testimonials = detailsData.testimonials || [];
+      }
+
+      // Fetch category
+      const categoriesResponse = await fetch(Astro.url.origin + '/api/admin/portfolio/categories');
+      const categoriesData = await categoriesResponse.json();
+
+      if (categoriesData.success) {
+        category = categoriesData.categories.find((c: any) => c.id === project.category_id);
+      }
+    }
+  }
+} catch (error) {
+  console.error('Error fetching project:', error);
+}
+
+// If project not found, return 404
+if (!project) {
+  return Astro.redirect('/404');
+}
+
+const title = project.title;
+const description = project.subtitle || project.description;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main class="project-page">
+    <!-- Hero Section -->
+    <section class="project-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/#portfolio">Portfolio</a>
+          <span>/</span>
+          <span>{project.title}</span>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-badges">
+            {category && <span class="badge-category">{category.icon} {category.name}</span>}
+            {project.is_featured && <span class="badge-featured">Featured Project</span>}
+          </div>
+
+          <h1 class="hero-title">{project.title}</h1>
+          {project.subtitle && <p class="hero-subtitle">{project.subtitle}</p>}
+
+          <div class="hero-meta">
+            {project.client_name && (
+              <div class="meta-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>{project.client_name}</span>
+              </div>
+            )}
+            {project.project_date && (
+              <div class="meta-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>{new Date(project.project_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</span>
+              </div>
+            )}
+            {project.duration && (
+              <div class="meta-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>{project.duration}</span>
+              </div>
+            )}
+            {project.project_url && (
+              <a href={project.project_url} target="_blank" rel="noopener" class="btn-visit">
+                <span>Visit Website</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {project.featured_image && (
+          <div class="hero-image">
+            <img src={project.featured_image} alt={project.title} />
+          </div>
+        )}
+      </div>
+    </section>
+
+    {/* Metrics Section */}
+    {(project.metric_1_label || project.metric_2_label || project.metric_3_label || project.metric_4_label) && (
+      <section class="project-metrics">
+        <div class="container">
+          <div class="metrics-grid">
+            {project.metric_1_label && (
+              <div class="metric-card">
+                <div class="metric-value">{project.metric_1_value}</div>
+                <div class="metric-label">{project.metric_1_label}</div>
+              </div>
+            )}
+            {project.metric_2_label && (
+              <div class="metric-card">
+                <div class="metric-value">{project.metric_2_value}</div>
+                <div class="metric-label">{project.metric_2_label}</div>
+              </div>
+            )}
+            {project.metric_3_label && (
+              <div class="metric-card">
+                <div class="metric-value">{project.metric_3_value}</div>
+                <div class="metric-label">{project.metric_3_label}</div>
+              </div>
+            )}
+            {project.metric_4_label && (
+              <div class="metric-card">
+                <div class="metric-value">{project.metric_4_value}</div>
+                <div class="metric-label">{project.metric_4_label}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Overview Section -->
+    <section class="project-section">
+      <div class="container-narrow">
+        <h2>Project Overview</h2>
+        <p class="text-large">{project.description}</p>
+      </div>
+    </section>
+
+    <!-- Case Study Sections -->
+    {project.challenge && (
+      <section class="project-section case-study-section">
+        <div class="container-narrow">
+          <div class="case-study-block">
+            <div class="case-study-icon challenge">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <h2>The Challenge</h2>
+            <p>{project.challenge}</p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    {project.solution && (
+      <section class="project-section case-study-section">
+        <div class="container-narrow">
+          <div class="case-study-block">
+            <div class="case-study-icon solution">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h2>Our Solution</h2>
+            <p>{project.solution}</p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Image Gallery -->
+    {images.length > 0 && (
+      <section class="project-section gallery-section">
+        <div class="container">
+          <h2 class="section-title">Project Gallery</h2>
+          <div class="image-gallery" id="image-gallery">
+            {images.map((image: any, index: number) => (
+              <div class="gallery-item" data-index={index}>
+                <img src={image.image_url} alt={image.caption || project.title} loading="lazy" />
+                {image.caption && <div class="gallery-caption">{image.caption}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {project.results && (
+      <section class="project-section case-study-section">
+        <div class="container-narrow">
+          <div class="case-study-block">
+            <div class="case-study-icon results">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h2>The Results</h2>
+            <p>{project.results}</p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Testimonials -->
+    {testimonials.length > 0 && (
+      <section class="project-section testimonials-section">
+        <div class="container-narrow">
+          <h2 class="section-title">Client Testimonials</h2>
+          <div class="testimonials-grid">
+            {testimonials.map((testimonial: any) => (
+              <div class="testimonial-card">
+                <div class="testimonial-quote">"{testimonial.testimonial}"</div>
+                <div class="testimonial-author">
+                  {testimonial.avatar_url && (
+                    <img src={testimonial.avatar_url} alt={testimonial.client_name} class="author-avatar" />
+                  )}
+                  <div class="author-info">
+                    <div class="author-name">{testimonial.client_name}</div>
+                    {testimonial.client_position && testimonial.client_company && (
+                      <div class="author-role">{testimonial.client_position} at {testimonial.client_company}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- CTA Section -->
+    <section class="project-cta">
+      <div class="container-narrow">
+        <h2>Ready to Start Your Project?</h2>
+        <p>Let's work together to create something amazing</p>
+        <div class="cta-buttons">
+          <a href="/booking" class="btn btn-primary">Schedule a Call</a>
+          <a href="/#contact" class="btn btn-secondary">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .project-page {
+    background: var(--color-background);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Hero Section */
+  .project-hero {
+    padding: 8rem 0 4rem;
+    background: var(--color-bg-alt);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumb a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .hero-content {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .hero-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-category {
+    padding: 0.5rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .badge-featured {
+    padding: 0.5rem 1rem;
+    background: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-visit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-visit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  }
+
+  .hero-image {
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Metrics Section */
+  .project-metrics {
+    padding: 4rem 0;
+    background: var(--color-background);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .metric-card {
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .metric-value {
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  /* Project Sections */
+  .project-section {
+    padding: 4rem 0;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+  }
+
+  .text-large {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  /* Case Study Sections */
+  .case-study-section {
+    background: var(--color-bg-alt);
+  }
+
+  .case-study-block {
+    position: relative;
+    padding-left: 5rem;
+  }
+
+  .case-study-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-xl);
+  }
+
+  .case-study-icon.challenge {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  .case-study-icon.solution {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+
+  .case-study-icon.results {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+  }
+
+  .case-study-block h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+
+  .case-study-block p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  /* Gallery */
+  .gallery-section {
+    background: var(--color-background);
+  }
+
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .gallery-item {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .gallery-caption {
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  /* Testimonials */
+  .testimonials-section {
+    background: var(--color-background);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    padding: 2rem;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-xl);
+  }
+
+  .testimonial-quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .author-name {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+
+  .author-role {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* CTA Section */
+  .project-cta {
+    padding: 6rem 0;
+    background: var(--gradient-card);
+    text-align: center;
+  }
+
+  .project-cta h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .project-cta p {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2.5rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 1rem 2.5rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .project-hero {
+      padding: 6rem 0 3rem;
+    }
+
+    .hero-meta {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .case-study-block {
+      padding-left: 0;
+      padding-top: 4.5rem;
+    }
+
+    .case-study-icon {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .image-gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .project-cta h2 {
+      font-size: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+</style>
