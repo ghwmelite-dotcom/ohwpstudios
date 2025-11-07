@@ -756,9 +756,17 @@
   });
 
   // Add Message to UI
-  function addMessage(text: string, type: 'operator' | 'visitor', senderName: string) {
+  function addMessage(text: string, type: 'operator' | 'visitor', senderName: string, messageId?: number) {
+    // Check if message already exists (prevent duplicates)
+    if (messageId && document.querySelector(`[data-message-id="${messageId}"]`)) {
+      return;
+    }
+
     const messageEl = document.createElement('div');
     messageEl.className = `message ${type}`;
+    if (messageId) {
+      messageEl.setAttribute('data-message-id', messageId.toString());
+    }
 
     const initial = senderName.charAt(0).toUpperCase();
     const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -810,10 +818,10 @@
           // Remove typing indicator
           document.querySelector('.typing-indicator')?.closest('.message')?.remove();
 
-          // Add new operator messages
+          // Add new operator messages (only from human agents, not Kodie)
           data.messages.forEach((msg: any) => {
-            if (msg.sender_type === 'operator' && !document.querySelector(`[data-message-id="${msg.id}"]`)) {
-              addMessage(msg.message_text, 'operator', msg.sender_name || 'Support');
+            if (msg.sender_type === 'operator' && msg.sender_name !== 'Kodie') {
+              addMessage(msg.message_text, 'operator', msg.sender_name || 'Support', msg.id);
             }
           });
         }

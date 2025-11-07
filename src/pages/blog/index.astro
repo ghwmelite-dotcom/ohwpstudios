@@ -5,7 +5,6 @@ export const prerender = false;
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-import Chatbot from '@/components/Chatbot.astro';
 
 // Fetch blog posts from API
 let posts = [];
@@ -106,7 +105,6 @@ try {
   </main>
 
   <Footer />
-  <Chatbot />
 </BaseLayout>
 
 <style>
