@@ -1,0 +1,362 @@
+/* Dark Mode Fixes for Homepage Components */
+/* Ensures all content is visible and has proper contrast in dark mode */
+
+/* Hero Section Dark Mode */
+[data-theme="dark"] .hero-badge {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #e0e7ff;
+}
+
+[data-theme="dark"] .badge-pulse {
+  background: rgba(99, 102, 241, 0.6);
+}
+
+[data-theme="dark"] .hero-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .hero-subtitle {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .stat-value {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .stat-label {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .stat-divider {
+  background: #334155;
+}
+
+/* Code Mockup Dark Mode */
+[data-theme="dark"] .code-mockup {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="dark"] .code-header {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .code-title,
+[data-theme="dark"] .status-text {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .line-number {
+  color: #64748b;
+}
+
+[data-theme="dark"] .code-keyword {
+  color: #c084fc;
+}
+
+[data-theme="dark"] .code-function {
+  color: #60a5fa;
+}
+
+[data-theme="dark"] .code-variable {
+  color: #f472b6;
+}
+
+[data-theme="dark"] .code-string {
+  color: #4ade80;
+}
+
+[data-theme="dark"] .code-comment {
+  color: #64748b;
+  font-style: italic;
+}
+
+[data-theme="dark"] .code-operator,
+[data-theme="dark"] .code-bracket {
+  color: #94a3b8;
+}
+
+/* Tech Badges Dark Mode */
+[data-theme="dark"] .tech-badge {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #e0e7ff;
+}
+
+[data-theme="dark"] .badge-icon-wp {
+  color: #0ea5e9;
+}
+
+[data-theme="dark"] .badge-icon-responsive {
+  color: #a78bfa;
+}
+
+[data-theme="dark"] .badge-icon-secure {
+  color: #4ade80;
+}
+
+[data-theme="dark"] .badge-icon-fast {
+  color: #fbbf24;
+}
+
+/* Floating Elements Dark Mode */
+[data-theme="dark"] .float-orb {
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .float-badge {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+}
+
+/* Statistics Section Dark Mode */
+[data-theme="dark"] .statistics-section {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .statistic-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .statistic-value {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .statistic-label {
+  color: #94a3b8;
+}
+
+/* Services Section Dark Mode */
+[data-theme="dark"] .service-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .service-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="dark"] .service-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .service-description {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .service-icon {
+  color: var(--color-primary);
+}
+
+/* Portfolio Section Dark Mode */
+[data-theme="dark"] .portfolio-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .portfolio-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+[data-theme="dark"] .portfolio-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .portfolio-description {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .portfolio-tag {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Testimonials Dark Mode */
+[data-theme="dark"] .testimonial-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .testimonial-text {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .testimonial-author {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .testimonial-role {
+  color: #94a3b8;
+}
+
+/* Contact Section Dark Mode */
+[data-theme="dark"] .contact-section {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .contact-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-textarea {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .form-input::placeholder,
+[data-theme="dark"] .form-textarea::placeholder {
+  color: #64748b;
+}
+
+[data-theme="dark"] .form-label {
+  color: #cbd5e1;
+}
+
+/* Pricing Calculator Dark Mode */
+[data-theme="dark"] .pricing-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .pricing-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+[data-theme="dark"] .pricing-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .pricing-amount {
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] .pricing-feature {
+  color: #cbd5e1;
+}
+
+/* Client Logos Dark Mode */
+[data-theme="dark"] .client-logo-wrapper {
+  background: rgba(30, 41, 59, 0.3);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .client-logo {
+  filter: brightness(0.9) contrast(1.1);
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .client-logo:hover {
+  opacity: 1;
+  filter: brightness(1.1) contrast(1.2);
+}
+
+/* AI Estimator CTA Dark Mode */
+[data-theme="dark"] .ai-estimator-cta {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="dark"] .cta-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .cta-description {
+  color: #cbd5e1;
+}
+
+/* Section Headings Dark Mode */
+[data-theme="dark"] .section-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .section-subtitle {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .section-description {
+  color: #94a3b8;
+}
+
+/* General Card Styles Dark Mode */
+[data-theme="dark"] .card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+/* Loading States Dark Mode */
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg,
+    rgba(30, 41, 59, 0.5) 25%,
+    rgba(51, 65, 85, 0.5) 50%,
+    rgba(30, 41, 59, 0.5) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* Animations - Ensure visibility in dark mode */
+[data-theme="dark"] .animate-shimmer {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+}
+
+/* Time/Date Elements Dark Mode (if any) */
+[data-theme="dark"] .time-display,
+[data-theme="dark"] .date-display,
+[data-theme="dark"] .banner-time {
+  color: #cbd5e1;
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Status Indicators Dark Mode */
+[data-theme="dark"] .status-online,
+[data-theme="dark"] .status-dot {
+  background: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.3);
+}
+
+[data-theme="dark"] .status-text {
+  color: #cbd5e1;
+}
+
+/* Ensure all text is readable */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--color-text);
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] li,
+[data-theme="dark"] span:not([class*="gradient"]):not([class*="primary"]):not([class*="accent"]) {
+  color: var(--color-text);
+}
+
+/* Links Dark Mode */
+[data-theme="dark"] a:not(.btn) {
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] a:not(.btn):hover {
+  color: #c7d2fe;
+}
