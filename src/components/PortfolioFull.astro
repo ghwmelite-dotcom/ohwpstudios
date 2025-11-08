@@ -1,0 +1,977 @@
+---
+// This component will load data client-side for filtering functionality
+---
+
+<section id="portfolio" class="section portfolio">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <h2 data-text-reveal class="animated-header title-hero">
+        <span class="title-icon">💼</span>
+        <span class="title-gradient">Our Work Speaks Volumes</span>
+        <span class="title-icon">💼</span>
+        <div class="title-underline"></div>
+      </h2>
+      <p class="section-description">
+        Explore our portfolio of successful projects that transformed businesses
+      </p>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="category-filters" id="category-filters">
+      <button class="category-tab active" data-category="all">All Projects</button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" id="loading-state" style="display: none;">
+      <div class="spinner"></div>
+      <p>Loading projects...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="empty-state" style="display: none;">
+      <p>No projects found in this category.</p>
+    </div>
+
+    <!-- Portfolio Grid -->
+    <div class="portfolio-grid" id="portfolio-grid"></div>
+
+    <div class="portfolio-cta" data-animate>
+      <p>Have a project in mind?</p>
+      <a href="/contact" class="btn btn-primary view-all-btn">
+        Let's Work Together
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .portfolio {
+    background: var(--color-bg);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-2xl);
+  }
+
+  .section-header h2 {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+  }
+
+  .section-description {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .animated-header {
+    animation: headerFadeIn 1s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes headerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+      letter-spacing: 0.1em;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      letter-spacing: normal;
+    }
+  }
+
+  /* Category Filters */
+  .category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .category-tab {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .category-tab:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .category-tab.active {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  }
+
+  /* Loading and Empty States */
+  .loading-state, .empty-state {
+    text-align: center;
+    padding: 6rem 2rem;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loading-state {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(236, 72, 153, 0.03));
+    border-radius: 24px;
+    border: 2px dashed rgba(99, 102, 241, 0.2);
+  }
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid transparent;
+    border-top-color: #6366f1;
+    border-right-color: #ec4899;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-state p {
+    color: #6366f1;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .empty-state {
+    background: linear-gradient(135deg, rgba(107, 114, 128, 0.05), rgba(107, 114, 128, 0.02));
+    border-radius: 24px;
+    border: 2px dashed rgba(107, 114, 128, 0.2);
+  }
+
+  .empty-state p {
+    color: var(--color-text-secondary);
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  /* Portfolio Grid */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 2rem;
+    margin-bottom: var(--spacing-3xl);
+    min-height: 400px;
+  }
+
+  .portfolio-item {
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fade-in-scale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    position: relative;
+  }
+
+  /* Sparkle effect background */
+  .portfolio-item::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b, #6366f1);
+    background-size: 300% 300%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: gradient-rotate 8s ease infinite;
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  .portfolio-item:hover::before {
+    opacity: 0.6;
+  }
+
+  @keyframes gradient-rotate {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes fade-in-scale {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .portfolio-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    background: var(--color-surface);
+    border: 2px solid transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .portfolio-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: gradient-shift 4s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .portfolio-link:hover::before {
+    opacity: 1;
+  }
+
+  .portfolio-link:hover {
+    transform: translateY(-16px) scale(1.03) rotateX(2deg);
+    box-shadow: 0 25px 70px rgba(99, 102, 241, 0.35);
+  }
+
+  .portfolio-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  /* Animated shimmer effect on image */
+  .portfolio-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  .portfolio-item:hover .portfolio-image::after {
+    left: 100%;
+  }
+
+  .portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: brightness(0.95);
+  }
+
+  .portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(236, 72, 153, 0.95));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Floating particles effect */
+  .portfolio-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+      radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px;
+    background-position: 0 0, 40px 40px;
+    animation: float-particles 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  @keyframes float-particles {
+    0% { background-position: 0 0, 40px 40px; }
+    100% { background-position: 50px 50px, 90px 90px; }
+  }
+
+  .portfolio-item:hover .portfolio-overlay::before {
+    opacity: 1;
+  }
+
+  .view-project {
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transform: scale(0.8) rotateX(10deg);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: pulse-glow 2s ease infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  .portfolio-item:hover .view-project {
+    transform: scale(1.1) rotateX(0deg);
+    animation: none;
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.5);
+  }
+
+  .portfolio-item:hover .portfolio-image img {
+    transform: scale(1.15) rotate(2deg);
+    filter: brightness(1.1);
+  }
+
+  .portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+  }
+
+  .portfolio-content {
+    padding: 2rem;
+  }
+
+  .portfolio-badges {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .portfolio-category {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #6366f1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  .badge-featured {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(234, 179, 8, 0.05));
+    color: #eab308;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+  }
+
+  .portfolio-content h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+  }
+
+  .portfolio-subtitle {
+    font-style: italic;
+    color: #6b7280;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .portfolio-content p {
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* Premium Metrics Grid */
+  .portfolio-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(236, 72, 153, 0.03));
+    border-radius: 16px;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Animated background shimmer for metrics */
+  .portfolio-metrics::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(99, 102, 241, 0.05) 50%,
+      transparent 70%
+    );
+    animation: shimmer-metrics 3s linear infinite;
+  }
+
+  @keyframes shimmer-metrics {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  }
+
+  .metric-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(99, 102, 241, 0.05);
+  }
+
+  /* Ripple effect on metric hover */
+  .metric-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease;
+  }
+
+  .metric-item:hover::before {
+    transform: scale(2);
+  }
+
+  .metric-item:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .metric-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+    display: block;
+    animation: gradient-text 3s ease infinite;
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes gradient-text {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .metric-item:hover .metric-value {
+    animation: gradient-text 1s ease infinite, bounce-value 0.6s ease;
+  }
+
+  @keyframes bounce-value {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .portfolio-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 2px solid rgba(99, 102, 241, 0.1);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+
+  .portfolio-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+  }
+
+  .portfolio-meta-item svg {
+    color: #6366f1;
+  }
+
+  .portfolio-cta {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+    border-radius: 24px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .portfolio-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  .portfolio-cta p {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #1f2937, #4b5563);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #6366f1, #ec4899) !important;
+    color: white !important;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .view-all-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #ec4899, #6366f1);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .view-all-btn:hover::before {
+    opacity: 1;
+  }
+
+  .view-all-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+  }
+
+  .view-all-btn svg {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .view-all-btn:hover svg {
+    transform: translateX(5px);
+  }
+
+  .view-all-btn span {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .portfolio-content {
+      padding: 1.5rem;
+    }
+
+    .portfolio-content h3 {
+      font-size: 1.5rem;
+    }
+
+    .portfolio-metrics {
+      padding: 1.25rem;
+    }
+
+    .metric-value {
+      font-size: 1.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+    }
+
+    .category-filters {
+      gap: 0.75rem;
+    }
+
+    .category-tab {
+      padding: 0.6rem 1.25rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .portfolio-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .view-project {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+  }
+
+  /* Beautiful Animated Title Styles */
+  .title-hero {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+    display: inline-block;
+    font-weight: 800;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .title-icon {
+    display: inline-block;
+    animation: iconBounce 2s ease-in-out infinite;
+    font-size: 1.8rem;
+    margin: 0 0.5rem;
+  }
+
+  @keyframes iconBounce {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-10px) rotate(-5deg);
+    }
+    75% {
+      transform: translateY(-5px) rotate(5deg);
+    }
+  }
+
+  .title-underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    border-radius: 2px;
+    animation: underlineExpand 1.5s ease-out forwards 0.5s;
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+  }
+
+  @keyframes underlineExpand {
+    to {
+      width: 80%;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  let categories: any[] = [];
+  let allProjects: any[] = [];
+  let currentCategory = 'all';
+
+  async function loadCategories() {
+    try {
+      const response = await fetch('/api/admin/portfolio/categories');
+      const data = await response.json();
+
+      if (data.success) {
+        categories = data.categories;
+        renderCategoryTabs();
+      }
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  }
+
+  function renderCategoryTabs() {
+    const filtersContainer = document.getElementById('category-filters');
+    if (!filtersContainer) return;
+
+    const tabs = [
+      '<button class="category-tab active" data-category="all">All Projects</button>',
+      ...categories.map(cat =>
+        `<button class="category-tab" data-category="${cat.id}">
+          ${cat.icon || ''} ${cat.name}
+        </button>`
+      )
+    ];
+
+    filtersContainer.innerHTML = tabs.join('');
+
+    // Add click handlers
+    filtersContainer.querySelectorAll('.category-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const category = tab.getAttribute('data-category') || 'all';
+        filterByCategory(category);
+
+        // Update active state
+        filtersContainer.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  }
+
+  async function loadProjects() {
+    const loadingState = document.getElementById('loading-state');
+    const grid = document.getElementById('portfolio-grid');
+
+    if (loadingState) loadingState.style.display = 'flex';
+    if (grid) grid.innerHTML = '';
+
+    try {
+      const response = await fetch('/api/admin/portfolio?status=published');
+      const data = await response.json();
+
+      if (loadingState) loadingState.style.display = 'none';
+
+      if (data.success && data.projects) {
+        allProjects = data.projects;
+        // Show all projects on portfolio page
+        filterByCategory(currentCategory);
+      } else {
+        showEmptyState();
+      }
+    } catch (error) {
+      console.error('Error loading projects:', error);
+      if (loadingState) loadingState.style.display = 'none';
+      showEmptyState();
+    }
+  }
+
+  function filterByCategory(categoryId: string) {
+    currentCategory = categoryId;
+
+    let filtered = allProjects;
+    if (categoryId !== 'all') {
+      filtered = allProjects.filter(p => p.category_id == categoryId);
+    }
+
+    renderProjects(filtered);
+  }
+
+  function renderProjects(projects: any[]) {
+    const grid = document.getElementById('portfolio-grid');
+    const emptyState = document.getElementById('empty-state');
+
+    if (!grid) return;
+
+    if (projects.length === 0) {
+      grid.innerHTML = '';
+      if (emptyState) emptyState.style.display = 'block';
+      return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+
+    grid.innerHTML = projects.map((project, index) => {
+      const category = categories.find(c => c.id === project.category_id);
+      const categoryName = category?.name || 'Project';
+
+      // Build metrics display if available
+      const hasMetrics = project.metric_1_label || project.metric_2_label || project.metric_3_label || project.metric_4_label;
+      const metricsHTML = hasMetrics ? `
+        <div class="portfolio-metrics">
+          ${project.metric_1_label && project.metric_1_value ? `
+            <div class="metric-item">
+              <span class="metric-value">${project.metric_1_value}</span>
+              <span class="metric-label">${project.metric_1_label}</span>
+            </div>
+          ` : ''}
+          ${project.metric_2_label && project.metric_2_value ? `
+            <div class="metric-item">
+              <span class="metric-value">${project.metric_2_value}</span>
+              <span class="metric-label">${project.metric_2_label}</span>
+            </div>
+          ` : ''}
+          ${project.metric_3_label && project.metric_3_value ? `
+            <div class="metric-item">
+              <span class="metric-value">${project.metric_3_value}</span>
+              <span class="metric-label">${project.metric_3_label}</span>
+            </div>
+          ` : ''}
+          ${project.metric_4_label && project.metric_4_value ? `
+            <div class="metric-item">
+              <span class="metric-value">${project.metric_4_value}</span>
+              <span class="metric-label">${project.metric_4_label}</span>
+            </div>
+          ` : ''}
+        </div>
+      ` : '';
+
+      return `
+        <article class="portfolio-item" style="animation-delay: ${index * 100}ms">
+          <a href="/portfolio/${project.slug}" class="portfolio-link">
+            <div class="portfolio-image">
+              ${project.featured_image
+                ? `<img src="${project.featured_image}" alt="${project.title}" loading="lazy" />`
+                : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#6366f1,#ec4899)"></div>'
+              }
+              <div class="portfolio-overlay">
+                <span class="view-project">
+                  View Case Study
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="7" y1="17" x2="17" y2="7"/>
+                    <polyline points="7 7 17 7 17 17"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div class="portfolio-content">
+              <div class="portfolio-badges">
+                <span class="portfolio-category">${categoryName}</span>
+                ${project.is_featured ? `<span class="badge-featured">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  Featured
+                </span>` : ''}
+              </div>
+              <h3>${project.title}</h3>
+              ${project.subtitle ? `<p class="portfolio-subtitle">${project.subtitle}</p>` : ''}
+              <p>${project.description ? (project.description.length > 140 ? project.description.substring(0, 140) + '...' : project.description) : ''}</p>
+              ${metricsHTML}
+              ${project.client_name ? `
+                <div class="portfolio-meta">
+                  <div class="portfolio-meta-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    ${project.client_name}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          </a>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function showEmptyState() {
+    const grid = document.getElementById('portfolio-grid');
+    const emptyState = document.getElementById('empty-state');
+
+    if (grid) grid.innerHTML = '';
+    if (emptyState) emptyState.style.display = 'block';
+  }
+
+  // Initialize
+  loadCategories().then(() => loadProjects());
+
+  // Reinitialize on page load (for Astro view transitions)
+  document.addEventListener('astro:page-load', () => {
+    loadCategories().then(() => loadProjects());
+  });
+</script>

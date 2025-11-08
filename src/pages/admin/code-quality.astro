@@ -1,0 +1,985 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Quality Metrics - Admin Portal</title>
+  <style>
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-hover: #334155;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-secondary: #ec4899;
+      --color-text: #f1f5f9;
+      --color-text-muted: #94a3b8;
+      --color-border: #334155;
+      --color-success: #10b981;
+      --color-danger: #ef4444;
+      --color-warning: #f59e0b;
+      --color-info: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      padding: 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.75rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-surface-hover);
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      padding: 0.75rem 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .project-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-client {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .health-score-mini {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .score-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .score-circle.excellent {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .score-circle.good {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .score-circle.poor {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .score-details {
+      flex: 1;
+    }
+
+    .score-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .score-metrics {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .modal-content {
+      background: var(--color-surface);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 800px;
+      width: 100%;
+      margin: 2rem auto;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .close-modal:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .help-text {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row,
+      .form-row-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">OhWP Studios</div>
+      <nav>
+        <a href="/admin/dashboard" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/clients" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <span>Clients</span>
+        </a>
+        <a href="/admin/code-quality" class="nav-item active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Code Quality</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="header">
+        <div>
+          <a href="/admin/dashboard" class="btn btn-secondary btn-sm" style="margin-bottom: 1rem; display: inline-flex;">
+            ← Back to Dashboard
+          </a>
+          <h1>Code Quality Metrics</h1>
+        </div>
+        <button class="btn btn-primary" onclick="openAddModal()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Add Metrics
+        </button>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="loading">Loading statistics...</div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <select id="project-filter" class="filter-select" onchange="filterProjects()">
+          <option value="all">All Projects</option>
+        </select>
+        <select id="health-filter" class="filter-select" onchange="filterProjects()">
+          <option value="all">All Health Scores</option>
+          <option value="excellent">Excellent (80+)</option>
+          <option value="good">Good (60-79)</option>
+          <option value="poor">Poor (<60)</option>
+        </select>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projects-container">
+        <div class="loading">Loading projects...</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/Edit Metrics Modal -->
+  <div id="metricsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add Code Quality Metrics</h2>
+        <button class="close-modal" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="metricsForm" onsubmit="saveMetrics(event)">
+        <input type="hidden" id="metric-id">
+
+        <div class="form-group">
+          <label for="project-id">Project *</label>
+          <select id="project-id" required>
+            <option value="">Select a project...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="metric-date">Metric Date *</label>
+          <input type="date" id="metric-date" required>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1rem; color: var(--color-text);">Quality Scores (0-100)</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="code-coverage">Code Coverage %</label>
+            <input type="number" id="code-coverage" min="0" max="100" value="0">
+          </div>
+          <div class="form-group">
+            <label for="security-score">Security Score</label>
+            <input type="number" id="security-score" min="0" max="100" value="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="performance-score">Performance Score</label>
+            <input type="number" id="performance-score" min="0" max="100" value="0">
+          </div>
+          <div class="form-group">
+            <label for="test-pass-rate">Test Pass Rate %</label>
+            <input type="number" id="test-pass-rate" min="0" max="100" value="0">
+          </div>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1rem; color: var(--color-text);">Test Statistics</h3>
+
+        <div class="form-row-3">
+          <div class="form-group">
+            <label for="total-tests">Total Tests</label>
+            <input type="number" id="total-tests" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label for="passing-tests">Passing</label>
+            <input type="number" id="passing-tests" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label for="failing-tests">Failing</label>
+            <input type="number" id="failing-tests" min="0" value="0">
+          </div>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1rem; color: var(--color-text);">Security Vulnerabilities</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vuln-critical">Critical</label>
+            <input type="number" id="vuln-critical" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label for="vuln-high">High</label>
+            <input type="number" id="vuln-high" min="0" value="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vuln-medium">Medium</label>
+            <input type="number" id="vuln-medium" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label for="vuln-low">Low</label>
+            <input type="number" id="vuln-low" min="0" value="0">
+          </div>
+        </div>
+
+        <h3 style="margin: 1.5rem 0 1rem; color: var(--color-text);">Additional Metrics</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tech-debt">Technical Debt (hours)</label>
+            <input type="number" id="tech-debt" min="0" step="0.1" value="0">
+          </div>
+          <div class="form-group">
+            <label for="quality-grade">Code Quality Grade</label>
+            <select id="quality-grade">
+              <option value="A+">A+</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C" selected>C</option>
+              <option value="D">D</option>
+              <option value="F">F</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="uptime">Uptime %</label>
+            <input type="number" id="uptime" min="0" max="100" step="0.01" value="99.9">
+          </div>
+          <div class="form-group">
+            <label for="response-time">Response Time (ms)</label>
+            <input type="number" id="response-time" min="0" value="0">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Metrics</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    let allProjects = [];
+    let allMetrics = [];
+    let editingMetricId = null;
+
+    // Check authentication
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      window.location.href = '/admin/login';
+    }
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProjects();
+      loadMetrics();
+
+      // Set default date to today
+      document.getElementById('metric-date').valueAsDate = new Date();
+    });
+
+    async function loadProjects() {
+      try {
+        const response = await fetch('/api/admin/client-projects', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('admin_token');
+            window.location.href = '/admin/login';
+            return;
+          }
+          throw new Error(data.error || 'Failed to load projects');
+        }
+
+        allProjects = data.projects || [];
+
+        // Populate project filters and selects
+        const projectFilter = document.getElementById('project-filter');
+        const projectSelect = document.getElementById('project-id');
+
+        allProjects.forEach(project => {
+          const filterOption = document.createElement('option');
+          filterOption.value = project.id;
+          filterOption.textContent = `${project.project_name} - ${project.company_name || 'No Client'}`;
+          projectFilter.appendChild(filterOption.cloneNode(true));
+          projectSelect.appendChild(filterOption);
+        });
+      } catch (error) {
+        console.error('Error loading projects:', error);
+      }
+    }
+
+    async function loadMetrics() {
+      try {
+        const response = await fetch('/api/admin/code-quality', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to load metrics');
+        }
+
+        allMetrics = data.metrics || [];
+        renderStats();
+        renderProjects();
+      } catch (error) {
+        console.error('Error loading metrics:', error);
+        document.getElementById('projects-container').innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <p>No metrics data available. Add metrics to get started.</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderStats() {
+      const statsGrid = document.getElementById('stats-grid');
+
+      if (allMetrics.length === 0) {
+        statsGrid.innerHTML = '<div class="empty" style="grid-column: 1 / -1;"><p>No metrics available yet</p></div>';
+        return;
+      }
+
+      const avgCoverage = allMetrics.reduce((sum, m) => sum + (m.code_coverage_percent || 0), 0) / allMetrics.length;
+      const avgSecurity = allMetrics.reduce((sum, m) => sum + (m.security_score || 0), 0) / allMetrics.length;
+      const totalVulnerabilities = allMetrics.reduce((sum, m) =>
+        sum + (m.vulnerabilities_critical || 0) + (m.vulnerabilities_high || 0) +
+        (m.vulnerabilities_medium || 0) + (m.vulnerabilities_low || 0), 0);
+      const avgUptime = allMetrics.reduce((sum, m) => sum + (m.uptime_percent || 100), 0) / allMetrics.length;
+
+      statsGrid.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">Average Coverage</div>
+          <div class="stat-value">${avgCoverage.toFixed(1)}%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Average Security</div>
+          <div class="stat-value">${avgSecurity.toFixed(1)}%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Vulnerabilities</div>
+          <div class="stat-value">${totalVulnerabilities}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Average Uptime</div>
+          <div class="stat-value">${avgUptime.toFixed(2)}%</div>
+        </div>
+      `;
+    }
+
+    function filterProjects() {
+      renderProjects();
+    }
+
+    function renderProjects() {
+      const container = document.getElementById('projects-container');
+      const projectFilter = document.getElementById('project-filter').value;
+      const healthFilter = document.getElementById('health-filter').value;
+
+      let filtered = allMetrics;
+
+      if (projectFilter !== 'all') {
+        filtered = filtered.filter(m => m.project_id == projectFilter);
+      }
+
+      if (healthFilter !== 'all') {
+        filtered = filtered.filter(m => {
+          const score = calculateHealthScore(m);
+          if (healthFilter === 'excellent') return score >= 80;
+          if (healthFilter === 'good') return score >= 60 && score < 80;
+          if (healthFilter === 'poor') return score < 60;
+          return true;
+        });
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty" style="grid-column: 1 / -1;"><p>No projects found.</p></div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(metric => {
+        const healthScore = calculateHealthScore(metric);
+        const scoreClass = healthScore >= 80 ? 'excellent' : healthScore >= 60 ? 'good' : 'poor';
+
+        return `
+          <div class="project-card">
+            <div class="project-name">${metric.project_name || 'Unknown Project'}</div>
+            <div class="project-client">${metric.company_name || 'No Client'}</div>
+
+            <div class="health-score-mini">
+              <div class="score-circle ${scoreClass}">${healthScore}</div>
+              <div class="score-details">
+                <div class="score-label">Health Score</div>
+                <div class="score-metrics">
+                  Coverage: ${metric.code_coverage_percent || 0}% |
+                  Security: ${metric.security_score || 0}% |
+                  Grade: ${metric.code_quality_grade || 'C'}
+                </div>
+              </div>
+            </div>
+
+            <div class="project-actions">
+              <button class="btn btn-secondary btn-sm" onclick="editMetric(${metric.id})" style="flex: 1;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="deleteMetric(${metric.id})">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function calculateHealthScore(metrics) {
+      const weights = {
+        code_coverage: 0.20,
+        security: 0.30,
+        performance: 0.25,
+        test_pass_rate: 0.25
+      };
+
+      const score =
+        (metrics.code_coverage_percent || 0) * weights.code_coverage +
+        (metrics.security_score || 0) * weights.security +
+        (metrics.performance_score || 0) * weights.performance +
+        (metrics.test_pass_rate || 0) * weights.test_pass_rate;
+
+      return Math.round(score);
+    }
+
+    function openAddModal() {
+      editingMetricId = null;
+      document.getElementById('modalTitle').textContent = 'Add Code Quality Metrics';
+      document.getElementById('metricsForm').reset();
+      document.getElementById('metric-id').value = '';
+      document.getElementById('metric-date').valueAsDate = new Date();
+      document.getElementById('metricsModal').classList.add('active');
+    }
+
+    function editMetric(id) {
+      const metric = allMetrics.find(m => m.id === id);
+      if (!metric) return;
+
+      editingMetricId = id;
+      document.getElementById('modalTitle').textContent = 'Edit Code Quality Metrics';
+      document.getElementById('metric-id').value = metric.id;
+      document.getElementById('project-id').value = metric.project_id;
+      document.getElementById('metric-date').value = metric.metric_date;
+      document.getElementById('code-coverage').value = metric.code_coverage_percent || 0;
+      document.getElementById('security-score').value = metric.security_score || 0;
+      document.getElementById('performance-score').value = metric.performance_score || 0;
+      document.getElementById('test-pass-rate').value = metric.test_pass_rate || 0;
+      document.getElementById('total-tests').value = metric.total_tests || 0;
+      document.getElementById('passing-tests').value = metric.passing_tests || 0;
+      document.getElementById('failing-tests').value = metric.failing_tests || 0;
+      document.getElementById('vuln-critical').value = metric.vulnerabilities_critical || 0;
+      document.getElementById('vuln-high').value = metric.vulnerabilities_high || 0;
+      document.getElementById('vuln-medium').value = metric.vulnerabilities_medium || 0;
+      document.getElementById('vuln-low').value = metric.vulnerabilities_low || 0;
+      document.getElementById('tech-debt').value = metric.technical_debt_hours || 0;
+      document.getElementById('quality-grade').value = metric.code_quality_grade || 'C';
+      document.getElementById('uptime').value = metric.uptime_percent || 99.9;
+      document.getElementById('response-time').value = metric.response_time_ms || 0;
+
+      document.getElementById('metricsModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('metricsModal').classList.remove('active');
+      editingMetricId = null;
+    }
+
+    async function saveMetrics(event) {
+      event.preventDefault();
+
+      const formData = {
+        project_id: document.getElementById('project-id').value,
+        metric_date: document.getElementById('metric-date').value,
+        code_coverage_percent: parseInt(document.getElementById('code-coverage').value) || 0,
+        security_score: parseInt(document.getElementById('security-score').value) || 0,
+        performance_score: parseInt(document.getElementById('performance-score').value) || 0,
+        test_pass_rate: parseInt(document.getElementById('test-pass-rate').value) || 0,
+        total_tests: parseInt(document.getElementById('total-tests').value) || 0,
+        passing_tests: parseInt(document.getElementById('passing-tests').value) || 0,
+        failing_tests: parseInt(document.getElementById('failing-tests').value) || 0,
+        vulnerabilities_critical: parseInt(document.getElementById('vuln-critical').value) || 0,
+        vulnerabilities_high: parseInt(document.getElementById('vuln-high').value) || 0,
+        vulnerabilities_medium: parseInt(document.getElementById('vuln-medium').value) || 0,
+        vulnerabilities_low: parseInt(document.getElementById('vuln-low').value) || 0,
+        technical_debt_hours: parseFloat(document.getElementById('tech-debt').value) || 0,
+        code_quality_grade: document.getElementById('quality-grade').value,
+        uptime_percent: parseFloat(document.getElementById('uptime').value) || 100.0,
+        response_time_ms: parseInt(document.getElementById('response-time').value) || 0
+      };
+
+      const isEdit = editingMetricId !== null;
+      if (isEdit) {
+        formData.id = editingMetricId;
+      }
+
+      try {
+        const response = await fetch('/api/admin/code-quality', {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to save metrics');
+        }
+
+        alert(isEdit ? 'Metrics updated successfully!' : 'Metrics added successfully!');
+        closeModal();
+        loadMetrics();
+      } catch (error) {
+        console.error('Error saving metrics:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    async function deleteMetric(id) {
+      if (!confirm('Are you sure you want to delete these metrics?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/admin/code-quality?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to delete metrics');
+        }
+
+        alert('Metrics deleted successfully!');
+        loadMetrics();
+      } catch (error) {
+        console.error('Error deleting metrics:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('metricsModal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'metricsModal') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

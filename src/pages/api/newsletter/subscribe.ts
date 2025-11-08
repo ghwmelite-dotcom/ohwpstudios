@@ -93,6 +93,8 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
     // Send verification email
     if (resendApiKey) {
       await sendVerificationEmail(resendApiKey, email, verificationToken);
+      // Send admin notification
+      await sendAdminNotification(resendApiKey, email, source);
     }
 
     return new Response(
@@ -111,6 +113,57 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
     );
   }
 };
+
+async function sendAdminNotification(apiKey: string, email: string, source: string) {
+  const resend = new Resend(apiKey);
+
+  try {
+    await resend.emails.send({
+      from: 'OhWP Studios <noreply@ohwpstudios.org>',
+      to: 'ohwpstudios@gmail.com',
+      subject: '📬 New Newsletter Subscriber',
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; text-align: center; }
+            .email { background: white; padding: 20px; border-radius: 10px; font-size: 18px; color: #6366f1; font-weight: bold; margin: 20px 0; }
+            .source { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
+            .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
+            .btn { display: inline-block; padding: 12px 30px; background: #6366f1; color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>📬 New Newsletter Subscriber</h1>
+            </div>
+            <div class="content">
+              <p>A new user has subscribed to your newsletter!</p>
+              <div class="email">${email}</div>
+              <div class="source">
+                <strong>Source:</strong> ${source}
+              </div>
+              <p>Subscribed on ${new Date().toLocaleString()}</p>
+              <a href="https://ohwpstudios.org/admin/newsletter" class="btn">View All Subscribers</a>
+            </div>
+            <div class="footer">
+              <p>Login to your admin portal to manage subscribers</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    });
+    console.log('✅ Admin notification sent for new newsletter subscriber:', email);
+  } catch (error) {
+    console.error('Error sending admin notification:', error);
+  }
+}
 
 async function sendVerificationEmail(apiKey: string, email: string, token: string) {
   const resend = new Resend(apiKey);

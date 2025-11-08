@@ -1,0 +1,870 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PM Chat Monitoring - Admin Portal</title>
+  <style>
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-hover: #334155;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-secondary: #ec4899;
+      --color-text: #f1f5f9;
+      --color-text-muted: #94a3b8;
+      --color-border: #334155;
+      --color-success: #10b981;
+      --color-danger: #ef4444;
+      --color-warning: #f59e0b;
+      --color-info: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      padding: 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.75rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-surface-hover);
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-primary);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Filters */
+    .filters {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    /* Conversations List */
+    .conversations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .conversation-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .conversation-card:hover {
+      border-color: var(--color-primary);
+      transform: translateX(4px);
+    }
+
+    .conversation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+
+    .conversation-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .conversation-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+
+    .conversation-stats {
+      display: flex;
+      gap: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .badge.active {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+    }
+
+    .badge.archived {
+      background: rgba(148, 163, 184, 0.2);
+      color: var(--color-text-muted);
+    }
+
+    /* Chat Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--color-text);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .message-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .message-content {
+      flex: 1;
+      max-width: 70%;
+    }
+
+    .message-bubble {
+      background: var(--color-bg);
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+    }
+
+    .message.user .message-bubble {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    }
+
+    .message-meta {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">OHWP Studios</div>
+      <nav>
+        <a href="/admin/dashboard" class="nav-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          Dashboard
+        </a>
+        <a href="/admin/clients" class="nav-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          Clients
+        </a>
+        <a href="/admin/pm-chats" class="nav-item active">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+          PM Chats
+        </a>
+        <a href="/admin/portfolio" class="nav-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Portfolio
+        </a>
+        <a href="/" class="nav-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Back to Site
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="header">
+        <h1>PM Chat Monitoring</h1>
+        <button class="btn btn-secondary" id="logout-btn">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          Logout
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value" id="total-conversations">0</div>
+          <div class="stat-label">Total Conversations</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value" id="total-messages">0</div>
+          <div class="stat-label">Total Messages</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value" id="avg-response-time">0ms</div>
+          <div class="stat-label">Avg Response Time</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon">
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              </svg>
+            </div>
+          </div>
+          <div class="stat-value" id="total-tokens">0</div>
+          <div class="stat-label">Total Tokens Used</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <div class="filter-group">
+          <label for="filter-project">Filter by Project</label>
+          <select id="filter-project">
+            <option value="">All Projects</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-client">Filter by Client</label>
+          <select id="filter-client">
+            <option value="">All Clients</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
+            <option value="">All</option>
+            <option value="active">Active</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+
+        <div class="filter-group" style="display: flex; align-items: flex-end;">
+          <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
+        </div>
+      </div>
+
+      <!-- Conversations List -->
+      <div id="conversations-container">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading conversations...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Chat Detail Modal -->
+  <div class="modal" id="chat-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Chat Details</h2>
+        <button class="modal-close" id="close-modal">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading messages...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check authentication
+    const adminToken = localStorage.getItem('admin_token');
+    if (!adminToken) {
+      window.location.href = '/admin/login';
+    }
+
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_user');
+      window.location.href = '/admin/login';
+    });
+
+    // Load conversations
+    async function loadConversations(filters = {}) {
+      const container = document.getElementById('conversations-container');
+      container.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading conversations...</p></div>';
+
+      try {
+        const params = new URLSearchParams(filters);
+        const response = await fetch(`/api/admin/pm-chats?${params}`, {
+          headers: {
+            'Authorization': `Bearer ${adminToken}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          updateStats(data.stats);
+          renderConversations(data.conversations);
+          populateFilters(data.projects, data.clients);
+        } else {
+          throw new Error(data.error || 'Failed to load conversations');
+        }
+      } catch (error) {
+        console.error('Error loading conversations:', error);
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3>Failed to load conversations</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    function updateStats(stats) {
+      document.getElementById('total-conversations').textContent = stats.totalConversations || 0;
+      document.getElementById('total-messages').textContent = stats.totalMessages || 0;
+      document.getElementById('avg-response-time').textContent = `${stats.avgResponseTime || 0}ms`;
+      document.getElementById('total-tokens').textContent = (stats.totalTokens || 0).toLocaleString();
+    }
+
+    function renderConversations(conversations) {
+      const container = document.getElementById('conversations-container');
+
+      if (!conversations || conversations.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <h3>No conversations found</h3>
+            <p>PM chat conversations will appear here</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="conversations-list">
+          ${conversations.map(conv => `
+            <div class="conversation-card" data-id="${conv.id}">
+              <div class="conversation-header">
+                <div class="conversation-info">
+                  <h3>${escapeHtml(conv.project_name)}</h3>
+                  <div class="conversation-meta">
+                    <span>Client: ${escapeHtml(conv.client_name)}</span>
+                    <span>Last activity: ${formatDate(conv.last_message_at)}</span>
+                  </div>
+                </div>
+                <span class="badge ${conv.status}">${conv.status}</span>
+              </div>
+              <div class="conversation-stats">
+                <div class="stat-item">
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                  </svg>
+                  ${conv.message_count} messages
+                </div>
+                <div class="stat-item">
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  Avg: ${conv.avg_response_time}ms
+                </div>
+                <div class="stat-item">
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                  </svg>
+                  ${conv.total_tokens} tokens
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Add click listeners
+      document.querySelectorAll('.conversation-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const convId = card.getAttribute('data-id');
+          viewConversation(convId);
+        });
+      });
+    }
+
+    function populateFilters(projects, clients) {
+      const projectSelect = document.getElementById('filter-project');
+      const clientSelect = document.getElementById('filter-client');
+
+      if (projects) {
+        projectSelect.innerHTML = '<option value="">All Projects</option>' +
+          projects.map(p => `<option value="${p.id}">${escapeHtml(p.project_name)}</option>`).join('');
+      }
+
+      if (clients) {
+        clientSelect.innerHTML = '<option value="">All Clients</option>' +
+          clients.map(c => `<option value="${c.id}">${escapeHtml(c.company_name)}</option>`).join('');
+      }
+    }
+
+    async function viewConversation(conversationId) {
+      const modal = document.getElementById('chat-modal');
+      const modalBody = document.getElementById('modal-body');
+      const modalTitle = document.getElementById('modal-title');
+
+      modal.classList.add('active');
+      modalBody.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading messages...</p></div>';
+
+      try {
+        const response = await fetch(`/api/admin/pm-chats/${conversationId}`, {
+          headers: {
+            'Authorization': `Bearer ${adminToken}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          modalTitle.textContent = `Chat: ${data.conversation.project_name} - ${data.conversation.client_name}`;
+          renderMessages(data.messages);
+        } else {
+          throw new Error(data.error || 'Failed to load conversation');
+        }
+      } catch (error) {
+        console.error('Error loading conversation:', error);
+        modalBody.innerHTML = `
+          <div class="empty-state">
+            <p>Failed to load conversation details</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderMessages(messages) {
+      const modalBody = document.getElementById('modal-body');
+
+      if (!messages || messages.length === 0) {
+        modalBody.innerHTML = '<div class="empty-state"><p>No messages in this conversation</p></div>';
+        return;
+      }
+
+      modalBody.innerHTML = `
+        <div class="message-list">
+          ${messages.map(msg => `
+            <div class="message ${msg.role}">
+              <div class="message-avatar">${msg.role === 'user' ? 'U' : 'PM'}</div>
+              <div class="message-content">
+                <div class="message-bubble">${escapeHtml(msg.content)}</div>
+                <div class="message-meta">
+                  <span>${formatDate(msg.created_at)}</span>
+                  ${msg.metadata ? `<span>${JSON.parse(msg.metadata).tokens_input + JSON.parse(msg.metadata).tokens_output} tokens</span>` : ''}
+                  ${msg.metadata ? `<span>${JSON.parse(msg.metadata).response_time_ms}ms</span>` : ''}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Close modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.getElementById('chat-modal').classList.remove('active');
+    });
+
+    document.getElementById('chat-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'chat-modal') {
+        document.getElementById('chat-modal').classList.remove('active');
+      }
+    });
+
+    // Apply filters
+    document.getElementById('apply-filters').addEventListener('click', () => {
+      const filters = {
+        project_id: document.getElementById('filter-project').value,
+        client_id: document.getElementById('filter-client').value,
+        status: document.getElementById('filter-status').value
+      };
+      loadConversations(filters);
+    });
+
+    // Helper functions
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Initial load
+    loadConversations();
+  </script>
+</body>
+</html>

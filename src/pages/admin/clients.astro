@@ -1,0 +1,1881 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Clients - Admin Portal</title>
+  <style>
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-hover: #334155;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-secondary: #ec4899;
+      --color-text: #f1f5f9;
+      --color-text-muted: #94a3b8;
+      --color-border: #334155;
+      --color-success: #10b981;
+      --color-danger: #ef4444;
+      --color-warning: #f59e0b;
+      --color-info: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      padding: 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.75rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Tabs */
+    .tabs-container {
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tab {
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      position: relative;
+      top: 2px;
+    }
+
+    .tab:hover {
+      color: var(--color-text);
+      background: var(--color-surface-hover);
+    }
+
+    .tab.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-surface-hover);
+    }
+
+    .btn-danger {
+      background: var(--color-danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Search and Filters */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 3rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--color-text-muted);
+    }
+
+    .filter-select {
+      padding: 0.75rem 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    /* Client Showcase Grid */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .client-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .client-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .client-logo {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .client-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .client-industry {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .client-badges {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-featured {
+      background: rgba(236, 72, 153, 0.2);
+      color: var(--color-secondary);
+    }
+
+    .badge-active {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+    }
+
+    .badge-inactive {
+      background: rgba(148, 163, 184, 0.2);
+      color: var(--color-text-muted);
+    }
+
+    .badge-completed {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--color-info);
+    }
+
+    .badge-on-hold {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--color-warning);
+    }
+
+    .badge-cancelled {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--color-danger);
+    }
+
+    .client-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Client Users Grid */
+    .users-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .user-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .user-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .user-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-right: 1rem;
+    }
+
+    .user-info h3 {
+      font-size: 1.125rem;
+      color: var(--color-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .user-info p {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    .user-details {
+      margin-bottom: 1rem;
+    }
+
+    .user-detail {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    .user-detail svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .project-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .project-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-header {
+      margin-bottom: 1rem;
+    }
+
+    .project-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-client {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .project-client svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .project-description {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-meta-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    .project-meta-item svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--color-bg);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .modal-content {
+      background: var(--color-surface);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 700px;
+      width: 100%;
+      margin: 2rem auto;
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .close-modal:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    .help-text {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .clients-grid,
+      .users-grid,
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        overflow-x: auto;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">OhWP Studios</div>
+      <nav>
+        <a href="/admin/dashboard" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/contacts" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span>Contacts</span>
+        </a>
+        <a href="/admin/portfolio" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>Portfolio</span>
+        </a>
+        <a href="/admin/clients" class="nav-item active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <span>Clients</span>
+        </a>
+        <a href="/admin/applications" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span>Job Applications</span>
+        </a>
+        <a href="/admin/newsletter" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+          <span>Newsletter</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="header">
+        <div>
+          <a href="/admin/dashboard" class="btn btn-secondary btn-sm" style="margin-bottom: 1rem; display: inline-flex;">
+            ← Back to Dashboard
+          </a>
+          <h1>Manage Clients</h1>
+        </div>
+        <button class="btn btn-primary" onclick="openAddModal()" id="addButton">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          <span id="addButtonText">Add Client</span>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs-container">
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('showcase')">Client Showcase</button>
+          <button class="tab" onclick="switchTab('users')">Client Users</button>
+          <button class="tab" onclick="switchTab('projects')">Client Projects</button>
+        </div>
+      </div>
+
+      <!-- Tab 1: Client Showcase -->
+      <div id="showcase-tab" class="tab-content active">
+        <!-- Search and Filters -->
+        <div class="filters">
+          <div class="search-box">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="showcase-search" placeholder="Search clients..." oninput="filterShowcaseClients()">
+          </div>
+          <select id="showcase-statusFilter" class="filter-select" onchange="filterShowcaseClients()">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <select id="showcase-featuredFilter" class="filter-select" onchange="filterShowcaseClients()">
+            <option value="all">All Clients</option>
+            <option value="featured">Featured Only</option>
+          </select>
+        </div>
+
+        <!-- Clients Grid -->
+        <div id="showcase-container" class="clients-grid">
+          <div class="loading">Loading clients...</div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Client Users -->
+      <div id="users-tab" class="tab-content">
+        <!-- Search and Filters -->
+        <div class="filters">
+          <div class="search-box">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="users-search" placeholder="Search by email or company..." oninput="filterUsers()">
+          </div>
+          <select id="users-statusFilter" class="filter-select" onchange="filterUsers()">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <!-- Users Grid -->
+        <div id="users-container" class="users-grid">
+          <div class="loading">Loading client users...</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Client Projects -->
+      <div id="projects-tab" class="tab-content">
+        <!-- Search and Filters -->
+        <div class="filters">
+          <div class="search-box">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="projects-search" placeholder="Search projects..." oninput="filterProjects()">
+          </div>
+          <select id="projects-clientFilter" class="filter-select" onchange="filterProjects()">
+            <option value="all">All Clients</option>
+          </select>
+          <select id="projects-statusFilter" class="filter-select" onchange="filterProjects()">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="on-hold">On Hold</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <!-- Projects Grid -->
+        <div id="projects-container" class="projects-grid">
+          <div class="loading">Loading projects...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Client Showcase Modal -->
+  <div id="showcaseModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="showcaseModalTitle">Add Client</h2>
+        <button class="close-modal" onclick="closeShowcaseModal()">&times;</button>
+      </div>
+      <form id="showcaseForm" onsubmit="saveShowcaseClient(event)">
+        <input type="hidden" id="showcase-clientId">
+
+        <div class="form-group">
+          <label for="showcase-name">Client Name *</label>
+          <input type="text" id="showcase-name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-logo_url">Logo URL *</label>
+          <input type="url" id="showcase-logo_url" required placeholder="https://example.com/logo.png">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-website_url">Website URL</label>
+          <input type="url" id="showcase-website_url" placeholder="https://example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-industry">Industry</label>
+          <input type="text" id="showcase-industry" placeholder="e.g., Technology, Finance, Healthcare">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-description">Description</label>
+          <textarea id="showcase-description" placeholder="Brief description of the client"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-project_type">Project Type</label>
+          <input type="text" id="showcase-project_type" placeholder="e.g., Web Development, Mobile App">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-project_value">Project Value</label>
+          <input type="text" id="showcase-project_value" placeholder="e.g., $50,000">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-testimonial">Testimonial</label>
+          <textarea id="showcase-testimonial" placeholder="Client testimonial (optional)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-testimonial_author">Testimonial Author</label>
+          <input type="text" id="showcase-testimonial_author" placeholder="Author name">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-testimonial_position">Testimonial Author Position</label>
+          <input type="text" id="showcase-testimonial_position" placeholder="e.g., CEO, Marketing Director">
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-display_order">Display Order</label>
+          <input type="number" id="showcase-display_order" value="0" min="0">
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="showcase-is_featured">
+            <label for="showcase-is_featured" style="margin-bottom: 0;">Featured Client</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="showcase-status">Status</label>
+          <select id="showcase-status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeShowcaseModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Client Users Modal -->
+  <div id="usersModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="usersModalTitle">Add Client User</h2>
+        <button class="close-modal" onclick="closeUsersModal()">&times;</button>
+      </div>
+      <form id="usersForm" onsubmit="saveUser(event)">
+        <input type="hidden" id="users-userId">
+
+        <div class="form-group">
+          <label for="users-email">Email *</label>
+          <input type="email" id="users-email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="users-password">Password <span id="users-passwordLabel">*</span></label>
+          <input type="password" id="users-password">
+          <p class="help-text" id="users-passwordHelp">Minimum 8 characters</p>
+        </div>
+
+        <div class="form-group">
+          <label for="users-company_name">Company Name *</label>
+          <input type="text" id="users-company_name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="users-contact_name">Contact Name *</label>
+          <input type="text" id="users-contact_name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="users-phone">Phone</label>
+          <input type="tel" id="users-phone" placeholder="+1 (555) 123-4567">
+        </div>
+
+        <div class="form-group">
+          <label for="users-status">Status</label>
+          <select id="users-status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeUsersModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Client Projects Modal -->
+  <div id="projectsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="projectsModalTitle">Add Project</h2>
+        <button class="close-modal" onclick="closeProjectsModal()">&times;</button>
+      </div>
+      <form id="projectsForm" onsubmit="saveProject(event)">
+        <input type="hidden" id="projects-projectId">
+
+        <div class="form-group">
+          <label for="projects-client_id">Client *</label>
+          <select id="projects-client_id" required>
+            <option value="">Select a client...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="projects-project_name">Project Name *</label>
+          <input type="text" id="projects-project_name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="projects-project_type">Project Type</label>
+          <input type="text" id="projects-project_type" placeholder="e.g., Web Development, Mobile App, Branding">
+        </div>
+
+        <div class="form-group">
+          <label for="projects-description">Description</label>
+          <textarea id="projects-description" placeholder="Project description..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="projects-start_date">Start Date</label>
+            <input type="date" id="projects-start_date">
+          </div>
+
+          <div class="form-group">
+            <label for="projects-end_date">End Date</label>
+            <input type="date" id="projects-end_date">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="projects-budget">Budget</label>
+          <input type="text" id="projects-budget" placeholder="e.g., $10,000">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="projects-status">Status</label>
+            <select id="projects-status">
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+              <option value="on-hold">On Hold</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="projects-progress">Progress (%)</label>
+            <input type="number" id="projects-progress" min="0" max="100" value="0">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeProjectsModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    let currentTab = 'showcase';
+    let allShowcaseClients = [];
+    let allUsers = [];
+    let allProjects = [];
+    let editingShowcaseClientId = null;
+    let editingUserId = null;
+    let editingProjectId = null;
+
+    // Check authentication
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      window.location.href = '/admin/login';
+    }
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadShowcaseClients();
+      loadUsers();
+      loadProjects();
+    });
+
+    // Tab switching
+    function switchTab(tabName) {
+      currentTab = tabName;
+
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Update tab content
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+
+      // Update add button text
+      const addButtonText = document.getElementById('addButtonText');
+      switch(tabName) {
+        case 'showcase':
+          addButtonText.textContent = 'Add Client';
+          break;
+        case 'users':
+          addButtonText.textContent = 'Add Client User';
+          break;
+        case 'projects':
+          addButtonText.textContent = 'Add Project';
+          break;
+      }
+    }
+
+    // Generic modal opener
+    function openAddModal() {
+      switch(currentTab) {
+        case 'showcase':
+          openShowcaseAddModal();
+          break;
+        case 'users':
+          openUsersAddModal();
+          break;
+        case 'projects':
+          openProjectsAddModal();
+          break;
+      }
+    }
+
+    // ==================== CLIENT SHOWCASE FUNCTIONS ====================
+    async function loadShowcaseClients() {
+      try {
+        const response = await fetch('/api/admin/clients', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('admin_token');
+            window.location.href = '/admin/login';
+            return;
+          }
+          throw new Error(data.error || 'Failed to load clients');
+        }
+
+        allShowcaseClients = data.clients || [];
+        renderShowcaseClients();
+      } catch (error) {
+        console.error('Error loading clients:', error);
+        document.getElementById('showcase-container').innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <h3 style="margin-bottom: 1rem;">No Clients Yet</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">
+              Add your first client to get started.
+            </p>
+            <button class="btn btn-primary" onclick="openShowcaseAddModal()">Add Client</button>
+          </div>
+        `;
+      }
+    }
+
+    function filterShowcaseClients() {
+      const search = document.getElementById('showcase-search').value.toLowerCase();
+      const statusFilter = document.getElementById('showcase-statusFilter').value;
+      const featuredFilter = document.getElementById('showcase-featuredFilter').value;
+
+      const filtered = allShowcaseClients.filter(client => {
+        const matchesSearch = client.name.toLowerCase().includes(search) ||
+                            (client.industry && client.industry.toLowerCase().includes(search));
+        const matchesStatus = statusFilter === 'all' || client.status === statusFilter;
+        const matchesFeatured = featuredFilter === 'all' || (featuredFilter === 'featured' && client.is_featured === 1);
+
+        return matchesSearch && matchesStatus && matchesFeatured;
+      });
+
+      renderShowcaseClients(filtered);
+    }
+
+    function renderShowcaseClients(clients = allShowcaseClients) {
+      const container = document.getElementById('showcase-container');
+
+      if (clients.length === 0) {
+        container.innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <p>No clients found.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = clients.map(client => `
+        <div class="client-card">
+          <img src="${client.logo_url}" alt="${client.name}" class="client-logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%23334155%22 width=%22200%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22 font-size=%2214%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+          <div class="client-name">${client.name}</div>
+          ${client.industry ? `<div class="client-industry">${client.industry}</div>` : ''}
+          <div class="client-badges">
+            ${client.is_featured ? '<span class="badge badge-featured">Featured</span>' : ''}
+            <span class="badge ${client.status === 'active' ? 'badge-active' : 'badge-inactive'}">
+              ${client.status === 'active' ? 'Active' : 'Inactive'}
+            </span>
+          </div>
+          ${client.description ? `<p style="color: var(--color-text-muted); font-size: 0.875rem; margin-bottom: 1rem;">${client.description.substring(0, 100)}${client.description.length > 100 ? '...' : ''}</p>` : ''}
+          <div class="client-actions">
+            <button class="btn btn-secondary btn-sm" onclick="editShowcaseClient(${client.id})">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              Edit
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="deleteShowcaseClient(${client.id}, '${client.name}')">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openShowcaseAddModal() {
+      editingShowcaseClientId = null;
+      document.getElementById('showcaseModalTitle').textContent = 'Add Client';
+      document.getElementById('showcaseForm').reset();
+      document.getElementById('showcase-clientId').value = '';
+      document.getElementById('showcaseModal').classList.add('active');
+    }
+
+    function editShowcaseClient(id) {
+      const client = allShowcaseClients.find(c => c.id === id);
+      if (!client) return;
+
+      editingShowcaseClientId = id;
+      document.getElementById('showcaseModalTitle').textContent = 'Edit Client';
+      document.getElementById('showcase-clientId').value = client.id;
+      document.getElementById('showcase-name').value = client.name;
+      document.getElementById('showcase-logo_url').value = client.logo_url;
+      document.getElementById('showcase-website_url').value = client.website_url || '';
+      document.getElementById('showcase-industry').value = client.industry || '';
+      document.getElementById('showcase-description').value = client.description || '';
+      document.getElementById('showcase-project_type').value = client.project_type || '';
+      document.getElementById('showcase-project_value').value = client.project_value || '';
+      document.getElementById('showcase-testimonial').value = client.testimonial || '';
+      document.getElementById('showcase-testimonial_author').value = client.testimonial_author || '';
+      document.getElementById('showcase-testimonial_position').value = client.testimonial_position || '';
+      document.getElementById('showcase-display_order').value = client.display_order || 0;
+      document.getElementById('showcase-is_featured').checked = client.is_featured === 1;
+      document.getElementById('showcase-status').value = client.status;
+
+      document.getElementById('showcaseModal').classList.add('active');
+    }
+
+    function closeShowcaseModal() {
+      document.getElementById('showcaseModal').classList.remove('active');
+      editingShowcaseClientId = null;
+    }
+
+    async function saveShowcaseClient(event) {
+      event.preventDefault();
+
+      const formData = {
+        name: document.getElementById('showcase-name').value,
+        logo_url: document.getElementById('showcase-logo_url').value,
+        website_url: document.getElementById('showcase-website_url').value,
+        industry: document.getElementById('showcase-industry').value,
+        description: document.getElementById('showcase-description').value,
+        project_type: document.getElementById('showcase-project_type').value,
+        project_value: document.getElementById('showcase-project_value').value,
+        testimonial: document.getElementById('showcase-testimonial').value,
+        testimonial_author: document.getElementById('showcase-testimonial_author').value,
+        testimonial_position: document.getElementById('showcase-testimonial_position').value,
+        display_order: parseInt(document.getElementById('showcase-display_order').value) || 0,
+        is_featured: document.getElementById('showcase-is_featured').checked ? 1 : 0,
+        status: document.getElementById('showcase-status').value
+      };
+
+      const isEdit = editingShowcaseClientId !== null;
+      if (isEdit) {
+        formData.id = editingShowcaseClientId;
+      }
+
+      try {
+        const response = await fetch('/api/admin/clients', {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to save client');
+        }
+
+        alert(isEdit ? 'Client updated successfully!' : 'Client added successfully!');
+        closeShowcaseModal();
+        loadShowcaseClients();
+      } catch (error) {
+        console.error('Error saving client:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    async function deleteShowcaseClient(id, name) {
+      if (!confirm(`Are you sure you want to delete "${name}"?`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/admin/clients?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to delete client');
+        }
+
+        alert('Client deleted successfully!');
+        loadShowcaseClients();
+      } catch (error) {
+        console.error('Error deleting client:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // ==================== CLIENT USERS FUNCTIONS ====================
+    async function loadUsers() {
+      try {
+        const response = await fetch('/api/admin/client-users', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('admin_token');
+            window.location.href = '/admin/login';
+            return;
+          }
+          throw new Error(data.error || 'Failed to load client users');
+        }
+
+        allUsers = data.users || [];
+
+        // Populate project client filter
+        const projectClientFilter = document.getElementById('projects-clientFilter');
+        const projectClientSelect = document.getElementById('projects-client_id');
+
+        // Clear existing options except the first one
+        projectClientFilter.innerHTML = '<option value="all">All Clients</option>';
+        projectClientSelect.innerHTML = '<option value="">Select a client...</option>';
+
+        allUsers.forEach(user => {
+          const filterOption = document.createElement('option');
+          filterOption.value = user.id;
+          filterOption.textContent = user.company_name || user.email;
+          projectClientFilter.appendChild(filterOption);
+
+          const selectOption = document.createElement('option');
+          selectOption.value = user.id;
+          selectOption.textContent = user.company_name || user.email;
+          projectClientSelect.appendChild(selectOption);
+        });
+
+        renderUsers();
+      } catch (error) {
+        console.error('Error loading client users:', error);
+        document.getElementById('users-container').innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <h3 style="margin-bottom: 1rem;">No Client Users Yet</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">
+              Add your first client user to get started.
+            </p>
+            <button class="btn btn-primary" onclick="openUsersAddModal()">Add Client User</button>
+          </div>
+        `;
+      }
+    }
+
+    function filterUsers() {
+      const search = document.getElementById('users-search').value.toLowerCase();
+      const statusFilter = document.getElementById('users-statusFilter').value;
+
+      const filtered = allUsers.filter(user => {
+        const matchesSearch = user.email.toLowerCase().includes(search) ||
+                            (user.company_name && user.company_name.toLowerCase().includes(search)) ||
+                            (user.contact_name && user.contact_name.toLowerCase().includes(search));
+        const matchesStatus = statusFilter === 'all' || user.status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+      });
+
+      renderUsers(filtered);
+    }
+
+    function renderUsers(users = allUsers) {
+      const container = document.getElementById('users-container');
+
+      if (users.length === 0) {
+        container.innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <p>No client users found.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = users.map(user => {
+        const initials = user.company_name ? user.company_name.substring(0, 2).toUpperCase() : 'CU';
+        return `
+          <div class="user-card">
+            <div class="user-header">
+              <div class="user-avatar">${initials}</div>
+              <div class="user-info">
+                <h3>${user.company_name || 'No Company'}</h3>
+                <p>${user.contact_name || 'No Contact'}</p>
+              </div>
+            </div>
+            <span class="badge ${user.status === 'active' ? 'badge-active' : 'badge-inactive'}">
+              ${user.status === 'active' ? 'Active' : 'Inactive'}
+            </span>
+            <div class="user-details">
+              <div class="user-detail">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                ${user.email}
+              </div>
+              ${user.phone ? `
+                <div class="user-detail">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  ${user.phone}
+                </div>
+              ` : ''}
+            </div>
+            <div class="user-actions">
+              <button class="btn btn-secondary btn-sm" onclick="editUser(${user.id})" style="flex: 1;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id}, '${user.email}')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openUsersAddModal() {
+      editingUserId = null;
+      document.getElementById('usersModalTitle').textContent = 'Add Client User';
+      document.getElementById('usersForm').reset();
+      document.getElementById('users-userId').value = '';
+      document.getElementById('users-password').required = true;
+      document.getElementById('users-passwordLabel').textContent = '*';
+      document.getElementById('users-passwordHelp').textContent = 'Minimum 8 characters';
+      document.getElementById('usersModal').classList.add('active');
+    }
+
+    function editUser(id) {
+      const user = allUsers.find(u => u.id === id);
+      if (!user) return;
+
+      editingUserId = id;
+      document.getElementById('usersModalTitle').textContent = 'Edit Client User';
+      document.getElementById('users-userId').value = user.id;
+      document.getElementById('users-email').value = user.email;
+      document.getElementById('users-password').value = '';
+      document.getElementById('users-password').required = false;
+      document.getElementById('users-passwordLabel').textContent = '';
+      document.getElementById('users-passwordHelp').textContent = 'Leave blank to keep current password';
+      document.getElementById('users-company_name').value = user.company_name || '';
+      document.getElementById('users-contact_name').value = user.contact_name || '';
+      document.getElementById('users-phone').value = user.phone || '';
+      document.getElementById('users-status').value = user.status;
+
+      document.getElementById('usersModal').classList.add('active');
+    }
+
+    function closeUsersModal() {
+      document.getElementById('usersModal').classList.remove('active');
+      editingUserId = null;
+    }
+
+    async function saveUser(event) {
+      event.preventDefault();
+
+      const password = document.getElementById('users-password').value;
+
+      // Validate password if provided
+      if (password && password.length < 8) {
+        alert('Password must be at least 8 characters long');
+        return;
+      }
+
+      const formData = {
+        email: document.getElementById('users-email').value,
+        company_name: document.getElementById('users-company_name').value,
+        contact_name: document.getElementById('users-contact_name').value,
+        phone: document.getElementById('users-phone').value,
+        status: document.getElementById('users-status').value
+      };
+
+      // Only include password if it's set
+      if (password) {
+        formData.password = password;
+      }
+
+      const isEdit = editingUserId !== null;
+      if (isEdit) {
+        formData.id = editingUserId;
+      }
+
+      try {
+        const response = await fetch('/api/admin/client-users', {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to save client user');
+        }
+
+        alert(isEdit ? 'Client user updated successfully!' : 'Client user created successfully!');
+        closeUsersModal();
+        loadUsers();
+      } catch (error) {
+        console.error('Error saving client user:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    async function deleteUser(id, email) {
+      if (!confirm(`Are you sure you want to delete "${email}"?\n\nThis will also delete all projects associated with this user.`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/admin/client-users?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to delete client user');
+        }
+
+        alert('Client user deleted successfully!');
+        loadUsers();
+        loadProjects(); // Reload projects as they may have been affected
+      } catch (error) {
+        console.error('Error deleting client user:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // ==================== CLIENT PROJECTS FUNCTIONS ====================
+    async function loadProjects() {
+      try {
+        const response = await fetch('/api/admin/client-projects', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem('admin_token');
+            window.location.href = '/admin/login';
+            return;
+          }
+          throw new Error(data.error || 'Failed to load projects');
+        }
+
+        allProjects = data.projects || [];
+        renderProjects();
+      } catch (error) {
+        console.error('Error loading projects:', error);
+        document.getElementById('projects-container').innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <h3 style="margin-bottom: 1rem;">No Projects Yet</h3>
+            <p style="color: var(--color-text-muted); margin-bottom: 1rem;">
+              Add your first project to get started.
+            </p>
+            <button class="btn btn-primary" onclick="openProjectsAddModal()">Add Project</button>
+          </div>
+        `;
+      }
+    }
+
+    function filterProjects() {
+      const search = document.getElementById('projects-search').value.toLowerCase();
+      const clientFilter = document.getElementById('projects-clientFilter').value;
+      const statusFilter = document.getElementById('projects-statusFilter').value;
+
+      const filtered = allProjects.filter(project => {
+        const matchesSearch = project.project_name.toLowerCase().includes(search) ||
+                            (project.company_name && project.company_name.toLowerCase().includes(search)) ||
+                            (project.description && project.description.toLowerCase().includes(search));
+        const matchesClient = clientFilter === 'all' || project.client_id == clientFilter;
+        const matchesStatus = statusFilter === 'all' || project.status === statusFilter;
+
+        return matchesSearch && matchesClient && matchesStatus;
+      });
+
+      renderProjects(filtered);
+    }
+
+    function renderProjects(projects = allProjects) {
+      const container = document.getElementById('projects-container');
+
+      if (projects.length === 0) {
+        container.innerHTML = `
+          <div class="empty" style="grid-column: 1 / -1;">
+            <p>No projects found.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = projects.map(project => {
+        const statusBadgeClass = {
+          'active': 'badge-active',
+          'completed': 'badge-completed',
+          'on-hold': 'badge-on-hold',
+          'cancelled': 'badge-cancelled'
+        }[project.status] || 'badge-active';
+
+        const statusText = {
+          'active': 'Active',
+          'completed': 'Completed',
+          'on-hold': 'On Hold',
+          'cancelled': 'Cancelled'
+        }[project.status] || project.status;
+
+        return `
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-name">${project.project_name}</div>
+              <div class="project-client">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                ${project.company_name || 'No Client'}
+              </div>
+            </div>
+            <div class="client-badges">
+              <span class="badge ${statusBadgeClass}">${statusText}</span>
+              ${project.project_type ? `<span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--color-primary);">${project.project_type}</span>` : ''}
+            </div>
+            ${project.description ? `<div class="project-description">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</div>` : ''}
+            <div class="project-meta">
+              ${project.budget ? `
+                <div class="project-meta-item">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  ${project.budget}
+                </div>
+              ` : ''}
+              ${project.start_date ? `
+                <div class="project-meta-item">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  ${project.start_date}${project.end_date ? ` - ${project.end_date}` : ''}
+                </div>
+              ` : ''}
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${project.progress || 0}%"></div>
+            </div>
+            <div class="progress-text">${project.progress || 0}% Complete</div>
+            <div class="project-actions">
+              <button class="btn btn-secondary btn-sm" onclick="editProject(${project.id})" style="flex: 1;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteProject(${project.id}, '${project.project_name.replace(/'/g, "\\'")}')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openProjectsAddModal() {
+      editingProjectId = null;
+      document.getElementById('projectsModalTitle').textContent = 'Add Project';
+      document.getElementById('projectsForm').reset();
+      document.getElementById('projects-projectId').value = '';
+      document.getElementById('projectsModal').classList.add('active');
+    }
+
+    function editProject(id) {
+      const project = allProjects.find(p => p.id === id);
+      if (!project) return;
+
+      editingProjectId = id;
+      document.getElementById('projectsModalTitle').textContent = 'Edit Project';
+      document.getElementById('projects-projectId').value = project.id;
+      document.getElementById('projects-client_id').value = project.client_id || '';
+      document.getElementById('projects-project_name').value = project.project_name;
+      document.getElementById('projects-project_type').value = project.project_type || '';
+      document.getElementById('projects-description').value = project.description || '';
+      document.getElementById('projects-start_date').value = project.start_date || '';
+      document.getElementById('projects-end_date').value = project.end_date || '';
+      document.getElementById('projects-budget').value = project.budget || '';
+      document.getElementById('projects-status').value = project.status;
+      document.getElementById('projects-progress').value = project.progress || 0;
+
+      document.getElementById('projectsModal').classList.add('active');
+    }
+
+    function closeProjectsModal() {
+      document.getElementById('projectsModal').classList.remove('active');
+      editingProjectId = null;
+    }
+
+    async function saveProject(event) {
+      event.preventDefault();
+
+      const formData = {
+        client_id: document.getElementById('projects-client_id').value,
+        project_name: document.getElementById('projects-project_name').value,
+        project_type: document.getElementById('projects-project_type').value,
+        description: document.getElementById('projects-description').value,
+        start_date: document.getElementById('projects-start_date').value,
+        end_date: document.getElementById('projects-end_date').value,
+        budget: document.getElementById('projects-budget').value,
+        status: document.getElementById('projects-status').value,
+        progress: parseInt(document.getElementById('projects-progress').value) || 0
+      };
+
+      const isEdit = editingProjectId !== null;
+      if (isEdit) {
+        formData.id = editingProjectId;
+      }
+
+      try {
+        const response = await fetch('/api/admin/client-projects', {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to save project');
+        }
+
+        alert(isEdit ? 'Project updated successfully!' : 'Project created successfully!');
+        closeProjectsModal();
+        loadProjects();
+      } catch (error) {
+        console.error('Error saving project:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    async function deleteProject(id, name) {
+      if (!confirm(`Are you sure you want to delete "${name}"?`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/admin/client-projects?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to delete project');
+        }
+
+        alert('Project deleted successfully!');
+        loadProjects();
+      } catch (error) {
+        console.error('Error deleting project:', error);
+        alert('Error: ' + error.message);
+      }
+    }
+
+    // Close modals when clicking outside
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('showcaseModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'showcaseModal') {
+          closeShowcaseModal();
+        }
+      });
+
+      document.getElementById('usersModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'usersModal') {
+          closeUsersModal();
+        }
+      });
+
+      document.getElementById('projectsModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'projectsModal') {
+          closeProjectsModal();
+        }
+      });
+    });
+
+    // Make functions globally accessible for onclick handlers
+    window.switchTab = switchTab;
+    window.openAddModal = openAddModal;
+
+    // Showcase functions
+    window.openShowcaseAddModal = openShowcaseAddModal;
+    window.editShowcaseClient = editShowcaseClient;
+    window.deleteShowcaseClient = deleteShowcaseClient;
+    window.closeShowcaseModal = closeShowcaseModal;
+    window.saveShowcaseClient = saveShowcaseClient;
+    window.filterShowcaseClients = filterShowcaseClients;
+
+    // Users functions
+    window.openUsersAddModal = openUsersAddModal;
+    window.editUser = editUser;
+    window.deleteUser = deleteUser;
+    window.closeUsersModal = closeUsersModal;
+    window.saveUser = saveUser;
+    window.filterUsers = filterUsers;
+
+    // Projects functions
+    window.openProjectsAddModal = openProjectsAddModal;
+    window.editProject = editProject;
+    window.deleteProject = deleteProject;
+    window.closeProjectsModal = closeProjectsModal;
+    window.saveProject = saveProject;
+    window.filterProjects = filterProjects;
+  </script>
+</body>
+</html>

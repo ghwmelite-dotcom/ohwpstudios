@@ -19,7 +19,12 @@
       "WebFetch(domain:i.postimg.cc)",
       "Bash(npm install:*)",
       "Bash(npm run deploy:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(copy \"src\\components\\Portfolio.astro\" \"src\\components\\PortfolioFull.astro\")",
+      "Bash(del \"src\\pages\\admin\\client-users.astro\" \"src\\pages\\admin\\client-projects.astro\")",
+      "Bash(wrangler d1 execute:*)"
     ],
     "deny": [],
     "ask": []

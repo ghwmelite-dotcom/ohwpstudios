@@ -385,6 +385,29 @@ const getIcon = (iconName: string) => {
     font-size: 0.95rem;
   }
 
+  @media (max-width: 768px) {
+    .section-header h2 {
+      font-size: 2rem;
+    }
+
+    .section-description {
+      font-size: 1.1rem;
+    }
+
+    .service-card {
+      padding: 1.5rem;
+    }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .features-section h3 {
+      font-size: 1.5rem;
+    }
+  }
+
   @media (max-width: 640px) {
     .services-grid {
       grid-template-columns: 1fr;
@@ -392,6 +415,14 @@ const getIcon = (iconName: string) => {
 
     .features-grid {
       grid-template-columns: 1fr;
+    }
+
+    .section-header h2 {
+      font-size: 1.75rem;
+    }
+
+    .service-card {
+      padding: 1.25rem;
     }
   }
 </style>

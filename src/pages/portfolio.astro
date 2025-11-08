@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import PortfolioFull from '@/components/PortfolioFull.astro';
+import { SITE_CONFIG } from '@/config';
+---
+
+<BaseLayout
+  title={`Portfolio - ${SITE_CONFIG.name}`}
+  description="Explore our portfolio of successful projects that transformed businesses. See our web design, development, and digital marketing work."
+>
+  <Header />
+  <main>
+    <PortfolioFull />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    padding-top: 80px;
+    min-height: 100vh;
+  }
+</style>

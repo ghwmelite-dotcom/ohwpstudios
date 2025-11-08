@@ -1,0 +1,668 @@
+---
+// PM Chat Widget Component
+const { projectId } = Astro.props;
+---
+
+<!-- PM Chat Widget Styles -->
+<style>
+  /* Chat Button */
+  .pm-chat-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+  }
+
+  .pm-chat-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+  }
+
+  .pm-chat-button svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+  }
+
+  .pm-chat-button .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #0f172a;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    }
+    50% {
+      box-shadow: 0 4px 30px rgba(102, 126, 234, 0.7);
+    }
+  }
+
+  /* Chat Window */
+  .pm-chat-window {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 400px;
+    height: 600px;
+    background: #1e293b;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+  }
+
+  .pm-chat-window.active {
+    display: flex;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Chat Header */
+  .pm-chat-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .pm-chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .pm-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #667eea;
+  }
+
+  .pm-chat-title h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .pm-chat-title p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .pm-chat-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+  }
+
+  .pm-chat-close:hover {
+    opacity: 0.7;
+  }
+
+  .pm-chat-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Quick Actions */
+  .pm-quick-actions {
+    padding: 1rem;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .pm-quick-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quick-action-btn {
+    background: #334155;
+    color: white;
+    border: 1px solid #475569;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quick-action-btn:hover {
+    background: #475569;
+    border-color: #667eea;
+  }
+
+  /* Messages Area */
+  .pm-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pm-chat-message {
+    display: flex;
+    gap: 0.75rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pm-chat-message.user {
+    flex-direction: row-reverse;
+  }
+
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #667eea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: bold;
+  }
+
+  .message-content {
+    max-width: 75%;
+    background: #1e293b;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    color: #e2e8f0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .pm-chat-message.user .message-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .message-time {
+    font-size: 0.7rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+  }
+
+  /* Typing Indicator */
+  .typing-indicator {
+    display: none;
+    gap: 0.75rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .typing-indicator.active {
+    display: flex;
+  }
+
+  .typing-dots {
+    background: #1e293b;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    display: flex;
+    gap: 4px;
+  }
+
+  .typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #64748b;
+    animation: typing 1.4s infinite;
+  }
+
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes typing {
+    0%, 60%, 100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Input Area */
+  .pm-chat-input {
+    padding: 1rem;
+    background: #1e293b;
+    border-top: 1px solid #334155;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .pm-chat-input input {
+    flex: 1;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .pm-chat-input input:focus {
+    border-color: #667eea;
+  }
+
+  .pm-chat-input input::placeholder {
+    color: #64748b;
+  }
+
+  .pm-send-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .pm-send-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .pm-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: scale(1);
+  }
+
+  .pm-send-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .pm-chat-window {
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      border-radius: 0;
+    }
+
+    .pm-chat-button {
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+
+  /* Scrollbar Styling */
+  .pm-chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .pm-chat-messages::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+
+  .pm-chat-messages::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+  }
+
+  .pm-chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+</style>
+
+<!-- Chat Button -->
+<button class="pm-chat-button" id="pmChatButton" aria-label="Open PM Chat">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+  </svg>
+  <span class="badge" id="pmChatBadge" style="display: none;">0</span>
+</button>
+
+<!-- Chat Window -->
+<div class="pm-chat-window" id="pmChatWindow">
+  <!-- Header -->
+  <div class="pm-chat-header">
+    <div class="pm-chat-header-left">
+      <div class="pm-avatar">PM</div>
+      <div class="pm-chat-title">
+        <h3>Project Manager AI</h3>
+        <p>Online - Here to help!</p>
+      </div>
+    </div>
+    <button class="pm-chat-close" id="pmChatClose" aria-label="Close chat">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="pm-quick-actions">
+    <button class="quick-action-btn" data-message="What's the current project status?">
+      Project Status
+    </button>
+    <button class="quick-action-btn" data-message="When is the next milestone due?">
+      Next Milestone
+    </button>
+    <button class="quick-action-btn" data-message="How many tasks are completed?">
+      Task Progress
+    </button>
+    <button class="quick-action-btn" data-message="What files have been uploaded recently?">
+      Recent Files
+    </button>
+    <button class="quick-action-btn" data-message="Can you summarize the recent updates?">
+      Recent Updates
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div class="pm-chat-messages" id="pmChatMessages">
+    <!-- Welcome message -->
+    <div class="pm-chat-message">
+      <div class="message-avatar">PM</div>
+      <div class="message-content">
+        <div>
+          Hello! I'm your AI Project Manager. I'm here to help you with any questions about your project. Feel free to ask me about status, timelines, deliverables, or anything else!
+        </div>
+        <div class="message-time" id="welcomeTime"></div>
+      </div>
+    </div>
+
+    <!-- Typing indicator -->
+    <div class="typing-indicator" id="typingIndicator">
+      <div class="message-avatar">PM</div>
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="pm-chat-input">
+    <input
+      type="text"
+      id="pmChatInput"
+      placeholder="Type your message..."
+      aria-label="Chat message"
+    />
+    <button class="pm-send-btn" id="pmSendBtn" aria-label="Send message">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script define:vars={{ projectId }}>
+  // PM Chat Widget Script
+  const chatButton = document.getElementById('pmChatButton');
+  const chatWindow = document.getElementById('pmChatWindow');
+  const chatClose = document.getElementById('pmChatClose');
+  const chatMessages = document.getElementById('pmChatMessages');
+  const chatInput = document.getElementById('pmChatInput');
+  const sendBtn = document.getElementById('pmSendBtn');
+  const typingIndicator = document.getElementById('typingIndicator');
+  const quickActionBtns = document.querySelectorAll('.quick-action-btn');
+
+  let conversationId = null;
+
+  // Format time
+  function formatTime(date) {
+    return new Date(date).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+
+  // Set welcome message time
+  document.getElementById('welcomeTime').textContent = formatTime(new Date());
+
+  // Toggle chat window
+  chatButton.addEventListener('click', () => {
+    chatWindow.classList.add('active');
+    chatButton.style.display = 'none';
+    loadChatHistory();
+  });
+
+  chatClose.addEventListener('click', () => {
+    chatWindow.classList.remove('active');
+    chatButton.style.display = 'flex';
+  });
+
+  // Load chat history
+  async function loadChatHistory() {
+    try {
+      const token = localStorage.getItem('clientToken');
+      if (!token) return;
+
+      const response = await fetch(`/api/client/pm-chat?projectId=${projectId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        conversationId = data.conversationId;
+
+        // Clear messages except welcome and typing indicator
+        const welcomeMsg = chatMessages.querySelector('.pm-chat-message');
+        const typingInd = chatMessages.querySelector('.typing-indicator');
+        chatMessages.innerHTML = '';
+        chatMessages.appendChild(welcomeMsg);
+
+        // Add historical messages
+        data.messages.forEach(msg => {
+          if (msg.role !== 'system') {
+            addMessage(msg.content, msg.role, new Date(msg.created_at), false);
+          }
+        });
+
+        chatMessages.appendChild(typingInd);
+        scrollToBottom();
+      }
+    } catch (error) {
+      console.error('Error loading chat history:', error);
+    }
+  }
+
+  // Add message to chat
+  function addMessage(content, role, timestamp = new Date(), scroll = true) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `pm-chat-message ${role}`;
+
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'message-avatar';
+    avatarDiv.textContent = role === 'user' ? 'U' : 'PM';
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+
+    const textDiv = document.createElement('div');
+    textDiv.textContent = content;
+
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'message-time';
+    timeDiv.textContent = formatTime(timestamp);
+
+    contentDiv.appendChild(textDiv);
+    contentDiv.appendChild(timeDiv);
+
+    messageDiv.appendChild(avatarDiv);
+    messageDiv.appendChild(contentDiv);
+
+    // Insert before typing indicator
+    chatMessages.insertBefore(messageDiv, typingIndicator);
+
+    if (scroll) {
+      scrollToBottom();
+    }
+  }
+
+  // Send message
+  async function sendMessage(message) {
+    if (!message.trim()) return;
+
+    // Add user message
+    addMessage(message, 'user');
+    chatInput.value = '';
+
+    // Show typing indicator
+    typingIndicator.classList.add('active');
+    scrollToBottom();
+
+    // Disable input
+    chatInput.disabled = true;
+    sendBtn.disabled = true;
+
+    try {
+      const token = localStorage.getItem('clientToken');
+
+      const response = await fetch('/api/client/pm-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          projectId,
+          message
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Hide typing indicator
+        typingIndicator.classList.remove('active');
+
+        // Add AI response
+        addMessage(data.message, 'assistant');
+        conversationId = data.conversationId;
+      } else {
+        typingIndicator.classList.remove('active');
+        addMessage('Sorry, I encountered an error. Please try again.', 'assistant');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      typingIndicator.classList.remove('active');
+      addMessage('Sorry, I couldn\'t process your message. Please check your connection and try again.', 'assistant');
+    } finally {
+      // Enable input
+      chatInput.disabled = false;
+      sendBtn.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  // Scroll to bottom
+  function scrollToBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Send button click
+  sendBtn.addEventListener('click', () => {
+    sendMessage(chatInput.value);
+  });
+
+  // Enter key to send
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      sendMessage(chatInput.value);
+    }
+  });
+
+  // Quick action buttons
+  quickActionBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const message = btn.getAttribute('data-message');
+      sendMessage(message);
+    });
+  });
+</script>

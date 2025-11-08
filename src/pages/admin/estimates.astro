@@ -1,0 +1,968 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Estimates - Admin Portal</title>
+  <style>
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-hover: #334155;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-secondary: #ec4899;
+      --color-text: #f1f5f9;
+      --color-text-muted: #94a3b8;
+      --color-border: #334155;
+      --color-success: #10b981;
+      --color-danger: #ef4444;
+      --color-warning: #f59e0b;
+      --color-info: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      padding: 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.75rem;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+    }
+
+    .stat-label {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-card.success .stat-value {
+      color: var(--color-success);
+    }
+
+    .stat-card.warning .stat-value {
+      color: var(--color-warning);
+    }
+
+    .stat-card.info .stat-value {
+      color: var(--color-info);
+    }
+
+    .stat-card.primary .stat-value {
+      color: var(--color-primary);
+    }
+
+    /* Filters */
+    .filters {
+      background: var(--color-surface);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    select, input {
+      padding: 0.5rem 1rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      color: var(--color-text);
+      font-size: 0.875rem;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    /* Table */
+    .table-container {
+      background: var(--color-surface);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--color-bg);
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    tbody tr {
+      border-top: 1px solid var(--color-border);
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: var(--color-surface-hover);
+    }
+
+    td {
+      padding: 1rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-new {
+      background: rgba(59, 130, 246, 0.2);
+      color: var(--color-info);
+    }
+
+    .status-reviewed {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--color-warning);
+    }
+
+    .status-contacted {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+    }
+
+    .status-converted {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--color-primary);
+    }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .risk-low {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+    }
+
+    .risk-medium {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--color-warning);
+    }
+
+    .risk-high {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--color-danger);
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-sm {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.8125rem;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--color-surface);
+      border-radius: 12px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: var(--color-surface);
+      z-index: 10;
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 1.5rem;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .detail-section {
+      margin-bottom: 2rem;
+    }
+
+    .detail-section h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--color-primary);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .detail-label {
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .detail-value {
+      color: var(--color-text);
+    }
+
+    .description-box {
+      background: var(--color-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--color-primary);
+      margin-top: 0.5rem;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tech-badge {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--color-primary);
+      padding: 0.375rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .estimate-highlight {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .estimate-value {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .status-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      color: var(--color-text);
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--color-text-muted);
+    }
+
+    .error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--color-danger);
+      color: var(--color-danger);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .logout-btn {
+      margin-top: 2rem;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--color-danger);
+      color: var(--color-danger);
+      text-decoration: none;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">Admin Portal</div>
+      <nav>
+        <a href="/admin/dashboard" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Dashboard
+        </a>
+        <a href="/admin/estimates" class="nav-item active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+          Project Estimates
+        </a>
+        <a href="/admin/clients" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          Clients
+        </a>
+        <a href="/admin/contacts" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Contacts
+        </a>
+        <a href="/admin/portfolio" class="nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          Portfolio
+        </a>
+      </nav>
+      <a href="/admin/login" class="logout-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px; margin-right: 0.5rem;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+        Logout
+      </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="header">
+        <h1>Project Estimates</h1>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card info">
+          <div class="stat-label">Total Estimates</div>
+          <div class="stat-value" id="totalEstimates">0</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">New Leads</div>
+          <div class="stat-value" id="newEstimates">0</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">In Progress</div>
+          <div class="stat-value" id="inProgressEstimates">0</div>
+        </div>
+        <div class="stat-card primary">
+          <div class="stat-label">Converted</div>
+          <div class="stat-value" id="convertedEstimates">0</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <div class="filter-group">
+          <label class="filter-label">Status</label>
+          <select id="statusFilter">
+            <option value="">All Statuses</option>
+            <option value="new">New</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="contacted">Contacted</option>
+            <option value="converted">Converted</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Project Type</label>
+          <select id="typeFilter">
+            <option value="">All Types</option>
+            <option value="web">Web</option>
+            <option value="mobile">Mobile</option>
+            <option value="both">Both</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Risk Level</label>
+          <select id="riskFilter">
+            <option value="">All Risks</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Search</label>
+          <input type="text" id="searchInput" placeholder="Search name, email, company...">
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="loading">
+        <p>Loading estimates...</p>
+      </div>
+
+      <!-- Error State -->
+      <div id="errorState" class="error" style="display: none;"></div>
+
+      <!-- Table -->
+      <div class="table-container" id="tableContainer" style="display: none;">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Contact</th>
+              <th>Project Type</th>
+              <th>Budget Range</th>
+              <th>Estimate</th>
+              <th>Risk</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="estimatesTable">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <h3>No estimates found</h3>
+        <p>No project estimates match your current filters.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal" id="detailModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Project Estimate Details</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let allEstimates = [];
+    let currentEstimate = null;
+
+    async function loadEstimates() {
+      try {
+        const response = await fetch('/api/admin/estimates');
+        if (!response.ok) throw new Error('Failed to load estimates');
+
+        const data = await response.json();
+        allEstimates = data.estimates || [];
+
+        updateStats();
+        renderEstimates();
+
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('tableContainer').style.display = allEstimates.length > 0 ? 'block' : 'none';
+        document.getElementById('emptyState').style.display = allEstimates.length === 0 ? 'block' : 'none';
+
+      } catch (error) {
+        console.error('Error loading estimates:', error);
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('errorState').textContent = 'Failed to load estimates. Please try again.';
+        document.getElementById('errorState').style.display = 'block';
+      }
+    }
+
+    function updateStats() {
+      const total = allEstimates.length;
+      const newCount = allEstimates.filter(e => e.status === 'new').length;
+      const inProgress = allEstimates.filter(e => ['reviewed', 'contacted'].includes(e.status)).length;
+      const converted = allEstimates.filter(e => e.status === 'converted').length;
+
+      document.getElementById('totalEstimates').textContent = total;
+      document.getElementById('newEstimates').textContent = newCount;
+      document.getElementById('inProgressEstimates').textContent = inProgress;
+      document.getElementById('convertedEstimates').textContent = converted;
+    }
+
+    function renderEstimates() {
+      const statusFilter = document.getElementById('statusFilter').value;
+      const typeFilter = document.getElementById('typeFilter').value;
+      const riskFilter = document.getElementById('riskFilter').value;
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+      let filtered = allEstimates.filter(estimate => {
+        if (statusFilter && estimate.status !== statusFilter) return false;
+        if (typeFilter && estimate.project_type !== typeFilter) return false;
+        if (riskFilter && estimate.risk_level !== riskFilter) return false;
+        if (searchTerm) {
+          const searchable = `${estimate.name} ${estimate.email} ${estimate.company || ''}`.toLowerCase();
+          if (!searchable.includes(searchTerm)) return false;
+        }
+        return true;
+      });
+
+      const tbody = document.getElementById('estimatesTable');
+      tbody.innerHTML = filtered.map(estimate => `
+        <tr>
+          <td>${formatDate(estimate.created_at)}</td>
+          <td>
+            <div style="font-weight: 600;">${estimate.name}</div>
+            <div style="font-size: 0.875rem; color: var(--color-text-muted);">${estimate.email}</div>
+            ${estimate.company ? `<div style="font-size: 0.8125rem; color: var(--color-text-muted);">${estimate.company}</div>` : ''}
+          </td>
+          <td>${formatProjectType(estimate.project_type)}</td>
+          <td>${formatBudget(estimate.budget_range)}</td>
+          <td>
+            <div style="font-weight: 600;">$${estimate.estimated_cost_min?.toLocaleString() || '0'} - $${estimate.estimated_cost_max?.toLocaleString() || '0'}</div>
+            <div style="font-size: 0.875rem; color: var(--color-text-muted);">${estimate.estimated_timeline_weeks || 0} weeks</div>
+          </td>
+          <td><span class="risk-badge risk-${estimate.risk_level || 'medium'}">${(estimate.risk_level || 'medium').toUpperCase()}</span></td>
+          <td><span class="status-badge status-${estimate.status}">${estimate.status.toUpperCase()}</span></td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="viewDetails(${estimate.id})">View Details</button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('tableContainer').style.display = filtered.length > 0 ? 'block' : 'none';
+      document.getElementById('emptyState').style.display = filtered.length === 0 ? 'block' : 'none';
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatProjectType(type) {
+      const types = {
+        'web': 'Web App',
+        'mobile': 'Mobile App',
+        'both': 'Web & Mobile',
+        'other': 'Other'
+      };
+      return types[type] || type;
+    }
+
+    function formatBudget(budget) {
+      const budgets = {
+        'under 10k': '<$10k',
+        '10k-25k': '$10k-$25k',
+        '25k-50k': '$25k-$50k',
+        '50k-100k': '$50k-$100k',
+        '100k+': '$100k+'
+      };
+      return budgets[budget] || budget;
+    }
+
+    function viewDetails(id) {
+      currentEstimate = allEstimates.find(e => e.id === id);
+      if (!currentEstimate) return;
+
+      const analysis = typeof currentEstimate.ai_analysis === 'string'
+        ? JSON.parse(currentEstimate.ai_analysis)
+        : currentEstimate.ai_analysis;
+
+      const techStack = typeof currentEstimate.technology_stack === 'string'
+        ? JSON.parse(currentEstimate.technology_stack)
+        : currentEstimate.technology_stack;
+
+      const modalBody = document.getElementById('modalBody');
+      modalBody.innerHTML = `
+        <div class="detail-section">
+          <h3>Contact Information</h3>
+          <div class="detail-grid">
+            <div class="detail-label">Name:</div>
+            <div class="detail-value">${currentEstimate.name}</div>
+            <div class="detail-label">Email:</div>
+            <div class="detail-value"><a href="mailto:${currentEstimate.email}">${currentEstimate.email}</a></div>
+            ${currentEstimate.company ? `
+            <div class="detail-label">Company:</div>
+            <div class="detail-value">${currentEstimate.company}</div>
+            ` : ''}
+            ${currentEstimate.phone ? `
+            <div class="detail-label">Phone:</div>
+            <div class="detail-value"><a href="tel:${currentEstimate.phone}">${currentEstimate.phone}</a></div>
+            ` : ''}
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h3>Project Details</h3>
+          <div class="detail-grid">
+            <div class="detail-label">Project Type:</div>
+            <div class="detail-value">${formatProjectType(currentEstimate.project_type)}</div>
+            <div class="detail-label">Timeline:</div>
+            <div class="detail-value">${currentEstimate.timeline_preference}</div>
+            <div class="detail-label">Budget Range:</div>
+            <div class="detail-value">${formatBudget(currentEstimate.budget_range)}</div>
+            <div class="detail-label">Submitted:</div>
+            <div class="detail-value">${formatDate(currentEstimate.created_at)}</div>
+          </div>
+          <div style="margin-top: 1rem;">
+            <div class="detail-label">Project Description:</div>
+            <div class="description-box">${currentEstimate.project_description.replace(/\n/g, '<br>')}</div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h3>AI-Generated Estimate</h3>
+          <div class="estimate-highlight">
+            <div style="color: var(--color-text-muted); font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">ESTIMATED COST</div>
+            <div class="estimate-value">$${currentEstimate.estimated_cost_min?.toLocaleString() || '0'} - $${currentEstimate.estimated_cost_max?.toLocaleString() || '0'}</div>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-label">Timeline:</div>
+            <div class="detail-value">${currentEstimate.estimated_timeline_weeks || 0} weeks</div>
+            <div class="detail-label">Team Size:</div>
+            <div class="detail-value">${currentEstimate.team_size_needed || 0} people</div>
+            <div class="detail-label">Risk Level:</div>
+            <div class="detail-value"><span class="risk-badge risk-${currentEstimate.risk_level || 'medium'}">${(currentEstimate.risk_level || 'medium').toUpperCase()}</span></div>
+            <div class="detail-label">Complexity:</div>
+            <div class="detail-value">${analysis?.complexity_assessment || 'N/A'}</div>
+          </div>
+          ${techStack && techStack.length > 0 ? `
+          <div style="margin-top: 1rem;">
+            <div class="detail-label">Technology Stack:</div>
+            <div class="tech-stack">
+              ${techStack.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          ${analysis?.summary ? `
+          <div style="margin-top: 1rem;">
+            <div class="detail-label">AI Analysis Summary:</div>
+            <div class="description-box">${analysis.summary.replace(/\n/g, '<br>')}</div>
+          </div>
+          ` : ''}
+        </div>
+
+        <div class="detail-section">
+          <h3>Status Management</h3>
+          <div class="detail-grid">
+            <div class="detail-label">Current Status:</div>
+            <div class="detail-value"><span class="status-badge status-${currentEstimate.status}">${currentEstimate.status.toUpperCase()}</span></div>
+          </div>
+          <div class="status-actions">
+            <button class="btn btn-primary btn-sm" onclick="updateStatus('reviewed')">Mark as Reviewed</button>
+            <button class="btn btn-primary btn-sm" onclick="updateStatus('contacted')">Mark as Contacted</button>
+            <button class="btn btn-primary btn-sm" onclick="updateStatus('converted')">Mark as Converted</button>
+          </div>
+          <div style="margin-top: 1rem;">
+            <div class="detail-label">Admin Notes:</div>
+            <textarea id="adminNotes" placeholder="Add notes about this estimate...">${currentEstimate.admin_notes || ''}</textarea>
+            <button class="btn btn-primary btn-sm" style="margin-top: 0.5rem;" onclick="saveNotes()">Save Notes</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('detailModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.remove('active');
+      currentEstimate = null;
+    }
+
+    async function updateStatus(status) {
+      if (!currentEstimate) return;
+
+      try {
+        const response = await fetch('/api/admin/estimates', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: currentEstimate.id,
+            status: status
+          })
+        });
+
+        if (!response.ok) throw new Error('Failed to update status');
+
+        currentEstimate.status = status;
+        const index = allEstimates.findIndex(e => e.id === currentEstimate.id);
+        if (index !== -1) allEstimates[index].status = status;
+
+        updateStats();
+        renderEstimates();
+        viewDetails(currentEstimate.id);
+
+      } catch (error) {
+        alert('Failed to update status. Please try again.');
+        console.error('Error:', error);
+      }
+    }
+
+    async function saveNotes() {
+      if (!currentEstimate) return;
+
+      const notes = document.getElementById('adminNotes').value;
+
+      try {
+        const response = await fetch('/api/admin/estimates', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: currentEstimate.id,
+            admin_notes: notes
+          })
+        });
+
+        if (!response.ok) throw new Error('Failed to save notes');
+
+        currentEstimate.admin_notes = notes;
+        const index = allEstimates.findIndex(e => e.id === currentEstimate.id);
+        if (index !== -1) allEstimates[index].admin_notes = notes;
+
+        alert('Notes saved successfully!');
+
+      } catch (error) {
+        alert('Failed to save notes. Please try again.');
+        console.error('Error:', error);
+      }
+    }
+
+    // Event Listeners
+    document.getElementById('statusFilter').addEventListener('change', renderEstimates);
+    document.getElementById('typeFilter').addEventListener('change', renderEstimates);
+    document.getElementById('riskFilter').addEventListener('change', renderEstimates);
+    document.getElementById('searchInput').addEventListener('input', renderEstimates);
+
+    // Close modal on background click
+    document.getElementById('detailModal').addEventListener('click', (e) => {
+      if (e.target.id === 'detailModal') closeModal();
+    });
+
+    // Load estimates on page load
+    loadEstimates();
+  </script>
+</body>
+</html>

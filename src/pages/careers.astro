@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Careers from '@/components/Careers.astro';
+import { SITE_CONFIG } from '@/config';
+---
+
+<BaseLayout
+  title={`Careers - ${SITE_CONFIG.name}`}
+  description="Join our remote-first team and help us build exceptional digital experiences. Work from anywhere in the world with flexible hours and competitive benefits."
+>
+  <Header />
+  <main>
+    <Careers />
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,605 @@
+---
+// Clients Component - Showcase client logos and testimonials
+---
+
+<section class="clients-section">
+  <!-- Animated background -->
+  <div class="background-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="badge">Our Clients</div>
+      <h1>Trusted by <span class="gradient-text">Industry Leaders</span></h1>
+      <p class="subtitle">
+        We're proud to partner with innovative companies across various industries,
+        delivering exceptional digital solutions that drive growth and success.
+      </p>
+    </div>
+
+    <!-- Featured Clients -->
+    <div class="featured-section" id="featured-clients">
+      <h2>Featured Partnerships</h2>
+      <div class="featured-grid" id="featured-grid">
+        <!-- Featured clients will be loaded here -->
+      </div>
+    </div>
+
+    <!-- All Clients Grid -->
+    <div class="all-clients-section">
+      <h2>Companies We've Worked With</h2>
+      <div class="clients-grid" id="clients-grid">
+        <!-- Loading state -->
+        <div class="loading-state">
+          <div class="loader"></div>
+          <p>Loading our amazing clients...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client Testimonials -->
+    <div class="testimonials-section" id="testimonials-section">
+      <!-- Testimonials will be loaded here if available -->
+    </div>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+      <h2>Ready to Join Our Success Stories?</h2>
+      <p>Let's create something amazing together.</p>
+      <div class="cta-buttons">
+        <a href="/contact" class="btn btn-primary">Get Started</a>
+        <a href="/portfolio" class="btn btn-secondary">View Our Work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients-section {
+    min-height: 100vh;
+    padding: 8rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  }
+
+  .background-orbs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    animation: float 20s infinite ease-in-out;
+  }
+
+  .orb-1 {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .orb-2 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, #ec4899, #f43f5e);
+    top: 50%;
+    right: 10%;
+    animation-delay: 5s;
+  }
+
+  .orb-3 {
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(135deg, #14b8a6, #06b6d4);
+    bottom: 10%;
+    left: 50%;
+    animation-delay: 10s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 5rem;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 50px;
+    color: #a5b4fc;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #f1f5f9;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f43f5e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    color: #94a3b8;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .featured-section {
+    margin-bottom: 5rem;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .featured-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+  }
+
+  .featured-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+  }
+
+  .client-logo-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .client-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .client-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+
+  .client-industry {
+    color: #a5b4fc;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .client-description {
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .client-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .meta-tag {
+    padding: 0.5rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 20px;
+    color: #a5b4fc;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .all-clients-section {
+    margin-bottom: 5rem;
+  }
+
+  .clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .client-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+  }
+
+  .client-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .client-card-logo {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .client-card-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .client-card-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    text-align: center;
+  }
+
+  .testimonials-section {
+    margin-bottom: 5rem;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+
+  .testimonial-content {
+    color: #cbd5e1;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .author-info {
+    flex: 1;
+  }
+
+  .author-name {
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+  }
+
+  .author-position {
+    color: #94a3b8;
+    font-size: 0.875rem;
+  }
+
+  .cta-section {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 20px;
+    margin-top: 4rem;
+  }
+
+  .cta-section h2 {
+    margin-bottom: 1rem;
+  }
+
+  .cta-section p {
+    color: #94a3b8;
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+  }
+
+  .btn-secondary {
+    background: rgba(30, 41, 59, 0.5);
+    color: #f1f5f9;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+
+  .loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .loader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(99, 102, 241, 0.2);
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+  }
+
+  .loading-state p {
+    color: #94a3b8;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: #94a3b8;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @media (max-width: 768px) {
+    .clients-section {
+      padding: 6rem 0 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+    }
+
+    .featured-grid,
+    .clients-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .orb {
+      filter: blur(60px);
+    }
+  }
+</style>
+
+<script>
+  // Fetch and display clients
+  async function loadClients() {
+    try {
+      const response = await fetch('/api/clients');
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error('Failed to load clients');
+      }
+
+      const clients = data.clients || [];
+      const featured = clients.filter((c: any) => c.is_featured === 1);
+      const regular = clients.filter((c: any) => c.is_featured !== 1);
+
+      // Render featured clients
+      const featuredGrid = document.getElementById('featured-grid');
+      const featuredSection = document.getElementById('featured-clients');
+
+      if (featured.length > 0 && featuredGrid && featuredSection) {
+        featuredGrid.innerHTML = featured.map((client: any, index: number) => `
+          <div class="featured-card" style="animation-delay: ${index * 0.1}s">
+            <div class="client-logo-container">
+              <img src="${client.logo_url}" alt="${client.name}" class="client-logo">
+            </div>
+            <div class="client-name">${client.name}</div>
+            ${client.industry ? `<div class="client-industry">${client.industry}</div>` : ''}
+            ${client.description ? `<div class="client-description">${client.description}</div>` : ''}
+            <div class="client-meta">
+              ${client.project_type ? `<span class="meta-tag">${client.project_type}</span>` : ''}
+              ${client.project_value ? `<span class="meta-tag">${client.project_value}</span>` : ''}
+            </div>
+            ${client.website_url ? `
+              <a href="${client.website_url}" target="_blank" rel="noopener" style="color: #a5b4fc; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.875rem;">
+                Visit Website
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            ` : ''}
+          </div>
+        `).join('');
+      } else if (featuredSection) {
+        featuredSection.style.display = 'none';
+      }
+
+      // Render regular clients
+      const clientsGrid = document.getElementById('clients-grid');
+
+      if (regular.length > 0 && clientsGrid) {
+        clientsGrid.innerHTML = regular.map((client: any, index: number) => `
+          <div class="client-card" style="animation-delay: ${index * 0.05}s">
+            <div class="client-card-logo">
+              <img src="${client.logo_url}" alt="${client.name}">
+            </div>
+            <div class="client-card-name">${client.name}</div>
+          </div>
+        `).join('');
+      } else if (clientsGrid) {
+        clientsGrid.innerHTML = `
+          <div class="empty-state">
+            <p>No clients to display at the moment.</p>
+          </div>
+        `;
+      }
+
+      // Render testimonials if available
+      const testimonialsWithContent = clients.filter((c: any) => c.testimonial && c.testimonial.trim());
+      const testimonialsSection = document.getElementById('testimonials-section');
+
+      if (testimonialsWithContent.length > 0 && testimonialsSection) {
+        testimonialsSection.innerHTML = `
+          <h2>What Our Clients Say</h2>
+          <div class="testimonials-grid">
+            ${testimonialsWithContent.map((client: any) => `
+              <div class="testimonial-card">
+                <div class="testimonial-content">"${client.testimonial}"</div>
+                <div class="testimonial-author">
+                  <div class="author-info">
+                    <div class="author-name">${client.testimonial_author || client.name}</div>
+                    <div class="author-position">
+                      ${client.testimonial_position ? client.testimonial_position + ' at ' : ''}${client.name}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+    } catch (error) {
+      console.error('Error loading clients:', error);
+      const clientsGrid = document.getElementById('clients-grid');
+      if (clientsGrid) {
+        clientsGrid.innerHTML = `
+          <div class="empty-state">
+            <p>Unable to load clients at this time. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+  }
+
+  // Load clients when page loads
+  loadClients();
+</script>
