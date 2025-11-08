@@ -116,8 +116,8 @@
 
   /* Chat Toggle Button */
   .chat-toggle-btn {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
     border: none;
@@ -127,18 +127,34 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
   }
 
   .chat-toggle-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+    animation: none;
   }
 
   .chat-toggle-btn .close-icon {
     display: none;
     position: absolute;
+  }
+
+  .chat-toggle-btn.active {
+    animation: none;
+    transform: rotate(90deg);
+  }
+
+  .chat-toggle-btn.active:hover {
+    transform: scale(1.15) rotate(95deg);
   }
 
   .chat-toggle-btn.active .chat-icon {
@@ -419,15 +435,34 @@
     }
   }
 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .message.visitor {
     flex-direction: row-reverse;
   }
 
   .message-avatar {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #ec4899);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -435,64 +470,152 @@
     font-size: 14px;
     font-weight: 600;
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .message.operator .message-avatar {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+    animation: avatar-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes avatar-glow {
+    0%, 100% { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(99, 102, 241, 0.6); }
   }
 
   .message.visitor .message-avatar {
-    background: var(--color-surface, #e5e7eb);
-    color: var(--color-text, #1a1a2e);
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
   }
 
   .message-content {
-    max-width: 70%;
+    max-width: 75%;
+    animation: bubble-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes bubble-pop {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   .message-bubble {
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 12px 16px;
+    border-radius: 16px;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
     word-wrap: break-word;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .message-bubble:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 
   .message.operator .message-bubble {
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
-    border-radius: 12px 12px 12px 4px;
+    border-radius: 18px 18px 18px 4px;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    position: relative;
+  }
+
+  .message.operator .message-bubble::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    border-radius: inherit;
+    pointer-events: none;
   }
 
   .message.visitor .message-bubble {
-    background: var(--color-surface, white);
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
     color: var(--color-text, #1a1a2e);
-    border: 1px solid var(--color-border, #e5e7eb);
-    border-radius: 12px 12px 4px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .message.visitor .message-bubble:hover {
+    border-color: #d1d5db;
+  }
+
+  .message-sender-name {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    opacity: 0.8;
+  }
+
+  .message.operator .message-sender-name {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .message.visitor .message-sender-name {
+    color: var(--color-text-muted, #64748b);
   }
 
   .message-time {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--color-text-muted, #94a3b8);
-    margin-top: 4px;
+    margin-top: 6px;
     padding: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .message.operator .message-time {
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .message.visitor .message-time {
-    text-align: right;
+    justify-content: flex-end;
+  }
+
+  .message-time::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    background: currentColor;
+    border-radius: 50%;
+    opacity: 0.5;
   }
 
   .typing-indicator {
     display: flex;
-    gap: 8px;
-    padding: 12px 16px;
-    background: var(--color-surface, white);
-    border-radius: 12px 12px 12px 4px;
+    gap: 6px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #f0f1ff 0%, #f8f9ff 100%);
+    border-radius: 18px 18px 18px 4px;
     width: fit-content;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.1);
   }
 
   .typing-dot {
     width: 8px;
     height: 8px;
-    background: #94a3b8;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
     border-radius: 50%;
     animation: typing-bounce 1.4s ease-in-out infinite;
+    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
   }
 
   .typing-dot:nth-child(2) {
@@ -504,8 +627,14 @@
   }
 
   @keyframes typing-bounce {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-8px); }
+    0%, 60%, 100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.7;
+    }
+    30% {
+      transform: translateY(-10px) scale(1.1);
+      opacity: 1;
+    }
   }
 
   /* Chat Input */
@@ -768,13 +897,18 @@
       messageEl.setAttribute('data-message-id', messageId.toString());
     }
 
-    const initial = senderName.charAt(0).toUpperCase();
+    // Use emoji for Kodie, initial for others
+    const avatar = senderName.toLowerCase() === 'kodie' ? '🤖' : senderName.charAt(0).toUpperCase();
     const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
+    // Format text with markdown-like parsing for better readability
+    const formattedText = formatMessageText(text);
+
     messageEl.innerHTML = `
-      <div class="message-avatar">${initial}</div>
+      <div class="message-avatar">${avatar}</div>
       <div class="message-content">
-        <div class="message-bubble">${escapeHtml(text)}</div>
+        <div class="message-sender-name">${senderName}</div>
+        <div class="message-bubble">${formattedText}</div>
         <div class="message-time">${time}</div>
       </div>
     `;
@@ -783,16 +917,36 @@
     scrollToBottom();
   }
 
+  // Format message text with basic markdown support
+  function formatMessageText(text: string): string {
+    let formatted = escapeHtml(text);
+
+    // Convert **bold** to bold
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // Convert line breaks to <br>
+    formatted = formatted.replace(/\n/g, '<br>');
+
+    // Convert URLs to clickable links
+    formatted = formatted.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: inherit; opacity: 0.9;">$1</a>');
+
+    // Convert bullet points •
+    formatted = formatted.replace(/^• /gm, '<span style="display: inline-block; margin-right: 8px;">•</span>');
+
+    return formatted;
+  }
+
   // Show Typing Indicator
   function showTypingIndicator() {
     // Remove existing indicator
-    document.querySelector('.typing-indicator')?.remove();
+    document.querySelector('.typing-indicator')?.closest('.message')?.remove();
 
     const typingEl = document.createElement('div');
     typingEl.className = 'message operator';
     typingEl.innerHTML = `
-      <div class="message-avatar">S</div>
+      <div class="message-avatar">🤖</div>
       <div class="message-content">
+        <div class="message-sender-name">Kodie</div>
         <div class="typing-indicator">
           <div class="typing-dot"></div>
           <div class="typing-dot"></div>
@@ -917,30 +1071,44 @@
 
     const actionsContainer = document.createElement('div');
     actionsContainer.className = 'suggested-actions';
-    actionsContainer.style.cssText = 'display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0 1rem; margin-top: -0.5rem;';
+    actionsContainer.style.cssText = `
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0 1rem;
+      margin-top: 0.5rem;
+      animation: fadeIn 0.4s ease;
+    `;
 
-    actions.forEach(action => {
+    actions.forEach((action, index) => {
       const btn = document.createElement('button');
       btn.textContent = action;
       btn.style.cssText = `
-        padding: 0.5rem 0.75rem;
-        background: white;
-        border: 2px solid #e5e7eb;
-        border-radius: 20px;
+        padding: 0.625rem 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        border: 2px solid rgba(99, 102, 241, 0.2);
+        border-radius: 24px;
         font-size: 0.875rem;
         cursor: pointer;
-        transition: all 0.2s;
-        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-weight: 600;
+        color: #6366f1;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+        animation: slideInUp 0.4s ease ${index * 0.1}s both;
       `;
       btn.onmouseover = () => {
         btn.style.borderColor = '#6366f1';
-        btn.style.color = '#6366f1';
-        btn.style.background = '#f0f9ff';
+        btn.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
+        btn.style.color = 'white';
+        btn.style.transform = 'translateY(-3px) scale(1.05)';
+        btn.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.4)';
       };
       btn.onmouseout = () => {
-        btn.style.borderColor = '#e5e7eb';
-        btn.style.color = '';
-        btn.style.background = 'white';
+        btn.style.borderColor = 'rgba(99, 102, 241, 0.2)';
+        btn.style.background = 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)';
+        btn.style.color = '#6366f1';
+        btn.style.transform = 'translateY(0) scale(1)';
+        btn.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.1)';
       };
       btn.onclick = () => {
         if (chatInput) {

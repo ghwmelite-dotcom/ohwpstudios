@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-// Kodie - AI Chat Assistant
+// Kodie - AI Chat Assistant powered by Google Gemini
 // Handles initial customer inquiries and escalates to human agents when needed
 
 interface KodieResponse {
@@ -14,6 +14,8 @@ interface KodieResponse {
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const db = locals.runtime?.env?.DB;
+    const GEMINI_API_KEY = locals.runtime?.env?.GEMINI_API_KEY;
+
     if (!db) {
       return new Response(JSON.stringify({ success: false, error: 'Database not available' }), {
         status: 500,
@@ -34,8 +36,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Get Kodie's response
-    const kodieResponse = await getKodieResponse(message, conversation_history || []);
+    // Get Kodie's response using Gemini AI
+    const kodieResponse = await getKodieResponse(message, conversation_history || [], GEMINI_API_KEY);
 
     // If Kodie decides to escalate, update conversation status
     if (kodieResponse.escalate && conversation_id) {
@@ -103,8 +105,123 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 };
 
-// Kodie's AI Logic
-async function getKodieResponse(message: string, history: any[]): Promise<KodieResponse> {
+// Call Google Gemini API for intelligent responses
+async function callGeminiAPI(message: string, history: any[], apiKey: string): Promise<KodieResponse> {
+  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+  // Build conversation context
+  const conversationContext = history.slice(-10).map((msg: any) => ({
+    role: msg.sender_type === 'visitor' ? 'user' : 'model',
+    parts: [{ text: msg.message }]
+  }));
+
+  // System prompt to guide Kodie's behavior
+  const systemPrompt = `You are Kodie, a helpful and friendly AI assistant for OH WP Studios, a software development agency specializing in:
+- Web Development (WordPress, React, Vue, Next.js, etc.)
+- Mobile App Development (iOS, Android, React Native, Flutter)
+- UI/UX Design
+- E-Commerce Solutions
+- SEO & Digital Marketing
+- AI/ML Integration
+- Custom Software Development
+
+Your personality:
+- Friendly, professional, and enthusiastic
+- Technical but able to explain complex concepts simply
+- Proactive in offering solutions
+- Honest when you don't know something
+
+Guidelines:
+1. Answer technical questions about WordPress, SEO, web development, AI, security, performance, and related topics
+2. Provide information about OH WP Studios services and pricing
+3. Be conversational and helpful
+4. If the question is too complex or requires human expertise, suggest connecting with a specialist (but still try to help first)
+5. Keep responses concise but informative (2-4 paragraphs max)
+6. Use occasional emojis to be friendly
+7. Provide actionable advice when possible
+
+Pricing info:
+- Basic websites: $5,000 - $15,000
+- Custom web apps: $15,000 - $50,000+
+- Mobile apps: $25,000 - $100,000+
+- Design projects: $3,000 - $20,000
+
+Contact: hello@ohwpstudios.com | +1 (555) 123-4567
+
+Now respond to the user's message helpfully and professionally.`;
+
+  const payload = {
+    contents: [
+      {
+        role: 'user',
+        parts: [{ text: systemPrompt }]
+      },
+      ...conversationContext,
+      {
+        role: 'user',
+        parts: [{ text: message }]
+      }
+    ],
+    generationConfig: {
+      temperature: 0.7,
+      topK: 40,
+      topP: 0.95,
+      maxOutputTokens: 1024,
+    }
+  };
+
+  const response = await fetch(GEMINI_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const errorData = await response.text();
+    console.error('Gemini API error:', errorData);
+    throw new Error(`Gemini API failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  // Extract the response text
+  const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text ||
+                    "I apologize, but I'm having trouble generating a response right now. Could you rephrase your question?";
+
+  // Determine if we should escalate based on response content
+  const shouldEscalate = aiMessage.toLowerCase().includes('connect you with') ||
+                        aiMessage.toLowerCase().includes('speak with a specialist') ||
+                        aiMessage.toLowerCase().includes('human agent');
+
+  // Suggest relevant actions based on the message content
+  const suggestedActions: string[] = [];
+  const lowerMessage = message.toLowerCase();
+  const lowerResponse = aiMessage.toLowerCase();
+
+  if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('quote')) {
+    suggestedActions.push('Get a quote', 'Schedule consultation');
+  } else if (lowerMessage.includes('service') || lowerResponse.includes('service')) {
+    suggestedActions.push('View services', 'See portfolio', 'Get quote');
+  } else if (lowerMessage.includes('portfolio') || lowerMessage.includes('work')) {
+    suggestedActions.push('View portfolio', 'Discuss project');
+  } else if (lowerMessage.includes('wordpress') || lowerMessage.includes('seo') || lowerMessage.includes('technical')) {
+    suggestedActions.push('Technical consultation', 'Talk to specialist');
+  } else {
+    suggestedActions.push('Learn more', 'Talk to specialist', 'Get quote');
+  }
+
+  return {
+    message: aiMessage,
+    escalate: shouldEscalate,
+    confidence: 0.9,
+    suggestedActions: suggestedActions.slice(0, 4)
+  };
+}
+
+// Kodie's AI Logic using Google Gemini
+async function getKodieResponse(message: string, history: any[], apiKey?: string): Promise<KodieResponse> {
   const lowerMessage = message.toLowerCase();
 
   // Escalation triggers - when Kodie should hand off to human
@@ -124,6 +241,17 @@ async function getKodieResponse(message: string, history: any[]): Promise<KodieR
       escalate: true,
       confidence: 1.0
     };
+  }
+
+  // If Gemini API key is available, use AI
+  if (apiKey) {
+    try {
+      const geminiResponse = await callGeminiAPI(message, history, apiKey);
+      return geminiResponse;
+    } catch (error) {
+      console.error('Gemini API error, falling back to rule-based:', error);
+      // Fall through to rule-based responses
+    }
   }
 
   // WordPress technical questions
