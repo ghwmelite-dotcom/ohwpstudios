@@ -803,11 +803,21 @@ import Footer from '@/components/Footer.astro';
     }
 
     .card-icon {
-      width: 1rem;
-      height: 1rem;
+      width: 1rem !important;
+      height: 1rem !important;
       margin-bottom: 0.5rem;
       color: var(--color-primary);
       flex-shrink: 0;
+    }
+
+    /* More specific selector to override any conflicts */
+    .project-type-card .card-content .card-icon,
+    .timeline-card .card-content .card-icon,
+    .budget-card .card-content .card-icon {
+      width: 1rem !important;
+      height: 1rem !important;
+      max-width: 1rem;
+      max-height: 1rem;
     }
 
     .budget-text {
