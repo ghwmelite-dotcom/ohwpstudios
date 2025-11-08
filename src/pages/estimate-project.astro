@@ -135,7 +135,7 @@ import Footer from '@/components/Footer.astro';
                   <label class="project-type-card">
                     <input type="radio" name="project_type" value="web" required class="hidden" />
                     <div class="card-content">
-                      <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <span>Web App</span>
@@ -145,7 +145,7 @@ import Footer from '@/components/Footer.astro';
                   <label class="project-type-card">
                     <input type="radio" name="project_type" value="mobile" class="hidden" />
                     <div class="card-content">
-                      <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
                       <span>Mobile App</span>
@@ -155,7 +155,7 @@ import Footer from '@/components/Footer.astro';
                   <label class="project-type-card">
                     <input type="radio" name="project_type" value="both" class="hidden" />
                     <div class="card-content">
-                      <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                       </svg>
                       <span>Both</span>
@@ -165,7 +165,7 @@ import Footer from '@/components/Footer.astro';
                   <label class="project-type-card">
                     <input type="radio" name="project_type" value="other" class="hidden" />
                     <div class="card-content">
-                      <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                       </svg>
                       <span>Other</span>
@@ -218,28 +218,28 @@ import Footer from '@/components/Footer.astro';
                   <label class="timeline-card">
                     <input type="radio" name="timeline_preference" value="asap" required class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">ASAP</span>
+                      <span>ASAP</span>
                     </div>
                   </label>
 
                   <label class="timeline-card">
                     <input type="radio" name="timeline_preference" value="1-3 months" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">1-3 Months</span>
+                      <span>1-3 Months</span>
                     </div>
                   </label>
 
                   <label class="timeline-card">
                     <input type="radio" name="timeline_preference" value="3-6 months" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">3-6 Months</span>
+                      <span>3-6 Months</span>
                     </div>
                   </label>
 
                   <label class="timeline-card">
                     <input type="radio" name="timeline_preference" value="6+ months" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">6+ Months</span>
+                      <span>6+ Months</span>
                     </div>
                   </label>
                 </div>
@@ -253,35 +253,35 @@ import Footer from '@/components/Footer.astro';
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="under 10k" required class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">Under GH₵120k<br/>($10k)</span>
+                      <span class="budget-text">Under GH₵120k<br/>($10k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="10k-25k" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">GH₵120k - 300k<br/>($10k - $25k)</span>
+                      <span class="budget-text">GH₵120k - 300k<br/>($10k - $25k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="25k-50k" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">GH₵300k - 600k<br/>($25k - $50k)</span>
+                      <span class="budget-text">GH₵300k - 600k<br/>($25k - $50k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="50k-100k" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">GH₵600k - 1.2M<br/>($50k - $100k)</span>
+                      <span class="budget-text">GH₵600k - 1.2M<br/>($50k - $100k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="100k+" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">GH₵1.2M+<br/>($100k+)</span>
+                      <span class="budget-text">GH₵1.2M+<br/>($100k+)</span>
                     </div>
                   </label>
                 </div>
@@ -802,11 +802,18 @@ import Footer from '@/components/Footer.astro';
       min-height: 100px;
     }
 
-    .project-type-card .card-content svg {
-      width: 2rem;
-      height: 2rem;
+    .card-icon {
+      width: 1.5rem;
+      height: 1.5rem;
       margin-bottom: 0.5rem;
       color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .budget-text {
+      font-size: 0.875rem;
+      line-height: 1.4;
+      text-align: center;
     }
 
     .project-type-card:hover .card-content,
