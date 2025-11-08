@@ -876,7 +876,10 @@
       badge?.classList.add('hidden');
 
       if (window.classList.contains('active')) {
-        input.focus();
+        // Only focus input if chat has started
+        if (chatStarted) {
+          input.focus();
+        }
       }
     });
 
