@@ -177,10 +177,9 @@
             </div>
 
             <button class="btn btn-primary btn-full" id="get-quote-btn" disabled data-magnetic>
-              Get Detailed Quote
+              Get AI-Powered Estimate
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
             </button>
 
@@ -717,28 +716,8 @@
     }
 
     getQuote() {
-      const total = document.getElementById('total-price')?.textContent || 'GH₵0';
-
-      // Get selected services
-      const services = Array.from(this.selectedServices.keys())
-        .map(s => s.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '))
-        .join(', ');
-
-      // Redirect to contact section with query params
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        // Scroll to contact
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-
-        // Pre-fill the message
-        setTimeout(() => {
-          const messageField = document.getElementById('message') as HTMLTextAreaElement;
-          if (messageField) {
-            messageField.value = `I'm interested in the following services:\n\n${services}\n\nEstimated Budget: ${total}\n\nPlease contact me to discuss this project in detail.`;
-            messageField.focus();
-          }
-        }, 800);
-      }
+      // Redirect to AI Estimator for detailed analysis
+      window.location.href = '/estimate-project';
     }
   }
 

@@ -267,35 +267,35 @@ import Footer from '@/components/Footer.astro';
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="under 10k" required class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">Under $10k</span>
+                      <span class="text-sm">Under GH₵120k<br/>($10k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="10k-25k" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">$10k - $25k</span>
+                      <span class="text-sm">GH₵120k - 300k<br/>($10k - $25k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="25k-50k" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">$25k - $50k</span>
+                      <span class="text-sm">GH₵300k - 600k<br/>($25k - $50k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="50k-100k" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">$50k - $100k</span>
+                      <span class="text-sm">GH₵600k - 1.2M<br/>($50k - $100k)</span>
                     </div>
                   </label>
 
                   <label class="budget-card">
                     <input type="radio" name="budget_range" value="100k+" class="hidden" />
                     <div class="card-content">
-                      <span class="text-sm">$100k+</span>
+                      <span class="text-sm">GH₵1.2M+<br/>($100k+)</span>
                     </div>
                   </label>
                 </div>
@@ -816,9 +816,19 @@ import Footer from '@/components/Footer.astro';
     });
 
     function displayResults(data) {
+      const exchangeRate = 12; // 1 USD = 12 GH₵
+
+      // Helper function to format dual currency
+      const formatDualCurrency = (usd) => {
+        const cedis = usd * exchangeRate;
+        return `GH₵${cedis.toLocaleString()} ($${usd.toLocaleString()})`;
+      };
+
       // Cost Range
+      const minCedis = (data.estimated_cost_min || 0) * exchangeRate;
+      const maxCedis = (data.estimated_cost_max || 0) * exchangeRate;
       document.getElementById('costRange').textContent =
-        `$${data.estimated_cost_min?.toLocaleString() || '0'} - $${data.estimated_cost_max?.toLocaleString() || '0'}`;
+        `GH₵${minCedis.toLocaleString()} - GH₵${maxCedis.toLocaleString()} ($${(data.estimated_cost_min || 0).toLocaleString()} - $${(data.estimated_cost_max || 0).toLocaleString()})`;
 
       // Timeline
       document.getElementById('timeline').textContent =
