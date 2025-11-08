@@ -844,24 +844,28 @@
     const userNameInput = document.getElementById('user-name') as HTMLInputElement;
     const userEmailInput = document.getElementById('user-email') as HTMLInputElement;
 
-    if (!toggle || !window || !form || !input || !messages) return;
+    // Check all required elements exist
+    if (!toggle || !window || !form || !input || !messages || !welcomeForm || !welcomeScreen || !userNameInput) {
+      console.error('Chatbot: Required elements not found');
+      return;
+    }
 
     // Handle welcome form submission
-    welcomeForm?.addEventListener('submit', (e) => {
+    welcomeForm.addEventListener('submit', (e) => {
       e.preventDefault();
       userInfo.name = userNameInput.value.trim();
       userInfo.email = userEmailInput.value.trim();
       chatStarted = true;
 
       // Hide welcome screen and show chat
-      if (welcomeScreen) welcomeScreen.style.display = 'none';
-      if (messages) messages.style.display = 'flex';
+      welcomeScreen.style.display = 'none';
+      messages.style.display = 'flex';
 
       // Add welcome message from bot
       addMessage(`Hi ${userInfo.name}! 👋 I'm your AI technical assistant powered by Google Gemini. I can help you with web development, debugging, performance optimization, and technical questions. What would you like to know?`, 'bot');
       
       // Focus on input
-      input?.focus();
+      input.focus();
     });
 
     // Toggle chatbot
