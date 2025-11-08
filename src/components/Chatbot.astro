@@ -374,6 +374,10 @@
     text-align: center;
   }
 
+  .chatbot-welcome.hidden {
+    display: none !important;
+  }
+
   .welcome-header {
     margin-bottom: 2rem;
   }
@@ -858,7 +862,7 @@
       chatStarted = true;
 
       // Hide welcome screen and show chat
-      welcomeScreen.style.display = 'none';
+      welcomeScreen.classList.add('hidden');
       messages.style.display = 'flex';
       form.style.display = 'flex';
 
