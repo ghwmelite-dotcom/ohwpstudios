@@ -6,21 +6,22 @@ import Footer from '@/components/Footer.astro';
 
 <BaseLayout title="AI Project Estimator - Get Instant Estimates" description="Get instant AI-powered project estimates with cost, timeline, and technology recommendations">
   <Header />
-  <main>
-  <div class="min-h-screen py-20 px-4" style="margin-top: var(--header-height);">
-    <div class="max-w-4xl mx-auto">
+  <main class="estimator-page">
+  <div class="estimator-container">
+    <div class="container-narrow">
       <!-- Hero Section -->
-      <div class="text-center mb-12">
-        <div class="inline-block mb-4">
-          <span class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-            AI-Powered Estimation
-          </span>
+      <div class="hero-section">
+        <div class="ai-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          AI-Powered Estimation
         </div>
-        <h1 class="text-5xl font-bold text-white mb-6">
+        <h1 class="page-title">
           Get Your Project Estimate
-          <span class="bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">Instantly</span>
+          <span class="title-highlight">Instantly</span>
         </h1>
-        <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        <p class="page-subtitle">
           Describe your project and receive a comprehensive AI-powered analysis including cost estimates, timeline, technology recommendations, and team requirements.
         </p>
       </div>
@@ -491,6 +492,65 @@ import Footer from '@/components/Footer.astro';
   <Footer />
 
   <style>
+    /* Page Layout */
+    .estimator-page {
+      background: var(--color-bg);
+      min-height: 100vh;
+      padding-top: calc(var(--header-height) + 2rem);
+    }
+
+    .estimator-container {
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container-narrow {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      border-radius: var(--radius-full);
+      color: var(--color-primary);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+    }
+
+    .title-highlight {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-subtitle {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--color-text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
     /* Step Indicator Styles */
     .step-indicator {
       display: flex;
@@ -500,26 +560,26 @@ import Footer from '@/components/Footer.astro';
     }
 
     .step-number {
-      width: 48px;
-      height: 48px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: #374151;
-      border: 2px solid #4B5563;
-      color: #9CA3AF;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      color: var(--color-text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      font-size: 1.25rem;
+      font-weight: 600;
+      font-size: 0.875rem;
       transition: all 0.3s ease;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .step-indicator.active .step-number {
-      background: linear-gradient(135deg, #9333EA, #3B82F6);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-color: transparent;
       color: white;
-      box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+      box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
     }
 
     .step-indicator.completed .step-number {
@@ -529,23 +589,23 @@ import Footer from '@/components/Footer.astro';
     }
 
     .step-label {
-      font-size: 0.875rem;
-      color: #9CA3AF;
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
       font-weight: 500;
       white-space: nowrap;
     }
 
     .step-indicator.active .step-label {
-      color: white;
+      color: var(--color-primary);
       font-weight: 600;
     }
 
     .step-line {
       height: 2px;
-      background: #4B5563;
+      background: var(--color-border);
       flex: 1;
-      margin: 0 16px;
-      margin-bottom: 32px;
+      margin: 0 12px;
+      margin-bottom: 24px;
       transition: all 0.3s ease;
     }
 
