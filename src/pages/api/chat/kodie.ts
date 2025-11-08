@@ -105,9 +105,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 };
 
-// Call Google Gemini API for intelligent responses
+// Call Google Gemini API for intelligent responses (using Gemini 2.5 Flash)
 async function callGeminiAPI(message: string, history: any[], apiKey: string): Promise<KodieResponse> {
-  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   // Build conversation context
   const conversationContext = history.slice(-10).map((msg: any) => ({
