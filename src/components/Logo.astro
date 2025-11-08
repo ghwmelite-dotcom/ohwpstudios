@@ -15,7 +15,7 @@ const sizes = {
 ---
 
 <div class={`logo-container logo-${variant} logo-${size}`}>
-  <!-- Modern Elite Logo Icon -->
+  <!-- Modern Layered Logo Icon (inspired by chat widget) -->
   <svg
     class="logo-icon"
     width={sizes[size].icon}
@@ -25,22 +25,21 @@ const sizes = {
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
-      <!-- Elite Gradient -->
-      <linearGradient id="logo-grad-elite" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+      <!-- Premium Gradient (matching chat widget) -->
+      <linearGradient id="logo-gradient-main" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
       </linearGradient>
 
-      <!-- Accent Gradient -->
-      <linearGradient id="logo-grad-accent" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+      <!-- Secondary Gradient -->
+      <linearGradient id="logo-gradient-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
       </linearGradient>
 
       <!-- Glow Filter -->
-      <filter id="logo-glow-elite">
-        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <filter id="logo-glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
         <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
@@ -48,71 +47,58 @@ const sizes = {
       </filter>
     </defs>
 
-    <!-- Outer Hexagon Frame -->
-    <path
-      class="logo-hexagon"
-      d="M 50 8 L 80 25 L 80 60 L 50 77 L 20 60 L 20 25 Z"
-      stroke="url(#logo-grad-elite)"
-      stroke-width="2"
-      fill="none"
-      opacity="0.4"
-    />
-
-    <!-- Inner Shield Shape -->
-    <path
-      class="logo-shield"
-      d="M 50 15 L 72 28 L 72 55 L 50 70 L 28 55 L 28 28 Z"
-      fill="url(#logo-grad-elite)"
-      opacity="0.1"
-    />
-
-    <!-- Stylized "O" letterform with modern twist -->
-    <g filter="url(#logo-glow-elite)">
-      <!-- Main "O" circle -->
-      <circle
-        class="logo-circle-outer"
-        cx="50"
-        cy="42"
-        r="18"
-        stroke="url(#logo-grad-elite)"
-        stroke-width="4"
-        fill="none"
-      />
-      
-      <!-- Inner accent circle -->
-      <circle
-        class="logo-circle-inner"
-        cx="50"
-        cy="42"
-        r="10"
-        fill="url(#logo-grad-accent)"
-        opacity="0.6"
-      />
-
-      <!-- Dynamic "W" formation at bottom -->
+    <!-- Layered geometric design (like chat widget) -->
+    <g filter="url(#logo-glow)">
+      <!-- Top Layer - Filled Diamond -->
       <path
-        class="logo-w-shape"
-        d="M 35 60 L 42 48 L 50 55 L 58 48 L 65 60"
-        stroke="url(#logo-grad-elite)"
-        stroke-width="4"
+        class="logo-layer-top"
+        d="M 50 20 L 25 40 L 50 50 L 75 40 Z"
+        fill="url(#logo-gradient-main)"
+        opacity="0.9"
+      />
+
+      <!-- Middle Layer - Stroke Only -->
+      <path
+        class="logo-layer-middle"
+        d="M 25 52 L 50 65 L 75 52"
+        stroke="url(#logo-gradient-main)"
+        stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
-        fill="none"
       />
 
-      <!-- Accent dots -->
-      <circle class="logo-dot logo-dot-1" cx="50" cy="42" r="3" fill="white" opacity="0.9" />
-      <circle class="logo-dot logo-dot-2" cx="38" cy="60" r="2" fill="url(#logo-grad-accent)" />
-      <circle class="logo-dot logo-dot-3" cx="62" cy="60" r="2" fill="url(#logo-grad-accent)" />
+      <!-- Bottom Layer - Stroke Only -->
+      <path
+        class="logo-layer-bottom"
+        d="M 25 65 L 50 78 L 75 65"
+        stroke="url(#logo-gradient-accent)"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+      <!-- Center Dot - Signature Element -->
+      <circle
+        class="logo-center-dot"
+        cx="50"
+        cy="40"
+        r="2.5"
+        fill="white"
+        opacity="1"
+      />
+
+      <!-- Accent Dots on Layers -->
+      <circle class="logo-dot logo-dot-1" cx="50" cy="65" r="2" fill="url(#logo-gradient-main)" opacity="0.8" />
+      <circle class="logo-dot logo-dot-2" cx="50" cy="78" r="2" fill="url(#logo-gradient-accent)" opacity="0.8" />
     </g>
   </svg>
 
   <!-- Logo Text -->
   {showText && (
     <span class="logo-text" style={`font-size: ${sizes[size].text}`} id="logo-text-dynamic">
-      <span class="logo-text-oh">OH</span>
-      <span class="logo-text-wp">WP</span>
-      <span class="logo-text-studios">Studios</span>
+      <span class="logo-text-primary">Hodges</span>
+      <span class="logo-text-secondary">&</span>
+      <span class="logo-text-accent">Co.</span>
     </span>
   )}
 </div>
@@ -141,75 +127,69 @@ const sizes = {
     transform: scale(1.05);
   }
 
-  /* Hexagon Animation */
-  .logo-hexagon {
-    animation: rotate-hexagon 20s linear infinite;
-    transform-origin: 50px 42.5px;
+  /* Top Layer Animation - Subtle Float */
+  .logo-layer-top {
+    animation: float-layer 3s ease-in-out infinite;
+    transform-origin: 50px 35px;
   }
 
-  @keyframes rotate-hexagon {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  /* Shield Pulse */
-  .logo-shield {
-    animation: pulse-shield 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse-shield {
+  @keyframes float-layer {
     0%, 100% {
-      opacity: 0.1;
+      transform: translateY(0px);
+      opacity: 0.9;
     }
     50% {
-      opacity: 0.2;
+      transform: translateY(-2px);
+      opacity: 1;
     }
   }
 
-  /* Circle Animations */
-  .logo-circle-outer {
-    animation: pulse-circle 3s ease-in-out infinite;
+  /* Middle Layer Animation */
+  .logo-layer-middle {
+    animation: pulse-layer-middle 2.5s ease-in-out infinite;
   }
 
-  @keyframes pulse-circle {
+  @keyframes pulse-layer-middle {
     0%, 100% {
-      stroke-width: 4;
+      stroke-width: 3;
       opacity: 1;
     }
     50% {
-      stroke-width: 5;
+      stroke-width: 3.5;
       opacity: 0.8;
     }
   }
 
-  .logo-circle-inner {
-    animation: breathe-inner 4s ease-in-out infinite;
+  /* Bottom Layer Animation */
+  .logo-layer-bottom {
+    animation: pulse-layer-bottom 3s ease-in-out infinite;
+    animation-delay: 0.3s;
   }
 
-  @keyframes breathe-inner {
+  @keyframes pulse-layer-bottom {
+    0%, 100% {
+      stroke-width: 3;
+      opacity: 1;
+    }
+    50% {
+      stroke-width: 3.5;
+      opacity: 0.7;
+    }
+  }
+
+  /* Center Dot Pulse */
+  .logo-center-dot {
+    animation: pulse-center-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-center-dot {
     0%, 100% {
       transform: scale(1);
-      opacity: 0.6;
-    }
-    50% {
-      transform: scale(1.1);
-      opacity: 0.8;
-    }
-  }
-
-  /* W Shape Animation */
-  .logo-w-shape {
-    animation: pulse-w 2.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse-w {
-    0%, 100% {
-      stroke-width: 4;
       opacity: 1;
     }
     50% {
-      stroke-width: 5;
-      opacity: 0.9;
+      transform: scale(1.4);
+      opacity: 0.8;
     }
   }
 
@@ -252,8 +232,8 @@ const sizes = {
     position: relative;
   }
 
-  .logo-text-oh {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  .logo-text-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -263,8 +243,16 @@ const sizes = {
     position: relative;
   }
 
-  .logo-text-wp {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  .logo-text-secondary {
+    color: var(--color-text);
+    font-weight: 700;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+  }
+
+  .logo-text-accent {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -272,13 +260,6 @@ const sizes = {
     animation: gradient-flow 4s ease infinite;
     animation-delay: 0.5s;
     font-weight: 900;
-  }
-
-  .logo-text-studios {
-    color: var(--color-text);
-    font-weight: 700;
-    opacity: 0.85;
-    transition: all 0.3s ease;
   }
 
   @keyframes gradient-flow {
@@ -314,14 +295,14 @@ const sizes = {
   }
 
   /* Hover Effects */
-  .logo-container:hover .logo-text-oh,
-  .logo-container:hover .logo-text-wp {
+  .logo-container:hover .logo-text-primary,
+  .logo-container:hover .logo-text-accent {
     animation-duration: 2s;
   }
 
-  .logo-container:hover .logo-text-studios {
-    opacity: 1;
-    transform: translateX(2px);
+  .logo-container:hover .logo-text-secondary {
+    opacity: 0.9;
+    transform: scale(1.1);
   }
 
   /* Responsive */
@@ -337,18 +318,17 @@ const sizes = {
 
   /* Prevent animation performance issues */
   @media (prefers-reduced-motion: reduce) {
-    .logo-hexagon,
-    .logo-shield,
-    .logo-circle-outer,
-    .logo-circle-inner,
-    .logo-w-shape,
+    .logo-layer-top,
+    .logo-layer-middle,
+    .logo-layer-bottom,
+    .logo-center-dot,
     .logo-dot {
       animation: none;
     }
 
     .logo-icon,
     .logo-container,
-    .logo-text-studios {
+    .logo-text-secondary {
       transition: none;
     }
   }

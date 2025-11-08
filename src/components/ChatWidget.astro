@@ -188,32 +188,32 @@
     50% { transform: scale(1.1); }
   }
 
-  /* Chat Window */
+  /* Chat Window - Horizontal Layout - TEST VERSION */
   .chat-window {
-    position: absolute;
-    bottom: 80px;
-    right: 0;
-    width: 400px;
-    max-width: calc(100vw - 48px);
-    height: 600px;
-    max-height: calc(100vh - 140px);
-    background: var(--color-bg, white);
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px) scale(0.95);
-    transition: all 0.3s ease;
-    overflow: hidden;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    position: fixed !important;
+    bottom: 100px !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(20px) scale(0.95) !important;
+    width: 90vw !important;
+    max-width: 1200px !important;
+    height: 500px !important;
+    max-height: 60vh !important;
+    background: var(--color-bg, white) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+    border: 10px solid #ff00ff !important; /* BRIGHT MAGENTA BORDER TEST */
   }
 
   .chat-window.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(0) scale(1) !important;
   }
 
   /* Chat Header */
@@ -755,7 +755,13 @@
       width: calc(100vw - 32px);
       height: calc(100vh - 100px);
       max-height: calc(100vh - 100px);
-      bottom: 70px;
+      bottom: 80px;
+      left: 16px;
+      transform: translateX(0) translateY(20px) scale(0.95);
+    }
+
+    .chat-window.open {
+      transform: translateX(0) translateY(0) scale(1);
     }
 
     .chat-toggle-btn {

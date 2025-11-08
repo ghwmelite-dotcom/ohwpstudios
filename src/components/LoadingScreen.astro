@@ -27,6 +27,28 @@ import Logo from '@/components/Logo.astro';
         <div class="particle"></div>
       </div>
 
+      <!-- Rotating Company Name -->
+      <div class="rotating-text-container">
+        <svg class="rotating-text" viewBox="0 0 300 300">
+          <defs>
+            <path
+              id="textPath"
+              d="M 150, 150 m -120, 0 a 120,120 0 1,1 240,0 a 120,120 0 1,1 -240,0"
+            />
+            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#ec4899;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#6366f1;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <text class="company-name-text" fill="url(#textGradient)">
+            <textPath href="#textPath" startOffset="0%">
+              HODGES & CO. • HODGES & CO. • HODGES & CO. •
+            </textPath>
+          </text>
+        </svg>
+      </div>
+
       <!-- Central Logo -->
       <div class="loader-logo">
         <div class="logo-glow"></div>
@@ -228,6 +250,44 @@ import Logo from '@/components/Logo.astro';
     50% {
       transform: translateY(-20px) scale(1.2);
       opacity: 0.8;
+    }
+  }
+
+  /* ========== ROTATING TEXT ========== */
+  .rotating-text-container {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 0.5s forwards;
+  }
+
+  .rotating-text {
+    width: 100%;
+    height: 100%;
+    animation: rotateText 20s linear infinite;
+  }
+
+  .company-name-text {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    fill: url(#textGradient);
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
+  }
+
+  @keyframes rotateText {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
     }
   }
 
@@ -617,6 +677,16 @@ import Logo from '@/components/Logo.astro';
     .ring-2 { width: 150px; height: 150px; }
     .ring-3 { width: 120px; height: 120px; }
 
+    .rotating-text-container {
+      width: 240px;
+      height: 240px;
+    }
+
+    .company-name-text {
+      font-size: 15px;
+      letter-spacing: 0.12em;
+    }
+
     .logo-image {
       width: 90px;
       height: 90px;
@@ -650,6 +720,16 @@ import Logo from '@/components/Logo.astro';
     .ring-1 { width: 140px; height: 140px; }
     .ring-2 { width: 115px; height: 115px; }
     .ring-3 { width: 90px; height: 90px; }
+
+    .rotating-text-container {
+      width: 190px;
+      height: 190px;
+    }
+
+    .company-name-text {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+    }
 
     .logo-image {
       width: 70px;

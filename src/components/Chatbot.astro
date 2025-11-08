@@ -37,7 +37,7 @@
         <div class="avatar-glow"></div>
       </div>
       <div class="chatbot-info">
-        <h4>AI Assistant</h4>
+        <h4>Kodie - AI Assistant</h4>
         <span class="chatbot-status">
           <span class="status-dot"></span>
           <span>Online Now</span>
@@ -67,7 +67,7 @@
           </svg>
         </div>
         <h3>Welcome! 👋</h3>
-        <p>I'm your AI technical assistant. I can help with web development, debugging, and technical questions.</p>
+        <p>I'm Kodie, your AI assistant. I can help with web development, WordPress, SEO, debugging, and technical questions.</p>
       </div>
       <form class="welcome-form" id="welcome-form">
         <div class="form-group">
@@ -110,7 +110,7 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
       </svg>
-      <span>Powered by Advanced AI</span>
+      <span>Powered by Hodges & Co.</span>
     </div>
   </div>
 </div>
@@ -230,8 +230,8 @@
     position: absolute;
     bottom: 90px;
     right: 0;
-    width: 400px;
-    height: min(580px, calc(100vh - 180px));
+    width: 420px;
+    height: min(600px, calc(100vh - 180px));
     max-height: calc(100vh - 180px);
     background: var(--color-surface);
     border-radius: 24px;
@@ -262,26 +262,28 @@
   }
 
   .chatbot-header {
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
     border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.875rem;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.05));
-    border-radius: 24px 24px 0 0;
+    border-radius: 20px 20px 0 0;
     position: relative;
     z-index: 1;
+    min-height: 70px;
   }
 
   .chatbot-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    font-size: 1.5rem;
     position: relative;
     box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
     flex-shrink: 0;
@@ -308,11 +310,12 @@
   }
 
   .chatbot-info h4 {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     margin: 0 0 0.25rem 0;
     color: var(--color-text);
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.01em;
+    line-height: 1.2;
   }
 
   .chatbot-status {
@@ -369,9 +372,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    justify-content: flex-start;
+    padding: 1.5rem 1.25rem;
     text-align: center;
+    overflow-y: auto;
   }
 
   .chatbot-welcome.hidden {
@@ -379,18 +383,18 @@
   }
 
   .welcome-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .welcome-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
-    border-radius: 20px;
+    border-radius: 16px;
     animation: pulse-icon 3s ease-in-out infinite;
   }
 
@@ -400,34 +404,35 @@
   }
 
   .welcome-header h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0 0 0.75rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
     color: var(--color-text);
   }
 
   .welcome-header p {
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.875rem;
+    line-height: 1.5;
     color: var(--color-text-muted);
     margin: 0;
   }
 
   .welcome-form {
     width: 100%;
-    max-width: 320px;
+    max-width: 100%;
+    padding: 0 0.5rem;
   }
 
   .welcome-form .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .welcome-form input {
     width: 100%;
-    padding: 0.875rem 1.125rem;
+    padding: 0.75rem 1rem;
     border: 1.5px solid var(--color-border);
-    border-radius: 12px;
-    font-size: 0.95rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
     font-family: var(--font-sans);
     transition: all 0.3s ease;
     background: var(--color-bg);
@@ -448,12 +453,12 @@
 
   .start-chat-btn {
     width: 100%;
-    padding: 1rem 1.5rem;
+    padding: 0.875rem 1.25rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: 10px;
+    font-size: 0.925rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
@@ -476,10 +481,10 @@
   .chatbot-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 1.5rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
   .chatbot-messages::-webkit-scrollbar {
@@ -501,8 +506,8 @@
 
   .message {
     display: flex;
-    gap: 0.875rem;
-    max-width: 85%;
+    gap: 0.75rem;
+    max-width: 80%;
     animation: slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -545,12 +550,14 @@
   }
 
   .message-content {
-    padding: 0.875rem 1.125rem;
-    border-radius: 18px;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    padding: 0.75rem 1rem;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    line-height: 1.5;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   /* Bot message styling - Light background */
@@ -867,7 +874,7 @@
       form.style.display = 'flex';
 
       // Add welcome message from bot
-      addMessage(`Hi ${userInfo.name}! 👋 I'm your AI technical assistant powered by Google Gemini. I can help you with web development, debugging, performance optimization, and technical questions. What would you like to know?`, 'bot');
+      addMessage(`Hi ${userInfo.name}! 👋 I'm Kodie, your AI assistant at Hodges & Co. I can help with web development, WordPress, SEO, performance optimization, and technical questions. What would you like to know?`, 'bot');
       
       // Focus on input
       input.focus();
@@ -913,13 +920,13 @@
       const typingId = showTypingIndicator();
 
       try {
-        // Send to API with user info
-        const response = await fetch('/api/chat', {
+        // Send to API with user info - Using Gemini 2.5 Flash AI
+        const response = await fetch('/api/chat/kodie', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message,
-            history: chatHistory.slice(0, -1), // Don't include current message
+            conversation_history: chatHistory.slice(0, -1), // Don't include current message
             userName: userInfo.name,
             userEmail: userInfo.email || 'Not provided',
           }),
@@ -927,17 +934,20 @@
 
         const data = await response.json();
 
+        // Extract the AI response message
+        const aiMessage = data.response?.message || data.response;
+
         // Add realistic typing delay based on response length
-        const responseLength = data.response?.length || 100;
+        const responseLength = aiMessage?.length || 100;
         const typingDelay = Math.min(800 + (responseLength * 15), 3000); // 800ms to 3s
         await new Promise(resolve => setTimeout(resolve, typingDelay));
 
         // Remove typing indicator
         removeTypingIndicator(typingId);
 
-        if (data.success && data.response) {
-          addMessage(data.response, 'bot');
-          chatHistory.push({ role: 'assistant', content: data.response });
+        if (data.success && aiMessage) {
+          addMessage(aiMessage, 'bot');
+          chatHistory.push({ role: 'assistant', content: aiMessage });
         } else {
           console.error('Chat API error:', data);
           const errorMsg = data.details || data.error || 'Sorry, I encountered an error. Please try again.';

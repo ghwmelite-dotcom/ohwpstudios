@@ -18,7 +18,8 @@
       "Bash(curl:*)",
       "WebFetch(domain:i.postimg.cc)",
       "Bash(npm install:*)",
-      "Bash(npm run deploy:*)"
+      "Bash(npm run deploy:*)",
+      "Bash(test:*)"
     ],
     "deny": [],
     "ask": []
