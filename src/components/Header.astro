@@ -93,7 +93,6 @@ import Logo from '@/components/Logo.astro';
         </div>
       </li>
       <li><a href="/#portfolio">Portfolio</a></li>
-      <li><a href="/estimate-project" class="nav-highlight">Get Estimate</a></li>
       <li><a href="/clients">Clients</a></li>
       <li><a href="/careers">Careers</a></li>
       <li><a href="/blog">Blog</a></li>
@@ -118,7 +117,7 @@ import Logo from '@/components/Logo.astro';
         </svg>
       </button>
 
-      <a href="/contact" class="btn btn-primary">Get Started</a>
+      <a href="/estimate-project" class="btn btn-primary">Get AI Estimate</a>
 
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
@@ -207,27 +206,6 @@ import Logo from '@/components/Logo.astro';
 
   .nav-links a:hover::after {
     width: 100%;
-  }
-
-  /* Highlighted nav item (Get Estimate) */
-  .nav-highlight {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 0.5rem 1.25rem !important;
-    border-radius: var(--radius-full);
-    font-weight: 600 !important;
-    color: white !important;
-    transition: all var(--transition-base);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  }
-
-  .nav-highlight:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    color: white !important;
-  }
-
-  .nav-highlight::after {
-    display: none !important;
   }
 
   /* Dropdown Navigation */

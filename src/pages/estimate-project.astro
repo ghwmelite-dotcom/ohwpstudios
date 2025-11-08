@@ -1,9 +1,13 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
 ---
 
 <BaseLayout title="AI Project Estimator - Get Instant Estimates" description="Get instant AI-powered project estimates with cost, timeline, and technology recommendations">
-  <div class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-4">
+  <Header />
+  <main>
+  <div class="min-h-screen py-20 px-4" style="margin-top: var(--header-height);">
     <div class="max-w-4xl mx-auto">
       <!-- Hero Section -->
       <div class="text-center mb-12">
@@ -483,6 +487,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       </div>
     </div>
   </div>
+  </main>
+  <Footer />
 
   <style>
     /* Step Indicator Styles */
