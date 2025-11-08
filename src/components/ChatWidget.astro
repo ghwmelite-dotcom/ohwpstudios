@@ -114,19 +114,19 @@
     font-family: var(--font-body, system-ui, sans-serif);
   }
 
-  /* Chat Toggle Button */
+  /* Chat Toggle Button - TEST: BRIGHT RED */
   .chat-toggle-btn {
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-    border: none;
+    background: #ff0000 !important; /* BRIGHT RED TEST */
+    border: 5px solid #ffff00 !important; /* YELLOW BORDER TEST */
     color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 24px rgba(255, 0, 0, 0.8);
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
     animation: float 3s ease-in-out infinite;
@@ -423,17 +423,22 @@
     gap: 8px;
     animation: message-appear 0.3s ease;
     width: 100%;
+    margin: 8px 0;
   }
 
-  /* Bot messages - aligned to left */
+  /* Bot messages - aligned to left - EXTREME TEST */
   .message.operator {
-    justify-content: flex-start;
+    justify-content: flex-start !important;
+    margin-right: auto !important;
+    margin-left: 0 !important;
   }
 
-  /* User messages - aligned to right */
+  /* User messages - aligned to right - EXTREME TEST */
   .message.visitor {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
   }
 
   @keyframes message-appear {
@@ -539,14 +544,14 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 
-  /* Bot message bubble - sleek purple gradient on left */
+  /* Bot message bubble - BRIGHT BLUE TEST */
   .message.operator .message-bubble {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    color: white;
-    border-radius: 20px 20px 20px 4px;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35), 0 3px 8px rgba(118, 75, 162, 0.2);
+    background: #0000ff !important; /* BRIGHT BLUE */
+    color: white !important;
+    border-radius: 20px 20px 20px 4px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 255, 0.8) !important;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 3px solid #00ffff !important; /* CYAN BORDER */
   }
 
   .message.operator .message-bubble::before {
@@ -565,13 +570,13 @@
     box-shadow: 0 12px 32px rgba(102, 126, 234, 0.45), 0 5px 12px rgba(118, 75, 162, 0.3);
   }
 
-  /* User message bubble - sleek gradient on right */
+  /* User message bubble - BRIGHT GREEN TEST */
   .message.visitor .message-bubble {
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    color: #1a1a2e;
-    border-radius: 20px 20px 4px 20px;
-    box-shadow: 0 8px 24px rgba(252, 182, 159, 0.35), 0 3px 8px rgba(255, 236, 210, 0.2);
-    border: 1px solid rgba(252, 182, 159, 0.3);
+    background: #00ff00 !important; /* BRIGHT GREEN */
+    color: #000000 !important;
+    border-radius: 20px 20px 4px 20px !important;
+    box-shadow: 0 8px 24px rgba(0, 255, 0, 0.8) !important;
+    border: 3px solid #ff00ff !important; /* MAGENTA BORDER */
     position: relative;
   }
 

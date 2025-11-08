@@ -90,7 +90,7 @@
       <!-- Messages will be added here dynamically -->
     </div>
 
-    <form class="chatbot-input" id="chatbot-form">
+    <form class="chatbot-input" id="chatbot-form" style="display: none;">
       <input
         type="text"
         id="chatbot-message"
@@ -860,6 +860,7 @@
       // Hide welcome screen and show chat
       welcomeScreen.style.display = 'none';
       messages.style.display = 'flex';
+      form.style.display = 'flex';
 
       // Add welcome message from bot
       addMessage(`Hi ${userInfo.name}! 👋 I'm your AI technical assistant powered by Google Gemini. I can help you with web development, debugging, performance optimization, and technical questions. What would you like to know?`, 'bot');
