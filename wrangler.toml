@@ -14,11 +14,10 @@ binding = "DB"
 database_name = "agency-db"
 database_id = "ddff1c97-f090-43eb-9f8d-4a4f68517faf"
 
-# Environment variables (add your API keys here)
+# Environment variables
 [vars]
 RESEND_API_KEY = "re_NzwJutgG_HmUBd49TT1fJ9zyFfbLmeChH"
 SITE_URL = "https://ohwpstudios.org"
-# Google Gemini 2.5 Flash API key
 GEMINI_API_KEY = "AIzaSyDee8W9w_SGAPpwG9u1IJM3P3BGlxhdas4"
 
 # Production environment

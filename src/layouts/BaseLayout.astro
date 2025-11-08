@@ -3,7 +3,7 @@ import '@/styles/design-system.css';
 import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
 import CustomCursor from '@/components/CustomCursor.astro';
-import ChatWidget from '@/components/ChatWidget.astro';
+import Chatbot from '@/components/Chatbot.astro';
 
 interface Props {
   title?: string;
@@ -144,7 +144,7 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
     {!noLoader && <LoadingScreen />}
     <CustomCursor />
     <slot />
-    <ChatWidget />
+    <Chatbot />
 
     <!-- Theme toggle script -->
     <script>

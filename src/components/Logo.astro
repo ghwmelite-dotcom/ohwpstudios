@@ -8,134 +8,103 @@ interface Props {
 const { variant = 'default', size = 'md', showText = true } = Astro.props;
 
 const sizes = {
-  sm: { icon: 32, text: '1.25rem' },
-  md: { icon: 45, text: '1.5rem' },
-  lg: { icon: 60, text: '2rem' }
+  sm: { icon: 36, text: '1.25rem' },
+  md: { icon: 42, text: '1.5rem' },
+  lg: { icon: 52, text: '2rem' }
 };
 ---
 
 <div class={`logo-container logo-${variant} logo-${size}`}>
-  <!-- Premium Logo Icon -->
+  <!-- Modern Elite Logo Icon -->
   <svg
     class="logo-icon"
     width={sizes[size].icon}
     height={sizes[size].icon}
-    viewBox="0 0 200 200"
+    viewBox="0 0 100 100"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
-      <!-- Primary Gradient -->
-      <linearGradient id="logo-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+      <!-- Elite Gradient -->
+      <linearGradient id="logo-grad-elite" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
       </linearGradient>
 
-      <!-- Secondary Gradient -->
-      <linearGradient id="logo-gradient-2" x1="100%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+      <!-- Accent Gradient -->
+      <linearGradient id="logo-grad-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
       </linearGradient>
 
       <!-- Glow Filter -->
-      <filter id="logo-glow">
-        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <filter id="logo-glow-elite">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
         <feMerge>
           <feMergeNode in="coloredBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
-
-      <!-- Shadow Filter -->
-      <filter id="logo-shadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.25"/>
-      </filter>
     </defs>
 
-    <!-- Outer Ring - Animated -->
-    <circle
-      class="logo-ring-outer"
-      cx="100"
-      cy="100"
-      r="85"
-      stroke="url(#logo-gradient-1)"
-      stroke-width="3"
-      fill="none"
-      opacity="0.3"
-    />
-
-    <!-- Middle Ring -->
-    <circle
-      class="logo-ring-middle"
-      cx="100"
-      cy="100"
-      r="72"
-      stroke="url(#logo-gradient-1)"
+    <!-- Outer Hexagon Frame -->
+    <path
+      class="logo-hexagon"
+      d="M 50 8 L 80 25 L 80 60 L 50 77 L 20 60 L 20 25 Z"
+      stroke="url(#logo-grad-elite)"
       stroke-width="2"
       fill="none"
-      opacity="0.5"
+      opacity="0.4"
     />
 
-    <!-- Main Geometric Shape - Modern "W" Formation -->
-    <g filter="url(#logo-shadow)">
-      <!-- Left Peak -->
-      <path
-        class="logo-shape logo-peak-left"
-        d="M 60 130 L 75 70 L 90 130"
-        stroke="url(#logo-gradient-1)"
-        stroke-width="12"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        fill="none"
-      />
+    <!-- Inner Shield Shape -->
+    <path
+      class="logo-shield"
+      d="M 50 15 L 72 28 L 72 55 L 50 70 L 28 55 L 28 28 Z"
+      fill="url(#logo-grad-elite)"
+      opacity="0.1"
+    />
 
-      <!-- Center Valley -->
-      <path
-        class="logo-shape logo-valley"
-        d="M 90 130 L 100 95 L 110 130"
-        stroke="url(#logo-gradient-2)"
-        stroke-width="12"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        fill="none"
-      />
-
-      <!-- Right Peak -->
-      <path
-        class="logo-shape logo-peak-right"
-        d="M 110 130 L 125 70 L 140 130"
-        stroke="url(#logo-gradient-1)"
-        stroke-width="12"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        fill="none"
-      />
-
-      <!-- Central Diamond Accent -->
+    <!-- Stylized "O" letterform with modern twist -->
+    <g filter="url(#logo-glow-elite)">
+      <!-- Main "O" circle -->
       <circle
-        class="logo-accent"
-        cx="100"
-        cy="95"
-        r="8"
-        fill="url(#logo-gradient-2)"
-        filter="url(#logo-glow)"
+        class="logo-circle-outer"
+        cx="50"
+        cy="42"
+        r="18"
+        stroke="url(#logo-grad-elite)"
+        stroke-width="4"
+        fill="none"
+      />
+      
+      <!-- Inner accent circle -->
+      <circle
+        class="logo-circle-inner"
+        cx="50"
+        cy="42"
+        r="10"
+        fill="url(#logo-grad-accent)"
+        opacity="0.6"
       />
 
-      <!-- Corner Accents -->
-      <circle class="logo-dot logo-dot-1" cx="75" cy="70" r="4" fill="url(#logo-gradient-1)" opacity="0.8" />
-      <circle class="logo-dot logo-dot-2" cx="125" cy="70" r="4" fill="url(#logo-gradient-1)" opacity="0.8" />
-    </g>
+      <!-- Dynamic "W" formation at bottom -->
+      <path
+        class="logo-w-shape"
+        d="M 35 60 L 42 48 L 50 55 L 58 48 L 65 60"
+        stroke="url(#logo-grad-elite)"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"
+      />
 
-    <!-- Inner Glow Circle -->
-    <circle
-      class="logo-glow-circle"
-      cx="100"
-      cy="100"
-      r="45"
-      fill="url(#logo-gradient-1)"
-      opacity="0.05"
-    />
+      <!-- Accent dots -->
+      <circle class="logo-dot logo-dot-1" cx="50" cy="42" r="3" fill="white" opacity="0.9" />
+      <circle class="logo-dot logo-dot-2" cx="38" cy="60" r="2" fill="url(#logo-grad-accent)" />
+      <circle class="logo-dot logo-dot-3" cx="62" cy="60" r="2" fill="url(#logo-grad-accent)" />
+    </g>
   </svg>
 
   <!-- Logo Text -->
@@ -152,93 +121,101 @@ const sizes = {
   .logo-container {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.875rem;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .logo-container:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   /* Logo Icon Styles */
   .logo-icon {
     flex-shrink: 0;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .logo-container:hover .logo-icon {
-    filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.4));
+    filter: drop-shadow(0 6px 20px rgba(102, 126, 234, 0.4));
+    transform: scale(1.05);
   }
 
-  /* Animated Rings */
-  .logo-ring-outer {
-    animation: rotate-ring 20s linear infinite;
-    transform-origin: center;
+  /* Hexagon Animation */
+  .logo-hexagon {
+    animation: rotate-hexagon 20s linear infinite;
+    transform-origin: 50px 42.5px;
   }
 
-  .logo-ring-middle {
-    animation: rotate-ring-reverse 15s linear infinite;
-    transform-origin: center;
-  }
-
-  @keyframes rotate-ring {
+  @keyframes rotate-hexagon {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
 
-  @keyframes rotate-ring-reverse {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
+  /* Shield Pulse */
+  .logo-shield {
+    animation: pulse-shield 3s ease-in-out infinite;
   }
 
-  /* Shape Animations */
-  .logo-shape {
-    animation: pulse-shape 3s ease-in-out infinite;
-  }
-
-  .logo-peak-left {
-    animation-delay: 0s;
-  }
-
-  .logo-valley {
-    animation-delay: 0.3s;
-  }
-
-  .logo-peak-right {
-    animation-delay: 0.6s;
-  }
-
-  @keyframes pulse-shape {
+  @keyframes pulse-shield {
     0%, 100% {
-      opacity: 1;
-      stroke-width: 12;
+      opacity: 0.1;
     }
     50% {
-      opacity: 0.8;
-      stroke-width: 14;
+      opacity: 0.2;
     }
   }
 
-  /* Accent Animations */
-  .logo-accent {
-    animation: pulse-accent 2s ease-in-out infinite;
+  /* Circle Animations */
+  .logo-circle-outer {
+    animation: pulse-circle 3s ease-in-out infinite;
   }
 
-  @keyframes pulse-accent {
+  @keyframes pulse-circle {
+    0%, 100% {
+      stroke-width: 4;
+      opacity: 1;
+    }
+    50% {
+      stroke-width: 5;
+      opacity: 0.8;
+    }
+  }
+
+  .logo-circle-inner {
+    animation: breathe-inner 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe-inner {
     0%, 100% {
       transform: scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+  }
+
+  /* W Shape Animation */
+  .logo-w-shape {
+    animation: pulse-w 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-w {
+    0%, 100% {
+      stroke-width: 4;
       opacity: 1;
     }
     50% {
-      transform: scale(1.2);
-      opacity: 0.7;
+      stroke-width: 5;
+      opacity: 0.9;
     }
   }
 
   /* Dot Animations */
   .logo-dot {
-    animation: float-dot 3s ease-in-out infinite;
+    animation: pulse-dot 2s ease-in-out infinite;
   }
 
   .logo-dot-1 {
@@ -246,71 +223,65 @@ const sizes = {
   }
 
   .logo-dot-2 {
-    animation-delay: 1.5s;
+    animation-delay: 0.3s;
   }
 
-  @keyframes float-dot {
+  .logo-dot-3 {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes pulse-dot {
     0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
-  }
-
-  /* Glow Circle Animation */
-  .logo-glow-circle {
-    animation: breathe-glow 4s ease-in-out infinite;
-  }
-
-  @keyframes breathe-glow {
-    0%, 100% {
-      opacity: 0.05;
       transform: scale(1);
+      opacity: 0.9;
     }
     50% {
-      opacity: 0.15;
-      transform: scale(1.1);
+      transform: scale(1.3);
+      opacity: 1;
     }
   }
 
   /* Logo Text Styles */
   .logo-text {
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     display: flex;
     align-items: baseline;
-    gap: 0.15em;
+    gap: 0.2em;
     white-space: nowrap;
+    position: relative;
   }
 
   .logo-text-oh {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shift 3s ease infinite;
+    animation: gradient-flow 4s ease infinite;
     font-weight: 900;
+    position: relative;
   }
 
   .logo-text-wp {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-shift 3s ease infinite;
+    animation: gradient-flow 4s ease infinite;
+    animation-delay: 0.5s;
     font-weight: 900;
   }
 
   .logo-text-studios {
     color: var(--color-text);
     font-weight: 700;
-    opacity: 0.9;
+    opacity: 0.85;
+    transition: all 0.3s ease;
   }
 
-  @keyframes gradient-shift {
+  @keyframes gradient-flow {
     0%, 100% {
       background-position: 0% 50%;
     }
@@ -322,6 +293,7 @@ const sizes = {
   /* Variant Styles */
   .logo-light .logo-text-studios {
     color: white;
+    opacity: 0.95;
   }
 
   .logo-dark .logo-text-studios {
@@ -330,40 +302,54 @@ const sizes = {
 
   /* Size Variants */
   .logo-sm {
-    gap: 0.5rem;
+    gap: 0.625rem;
+  }
+
+  .logo-md {
+    gap: 0.875rem;
   }
 
   .logo-lg {
-    gap: 1rem;
+    gap: 1.125rem;
   }
 
   /* Hover Effects */
   .logo-container:hover .logo-text-oh,
   .logo-container:hover .logo-text-wp {
-    animation-duration: 1.5s;
+    animation-duration: 2s;
   }
 
   .logo-container:hover .logo-text-studios {
     opacity: 1;
+    transform: translateX(2px);
   }
 
   /* Responsive */
   @media (max-width: 768px) {
     .logo-container {
-      gap: 0.5rem;
+      gap: 0.625rem;
+    }
+
+    .logo-text {
+      letter-spacing: -0.02em;
     }
   }
 
   /* Prevent animation performance issues */
   @media (prefers-reduced-motion: reduce) {
-    .logo-ring-outer,
-    .logo-ring-middle,
-    .logo-shape,
-    .logo-accent,
-    .logo-dot,
-    .logo-glow-circle,
-    .logo-text-wp {
+    .logo-hexagon,
+    .logo-shield,
+    .logo-circle-outer,
+    .logo-circle-inner,
+    .logo-w-shape,
+    .logo-dot {
       animation: none;
+    }
+
+    .logo-icon,
+    .logo-container,
+    .logo-text-studios {
+      transition: none;
     }
   }
 </style>
