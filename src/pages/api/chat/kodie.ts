@@ -146,7 +146,7 @@ Pricing info:
 - Mobile apps: $25,000 - $100,000+
 - Design projects: $3,000 - $20,000
 
-Contact: hello@ohwpstudios.com | +1 (555) 123-4567
+Contact: ohwpstudios@gmail.com | +233505982361
 
 Now respond to the user's message helpfully and professionally.`;
 
@@ -470,7 +470,7 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
   // Contact information
   if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('phone') || lowerMessage.includes('call')) {
     return {
-      message: "You can reach us through:\n\n📧 Email: hello@ohwpstudios.com\n📞 Phone: +1 (555) 123-4567\n🕐 Hours: Monday-Friday, 9 AM - 6 PM EST\n\nOr continue chatting with me, and I can help answer your questions right away! Would you like to schedule a call or continue our conversation here?",
+      message: "You can reach us through:\n\n📧 Email: ohwpstudios@gmail.com\n📞 Phone: +233505982361\n🕐 Hours: Monday-Friday, 9 AM - 6 PM EST\n\nOr continue chatting with me, and I can help answer your questions right away! Would you like to schedule a call or continue our conversation here?",
       escalate: false,
       confidence: 1.0,
       suggestedActions: ['Schedule a call', 'Continue chatting', 'Send email']
