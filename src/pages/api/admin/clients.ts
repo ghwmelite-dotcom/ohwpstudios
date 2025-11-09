@@ -24,12 +24,12 @@ export const GET: APIRoute = async ({ request, locals }) => {
     }
 
     const token = authHeader.substring(7);
-    const adminUser = await db
-      .prepare('SELECT * FROM admin_users WHERE token = ? AND token_expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminUser) {
+    if (!session) {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid or expired token' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
@@ -82,12 +82,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const token = authHeader.substring(7);
-    const adminUser = await db
-      .prepare('SELECT * FROM admin_users WHERE token = ? AND token_expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminUser) {
+    if (!session) {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid or expired token' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
@@ -176,12 +176,12 @@ export const PUT: APIRoute = async ({ request, locals }) => {
     }
 
     const token = authHeader.substring(7);
-    const adminUser = await db
-      .prepare('SELECT * FROM admin_users WHERE token = ? AND token_expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminUser) {
+    if (!session) {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid or expired token' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
@@ -280,12 +280,12 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
     }
 
     const token = authHeader.substring(7);
-    const adminUser = await db
-      .prepare('SELECT * FROM admin_users WHERE token = ? AND token_expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminUser) {
+    if (!session) {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid or expired token' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
