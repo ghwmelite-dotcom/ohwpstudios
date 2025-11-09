@@ -118,19 +118,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .prepare(`
         INSERT INTO client_projects (
           client_id, project_name, project_type, description,
-          start_date, end_date, budget, status, progress
+          start_date, estimated_completion, budget, status, progress_percentage
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .bind(
         data.client_id,
         data.project_name,
-        data.project_type || null,
+        data.project_type || 'general',
         data.description || null,
         data.start_date || null,
-        data.end_date || null,
+        data.estimated_completion || null,
         data.budget || null,
-        data.status || 'active',
-        data.progress || 0
+        data.status || 'in_progress',
+        data.progress_percentage || 0
       )
       .run();
 
