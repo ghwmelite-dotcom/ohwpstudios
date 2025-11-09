@@ -662,6 +662,12 @@ const { id } = Astro.params;
   </div>
 
   <script define:vars={{ projectId: id }}>
+    // Check admin authentication
+    const adminToken = localStorage.getItem('admin_token');
+    if (!adminToken) {
+      window.location.href = '/admin/login';
+    }
+
     let currentProject = null;
     let currentMilestones = [];
     let editingMilestoneId = null;
@@ -670,7 +676,11 @@ const { id } = Astro.params;
     // Fetch project details
     async function loadProject() {
       try {
-        const response = await fetch(`/api/admin/client-projects?id=${projectId}`);
+        const response = await fetch(`/api/admin/client-projects?id=${projectId}`, {
+          headers: {
+            'Authorization': `Bearer ${adminToken}`
+          }
+        });
         const data = await response.json();
 
         if (data.success && data.projects.length > 0) {
@@ -755,7 +765,11 @@ const { id } = Astro.params;
     // Load milestones
     async function loadMilestones() {
       try {
-        const response = await fetch(`/api/admin/milestones?project_id=${projectId}`);
+        const response = await fetch(`/api/admin/milestones?project_id=${projectId}`, {
+          headers: {
+            'Authorization': `Bearer ${adminToken}`
+          }
+        });
         const data = await response.json();
 
         if (data.success) {
@@ -900,7 +914,10 @@ const { id } = Astro.params;
 
       try {
         const response = await fetch(`/api/admin/milestones?id=${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${adminToken}`
+          }
         });
 
         const data = await response.json();
@@ -974,7 +991,10 @@ const { id } = Astro.params;
       try {
         const response = await fetch('/api/admin/milestones', {
           method: editingMilestoneId ? 'PUT' : 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
           body: JSON.stringify(formData)
         });
 
