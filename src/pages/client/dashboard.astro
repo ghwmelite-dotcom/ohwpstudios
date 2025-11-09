@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PMChatWidget from '@/components/PMChatWidget.astro';
 ---
 
 <BaseLayout title="Client Dashboard" description="Client project dashboard">
@@ -84,24 +83,24 @@ import PMChatWidget from '@/components/PMChatWidget.astro';
             <div class="guide-step">
               <span class="step-number">1</span>
               <div class="step-content">
-                <h4>Look for the Chat Button</h4>
-                <p>Find the AI chat icon at the bottom right corner of your screen</p>
+                <h4>Find Kodie - Your AI Assistant</h4>
+                <p>Click the purple chat button in the bottom-right corner of your screen</p>
               </div>
             </div>
 
             <div class="guide-step">
               <span class="step-number">2</span>
               <div class="step-content">
-                <h4>Ask Anything</h4>
-                <p>Get real-time answers about project status, deadlines, or technical questions</p>
+                <h4>Start the Conversation</h4>
+                <p>As a logged-in client, Kodie has full context about your projects and can answer specific questions about your work</p>
               </div>
             </div>
 
             <div class="guide-step">
               <span class="step-number">3</span>
               <div class="step-content">
-                <h4>Track Conversations</h4>
-                <p>All your chat history is saved and accessible anytime you need it</p>
+                <h4>Get Instant Answers</h4>
+                <p>Ask about project status, timelines, technical questions, or request file uploads</p>
               </div>
             </div>
 
@@ -119,9 +118,6 @@ import PMChatWidget from '@/components/PMChatWidget.astro';
       </div>
     </div>
   </main>
-
-  <!-- Project Manager AI Chat Widget -->
-  <PMChatWidget />
 </BaseLayout>
 
 <style>
@@ -885,31 +881,36 @@ import PMChatWidget from '@/components/PMChatWidget.astro';
   // Load projects on page load
   loadProjects();
 
-  // Function to open PM chat with a pre-filled question
+  // Function to open chatbot with a pre-filled question
   function openPMChatWithQuestion(question) {
-    // Find the PM chat widget button
-    const chatButton = document.querySelector('[data-pm-chat-toggle]') ||
-                       document.querySelector('.pm-chat-toggle') ||
-                       document.querySelector('[class*="chat-button"]');
+    // Find the Kodie chatbot toggle button
+    const chatButton = document.getElementById('chatbot-toggle');
 
     if (chatButton) {
-      // Click to open the chat
-      chatButton.click();
+      // Check if chat is already open
+      const chatContainer = document.getElementById('chatbot-container');
+      const isOpen = chatContainer && chatContainer.classList.contains('active');
 
-      // Wait for chat to open, then fill the input
+      // Open the chat if it's not already open
+      if (!isOpen) {
+        chatButton.click();
+      }
+
+      // Wait for chat to open, then try to fill the input
       setTimeout(() => {
-        const chatInput = document.querySelector('[data-pm-chat-input]') ||
-                          document.querySelector('.pm-chat-input') ||
-                          document.querySelector('textarea[placeholder*="message"]') ||
-                          document.querySelector('input[placeholder*="message"]');
+        const chatInput = document.getElementById('chatbot-message');
 
         if (chatInput) {
           chatInput.value = question.replace(/"/g, '');
           chatInput.focus();
+
+          // Optionally trigger a visual cue
+          chatInput.style.background = 'rgba(99, 102, 241, 0.1)';
+          setTimeout(() => {
+            chatInput.style.background = '';
+          }, 1000);
         }
-      }, 300);
-    } else {
-      alert('PM Chat widget not found. Please check if it is loaded correctly.');
+      }, 500);
     }
   }
 
