@@ -508,6 +508,219 @@ const { id } = Astro.params;
       flex: 1;
     }
 
+    /* Checkbox Label */
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      color: var(--color-text);
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    /* Filter Buttons */
+    .file-filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    .filter-btn.active {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    /* Update Card */
+    .update-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+
+    .update-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .update-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .update-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .update-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .update-type-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .update-type-progress {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+    }
+
+    .update-type-blocker {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--color-danger);
+    }
+
+    .update-type-milestone {
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--color-primary);
+    }
+
+    .update-type-delivery {
+      background: rgba(236, 72, 153, 0.2);
+      color: var(--color-secondary);
+    }
+
+    .update-type-other {
+      background: rgba(148, 163, 184, 0.2);
+      color: var(--color-text-muted);
+    }
+
+    .update-content {
+      color: var(--color-text);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      white-space: pre-wrap;
+    }
+
+    .update-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* File Card */
+    .file-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: all 0.2s;
+    }
+
+    .file-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background: rgba(99, 102, 241, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .file-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .file-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .file-description {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--color-primary);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1rem;
+      opacity: 0.5;
+    }
+
     @media (max-width: 768px) {
       .form-row {
         grid-template-columns: 1fr;
@@ -520,6 +733,15 @@ const { id } = Astro.params;
 
       .container {
         padding: 1rem;
+      }
+
+      .file-card {
+        flex-direction: column;
+      }
+
+      .update-header {
+        flex-direction: column;
+        gap: 1rem;
       }
     }
   </style>
@@ -581,13 +803,39 @@ const { id } = Astro.params;
     </div>
 
     <div class="tab-content" data-content="updates">
-      <h2 style="color: var(--color-text); margin-bottom: 1.5rem;">Project Updates</h2>
-      <p style="color: var(--color-text-muted);">Updates feature coming soon...</p>
+      <div class="milestone-header">
+        <h2>Project Updates</h2>
+        <button class="btn btn-primary" id="add-update-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Add Update
+        </button>
+      </div>
+      <div id="updates-list"></div>
     </div>
 
     <div class="tab-content" data-content="files">
-      <h2 style="color: var(--color-text); margin-bottom: 1.5rem;">Project Files</h2>
-      <p style="color: var(--color-text-muted);">Files feature coming soon...</p>
+      <div class="milestone-header">
+        <h2>Project Files</h2>
+        <button class="btn btn-primary" id="add-file-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          Add File
+        </button>
+      </div>
+
+      <div class="file-filters" style="margin-bottom: 1.5rem;">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="designs">Designs</button>
+        <button class="filter-btn" data-category="documents">Documents</button>
+        <button class="filter-btn" data-category="code">Code</button>
+        <button class="filter-btn" data-category="deliverables">Deliverables</button>
+        <button class="filter-btn" data-category="general">General</button>
+      </div>
+
+      <div id="files-list"></div>
     </div>
   </div>
 
@@ -661,6 +909,115 @@ const { id } = Astro.params;
     </div>
   </div>
 
+  <!-- Update Modal -->
+  <div class="modal" id="update-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="update-modal-title">Add Update</h2>
+        <button class="close-btn" id="close-update-modal-btn">&times;</button>
+      </div>
+
+      <form id="update-form">
+        <input type="hidden" id="update-id">
+
+        <div class="form-group">
+          <label class="form-label" for="update-title">Title *</label>
+          <input type="text" id="update-title" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-type">Update Type</label>
+          <select id="update-type" class="form-select">
+            <option value="progress">Progress Update</option>
+            <option value="blocker">Blocker/Issue</option>
+            <option value="milestone">Milestone Achieved</option>
+            <option value="delivery">Delivery</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="update-content">Content *</label>
+          <textarea id="update-content" class="form-textarea" rows="6" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="update-visible" checked>
+            <span>Visible to client</span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel-update-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-update-btn">Save Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- File Modal -->
+  <div class="modal" id="file-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="file-modal-title">Add File</h2>
+        <button class="close-btn" id="close-file-modal-btn">&times;</button>
+      </div>
+
+      <form id="file-form">
+        <input type="hidden" id="file-id">
+
+        <div class="form-group">
+          <label class="form-label" for="file-url">File URL *</label>
+          <input type="url" id="file-url" class="form-input" placeholder="https://example.com/file.pdf" required>
+          <small style="color: var(--color-text-muted); display: block; margin-top: 0.5rem;">
+            Upload your file to a hosting service (Dropbox, Google Drive, etc.) and paste the link here
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="file-name">Display Name *</label>
+          <input type="text" id="file-name" class="form-input" placeholder="e.g., Design Mockups v2" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="file-category">Category</label>
+            <select id="file-category" class="form-select">
+              <option value="general">General</option>
+              <option value="designs">Designs</option>
+              <option value="documents">Documents</option>
+              <option value="code">Code</option>
+              <option value="deliverables">Deliverables</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="file-type">File Type</label>
+            <input type="text" id="file-type" class="form-input" placeholder="e.g., PDF, ZIP, PNG">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="file-description">Description</label>
+          <textarea id="file-description" class="form-textarea" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="file-visible" checked>
+            <span>Visible to client</span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel-file-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-file-btn">Save File</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script define:vars={{ projectId: id }}>
     // Check admin authentication
     const adminToken = localStorage.getItem('admin_token');
@@ -672,6 +1029,11 @@ const { id } = Astro.params;
     let currentMilestones = [];
     let editingMilestoneId = null;
     let deliverables = [];
+    let currentUpdates = [];
+    let editingUpdateId = null;
+    let currentFiles = [];
+    let editingFileId = null;
+    let currentFileFilter = 'all';
 
     // Fetch project details
     async function loadProject() {
@@ -1012,6 +1374,370 @@ const { id } = Astro.params;
       }
     });
 
+    // ===== PROJECT UPDATES FUNCTIONS =====
+
+    // Load updates
+    async function loadUpdates() {
+      try {
+        const response = await fetch(`/api/admin/project-updates?project_id=${projectId}`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          currentUpdates = data.updates || [];
+          renderUpdates();
+        }
+      } catch (error) {
+        console.error('Error loading updates:', error);
+      }
+    }
+
+    // Render updates list
+    function renderUpdates() {
+      const container = document.getElementById('updates-list');
+      if (currentUpdates.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+            <h3>No updates yet</h3>
+            <p>Create your first project update to keep everyone informed</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = currentUpdates.map(update => `
+        <div class="update-card">
+          <div>
+            <div class="update-title">${escapeHtml(update.title)}</div>
+            <div class="update-meta">
+              <span class="update-type-badge update-type-${update.update_type}">${update.update_type.replace('_', ' ')}</span>
+              <span>${new Date(update.created_at).toLocaleDateString()}</span>
+              <span>by ${escapeHtml(update.created_by || 'Admin')}</span>
+              ${update.is_visible_to_client ? '<span style="color: var(--color-success);">👁 Visible to client</span>' : '<span style="color: var(--color-text-muted);">🔒 Internal only</span>'}
+            </div>
+            <div class="update-content">${escapeHtml(update.content)}</div>
+            <div class="update-actions">
+              <button class="btn btn-secondary btn-sm" onclick="editUpdate(${update.id})">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteUpdate(${update.id})">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Edit update
+    window.editUpdate = function(id) {
+      const update = currentUpdates.find(u => u.id === id);
+      if (!update) return;
+
+      editingUpdateId = id;
+      document.getElementById('update-modal-title').textContent = 'Edit Update';
+      document.getElementById('update-id').value = id;
+      document.getElementById('update-title').value = update.title;
+      document.getElementById('update-type').value = update.update_type;
+      document.getElementById('update-content').value = update.content;
+      document.getElementById('update-visible').checked = update.is_visible_to_client;
+      document.getElementById('update-modal').style.display = 'block';
+    };
+
+    // Delete update
+    window.deleteUpdate = async function(id) {
+      if (!confirm('Are you sure you want to delete this update?')) return;
+
+      try {
+        const response = await fetch(`/api/admin/project-updates?id=${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          await loadUpdates();
+        } else {
+          alert(data.error || 'Failed to delete update');
+        }
+      } catch (error) {
+        console.error('Error deleting update:', error);
+        alert('Failed to delete update');
+      }
+    };
+
+    // ===== PROJECT FILES FUNCTIONS =====
+
+    // Load files
+    async function loadFiles() {
+      try {
+        const response = await fetch(`/api/admin/project-files?project_id=${projectId}`, {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          currentFiles = data.files || [];
+          renderFiles();
+        }
+      } catch (error) {
+        console.error('Error loading files:', error);
+      }
+    }
+
+    // Render files list
+    function renderFiles() {
+      const container = document.getElementById('files-list');
+      let filesToShow = currentFiles;
+
+      if (currentFileFilter !== 'all') {
+        filesToShow = currentFiles.filter(f => f.category === currentFileFilter);
+      }
+
+      if (filesToShow.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <h3>No files ${currentFileFilter !== 'all' ? 'in this category' : 'yet'}</h3>
+            <p>Add files to share deliverables and resources with your team</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filesToShow.map(file => `
+        <div class="file-card">
+          <div class="file-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="file-details">
+            <div class="file-name">${escapeHtml(file.original_filename)}</div>
+            <div class="file-meta">
+              <span class="category-badge">${file.category}</span>
+              ${file.file_type ? `<span>${escapeHtml(file.file_type)}</span>` : ''}
+              ${file.file_size ? `<span>${formatFileSize(file.file_size)}</span>` : ''}
+              <span>${new Date(file.created_at).toLocaleDateString()}</span>
+              ${file.is_visible_to_client ? '<span style="color: var(--color-success);">👁 Visible to client</span>' : '<span style="color: var(--color-text-muted);">🔒 Internal only</span>'}
+            </div>
+            ${file.description ? `<div class="file-description">${escapeHtml(file.description)}</div>` : ''}
+            <div class="file-actions">
+              <a href="${file.file_url}" target="_blank" class="btn btn-primary btn-sm">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download
+              </a>
+              <button class="btn btn-secondary btn-sm" onclick="editFile(${file.id})">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteFile(${file.id})">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Edit file
+    window.editFile = function(id) {
+      const file = currentFiles.find(f => f.id === id);
+      if (!file) return;
+
+      editingFileId = id;
+      document.getElementById('file-modal-title').textContent = 'Edit File';
+      document.getElementById('file-id').value = id;
+      document.getElementById('file-url').value = file.file_url;
+      document.getElementById('file-name').value = file.original_filename;
+      document.getElementById('file-category').value = file.category;
+      document.getElementById('file-type').value = file.file_type || '';
+      document.getElementById('file-description').value = file.description || '';
+      document.getElementById('file-visible').checked = file.is_visible_to_client;
+      document.getElementById('file-modal').style.display = 'block';
+    };
+
+    // Delete file
+    window.deleteFile = async function(id) {
+      if (!confirm('Are you sure you want to delete this file?')) return;
+
+      try {
+        const response = await fetch(`/api/admin/project-files?id=${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          await loadFiles();
+        } else {
+          alert(data.error || 'Failed to delete file');
+        }
+      } catch (error) {
+        console.error('Error deleting file:', error);
+        alert('Failed to delete file');
+      }
+    };
+
+    // Format file size
+    function formatFileSize(bytes) {
+      if (!bytes) return '';
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    // ===== MODAL EVENT HANDLERS =====
+
+    // Update modal handlers
+    document.getElementById('add-update-btn').addEventListener('click', () => {
+      editingUpdateId = null;
+      document.getElementById('update-modal-title').textContent = 'Add Update';
+      document.getElementById('update-form').reset();
+      document.getElementById('update-id').value = '';
+      document.getElementById('update-modal').style.display = 'block';
+    });
+
+    document.getElementById('close-update-modal-btn').addEventListener('click', () => {
+      document.getElementById('update-modal').style.display = 'none';
+    });
+
+    document.getElementById('cancel-update-btn').addEventListener('click', () => {
+      document.getElementById('update-modal').style.display = 'none';
+    });
+
+    document.getElementById('update-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        project_id: projectId,
+        title: document.getElementById('update-title').value,
+        content: document.getElementById('update-content').value,
+        update_type: document.getElementById('update-type').value,
+        is_visible_to_client: document.getElementById('update-visible').checked ? 1 : 0,
+        created_by: 'Admin'
+      };
+
+      if (editingUpdateId) {
+        formData.id = editingUpdateId;
+      }
+
+      try {
+        const response = await fetch('/api/admin/project-updates', {
+          method: editingUpdateId ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          document.getElementById('update-modal').style.display = 'none';
+          await loadUpdates();
+        } else {
+          alert(data.error || 'Failed to save update');
+        }
+      } catch (error) {
+        console.error('Error saving update:', error);
+        alert('Failed to save update');
+      }
+    });
+
+    // File modal handlers
+    document.getElementById('add-file-btn').addEventListener('click', () => {
+      editingFileId = null;
+      document.getElementById('file-modal-title').textContent = 'Add File';
+      document.getElementById('file-form').reset();
+      document.getElementById('file-id').value = '';
+      document.getElementById('file-modal').style.display = 'block';
+    });
+
+    document.getElementById('close-file-modal-btn').addEventListener('click', () => {
+      document.getElementById('file-modal').style.display = 'none';
+    });
+
+    document.getElementById('cancel-file-btn').addEventListener('click', () => {
+      document.getElementById('file-modal').style.display = 'none';
+    });
+
+    document.getElementById('file-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fileUrl = document.getElementById('file-url').value;
+      const fileName = document.getElementById('file-name').value;
+
+      const formData = {
+        project_id: projectId,
+        filename: fileName.replace(/[^a-z0-9.]/gi, '_'),
+        original_filename: fileName,
+        file_url: fileUrl,
+        file_type: document.getElementById('file-type').value,
+        category: document.getElementById('file-category').value,
+        description: document.getElementById('file-description').value,
+        is_visible_to_client: document.getElementById('file-visible').checked ? 1 : 0,
+        uploaded_by: 'Admin'
+      };
+
+      if (editingFileId) {
+        formData.id = editingFileId;
+      }
+
+      try {
+        const response = await fetch('/api/admin/project-files', {
+          method: editingFileId ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          document.getElementById('file-modal').style.display = 'none';
+          await loadFiles();
+        } else {
+          alert(data.error || 'Failed to save file');
+        }
+      } catch (error) {
+        console.error('Error saving file:', error);
+        alert('Failed to save file');
+      }
+    });
+
+    // File filter handlers
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentFileFilter = btn.dataset.category;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderFiles();
+      });
+    });
+
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1025,6 +1751,10 @@ const { id } = Astro.params;
 
         if (tab === 'milestones' && currentMilestones.length === 0) {
           loadMilestones();
+        } else if (tab === 'updates' && currentUpdates.length === 0) {
+          loadUpdates();
+        } else if (tab === 'files' && currentFiles.length === 0) {
+          loadFiles();
         }
       });
     });
