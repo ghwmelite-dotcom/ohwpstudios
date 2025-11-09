@@ -3,13 +3,20 @@ export const prerender = false;
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 // Set cache control headers to prevent caching
-Astro.response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+Astro.response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0, s-maxage=0');
 Astro.response.headers.set('Pragma', 'no-cache');
 Astro.response.headers.set('Expires', '0');
+Astro.response.headers.set('CDN-Cache-Control', 'no-store');
+Astro.response.headers.set('Cloudflare-CDN-Cache-Control', 'no-store');
+Astro.response.headers.set('Vary', '*');
+
+// Build timestamp to force cache invalidation
+const BUILD_VERSION = '20250109-v3';
 ---
 
 <BaseLayout title="Client Dashboard" description="Client project dashboard">
-  <main class="dashboard-page">
+  <!-- Build Version: {BUILD_VERSION} -->
+  <main class="dashboard-page" data-version={BUILD_VERSION}>
     <div class="dashboard-background">
       <div class="gradient-orb orb-1"></div>
       <div class="gradient-orb orb-2"></div>

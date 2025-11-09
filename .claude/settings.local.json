@@ -24,7 +24,8 @@
       "Bash(findstr:*)",
       "Bash(copy \"src\\components\\Portfolio.astro\" \"src\\components\\PortfolioFull.astro\")",
       "Bash(del \"src\\pages\\admin\\client-users.astro\" \"src\\pages\\admin\\client-projects.astro\")",
-      "Bash(wrangler d1 execute:*)"
+      "Bash(wrangler d1 execute:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
