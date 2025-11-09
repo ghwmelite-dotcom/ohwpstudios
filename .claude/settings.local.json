@@ -25,7 +25,11 @@
       "Bash(copy \"src\\components\\Portfolio.astro\" \"src\\components\\PortfolioFull.astro\")",
       "Bash(del \"src\\pages\\admin\\client-users.astro\" \"src\\pages\\admin\\client-projects.astro\")",
       "Bash(wrangler d1 execute:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(dir:*)",
+      "Bash(nul)",
+      "Bash(wrangler pages deploy:*)",
+      "Bash(del \"C:\\Users\\rsimd\\Desktop\\agency-website\\src\\pages\\api\\admin\\milestones.astro\")"
     ],
     "deny": [],
     "ask": []

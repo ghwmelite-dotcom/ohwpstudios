@@ -5,6 +5,7 @@ import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
 import CustomCursor from '@/components/CustomCursor.astro';
 import Chatbot from '@/components/Chatbot.astro';
+import PWAInstallPrompt from '@/components/PWAInstallPrompt.astro';
 
 interface Props {
   title?: string;
@@ -62,6 +63,25 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
     <meta name="theme-color" content="#6366f1" />
     <meta name="msapplication-TileColor" content="#6366f1" />
     <link rel="canonical" href={Astro.url} />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128x128.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
+
+    <!-- Apple Web App -->
+    <meta name="apple-mobile-web-app-title" content="WP Studios" />
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-config" content="/browserconfig.xml" />
 
     <!-- Inline critical theme script -->
     <script is:inline>
@@ -149,6 +169,7 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
     <CustomCursor />
     <slot />
     <Chatbot />
+    <PWAInstallPrompt />
 
     <!-- Theme toggle script -->
     <script>
@@ -234,5 +255,233 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
 
     <!-- World-Class Animations System -->
     <script is:inline src="/animations.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {
+              console.log('[PWA] Service Worker registered:', registration);
+
+              // Check for updates every hour
+              setInterval(() => {
+                registration.update();
+              }, 3600000);
+
+              // Handle service worker updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker?.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // Show elegant update toast
+                    const updateToast = document.getElementById('pwa-update-toast');
+                    const reloadBtn = document.getElementById('pwa-reload');
+
+                    if (updateToast) {
+                      updateToast.classList.remove('hidden');
+                    }
+
+                    if (reloadBtn) {
+                      reloadBtn.addEventListener('click', () => {
+                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                        window.location.reload();
+                      });
+                    }
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.log('[PWA] Service Worker registration failed:', error);
+            });
+
+          // Handle service worker updates
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            window.location.reload();
+          });
+        });
+      }
+
+      // PWA Install Prompt - Modern Modal
+      let deferredPrompt;
+      const installModal = document.getElementById('pwa-install-modal');
+      const installBtn = document.getElementById('pwa-install');
+      const laterBtn = document.getElementById('pwa-later');
+      const closeBtn = document.getElementById('pwa-close');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show install modal after a delay if not dismissed
+        if (!localStorage.getItem('pwa-install-dismissed')) {
+          setTimeout(() => {
+            if (installModal) {
+              installModal.classList.remove('hidden');
+            }
+          }, 3000); // Show after 3 seconds
+        }
+      });
+
+      // Handle install button
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+
+          if (outcome === 'accepted') {
+            console.log('[PWA] User accepted the install prompt');
+          } else {
+            console.log('[PWA] User dismissed the install prompt');
+          }
+
+          deferredPrompt = null;
+          if (installModal) {
+            installModal.classList.add('hidden');
+          }
+        });
+      }
+
+      // Handle later/close buttons
+      const dismissModal = () => {
+        if (installModal) {
+          installModal.classList.add('hidden');
+        }
+        localStorage.setItem('pwa-install-dismissed', 'true');
+      };
+
+      if (laterBtn) laterBtn.addEventListener('click', dismissModal);
+      if (closeBtn) closeBtn.addEventListener('click', dismissModal);
+
+      // Close modal on backdrop click
+      if (installModal) {
+        installModal.addEventListener('click', (e) => {
+          if (e.target === installModal || e.target.classList.contains('pwa-modal-backdrop')) {
+            dismissModal();
+          }
+        });
+      }
+
+      // Track PWA install
+      window.addEventListener('appinstalled', () => {
+        console.log('[PWA] App successfully installed');
+        if (installModal) {
+          installModal.classList.add('hidden');
+        }
+        localStorage.setItem('pwa-installed', 'true');
+
+        // Optional: Send analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'pwa_install', {
+            event_category: 'engagement',
+            event_label: 'PWA Installed'
+          });
+        }
+      });
+
+      // Detect if running as PWA
+      window.addEventListener('DOMContentLoaded', () => {
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches ||
+                      window.navigator.standalone === true;
+
+        if (isPWA) {
+          document.documentElement.classList.add('pwa-mode');
+          console.log('[PWA] Running as installed app');
+        }
+      });
+
+      // Background sync for offline forms
+      async function syncFormData(formData, url, method = 'POST') {
+        if (!navigator.onLine) {
+          // Store in IndexedDB for background sync
+          try {
+            const db = await openDB();
+            const tx = db.transaction(['pending-forms'], 'readwrite');
+            const store = tx.objectStore('pending-forms');
+
+            await store.add({
+              url,
+              method,
+              headers: { 'Content-Type': 'application/json' },
+              data: formData,
+              timestamp: Date.now()
+            });
+
+            // Register sync
+            if ('sync' in registration) {
+              await registration.sync.register('sync-form-data');
+            }
+
+            alert('You are offline. Form will be submitted when connection is restored.');
+            return false;
+          } catch (error) {
+            console.error('[PWA] Failed to queue form:', error);
+          }
+        }
+        return true;
+      }
+
+      function openDB() {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open('pwa-sync', 1);
+          request.onerror = () => reject(request.error);
+          request.onsuccess = () => resolve(request.result);
+          request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('pending-forms')) {
+              db.createObjectStore('pending-forms', { keyPath: 'id', autoIncrement: true });
+            }
+          };
+        });
+      }
+
+      // Make syncFormData globally available
+      window.syncFormData = syncFormData;
+
+      // Connection Status Monitoring
+      const connectionStatus = document.getElementById('pwa-connection-status');
+      const statusText = connectionStatus?.querySelector('.pwa-status-text');
+      let statusTimeout;
+
+      function showConnectionStatus(isOnline) {
+        if (!connectionStatus || !statusText) return;
+
+        // Clear existing timeout
+        if (statusTimeout) clearTimeout(statusTimeout);
+
+        // Update status
+        connectionStatus.classList.remove('hidden', 'online', 'offline');
+        connectionStatus.classList.add(isOnline ? 'online' : 'offline');
+
+        if (statusText) {
+          statusText.textContent = isOnline ? 'Back Online' : 'You are Offline';
+        }
+
+        // Auto-hide after 3 seconds
+        statusTimeout = setTimeout(() => {
+          connectionStatus.classList.add('hidden');
+        }, 3000);
+      }
+
+      // Listen for online/offline events
+      window.addEventListener('online', () => {
+        console.log('[PWA] Connection restored');
+        showConnectionStatus(true);
+      });
+
+      window.addEventListener('offline', () => {
+        console.log('[PWA] Connection lost');
+        showConnectionStatus(false);
+      });
+
+      // Initial connection check
+      if (!navigator.onLine) {
+        showConnectionStatus(false);
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,516 @@
+---
+// Modern PWA Install Prompt Component
+---
+
+<div id="pwa-install-modal" class="pwa-modal hidden">
+  <div class="pwa-modal-backdrop"></div>
+  <div class="pwa-modal-content">
+    <button class="pwa-close-btn" id="pwa-close">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div class="pwa-icon-container">
+      <div class="pwa-icon-wrapper">
+        <div class="pwa-icon-glow"></div>
+        <img src="/icons/icon-192x192.png" alt="WP Studios" class="pwa-icon" />
+      </div>
+    </div>
+
+    <h2 class="pwa-title">Install WP Studios</h2>
+    <p class="pwa-description">
+      Get instant access to your agency dashboard and client portal. Work offline, receive notifications, and enjoy a native app experience.
+    </p>
+
+    <div class="pwa-features">
+      <div class="pwa-feature">
+        <div class="pwa-feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3>Lightning Fast</h3>
+          <p>Instant loading & smooth performance</p>
+        </div>
+      </div>
+
+      <div class="pwa-feature">
+        <div class="pwa-feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3>Offline Ready</h3>
+          <p>Access features without internet</p>
+        </div>
+      </div>
+
+      <div class="pwa-feature">
+        <div class="pwa-feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+          </svg>
+        </div>
+        <div>
+          <h3>Push Notifications</h3>
+          <p>Stay updated on project changes</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pwa-actions">
+      <button class="pwa-btn pwa-btn-primary" id="pwa-install">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+        Install App
+      </button>
+      <button class="pwa-btn pwa-btn-secondary" id="pwa-later">
+        Maybe Later
+      </button>
+    </div>
+
+    <p class="pwa-note">
+      Free, secure, and you can uninstall anytime
+    </p>
+  </div>
+</div>
+
+<!-- Toast notification for updates -->
+<div id="pwa-update-toast" class="pwa-toast hidden">
+  <div class="pwa-toast-content">
+    <div class="pwa-toast-icon">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+      </svg>
+    </div>
+    <div class="pwa-toast-text">
+      <h4>New version available!</h4>
+      <p>Update now for the latest features</p>
+    </div>
+    <button class="pwa-toast-btn" id="pwa-reload">Update</button>
+  </div>
+</div>
+
+<!-- Online/Offline indicator -->
+<div id="pwa-connection-status" class="pwa-status hidden">
+  <div class="pwa-status-content">
+    <div class="pwa-status-icon"></div>
+    <span class="pwa-status-text"></span>
+  </div>
+</div>
+
+<style>
+  :root {
+    --pwa-primary: #6366f1;
+    --pwa-primary-dark: #4f46e5;
+    --pwa-bg: #0f172a;
+    --pwa-surface: #1e293b;
+    --pwa-border: #334155;
+    --pwa-text: #f1f5f9;
+    --pwa-text-muted: #94a3b8;
+    --pwa-success: #10b981;
+    --pwa-danger: #ef4444;
+  }
+
+  /* Modal Styles */
+  .pwa-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .pwa-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .pwa-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.3s ease;
+  }
+
+  .pwa-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    background: var(--pwa-surface);
+    border: 1px solid var(--pwa-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .pwa-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--pwa-text-muted);
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+
+  .pwa-close-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--pwa-text);
+  }
+
+  .pwa-close-btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .pwa-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .pwa-icon-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  .pwa-icon-glow {
+    position: absolute;
+    inset: -10px;
+    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    border-radius: 30%;
+    filter: blur(20px);
+    opacity: 0.5;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .pwa-icon {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+  }
+
+  .pwa-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--pwa-text);
+    text-align: center;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pwa-description {
+    font-size: 1rem;
+    color: var(--pwa-text-muted);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .pwa-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .pwa-feature {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+
+  .pwa-feature:hover {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.2);
+    transform: translateX(4px);
+  }
+
+  .pwa-feature-icon {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    border-radius: 10px;
+    color: white;
+  }
+
+  .pwa-feature-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .pwa-feature h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--pwa-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .pwa-feature p {
+    font-size: 0.875rem;
+    color: var(--pwa-text-muted);
+    margin: 0;
+  }
+
+  .pwa-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .pwa-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .pwa-btn-primary {
+    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+
+  .pwa-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  }
+
+  .pwa-btn-primary svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .pwa-btn-secondary {
+    background: transparent;
+    color: var(--pwa-text-muted);
+    border: 1px solid var(--pwa-border);
+  }
+
+  .pwa-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--pwa-text);
+  }
+
+  .pwa-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--pwa-text-muted);
+    margin: 0;
+  }
+
+  /* Toast Styles */
+  .pwa-toast {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 10001;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pwa-toast.hidden {
+    transform: translateY(-150%);
+    opacity: 0;
+  }
+
+  .pwa-toast-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--pwa-surface);
+    border: 1px solid var(--pwa-border);
+    border-radius: 16px;
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    min-width: 320px;
+  }
+
+  .pwa-toast-icon {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    border-radius: 10px;
+    color: white;
+  }
+
+  .pwa-toast-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .pwa-toast-text h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--pwa-text);
+    margin: 0 0 0.25rem 0;
+  }
+
+  .pwa-toast-text p {
+    font-size: 0.875rem;
+    color: var(--pwa-text-muted);
+    margin: 0;
+  }
+
+  .pwa-toast-btn {
+    padding: 0.5rem 1rem;
+    background: var(--pwa-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .pwa-toast-btn:hover {
+    background: var(--pwa-primary-dark);
+    transform: scale(1.05);
+  }
+
+  /* Connection Status */
+  .pwa-status {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10001;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pwa-status.hidden {
+    transform: translate(-50%, 150%);
+    opacity: 0;
+  }
+
+  .pwa-status-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--pwa-surface);
+    border: 1px solid var(--pwa-border);
+    border-radius: 100px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .pwa-status-icon {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .pwa-status.online .pwa-status-icon {
+    background: var(--pwa-success);
+  }
+
+  .pwa-status.offline .pwa-status-icon {
+    background: var(--pwa-danger);
+  }
+
+  .pwa-status-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--pwa-text);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .pwa-modal-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .pwa-title {
+      font-size: 1.75rem;
+    }
+
+    .pwa-actions {
+      flex-direction: column;
+    }
+
+    .pwa-toast {
+      top: 1rem;
+      right: 1rem;
+      left: 1rem;
+    }
+
+    .pwa-toast-content {
+      min-width: auto;
+    }
+
+    .pwa-status {
+      bottom: 1rem;
+    }
+  }
+</style>

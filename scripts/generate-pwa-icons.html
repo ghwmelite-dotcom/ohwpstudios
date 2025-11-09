@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA Icon Generator</title>
+</head>
+<body>
+  <h1>PWA Icon Generator</h1>
+  <p>This will generate placeholder PWA icons. Click the button to download all icons.</p>
+  <button id="generate" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Generate Icons</button>
+  <div id="status"></div>
+
+  <script>
+    const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+
+    function createIcon(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#6366f1');
+      gradient.addColorStop(1, '#818cf8');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+
+      // Add border radius effect
+      ctx.globalCompositeOperation = 'destination-in';
+      ctx.beginPath();
+      const radius = size * 0.15;
+      ctx.roundRect(0, 0, size, size, radius);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Draw "WP" text
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.35}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('WP', size / 2, size / 2);
+
+      return canvas;
+    }
+
+    document.getElementById('generate').addEventListener('click', async () => {
+      const status = document.getElementById('status');
+      status.innerHTML = '<p>Generating icons...</p>';
+
+      // Create icons directory structure message
+      let html = '<h2>Generated Icons</h2>';
+      html += '<p>Right-click each image and "Save As" to <code>public/icons/</code></p>';
+      html += '<div style="display: flex; flex-wrap: wrap; gap: 20px;">';
+
+      sizes.forEach(size => {
+        const canvas = createIcon(size);
+        html += `
+          <div style="text-align: center;">
+            <p>icon-${size}x${size}.png</p>
+            <img src="${canvas.toDataURL()}" style="border: 1px solid #ccc; max-width: 100px;">
+            <br>
+            <a href="${canvas.toDataURL()}" download="icon-${size}x${size}.png">
+              <button style="margin-top: 8px;">Download</button>
+            </a>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      status.innerHTML = html;
+    });
+  </script>
+</body>
+</html>
