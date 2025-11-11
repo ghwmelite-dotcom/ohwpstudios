@@ -116,25 +116,9 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
       .bind(id)
       .all();
 
-    // Fetch contracts
-    const contracts = await db
-      .prepare(`
-        SELECT
-          id,
-          title,
-          description,
-          contract_url,
-          amount,
-          signed_by_client,
-          signed_at,
-          status,
-          created_at
-        FROM contracts
-        WHERE project_id = ?
-        ORDER BY created_at DESC
-      `)
-      .bind(id)
-      .all();
+    // Note: Contracts are standalone e-signature documents, not tied to projects
+    // If you need project-specific contracts in the future, create a separate table
+    const contracts = { results: [] };
 
     // Fetch files
     const files = await db
