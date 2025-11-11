@@ -15,16 +15,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const token = authHeader.substring(7);
-    const runtime = locals.runtime as any;
+    const db = locals.runtime?.env?.DB;
 
-    if (!runtime?.env?.DB) {
+    if (!db) {
       return new Response(JSON.stringify({ error: 'Database not available' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
     }
-
-    const db = runtime.env.DB;
 
     // Verify admin token
     const adminSession = await db
