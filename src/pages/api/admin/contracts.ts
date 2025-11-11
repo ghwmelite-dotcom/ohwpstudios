@@ -25,12 +25,12 @@ export const GET: APIRoute = async ({ request, locals, url }) => {
     }
 
     // Verify admin token
-    const adminSession = await db
-      .prepare('SELECT * FROM admin_sessions WHERE token = ? AND expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminSession) {
+    if (!session) {
       return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
@@ -110,12 +110,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Verify admin token
-    const adminSession = await db
-      .prepare('SELECT * FROM admin_sessions WHERE token = ? AND expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminSession) {
+    if (!session) {
       return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
@@ -180,7 +180,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         data.delivery_date || null,
         data.status || 'draft',
         data.notes || null,
-        adminSession.username
+        'admin'
       )
       .run();
 
@@ -192,7 +192,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       `)
       .bind(
         result.meta.last_row_id,
-        adminSession.username,
+        'admin',
         JSON.stringify({ contract_number: contractNumber })
       )
       .run();
@@ -240,12 +240,12 @@ export const PUT: APIRoute = async ({ request, locals }) => {
     }
 
     // Verify admin token
-    const adminSession = await db
-      .prepare('SELECT * FROM admin_sessions WHERE token = ? AND expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminSession) {
+    if (!session) {
       return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
@@ -302,7 +302,7 @@ export const PUT: APIRoute = async ({ request, locals }) => {
       `)
       .bind(
         id,
-        adminSession.username,
+        'admin',
         JSON.stringify(updates)
       )
       .run();
@@ -343,12 +343,12 @@ export const DELETE: APIRoute = async ({ request, locals, url }) => {
     }
 
     // Verify admin token
-    const adminSession = await db
-      .prepare('SELECT * FROM admin_sessions WHERE token = ? AND expires_at > datetime("now")')
+    const session = await db
+      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
       .bind(token)
       .first();
 
-    if (!adminSession) {
+    if (!session) {
       return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' }
