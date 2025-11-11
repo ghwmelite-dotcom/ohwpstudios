@@ -1,4 +1,67 @@
+# robots.txt for OHWP Studios
+# Last updated: 2025-01-10
+
+# Allow all search engines to crawl public content
 User-agent: *
 Allow: /
+Allow: /about
+Allow: /services/
+Allow: /services/*
+Allow: /portfolio
+Allow: /portfolio/*
+Allow: /contact
+Allow: /blog/
+Allow: /blog/*
+Allow: /careers
+Allow: /technologies/
+Allow: /technologies/*
+Allow: /industries/
+Allow: /industries/*
+Allow: /solutions/
+Allow: /solutions/*
+Allow: /estimate-project
+Allow: /booking
+Allow: /affiliate/signup
+Allow: /sitemap-pages
 
-Sitemap: https://yoursite.com/sitemap-index.xml
+# Disallow private admin and client areas
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /client/
+Disallow: /client/*
+Disallow: /affiliate/dashboard
+Disallow: /affiliate/login
+
+# Disallow API endpoints
+Disallow: /api/
+Disallow: /api/*
+
+# Disallow auth-related pages
+Disallow: /login
+Disallow: /register
+Disallow: /reset-password
+
+# Disallow build artifacts and system files
+Disallow: /_astro/
+Disallow: /dist/
+Disallow: /node_modules/
+
+# Crawl delay (polite crawling)
+Crawl-delay: 0.5
+
+# Sitemap locations
+Sitemap: https://ohwpstudios.org/sitemap-index.xml
+Sitemap: https://ohwpstudios.org/sitemap-0.xml
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.2
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0.5
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 0.5

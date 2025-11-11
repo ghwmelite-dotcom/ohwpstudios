@@ -1,0 +1,892 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+// Fetch case studies from database
+let caseStudies = [];
+let error = null;
+
+try {
+  const db = Astro.locals.runtime.env.DB;
+
+  const result = await db
+    .prepare(`
+      SELECT
+        id,
+        title,
+        client_name,
+        industry,
+        challenge,
+        solution,
+        results,
+        tech_stack,
+        project_duration,
+        team_size,
+        image_url,
+        metrics,
+        testimonial,
+        testimonial_author,
+        testimonial_role,
+        featured,
+        created_at
+      FROM case_studies
+      WHERE published = 1
+      ORDER BY featured DESC, created_at DESC
+    `)
+    .all();
+
+  caseStudies = result.results || [];
+} catch (e) {
+  console.error('Error fetching case studies:', e);
+  error = 'Unable to load case studies';
+  // Fallback to sample data if database fails
+  caseStudies = [
+    {
+      id: 1,
+      title: 'E-Commerce Platform for Fashion Retailer',
+      client_name: 'StyleHub',
+      industry: 'E-Commerce',
+      challenge: 'Legacy system couldn\'t handle growing traffic and lacked modern features',
+      solution: 'Built a scalable headless commerce platform with personalized recommendations',
+      results: '300% increase in conversions, 50% faster page loads, 95% customer satisfaction',
+      tech_stack: 'Next.js, Node.js, PostgreSQL, Redis, AWS',
+      project_duration: '4 months',
+      team_size: 5,
+      image_url: '/images/case-study-ecommerce.svg',
+      metrics: JSON.stringify({ conversion: '+300%', speed: '50% faster', satisfaction: '95%' }),
+      testimonial: 'OHWP Studios transformed our business. The new platform is lightning fast and our customers love it.',
+      testimonial_author: 'Sarah Johnson',
+      testimonial_role: 'CEO, StyleHub',
+      featured: 1
+    },
+    {
+      id: 2,
+      title: 'Healthcare Patient Management System',
+      client_name: 'MediCare Plus',
+      industry: 'Healthcare',
+      challenge: 'Manual processes and disconnected systems causing delays in patient care',
+      solution: 'Developed HIPAA-compliant patient management system with real-time updates',
+      results: '60% reduction in administrative time, 40% faster patient processing, improved care quality',
+      tech_stack: 'React, Python, Django, PostgreSQL, Docker',
+      project_duration: '6 months',
+      team_size: 6,
+      image_url: '/images/case-study-healthcare.svg',
+      metrics: JSON.stringify({ efficiency: '+60%', processing: '40% faster', uptime: '99.9%' }),
+      testimonial: 'The system has revolutionized how we manage patient care. It\'s intuitive and powerful.',
+      testimonial_author: 'Dr. Michael Chen',
+      testimonial_role: 'Medical Director, MediCare Plus',
+      featured: 1
+    },
+    {
+      id: 3,
+      title: 'FinTech Mobile Banking App',
+      client_name: 'NeoBank',
+      industry: 'FinTech',
+      challenge: 'Traditional banking experience not meeting digital-first customer expectations',
+      solution: 'Created modern mobile banking app with AI-powered insights and instant transfers',
+      results: '500K downloads in 3 months, 4.8/5 app store rating, 70% user retention',
+      tech_stack: 'React Native, Node.js, MongoDB, AWS Lambda',
+      project_duration: '5 months',
+      team_size: 7,
+      image_url: '/images/case-study-fintech.svg',
+      metrics: JSON.stringify({ downloads: '500K+', rating: '4.8/5', retention: '70%' }),
+      testimonial: 'Our customers love the app. OHWP Studios delivered beyond our expectations.',
+      testimonial_author: 'James Miller',
+      testimonial_role: 'CTO, NeoBank',
+      featured: 1
+    }
+  ];
+}
+
+// Extract unique industries for filtering
+const industries = ['All', ...new Set(caseStudies.map(cs => cs.industry))];
+---
+
+<BaseLayout
+  title="Case Studies | Real Results from Real Clients - OHWP Studios"
+  description="Explore our portfolio of successful projects. See how we've helped businesses transform with custom software solutions that deliver measurable results."
+>
+  <Header />
+
+  <main class="case-studies-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>Success Stories</span>
+          </div>
+          <h1>Case Studies</h1>
+          <p class="hero-subtitle">
+            Real projects. Real results. See how we've helped businesses like yours achieve their goals with custom software solutions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card glass">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Projects Delivered</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Client Satisfaction</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Industries Served</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-number">$5M+</div>
+            <div class="stat-label">Revenue Generated</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+      <div class="container">
+        <div class="filter-container">
+          <h3>Filter by Industry</h3>
+          <div class="industry-filters">
+            {industries.map((industry) => (
+              <button
+                class={`filter-btn ${industry === 'All' ? 'active' : ''}`}
+                data-industry={industry}
+              >
+                {industry}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Studies Grid -->
+    <section class="case-studies-section">
+      <div class="container">
+        {error && (
+          <div class="error-message glass">
+            <p>{error}</p>
+          </div>
+        )}
+
+        <div class="case-studies-grid">
+          {caseStudies.map((study, index) => {
+            let metrics = {};
+            try {
+              metrics = typeof study.metrics === 'string' ? JSON.parse(study.metrics) : study.metrics || {};
+            } catch (e) {
+              metrics = {};
+            }
+
+            return (
+              <article
+                class="case-study-card glass"
+                data-industry={study.industry}
+                style={`animation-delay: ${(index % 6) * 0.1}s`}
+              >
+                {study.featured && (
+                  <div class="featured-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Featured
+                  </div>
+                )}
+
+                <div class="case-study-image">
+                  <img src={study.image_url} alt={study.title} loading="lazy" />
+                  <div class="industry-badge">{study.industry}</div>
+                </div>
+
+                <div class="case-study-content">
+                  <h2>{study.title}</h2>
+                  <p class="client-name">{study.client_name}</p>
+
+                  <div class="challenge-solution">
+                    <div class="section">
+                      <h4>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <path d="M12 8v4M12 16h.01"/>
+                        </svg>
+                        Challenge
+                      </h4>
+                      <p>{study.challenge}</p>
+                    </div>
+                    <div class="section">
+                      <h4>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Solution
+                      </h4>
+                      <p>{study.solution}</p>
+                    </div>
+                  </div>
+
+                  {Object.keys(metrics).length > 0 && (
+                    <div class="metrics">
+                      {Object.entries(metrics).map(([key, value]) => (
+                        <div class="metric-item">
+                          <div class="metric-value">{value}</div>
+                          <div class="metric-label">{key}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div class="tech-stack">
+                    <h4>Tech Stack</h4>
+                    <div class="tech-tags">
+                      {study.tech_stack.split(',').map(tech => (
+                        <span class="tech-tag">{tech.trim()}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {study.testimonial && (
+                    <div class="testimonial">
+                      <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
+                      </svg>
+                      <p>"{study.testimonial}"</p>
+                      <div class="testimonial-author">
+                        <strong>{study.testimonial_author}</strong>
+                        <span>{study.testimonial_role}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div class="case-study-footer">
+                    <div class="project-info">
+                      <span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <path d="M12 6v6l4 2"/>
+                        </svg>
+                        {study.project_duration}
+                      </span>
+                      <span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                          <circle cx="9" cy="7" r="4"/>
+                          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                        {study.team_size} team members
+                      </span>
+                    </div>
+                    <a href="/contact" class="btn btn-primary btn-sm">
+                      Start Your Project
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+          <div class="glass empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <h3>No case studies found</h3>
+            <p>Try selecting a different industry filter</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-card glass">
+          <h2>Ready to Create Your Success Story?</h2>
+          <p>Let's build something amazing together. Get started with a free consultation.</p>
+          <div class="cta-buttons">
+            <a href="/quiz" class="btn btn-primary btn-large">
+              Take Discovery Quiz
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="/contact" class="btn btn-secondary btn-large">
+              Schedule a Call
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .case-studies-page {
+    min-height: 100vh;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: calc(var(--header-height) + 4rem) 0 3rem;
+    background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.1), transparent 40%);
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--color-text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    padding: 3rem 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .stat-card {
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 900;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  /* Filter Section */
+  .filter-section {
+    padding: 2rem 0;
+  }
+
+  .filter-container {
+    text-align: center;
+  }
+
+  .filter-container h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .industry-filters {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .filter-btn.active {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  }
+
+  /* Case Studies Section */
+  .case-studies-section {
+    padding: 2rem 0 4rem;
+  }
+
+  .case-studies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 2.5rem;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .case-study-card {
+    animation: fadeInUp 0.6s ease-out backwards;
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .case-study-card.hidden {
+    display: none;
+  }
+
+  .case-study-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  }
+
+  .case-study-image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(240, 147, 251, 0.1));
+  }
+
+  .case-study-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .case-study-card:hover .case-study-image img {
+    transform: scale(1.05);
+  }
+
+  .industry-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .case-study-content {
+    padding: 2rem;
+  }
+
+  .case-study-content h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .client-name {
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  .challenge-solution {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .challenge-solution .section h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .challenge-solution .section h4 svg {
+    color: var(--color-primary);
+  }
+
+  .challenge-solution .section p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+  }
+
+  .metric-item {
+    text-align: center;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 900;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.25rem;
+  }
+
+  .metric-label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  .tech-stack {
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-stack h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .tech-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tech-tag {
+    padding: 0.35rem 0.85rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-primary);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .testimonial {
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .quote-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: var(--color-primary);
+    opacity: 0.2;
+  }
+
+  .testimonial p {
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .testimonial-author strong {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .testimonial-author span {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .case-study-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .project-info {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .project-info span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .project-info svg {
+    color: var(--color-primary);
+  }
+
+  /* No Results */
+  .empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 24px;
+  }
+
+  .empty-state svg {
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .empty-state p {
+    color: var(--color-text-muted);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 4rem 0;
+  }
+
+  .cta-card {
+    padding: 4rem 3rem;
+    border-radius: 24px;
+    text-align: center;
+  }
+
+  .cta-card h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .cta-card p {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-large {
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  .btn-sm {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Glass utility */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .case-studies-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: calc(var(--header-height) + 2.5rem) 0 2rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case-study-content {
+      padding: 1.5rem;
+    }
+
+    .case-study-footer {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .cta-card {
+      padding: 3rem 2rem;
+    }
+
+    .cta-card h2 {
+      font-size: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-buttons .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Industry filtering
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const caseStudyCards = document.querySelectorAll('.case-study-card');
+  const noResults = document.getElementById('noResults');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const industry = btn.dataset.industry;
+
+      // Update active state
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filter cards
+      let visibleCount = 0;
+      caseStudyCards.forEach(card => {
+        const cardIndustry = card.dataset.industry;
+        if (industry === 'All' || cardIndustry === industry) {
+          card.classList.remove('hidden');
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+          card.style.display = 'none';
+        }
+      });
+
+      // Show/hide no results message
+      if (noResults) {
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    });
+  });
+</script>

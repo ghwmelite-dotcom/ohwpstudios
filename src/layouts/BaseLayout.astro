@@ -6,22 +6,34 @@ import LoadingScreen from '@/components/LoadingScreen.astro';
 import CustomCursor from '@/components/CustomCursor.astro';
 import Chatbot from '@/components/Chatbot.astro';
 import PWAInstallPrompt from '@/components/PWAInstallPrompt.astro';
+import SocialProof from '@/components/SocialProof.astro';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   noLoader?: boolean;
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    section?: string;
+    tags?: string[];
+  };
 }
 
 const {
   title = SITE_CONFIG.name,
   description = SITE_CONFIG.description,
   image = '/og-image.jpg',
-  noLoader = false
+  noLoader = false,
+  article
 } = Astro.props;
 
 const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG.name}`;
+const siteUrl = Astro.url.origin;
+const canonicalUrl = Astro.url.href;
+const imageUrl = new URL(image, Astro.url).href;
 ---
 
 <!DOCTYPE html>
@@ -39,25 +51,52 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
     <title>{pageTitle}</title>
     <meta name="title" content={pageTitle} />
     <meta name="description" content={description} />
+    <meta name="author" content="WP Studios" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:site_name" content="WP Studios" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={pageTitle} />
+    <meta property="og:locale" content="en_US" />
+
+    {article && (
+      <>
+        <meta property="article:published_time" content={article.publishedTime} />
+        {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+        {article.author && <meta property="article:author" content={article.author} />}
+        {article.section && <meta property="article:section" content={article.section} />}
+        {article.tags && article.tags.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
-    <meta property="twitter:title" content={pageTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ohwpstudios" />
+    {article?.author && <meta name="twitter:creator" content={`@${article.author.toLowerCase().replace(/\s+/g, '')}`} />}
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={pageTitle} />
 
-    <!-- Fonts -->
+    <!-- Fonts - Optimized with font-display:swap and preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+
+    <!-- Critical Resource Hints -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
     <!-- Performance & SEO -->
     <meta name="theme-color" content="#6366f1" />
@@ -169,6 +208,7 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
     <CustomCursor />
     <slot />
     <Chatbot />
+    <SocialProof />
     <PWAInstallPrompt />
 
     <!-- Theme toggle script -->
@@ -253,8 +293,8 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
       document.addEventListener('astro:page-load', loadFavicon);
     </script>
 
-    <!-- World-Class Animations System -->
-    <script is:inline src="/animations.js"></script>
+    <!-- World-Class Animations System - Deferred for Performance -->
+    <script src="/animations.js" defer></script>
 
     <!-- PWA Service Worker Registration -->
     <script>
@@ -481,6 +521,160 @@ const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG
       // Initial connection check
       if (!navigator.onLine) {
         showConnectionStatus(false);
+      }
+
+      // Push Notification Subscription Management
+      async function setupPushNotifications() {
+        // Check if push notifications are supported
+        if (!('Notification' in window) || !('PushManager' in window)) {
+          console.log('[Push] Push notifications not supported');
+          return;
+        }
+
+        // Check if service worker is ready
+        const registration = await navigator.serviceWorker.ready;
+        if (!registration) {
+          console.log('[Push] Service worker not ready');
+          return;
+        }
+
+        // Check if already subscribed
+        const existingSubscription = await registration.pushManager.getSubscription();
+
+        // Determine user type based on current path
+        const userType = window.location.pathname.startsWith('/admin/') ? 'admin' :
+                        window.location.pathname.startsWith('/client/') ? 'client' : null;
+
+        // Auto-subscribe admin users and logged-in client users
+        const adminToken = localStorage.getItem('admin_token');
+        const clientToken = localStorage.getItem('client_token');
+
+        if (!existingSubscription && (adminToken || clientToken)) {
+          // Request permission if not already granted
+          if (Notification.permission === 'default') {
+            const permission = await Notification.requestPermission();
+            if (permission !== 'granted') {
+              console.log('[Push] Notification permission denied');
+              return;
+            }
+          }
+
+          if (Notification.permission === 'granted') {
+            try {
+              await subscribeToPush(registration, userType || 'client');
+            } catch (error) {
+              console.error('[Push] Failed to subscribe:', error);
+            }
+          }
+        } else if (existingSubscription) {
+          console.log('[Push] Already subscribed to push notifications');
+        }
+      }
+
+      async function subscribeToPush(registration, userType) {
+        try {
+          // Application server key (VAPID public key)
+          // In production, this should come from environment variables
+          // For now, using a placeholder - this needs to be generated
+          const applicationServerKey = urlBase64ToUint8Array(
+            'BEl62iUYgUivxIkv69yViEuiBIa-Ib27SaCH' +
+            'goeJfaLHTU4kJP3H-FOcpfBEa-wGZtMh2wAQ' +
+            '4BpQkJqFzZ8QiTM'
+          );
+
+          const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: applicationServerKey
+          });
+
+          console.log('[Push] Push subscription created:', subscription);
+
+          // Send subscription to server
+          const userId = userType === 'admin' ? 1 : null; // Get actual user ID from session
+
+          const response = await fetch('/api/push/subscribe', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              subscription: subscription.toJSON(),
+              userType: userType,
+              userId: userId
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to save subscription to server');
+          }
+
+          const result = await response.json();
+          console.log('[Push] Subscription saved to server:', result);
+
+          // Store subscription ID locally
+          localStorage.setItem('push_subscription_id', result.subscriptionId);
+
+          return subscription;
+        } catch (error) {
+          console.error('[Push] Failed to subscribe:', error);
+          throw error;
+        }
+      }
+
+      function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+          .replace(/\-/g, '+')
+          .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      }
+
+      // Function to unsubscribe from push notifications
+      async function unsubscribeFromPush() {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const subscription = await registration.pushManager.getSubscription();
+
+          if (subscription) {
+            const endpoint = subscription.endpoint;
+
+            // Unsubscribe from browser
+            await subscription.unsubscribe();
+
+            // Unsubscribe from server
+            await fetch('/api/push/unsubscribe', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ endpoint })
+            });
+
+            localStorage.removeItem('push_subscription_id');
+            console.log('[Push] Unsubscribed from push notifications');
+          }
+        } catch (error) {
+          console.error('[Push] Failed to unsubscribe:', error);
+        }
+      }
+
+      // Make functions globally available
+      window.subscribeToPush = setupPushNotifications;
+      window.unsubscribeFromPush = unsubscribeFromPush;
+
+      // Setup push notifications after service worker is registered
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(() => {
+          // Delay to avoid disrupting initial page load
+          setTimeout(setupPushNotifications, 2000);
+        });
       }
     </script>
   </body>

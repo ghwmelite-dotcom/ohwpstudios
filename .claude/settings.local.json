@@ -29,7 +29,22 @@
       "Bash(dir:*)",
       "Bash(nul)",
       "Bash(wrangler pages deploy:*)",
-      "Bash(del \"C:\\Users\\rsimd\\Desktop\\agency-website\\src\\pages\\api\\admin\\milestones.astro\")"
+      "Bash(del \"C:\\Users\\rsimd\\Desktop\\agency-website\\src\\pages\\api\\admin\\milestones.astro\")",
+      "WebFetch(domain:766c757b.ohwpstudios.pages.dev)",
+      "Bash(node scripts/generate-icons.js:*)",
+      "WebFetch(domain:d05f3608.ohwpstudios.pages.dev)",
+      "Bash(find:*)",
+      "Bash(npx:*)",
+      "Bash(move:*)",
+      "Bash(move publicanimations.min.js publicanimations.js)",
+      "Bash(node scripts/create-blog-posts-from-seo.js:*)",
+      "Bash(scripts/blog-posts.sql)",
+      "Bash(node scripts/create-blog-posts-from-seo-v2.js:*)",
+      "Bash(scripts/blog-posts-final.sql)",
+      "Bash(node -e:*)",
+      "WebFetch(domain:be01ad88.ohwpstudios.pages.dev)",
+      "Bash(node scripts/generate-blog-images.js:*)",
+      "Bash(node scripts/generate-case-study-images.js:*)"
     ],
     "deny": [],
     "ask": []

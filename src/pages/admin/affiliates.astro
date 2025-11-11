@@ -1,0 +1,441 @@
+---
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Affiliates - Admin Portal</title>
+  <style>
+    :root {
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-surface-hover: #334155;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-secondary: #ec4899;
+      --color-text: #f1f5f9;
+      --color-text-muted: #94a3b8;
+      --color-border: #334155;
+      --color-success: #10b981;
+      --color-danger: #ef4444;
+      --color-warning: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-surface-hover);
+    }
+
+    .btn-success {
+      background: var(--color-success);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-danger {
+      background: var(--color-danger);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-warning {
+      background: var(--color-warning);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+    }
+
+    .stat-label {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .tab {
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      position: relative;
+      top: 2px;
+    }
+
+    .tab.active {
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    .table-container {
+      background: var(--color-surface);
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--color-bg);
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    tbody tr:hover {
+      background: var(--color-surface-hover);
+    }
+
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-pending {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--color-warning);
+    }
+
+    .badge-active {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-success);
+    }
+
+    .badge-suspended {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--color-danger);
+    }
+
+    .badge-rejected {
+      background: rgba(107, 114, 128, 0.2);
+      color: #9ca3af;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    .affiliate-details {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    .code {
+      font-family: 'Courier New', monospace;
+      background: var(--color-bg);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>Affiliate Management</h1>
+      <p style="color: var(--color-text-muted); margin-top: 0.5rem;">Manage your affiliate partners and commissions</p>
+    </div>
+    <a href="/admin/dashboard" class="btn btn-secondary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+      Back to Dashboard
+    </a>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Affiliates</div>
+      <div class="stat-value" id="total-affiliates">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pending Applications</div>
+      <div class="stat-value" id="pending-affiliates">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Active Affiliates</div>
+      <div class="stat-value" id="active-affiliates">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Clicks</div>
+      <div class="stat-value" id="total-clicks">0</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="all">All</button>
+    <button class="tab" data-tab="pending">Pending</button>
+    <button class="tab" data-tab="active">Active</button>
+    <button class="tab" data-tab="suspended">Suspended</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Affiliate</th>
+          <th>Code</th>
+          <th>Status</th>
+          <th>Stats</th>
+          <th>Earnings</th>
+          <th>Applied</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="affiliates-tbody">
+        <tr>
+          <td colspan="7" class="loading">Loading affiliates...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let allAffiliates = [];
+    let currentFilter = 'all';
+
+    // Load affiliates
+    async function loadAffiliates() {
+      try {
+        const response = await fetch('/api/admin/affiliates');
+        const data = await response.json();
+
+        if (data.success) {
+          allAffiliates = data.affiliates;
+
+          // Update stats
+          document.getElementById('total-affiliates').textContent = data.stats.total;
+          document.getElementById('pending-affiliates').textContent = data.stats.pending;
+          document.getElementById('active-affiliates').textContent = data.stats.active;
+          document.getElementById('total-clicks').textContent = data.stats.total_clicks.toLocaleString();
+
+          renderAffiliates();
+        }
+      } catch (error) {
+        console.error('Error loading affiliates:', error);
+        document.getElementById('affiliates-tbody').innerHTML =
+          '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: var(--color-danger);">Failed to load affiliates</td></tr>';
+      }
+    }
+
+    function renderAffiliates() {
+      const tbody = document.getElementById('affiliates-tbody');
+
+      const filtered = currentFilter === 'all'
+        ? allAffiliates
+        : allAffiliates.filter(a => a.status === currentFilter);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: var(--color-text-muted);">No affiliates found</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(affiliate => `
+        <tr data-id="${affiliate.id}">
+          <td>
+            <div style="font-weight: 600;">${affiliate.name}</div>
+            <div class="affiliate-details">${affiliate.email}</div>
+            ${affiliate.company_name ? `<div class="affiliate-details">${affiliate.company_name}</div>` : ''}
+          </td>
+          <td><span class="code">${affiliate.affiliate_code}</span></td>
+          <td><span class="badge badge-${affiliate.status}">${affiliate.status}</span></td>
+          <td>
+            <div style="font-size: 0.875rem;">
+              <div>Clicks: ${affiliate.total_clicks || 0}</div>
+              <div>Leads: ${affiliate.total_leads || 0}</div>
+              <div>Conversions: ${affiliate.total_conversions || 0}</div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight: 600;">$${(affiliate.total_earned || 0).toFixed(2)}</div>
+            <div class="affiliate-details">Pending: $${(affiliate.pending_payout || 0).toFixed(2)}</div>
+          </td>
+          <td style="font-size: 0.875rem; color: var(--color-text-muted);">
+            ${new Date(affiliate.created_at).toLocaleDateString()}
+          </td>
+          <td>
+            <div class="actions">
+              ${affiliate.status === 'pending' ? `
+                <button class="btn btn-success" onclick="updateStatus(${affiliate.id}, 'active')">
+                  Approve
+                </button>
+                <button class="btn btn-danger" onclick="updateStatus(${affiliate.id}, 'rejected')">
+                  Reject
+                </button>
+              ` : ''}
+              ${affiliate.status === 'active' ? `
+                <button class="btn btn-warning" onclick="updateStatus(${affiliate.id}, 'suspended')">
+                  Suspend
+                </button>
+              ` : ''}
+              ${affiliate.status === 'suspended' ? `
+                <button class="btn btn-success" onclick="updateStatus(${affiliate.id}, 'active')">
+                  Reactivate
+                </button>
+              ` : ''}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function updateStatus(affiliateId, newStatus) {
+      if (!confirm(`Are you sure you want to ${newStatus} this affiliate?`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/admin/affiliates', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: affiliateId, status: newStatus })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Reload affiliates
+          await loadAffiliates();
+          alert(`Affiliate status updated to ${newStatus}`);
+        } else {
+          alert('Failed to update status: ' + data.error);
+        }
+      } catch (error) {
+        console.error('Error updating status:', error);
+        alert('Failed to update status');
+      }
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.tab;
+        renderAffiliates();
+      });
+    });
+
+    // Load on page load
+    loadAffiliates();
+  </script>
+</body>
+</html>

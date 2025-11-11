@@ -519,7 +519,7 @@
         featuredGrid.innerHTML = featured.map((client: any, index: number) => `
           <div class="featured-card" style="animation-delay: ${index * 0.1}s">
             <div class="client-logo-container">
-              <img src="${client.logo_url}" alt="${client.name}" class="client-logo">
+              <img src="${client.logo_url}" alt="${client.name}" class="client-logo" loading="lazy">
             </div>
             <div class="client-name">${client.name}</div>
             ${client.industry ? `<div class="client-industry">${client.industry}</div>` : ''}
@@ -549,7 +549,7 @@
         clientsGrid.innerHTML = regular.map((client: any, index: number) => `
           <div class="client-card" style="animation-delay: ${index * 0.05}s">
             <div class="client-card-logo">
-              <img src="${client.logo_url}" alt="${client.name}">
+              <img src="${client.logo_url}" alt="${client.name}" loading="lazy">
             </div>
             <div class="client-card-name">${client.name}</div>
           </div>

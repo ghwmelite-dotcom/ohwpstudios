@@ -1,0 +1,727 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Contract Management" description="Manage client contracts and e-signatures">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <h2>E-Contracts</h2>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <span class="nav-section-label">Contract Management</span>
+          <button class="nav-item active" data-tab="contracts">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>All Contracts</span>
+          </button>
+
+          <button class="nav-item" data-tab="templates">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+            </svg>
+            <span>Templates</span>
+          </button>
+
+          <button class="nav-item" data-tab="create">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            <span>Create Contract</span>
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Quick Links</span>
+          <a href="/admin/dashboard" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="/admin/clients" class="nav-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <span>Clients</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" id="logout-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <main class="admin-content">
+      <!-- Contracts Tab -->
+      <div class="tab-content active" id="tab-contracts">
+        <div class="content-header">
+          <div>
+            <h1>Contract Management</h1>
+            <p class="subtitle">Manage and track all client contracts</p>
+          </div>
+          <button class="btn btn-primary" id="btn-new-contract">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            New Contract
+          </button>
+        </div>
+
+        <div class="filters-bar">
+          <div class="filter-group">
+            <button class="filter-btn active" data-status="all">All</button>
+            <button class="filter-btn" data-status="draft">Draft</button>
+            <button class="filter-btn" data-status="sent">Sent</button>
+            <button class="filter-btn" data-status="viewed">Viewed</button>
+            <button class="filter-btn" data-status="signed">Signed</button>
+          </div>
+          <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="Search contracts..." id="contract-search" />
+          </div>
+        </div>
+
+        <div class="contracts-grid" id="contracts-list">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading contracts...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Templates Tab -->
+      <div class="tab-content" id="tab-templates">
+        <div class="content-header">
+          <div>
+            <h1>Contract Templates</h1>
+            <p class="subtitle">Manage reusable contract templates</p>
+          </div>
+          <button class="btn btn-primary" id="btn-new-template">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            New Template
+          </button>
+        </div>
+
+        <div class="templates-grid" id="templates-list">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading templates...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Contract Tab -->
+      <div class="tab-content" id="tab-create">
+        <div class="content-header">
+          <div>
+            <h1>Create New Contract</h1>
+            <p class="subtitle">Generate a contract from a template</p>
+          </div>
+        </div>
+
+        <form id="create-contract-form" class="contract-form">
+          <div class="form-section">
+            <h3>Template Selection</h3>
+            <div class="form-group">
+              <label for="template-select">Contract Template *</label>
+              <select id="template-select" name="template_id" required class="form-input">
+                <option value="">Loading templates...</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Client Information</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="client-name">Client Name *</label>
+                <input type="text" id="client-name" name="client_name" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label for="client-email">Client Email *</label>
+                <input type="email" id="client-email" name="client_email" class="form-input" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="client-company">Company</label>
+                <input type="text" id="client-company" name="client_company" class="form-input" />
+              </div>
+              <div class="form-group">
+                <label for="client-phone">Phone</label>
+                <input type="tel" id="client-phone" name="client_phone" class="form-input" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="client-address">Address</label>
+              <textarea id="client-address" name="client_address" class="form-input" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Contract Details</h3>
+            <div class="form-group">
+              <label for="contract-title">Contract Title *</label>
+              <input type="text" id="contract-title" name="title" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label for="contract-description">Description</label>
+              <textarea id="contract-description" name="description" class="form-input" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Financial Terms</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="total-amount">Total Amount</label>
+                <input type="number" id="total-amount" name="total_amount" class="form-input" step="0.01" min="0" />
+              </div>
+              <div class="form-group">
+                <label for="currency">Currency</label>
+                <select id="currency" name="currency" class="form-input">
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="GHS">GHS (₵)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="payment-terms">Payment Terms</label>
+              <textarea id="payment-terms" name="payment_terms" class="form-input" rows="2" placeholder="e.g., 50% upfront, 50% on completion"></textarea>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Timeline</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="start-date">Start Date</label>
+                <input type="date" id="start-date" name="start_date" class="form-input" />
+              </div>
+              <div class="form-group">
+                <label for="end-date">End Date</label>
+                <input type="date" id="end-date" name="end_date" class="form-input" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="delivery-date">Delivery Date</label>
+              <input type="date" id="delivery-date" name="delivery_date" class="form-input" />
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Additional Notes</h3>
+            <div class="form-group">
+              <label for="contract-notes">Notes (Internal Only)</label>
+              <textarea id="contract-notes" name="notes" class="form-input" rows="3" placeholder="Internal notes that won't be visible to the client"></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="btn-cancel-create">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create Contract</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <style is:global>
+    .admin-layout {
+      display: flex;
+      min-height: 100vh;
+      background: var(--gradient-background);
+    }
+
+    .admin-sidebar {
+      width: 280px;
+      background: var(--glass-bg);
+      border-right: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 2rem 1.5rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 2rem;
+    }
+
+    .nav-section-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+      padding: 0 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.25rem;
+      border-radius: var(--radius-md);
+      color: var(--color-text-muted);
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--color-primary);
+    }
+
+    .nav-item.active {
+      background: var(--gradient-primary);
+      color: white;
+    }
+
+    .sidebar-footer {
+      padding: 1rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      border: none;
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    .admin-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .content-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--color-text);
+      margin: 0 0 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .filters-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(20px);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--glass-border);
+      background: transparent;
+      color: var(--color-text);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .filter-btn.active {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: white;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      min-width: 250px;
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      color: var(--color-text);
+      outline: none;
+      width: 100%;
+    }
+
+    .contracts-grid,
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .contract-card,
+    .template-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .contract-card:hover,
+    .template-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+      border-color: var(--color-primary);
+    }
+
+    .contract-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .contract-number {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .contract-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .status-badge.draft {
+      background: rgba(156, 163, 175, 0.1);
+      color: #6b7280;
+    }
+
+    .status-badge.sent {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .status-badge.viewed {
+      background: rgba(139, 92, 246, 0.1);
+      color: #8b5cf6;
+    }
+
+    .status-badge.signed {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .contract-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    .meta-item svg {
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .contract-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .btn-icon {
+      padding: 0.5rem;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem;
+      gap: 1rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--glass-border);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .contract-form {
+      max-width: 800px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      backdrop-filter: blur(20px);
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .form-section h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    @media (max-width: 768px) {
+      .admin-layout {
+        flex-direction: column;
+      }
+
+      .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .contracts-grid,
+      .templates-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        flex-wrap: wrap;
+      }
+
+      .search-box {
+        min-width: auto;
+      }
+    }
+  </style>
+
+  <script src="/scripts/admin-contracts.js" is:inline></script>
+</BaseLayout>

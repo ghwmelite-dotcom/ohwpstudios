@@ -1,0 +1,314 @@
+---
+// E-Signature Canvas Component
+// Allows users to sign contracts digitally
+---
+
+<div class="signature-pad-container">
+  <div class="signature-pad-header">
+    <label for="signature-canvas" class="signature-label">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+      </svg>
+      Please sign below
+    </label>
+    <button type="button" class="btn-clear-signature" id="clear-signature">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+      </svg>
+      Clear
+    </button>
+  </div>
+
+  <div class="signature-canvas-wrapper">
+    <canvas id="signature-canvas" width="800" height="200"></canvas>
+    <div class="signature-placeholder" id="signature-placeholder">
+      Sign here with your mouse or touch
+    </div>
+  </div>
+
+  <p class="signature-disclaimer">
+    By signing this document, you agree to the terms and conditions outlined above.
+  </p>
+</div>
+
+<style>
+  .signature-pad-container {
+    margin: 2rem 0;
+  }
+
+  .signature-pad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .signature-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 1rem;
+  }
+
+  .signature-label svg {
+    color: var(--color-primary);
+  }
+
+  .btn-clear-signature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-clear-signature:hover {
+    background: var(--color-danger);
+    color: white;
+    border-color: var(--color-danger);
+  }
+
+  .signature-canvas-wrapper {
+    position: relative;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: white;
+    overflow: hidden;
+  }
+
+  [data-theme="dark"] .signature-canvas-wrapper {
+    background: rgba(30, 41, 59, 0.3);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  #signature-canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .signature-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .signature-placeholder.hidden {
+    display: none;
+  }
+
+  .signature-disclaimer {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .signature-canvas-wrapper {
+      height: 150px;
+    }
+
+    #signature-canvas {
+      height: 150px;
+    }
+  }
+</style>
+
+<script>
+  class SignaturePad {
+    private canvas: HTMLCanvasElement;
+    private ctx: CanvasRenderingContext2D;
+    private isDrawing: boolean = false;
+    private lastX: number = 0;
+    private lastY: number = 0;
+    private placeholder: HTMLElement | null;
+
+    constructor(canvasId: string) {
+      this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+      if (!this.canvas) {
+        console.error('Signature canvas not found');
+        return;
+      }
+
+      this.ctx = this.canvas.getContext('2d')!;
+      this.placeholder = document.getElementById('signature-placeholder');
+      this.init();
+    }
+
+    init() {
+      // Set canvas size properly for high DPI displays
+      const rect = this.canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      this.canvas.width = rect.width * dpr;
+      this.canvas.height = rect.height * dpr;
+      this.ctx.scale(dpr, dpr);
+      this.canvas.style.width = rect.width + 'px';
+      this.canvas.style.height = rect.height + 'px';
+
+      // Set drawing style
+      this.ctx.strokeStyle = '#000';
+      this.ctx.lineWidth = 2;
+      this.ctx.lineCap = 'round';
+      this.ctx.lineJoin = 'round';
+
+      // Mouse events
+      this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
+      this.canvas.addEventListener('mousemove', this.draw.bind(this));
+      this.canvas.addEventListener('mouseup', this.stopDrawing.bind(this));
+      this.canvas.addEventListener('mouseout', this.stopDrawing.bind(this));
+
+      // Touch events
+      this.canvas.addEventListener('touchstart', this.handleTouch.bind(this));
+      this.canvas.addEventListener('touchmove', this.handleTouch.bind(this));
+      this.canvas.addEventListener('touchend', this.stopDrawing.bind(this));
+
+      // Clear button
+      const clearBtn = document.getElementById('clear-signature');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', this.clear.bind(this));
+      }
+
+      // Resize handler
+      window.addEventListener('resize', this.handleResize.bind(this));
+    }
+
+    handleResize() {
+      const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+      const rect = this.canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      this.canvas.width = rect.width * dpr;
+      this.canvas.height = rect.height * dpr;
+      this.ctx.scale(dpr, dpr);
+      this.canvas.style.width = rect.width + 'px';
+      this.canvas.style.height = rect.height + 'px';
+      this.ctx.putImageData(imageData, 0, 0);
+    }
+
+    getCoords(e: MouseEvent | TouchEvent): { x: number; y: number } {
+      const rect = this.canvas.getBoundingClientRect();
+      if (e instanceof MouseEvent) {
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      } else {
+        const touch = e.touches[0];
+        return {
+          x: touch.clientX - rect.left,
+          y: touch.clientY - rect.top
+        };
+      }
+    }
+
+    startDrawing(e: MouseEvent) {
+      this.isDrawing = true;
+      const coords = this.getCoords(e);
+      this.lastX = coords.x;
+      this.lastY = coords.y;
+      this.hidePlaceholder();
+    }
+
+    draw(e: MouseEvent) {
+      if (!this.isDrawing) return;
+
+      e.preventDefault();
+      const coords = this.getCoords(e);
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.lastX, this.lastY);
+      this.ctx.lineTo(coords.x, coords.y);
+      this.ctx.stroke();
+
+      this.lastX = coords.x;
+      this.lastY = coords.y;
+    }
+
+    handleTouch(e: TouchEvent) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+      });
+
+      if (e.type === 'touchstart') {
+        this.startDrawing(mouseEvent);
+      } else if (e.type === 'touchmove') {
+        this.draw(mouseEvent);
+      }
+    }
+
+    stopDrawing() {
+      this.isDrawing = false;
+    }
+
+    clear() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.showPlaceholder();
+
+      // Dispatch event for parent components
+      this.canvas.dispatchEvent(new CustomEvent('signature-cleared'));
+    }
+
+    hidePlaceholder() {
+      if (this.placeholder) {
+        this.placeholder.classList.add('hidden');
+      }
+    }
+
+    showPlaceholder() {
+      if (this.placeholder) {
+        this.placeholder.classList.remove('hidden');
+      }
+    }
+
+    isEmpty(): boolean {
+      const pixelBuffer = new Uint32Array(
+        this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height).data.buffer
+      );
+      return !pixelBuffer.some(color => color !== 0);
+    }
+
+    toDataURL(): string {
+      return this.canvas.toDataURL('image/png');
+    }
+  }
+
+  // Initialize signature pad
+  let signaturePad: SignaturePad;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      signaturePad = new SignaturePad('signature-canvas');
+    });
+  } else {
+    signaturePad = new SignaturePad('signature-canvas');
+  }
+
+  // Make signaturePad globally accessible for form submission
+  (window as any).signaturePad = signaturePad;
+
+  // Reinitialize on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    signaturePad = new SignaturePad('signature-canvas');
+    (window as any).signaturePad = signaturePad;
+  });
+</script>

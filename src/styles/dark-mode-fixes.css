@@ -360,3 +360,337 @@
 [data-theme="dark"] a:not(.btn):hover {
   color: #c7d2fe;
 }
+
+/* ========================================
+   QUIZ PAGE DARK MODE
+   ======================================== */
+
+[data-theme="dark"] .quiz-page {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .quiz-container {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .quiz-header h1 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .quiz-subtitle {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .progress-bar {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+[data-theme="dark"] .progress-fill {
+  background: var(--gradient-primary);
+}
+
+[data-theme="dark"] .progress-text {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .question-slide h2 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .question-subtitle {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .option-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .option-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-4px);
+}
+
+[data-theme="dark"] .option-card.selected {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #6366f1;
+}
+
+[data-theme="dark"] .option-card h3 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .option-card p {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .lead-form-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .lead-form-card h2 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .lead-form-card p {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .form-group label {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .form-group input::placeholder,
+[data-theme="dark"] .form-group textarea::placeholder {
+  color: #64748b;
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group textarea:focus {
+  border-color: #6366f1;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+[data-theme="dark"] .recommendation-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .recommendation-card h3 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .recommendation-card p,
+[data-theme="dark"] .recommendation-card li {
+  color: #cbd5e1;
+}
+
+/* ========================================
+   CASE STUDIES PAGE DARK MODE
+   ======================================== */
+
+[data-theme="dark"] .case-studies-page {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .case-studies-header {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .case-studies-header h1 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .case-studies-subtitle {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .filter-group {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .filter-btn {
+  background: transparent;
+  color: #cbd5e1;
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .filter-btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] .filter-btn.active {
+  background: var(--gradient-primary);
+  color: white;
+  border-color: transparent;
+}
+
+[data-theme="dark"] .stats-grid {
+  background: rgba(30, 41, 59, 0.3);
+}
+
+[data-theme="dark"] .stat-item {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .stat-number {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .stat-description {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .case-study-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .case-study-card:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="dark"] .case-study-card h2,
+[data-theme="dark"] .case-study-card h3,
+[data-theme="dark"] .case-study-card h4 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .case-study-card p {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .industry-badge {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="dark"] .featured-badge {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="dark"] .client-name {
+  color: #a5b4fc;
+}
+
+[data-theme="dark"] .challenge-solution {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .section h4 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .metrics {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .metric-item {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .metric-value {
+  color: #4ade80;
+}
+
+[data-theme="dark"] .metric-label {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .project-info {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .info-label {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .info-value {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .tech-stack {
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .tech-tag {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="dark"] .testimonial {
+  background: rgba(15, 23, 42, 0.6);
+  border-left-color: #6366f1;
+}
+
+[data-theme="dark"] .testimonial p {
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+[data-theme="dark"] .testimonial-author strong {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .testimonial-author span {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .case-study-image {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .case-study-image img {
+  opacity: 0.9;
+}
+
+[data-theme="dark"] .case-study-image:hover img {
+  opacity: 1;
+}
+
+/* Thank You Page Dark Mode */
+[data-theme="dark"] .thank-you-page {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .thank-you-card {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .thank-you-card h1,
+[data-theme="dark"] .thank-you-card h2,
+[data-theme="dark"] .thank-you-card h3 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .thank-you-card p {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .step-card {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .step-card:hover {
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .cta-section {
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .trust-badge {
+  color: #f1f5f9;
+}
+
+/* Ensure Glass Effect in Dark Mode */
+[data-theme="dark"] .glass {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
+  backdrop-filter: blur(20px);
+}

@@ -1,0 +1,518 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SignaturePad from '@/components/SignaturePad.astro';
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect('/404');
+}
+---
+
+<BaseLayout title="Sign Contract" description="Review and sign your contract">
+  <div class="contract-signing-page">
+    <div class="container">
+      <div class="contract-header" id="contract-header" style="display: none;">
+        <div class="contract-header-content">
+          <div class="contract-logo">
+            <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+              <rect width="100" height="100" rx="20" fill="url(#logo-gradient)"/>
+              <path d="M30 50L45 65L70 35" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="logo-gradient" x1="0" y1="0" x2="100" y2="100">
+                  <stop offset="0%" stop-color="#6366f1"/>
+                  <stop offset="100%" stop-color="#ec4899"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <h1 class="contract-title" id="contract-title">Loading Contract...</h1>
+            <p class="contract-number" id="contract-number"></p>
+          </div>
+        </div>
+        <div class="contract-status-badge" id="status-badge"></div>
+      </div>
+
+      <div class="loading-state" id="loading-state">
+        <div class="spinner"></div>
+        <p>Loading contract...</p>
+      </div>
+
+      <div class="error-state" id="error-state" style="display: none;">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <h2>Contract Not Found</h2>
+        <p>The contract you're looking for doesn't exist or has been removed.</p>
+      </div>
+
+      <div class="contract-content" id="contract-content" style="display: none;">
+        <div class="contract-document glass">
+          <div id="contract-body"></div>
+        </div>
+
+        <div class="contract-signing-section" id="signing-section">
+          <div class="glass" style="padding: 2rem; border-radius: var(--radius-xl);">
+            <h2 class="section-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+              </svg>
+              Sign Contract
+            </h2>
+
+            <form id="signature-form">
+              <div class="form-group">
+                <label for="signer-name">Full Name *</label>
+                <input
+                  type="text"
+                  id="signer-name"
+                  name="signer_name"
+                  class="form-input"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="signer-email">Email Address *</label>
+                <input
+                  type="email"
+                  id="signer-email"
+                  name="signer_email"
+                  class="form-input"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+
+              <SignaturePad />
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="agree-terms" required />
+                  <span>I have read and agree to the terms and conditions outlined in this contract</span>
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-lg" id="submit-signature">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Sign Contract
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="contract-signed-state" id="signed-state" style="display: none;">
+          <div class="glass" style="padding: 3rem; text-align: center; border-radius: var(--radius-xl);">
+            <div class="success-icon">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="8 12 11 15 16 9"/>
+              </svg>
+            </div>
+            <h2>Contract Signed Successfully!</h2>
+            <p class="success-message">
+              Thank you for signing the contract. You will receive a confirmation email with a copy shortly.
+            </p>
+            <p class="contract-ref">Contract Reference: <strong id="signed-contract-number"></strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .contract-signing-page {
+      min-height: 100vh;
+      padding: 6rem 0 4rem;
+      background: var(--gradient-background);
+    }
+
+    .contract-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(20px);
+    }
+
+    .contract-header-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .contract-logo {
+      flex-shrink: 0;
+    }
+
+    .contract-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .contract-number {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin: 0.25rem 0 0;
+    }
+
+    .contract-status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .contract-status-badge.draft {
+      background: rgba(156, 163, 175, 0.1);
+      color: #6b7280;
+    }
+
+    .contract-status-badge.sent {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .contract-status-badge.viewed {
+      background: rgba(139, 92, 246, 0.1);
+      color: #8b5cf6;
+    }
+
+    .contract-status-badge.signed {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .loading-state,
+    .error-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--glass-border);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-state svg {
+      color: var(--color-danger);
+    }
+
+    .error-state h2 {
+      color: var(--color-text);
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .error-state p {
+      color: var(--color-text-muted);
+      max-width: 400px;
+    }
+
+    .contract-document {
+      padding: 3rem;
+      margin-bottom: 2rem;
+      border-radius: var(--radius-xl);
+    }
+
+    .contract-document :global(h1) {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .contract-document :global(h2) {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .contract-document :global(p) {
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .contract-document :global(ul),
+    .contract-document :global(ol) {
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contract-document :global(.contract-section) {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title svg {
+      color: var(--color-primary);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-top: 0.25rem;
+      cursor: pointer;
+    }
+
+    .form-actions {
+      margin-top: 2rem;
+    }
+
+    .form-actions .btn {
+      width: 100%;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      color: #10b981;
+    }
+
+    .success-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .success-message {
+      color: var(--color-text-muted);
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+    }
+
+    .contract-ref {
+      color: var(--color-text);
+      font-size: 0.875rem;
+    }
+
+    .contract-ref strong {
+      color: var(--color-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .contract-signing-page {
+        padding: 4rem 0 2rem;
+      }
+
+      .contract-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contract-document {
+        padding: 2rem 1.5rem;
+      }
+
+      .contract-title {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+
+  <script define:vars={{ contractId: id }}>
+    let contract = null;
+
+    async function loadContract() {
+      try {
+        const response = await fetch(`/api/contract/sign?id=${contractId}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to load contract');
+        }
+
+        contract = data;
+        displayContract(data);
+      } catch (error) {
+        console.error('Error loading contract:', error);
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'flex';
+      }
+    }
+
+    function displayContract(data) {
+      // Hide loading, show content
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('contract-header').style.display = 'flex';
+      document.getElementById('contract-content').style.display = 'block';
+
+      // Set header info
+      document.getElementById('contract-title').textContent = data.title;
+      document.getElementById('contract-number').textContent = `Contract #${data.contract_number}`;
+
+      // Set status badge
+      const statusBadge = document.getElementById('status-badge');
+      statusBadge.textContent = data.status;
+      statusBadge.className = `contract-status-badge ${data.status}`;
+
+      // Set contract body
+      document.getElementById('contract-body').innerHTML = data.content;
+
+      // Pre-fill form if client info exists
+      if (data.client_name) {
+        document.getElementById('signer-name').value = data.client_name;
+      }
+
+      // Check if already signed
+      if (data.status === 'signed' || data.status === 'completed') {
+        document.getElementById('signing-section').style.display = 'none';
+        document.getElementById('signed-state').style.display = 'block';
+        document.getElementById('signed-contract-number').textContent = data.contract_number;
+      }
+    }
+
+    async function handleSignature(e) {
+      e.preventDefault();
+
+      const signaturePad = (window as any).signaturePad;
+      if (!signaturePad) {
+        alert('Signature pad not initialized');
+        return;
+      }
+
+      if (signaturePad.isEmpty()) {
+        alert('Please provide your signature');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-signature');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Signing...</span>';
+
+      try {
+        const formData = {
+          contract_id: contractId,
+          signer_name: (document.getElementById('signer-name') as HTMLInputElement).value,
+          signer_email: (document.getElementById('signer-email') as HTMLInputElement).value,
+          signature_data: signaturePad.toDataURL()
+        };
+
+        const response = await fetch('/api/contract/sign', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to sign contract');
+        }
+
+        // Show success state
+        document.getElementById('signing-section').style.display = 'none';
+        document.getElementById('signed-state').style.display = 'block';
+        document.getElementById('signed-contract-number').textContent = data.contract_number;
+
+        // Update status badge
+        const statusBadge = document.getElementById('status-badge');
+        statusBadge.textContent = 'signed';
+        statusBadge.className = 'contract-status-badge signed';
+      } catch (error) {
+        console.error('Error signing contract:', error);
+        alert(error.message || 'Failed to sign contract. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Sign Contract
+        `;
+      }
+    }
+
+    // Load contract on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadContract);
+    } else {
+      loadContract();
+    }
+
+    // Handle form submission
+    document.getElementById('signature-form')?.addEventListener('submit', handleSignature);
+  </script>
+</BaseLayout>

@@ -1,0 +1,868 @@
+---
+export const prerender = true;
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout
+  title="Project Discovery Quiz | Find Your Perfect Solution - OHWP Studios"
+  description="Take our interactive quiz to discover the best software solution for your business needs. Get personalized recommendations and a free consultation."
+>
+  <Header />
+
+  <main class="quiz-page">
+    <!-- Hero Section -->
+    <section class="quiz-hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+            <span>Free Discovery Quiz</span>
+          </div>
+          <h1>What Type of Software Solution Do You Need?</h1>
+          <p class="hero-subtitle">
+            Answer 7 quick questions to get a personalized recommendation for your business
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Container -->
+    <section class="quiz-section">
+      <div class="container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text">
+            <span id="currentQuestion">1</span> of <span id="totalQuestions">7</span>
+          </div>
+        </div>
+
+        <!-- Quiz Card -->
+        <div class="quiz-card glass">
+          <!-- Question 1 -->
+          <div class="question-slide active" data-question="1">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+              </div>
+              <h2>What's your primary goal?</h2>
+              <p class="question-subtitle">Select the option that best describes your main objective</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="startup" data-next="2">
+                <div class="option-icon">🚀</div>
+                <h3>Launch a Startup</h3>
+                <p>Build an MVP or launch a new product</p>
+              </button>
+              <button class="option-card" data-value="grow" data-next="2">
+                <div class="option-icon">📈</div>
+                <h3>Grow Existing Business</h3>
+                <p>Scale operations or add new features</p>
+              </button>
+              <button class="option-card" data-value="transform" data-next="2">
+                <div class="option-icon">⚡</div>
+                <h3>Digital Transformation</h3>
+                <p>Modernize legacy systems</p>
+              </button>
+              <button class="option-card" data-value="automate" data-next="2">
+                <div class="option-icon">🤖</div>
+                <h3>Automate Processes</h3>
+                <p>Improve efficiency and reduce costs</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="question-slide" data-question="2">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2"/>
+                  <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+                </svg>
+              </div>
+              <h2>What type of solution do you need?</h2>
+              <p class="question-subtitle">Choose the platform that fits your audience</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="web" data-next="3">
+                <div class="option-icon">🌐</div>
+                <h3>Web Application</h3>
+                <p>Browser-based solution for all devices</p>
+              </button>
+              <button class="option-card" data-value="mobile" data-next="3">
+                <div class="option-icon">📱</div>
+                <h3>Mobile App</h3>
+                <p>iOS and/or Android native apps</p>
+              </button>
+              <button class="option-card" data-value="both" data-next="3">
+                <div class="option-icon">💻</div>
+                <h3>Web + Mobile</h3>
+                <p>Complete cross-platform solution</p>
+              </button>
+              <button class="option-card" data-value="enterprise" data-next="3">
+                <div class="option-icon">🏢</div>
+                <h3>Enterprise Software</h3>
+                <p>Complex business management system</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question 3 -->
+          <div class="question-slide" data-question="3">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+              </div>
+              <h2>Who is your target audience?</h2>
+              <p class="question-subtitle">Understanding your users helps us recommend the right approach</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="consumers" data-next="4">
+                <div class="option-icon">👥</div>
+                <h3>General Consumers</h3>
+                <p>B2C marketplace or consumer app</p>
+              </button>
+              <button class="option-card" data-value="businesses" data-next="4">
+                <div class="option-icon">🏢</div>
+                <h3>Businesses</h3>
+                <p>B2B platform or SaaS solution</p>
+              </button>
+              <button class="option-card" data-value="internal" data-next="4">
+                <div class="option-icon">👔</div>
+                <h3>Internal Team</h3>
+                <p>Employee tools or management system</p>
+              </button>
+              <button class="option-card" data-value="both-audiences" data-next="4">
+                <div class="option-icon">🌍</div>
+                <h3>Multiple Audiences</h3>
+                <p>Platform serving various user types</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question 4 -->
+          <div class="question-slide" data-question="4">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </div>
+              <h2>What's your timeline?</h2>
+              <p class="question-subtitle">When do you need this solution live?</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="urgent" data-next="5">
+                <div class="option-icon">⚡</div>
+                <h3>ASAP (1-2 months)</h3>
+                <p>Need to launch quickly</p>
+              </button>
+              <button class="option-card" data-value="fast" data-next="5">
+                <div class="option-icon">🚀</div>
+                <h3>Soon (3-4 months)</h3>
+                <p>Standard project timeline</p>
+              </button>
+              <button class="option-card" data-value="normal" data-next="5">
+                <div class="option-icon">📅</div>
+                <h3>Flexible (5-6 months)</h3>
+                <p>Quality over speed</p>
+              </button>
+              <button class="option-card" data-value="long" data-next="5">
+                <div class="option-icon">🎯</div>
+                <h3>Long-term (6+ months)</h3>
+                <p>Complex, phased approach</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question 5 -->
+          <div class="question-slide" data-question="5">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2v20M2 12h20"/>
+                  <circle cx="12" cy="12" r="4"/>
+                </svg>
+              </div>
+              <h2>What features are most important?</h2>
+              <p class="question-subtitle">Select your top priority</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="users" data-next="6">
+                <div class="option-icon">👤</div>
+                <h3>User Management</h3>
+                <p>Authentication, profiles, permissions</p>
+              </button>
+              <button class="option-card" data-value="payments" data-next="6">
+                <div class="option-icon">💳</div>
+                <h3>Payments & Billing</h3>
+                <p>E-commerce, subscriptions, invoicing</p>
+              </button>
+              <button class="option-card" data-value="data" data-next="6">
+                <div class="option-icon">📊</div>
+                <h3>Data & Analytics</h3>
+                <p>Dashboards, reports, insights</p>
+              </button>
+              <button class="option-card" data-value="integration" data-next="6">
+                <div class="option-icon">🔗</div>
+                <h3>Integrations</h3>
+                <p>Third-party APIs and services</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question 6 -->
+          <div class="question-slide" data-question="6">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h2>What's your estimated budget range?</h2>
+              <p class="question-subtitle">This helps us recommend the right approach for your needs</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="starter" data-next="7">
+                <div class="option-icon">💰</div>
+                <h3>$10k - $25k</h3>
+                <p>MVP or simple application</p>
+              </button>
+              <button class="option-card" data-value="growth" data-next="7">
+                <div class="option-icon">💎</div>
+                <h3>$25k - $50k</h3>
+                <p>Full-featured product</p>
+              </button>
+              <button class="option-card" data-value="scale" data-next="7">
+                <div class="option-icon">🏆</div>
+                <h3>$50k - $100k</h3>
+                <p>Enterprise-grade solution</p>
+              </button>
+              <button class="option-card" data-value="enterprise" data-next="7">
+                <div class="option-icon">👑</div>
+                <h3>$100k+</h3>
+                <p>Complex, large-scale platform</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question 7 -->
+          <div class="question-slide" data-question="7">
+            <div class="question-header">
+              <div class="question-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+              </div>
+              <h2>How involved do you want to be?</h2>
+              <p class="question-subtitle">Choose your preferred collaboration style</p>
+            </div>
+            <div class="options-grid">
+              <button class="option-card" data-value="hands-off" data-next="results">
+                <div class="option-icon">🎯</div>
+                <h3>Hands-Off</h3>
+                <p>You provide vision, we handle everything</p>
+              </button>
+              <button class="option-card" data-value="collaborative" data-next="results">
+                <div class="option-icon">🤝</div>
+                <h3>Collaborative</h3>
+                <p>Regular check-ins and feedback</p>
+              </button>
+              <button class="option-card" data-value="involved" data-next="results">
+                <div class="option-icon">👨‍💻</div>
+                <h3>Very Involved</h3>
+                <p>Daily communication and decisions</p>
+              </button>
+              <button class="option-card" data-value="partnership" data-next="results">
+                <div class="option-icon">🚀</div>
+                <h3>True Partnership</h3>
+                <p>Work alongside our team</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Screen -->
+          <div class="question-slide results-slide" data-question="results">
+            <div class="results-container">
+              <div class="results-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                  <path d="M22 4L12 14.01l-3-3"/>
+                </svg>
+              </div>
+              <h2>Great! We have your perfect match</h2>
+              <p class="results-subtitle">Enter your email to get your personalized recommendation and a free 30-minute consultation</p>
+
+              <form id="quizLeadForm" class="quiz-lead-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="company" name="company" placeholder="Company Name (Optional)">
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">
+                  <span>Get My Personalized Recommendation</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
+                <p class="form-note">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                  Your information is 100% secure. We'll never share it with anyone.
+                </p>
+              </form>
+
+              <div class="results-preview" id="resultsPreview">
+                <h3>Based on your answers, we recommend:</h3>
+                <div class="recommendation-card glass">
+                  <div class="recommendation-icon" id="recommendationIcon">🚀</div>
+                  <h4 id="recommendationTitle">Loading...</h4>
+                  <p id="recommendationDescription">Please wait...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="quiz-navigation">
+            <button class="btn btn-secondary" id="prevBtn" style="display: none;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Previous
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .quiz-page {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, rgba(99, 102, 241, 0.1), transparent 50%);
+  }
+
+  /* Hero Section */
+  .quiz-hero {
+    padding: calc(var(--header-height) + 3rem) 0 2rem;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Quiz Section */
+  .quiz-section {
+    padding: 2rem 0 4rem;
+  }
+
+  /* Progress Bar */
+  .progress-container {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: var(--glass-bg);
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 50px;
+    transition: width 0.5s ease;
+    width: 14.28%;
+  }
+
+  .progress-text {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .progress-text span {
+    color: var(--color-primary);
+  }
+
+  /* Quiz Card */
+  .quiz-card {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 24px;
+    position: relative;
+    min-height: 500px;
+  }
+
+  /* Question Slides */
+  .question-slide {
+    display: none;
+    animation: slideIn 0.5s ease;
+  }
+
+  .question-slide.active {
+    display: block;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Question Header */
+  .question-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .question-icon {
+    display: inline-flex;
+    padding: 1rem;
+    background: var(--gradient-primary);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  .question-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .question-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Options Grid */
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .option-card {
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .option-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-primary);
+    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.2);
+  }
+
+  .option-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .option-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .option-card p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Results Screen */
+  .results-slide {
+    text-align: center;
+  }
+
+  .results-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .results-icon {
+    display: inline-flex;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #10b981, #34d399);
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    color: white;
+  }
+
+  .results-container h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .results-subtitle {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  /* Quiz Lead Form */
+  .quiz-lead-form {
+    margin-bottom: 3rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    color: var(--color-text);
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .btn-large {
+    width: 100%;
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .form-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .form-note svg {
+    color: #10b981;
+  }
+
+  /* Results Preview */
+  .results-preview {
+    text-align: center;
+  }
+
+  .results-preview h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .recommendation-card {
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .recommendation-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .recommendation-card h4 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .recommendation-card p {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* Navigation */
+  .quiz-navigation {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Glass utility */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .quiz-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .question-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  let currentQuestion = 1;
+  const totalQuestions = 7;
+  const answers: Record<string, string> = {};
+
+  const progressFill = document.getElementById('progressFill');
+  const currentQuestionEl = document.getElementById('currentQuestion');
+  const prevBtn = document.getElementById('prevBtn');
+
+  function updateProgress() {
+    const progress = (currentQuestion / totalQuestions) * 100;
+    if (progressFill) progressFill.style.width = `${progress}%`;
+    if (currentQuestionEl) currentQuestionEl.textContent = currentQuestion.toString();
+  }
+
+  function showQuestion(questionNum: number | string) {
+    document.querySelectorAll('.question-slide').forEach(slide => {
+      slide.classList.remove('active');
+    });
+
+    const targetSlide = document.querySelector(`[data-question="${questionNum}"]`);
+    if (targetSlide) {
+      targetSlide.classList.add('active');
+    }
+
+    if (questionNum === 'results') {
+      if (prevBtn) prevBtn.style.display = 'none';
+      generateRecommendation();
+    } else {
+      if (prevBtn) prevBtn.style.display = questionNum === 1 ? 'none' : 'inline-flex';
+    }
+  }
+
+  function generateRecommendation() {
+    const iconEl = document.getElementById('recommendationIcon');
+    const titleEl = document.getElementById('recommendationTitle');
+    const descEl = document.getElementById('recommendationDescription');
+
+    let recommendation = {
+      icon: '🚀',
+      title: 'Custom Software Development',
+      description: 'Based on your needs, we recommend a custom-built solution tailored specifically for your business goals.'
+    };
+
+    // Simple recommendation logic based on answers
+    if (answers.platform === 'mobile') {
+      recommendation = {
+        icon: '📱',
+        title: 'Mobile App Development',
+        description: 'We\'ll build you a stunning native or cross-platform mobile app that your users will love.'
+      };
+    } else if (answers.platform === 'both') {
+      recommendation = {
+        icon: '💻',
+        title: 'Full-Stack Web & Mobile Solution',
+        description: 'A complete platform with web application and mobile apps for maximum reach and engagement.'
+      };
+    } else if (answers.goal === 'startup') {
+      recommendation = {
+        icon: '🚀',
+        title: 'MVP Development',
+        description: 'We\'ll help you launch fast with a Minimum Viable Product to validate your idea and attract investors.'
+      };
+    } else if (answers.goal === 'transform') {
+      recommendation = {
+        icon: '⚡',
+        title: 'Digital Transformation',
+        description: 'Modernize your systems with cutting-edge technology and streamlined processes.'
+      };
+    } else if (answers.platform === 'enterprise') {
+      recommendation = {
+        icon: '🏢',
+        title: 'Enterprise Software Development',
+        description: 'A robust, scalable enterprise solution designed to grow with your business.'
+      };
+    }
+
+    if (iconEl) iconEl.textContent = recommendation.icon;
+    if (titleEl) titleEl.textContent = recommendation.title;
+    if (descEl) descEl.textContent = recommendation.description;
+  }
+
+  // Option click handlers
+  document.querySelectorAll('.option-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const value = target.dataset.value;
+      const next = target.dataset.next;
+
+      if (value) {
+        // Store answer based on current question
+        const questionTypes = ['goal', 'platform', 'audience', 'timeline', 'features', 'budget', 'involvement'];
+        const answerKey = questionTypes[currentQuestion - 1];
+        answers[answerKey] = value;
+      }
+
+      if (next) {
+        if (next === 'results') {
+          showQuestion('results');
+        } else {
+          currentQuestion = parseInt(next);
+          updateProgress();
+          showQuestion(currentQuestion);
+        }
+      }
+    });
+  });
+
+  // Previous button
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentQuestion > 1) {
+        currentQuestion--;
+        updateProgress();
+        showQuestion(currentQuestion);
+      }
+    });
+  }
+
+  // Form submission
+  const quizForm = document.getElementById('quizLeadForm') as HTMLFormElement;
+  if (quizForm) {
+    quizForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(quizForm);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        company: formData.get('company'),
+        answers: answers
+      };
+
+      try {
+        const response = await fetch('/api/quiz/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          window.location.href = '/quiz/thank-you';
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error submitting quiz:', error);
+        alert('Something went wrong. Please try again.');
+      }
+    });
+  }
+
+  // Initialize
+  updateProgress();
+</script>

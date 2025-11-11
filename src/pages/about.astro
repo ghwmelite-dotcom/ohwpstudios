@@ -174,7 +174,7 @@ const getIcon = (iconName: string) => {
             <div class="team-card glass" data-animate>
               <div class="team-avatar">
                 {member.image_url ? (
-                  <img src={member.image_url} alt={member.name} />
+                  <img src={member.image_url} alt={member.name} loading="lazy" />
                 ) : (
                   <div class="avatar-placeholder">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

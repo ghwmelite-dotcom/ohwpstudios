@@ -5,61 +5,66 @@ export const prerender = false;
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import StructuredData from '@/components/StructuredData.astro';
 
 const { slug } = Astro.params;
 
-// Fetch all blog posts to find the one with matching slug
+// Fetch blog post directly from database
 let post = null;
 let error = null;
 
 try {
-  // Use origin-relative URL - works in both dev and production
-  const apiUrl = `${Astro.url.origin}/api/admin/blog`;
+  const db = Astro.locals.runtime.env.DB;
 
-  const response = await fetch(apiUrl);
-  const data = await response.json();
+  const result = await db
+    .prepare(`
+      SELECT
+        id,
+        title,
+        slug,
+        excerpt,
+        content,
+        featured_image,
+        author,
+        published,
+        published_at,
+        created_at,
+        updated_at,
+        seo_title,
+        seo_description,
+        tags
+      FROM blog_posts
+      WHERE slug = ? AND published = 1
+    `)
+    .bind(slug)
+    .first();
 
-  if (data.success && data.posts) {
-    post = data.posts.find((p: any) => p.slug === slug);
-  }
-
-  if (!post) {
+  if (result) {
+    post = result;
+  } else {
     return Astro.redirect('/blog');
   }
 } catch (e) {
   console.error('Error fetching blog post:', e);
   error = 'Unable to load blog post';
 }
-
-// Generate structured data for SEO
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post?.title,
-  "description": post?.excerpt || post?.seo_description,
-  "author": {
-    "@type": "Person",
-    "name": post?.author || "OHWP Studios"
-  },
-  "datePublished": post?.published_at,
-  "publisher": {
-    "@type": "Organization",
-    "name": "OHWP Studios",
-    "url": "https://ohwpstudios.pages.dev"
-  },
-  ...(post?.featured_image && {
-    "image": post.featured_image
-  })
-};
 ---
 
 <BaseLayout
   title={post?.seo_title || `${post?.title} | OHWP Studios Blog`}
   description={post?.seo_description || post?.excerpt || post?.title}
+  image={post?.featured_image || '/og-image.jpg'}
+  article={{
+    publishedTime: post?.published_at,
+    modifiedTime: post?.updated_at,
+    author: post?.author,
+    section: 'Blog',
+    tags: post?.tags ? post.tags.split(',').map((t: string) => t.trim()) : []
+  }}
 >
   <Fragment slot="head">
     {post?.tags && <meta name="keywords" content={post.tags} />}
-    <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+    <StructuredData type="article" data={post} />
   </Fragment>
 
   <Header />
@@ -108,7 +113,7 @@ const schema = {
         {post.featured_image && (
           <div class="post-image-container">
             <div class="container">
-              <img src={post.featured_image} alt={post.title} class="post-image" />
+              <img src={post.featured_image} alt={post.title} class="post-image" loading="lazy" />
             </div>
           </div>
         )}

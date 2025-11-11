@@ -1,0 +1,103 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="35%" style="stop-color:#764ba2;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+
+  <!-- Decorative Circles -->
+  <circle cx="150" cy="100" r="80" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="1050" cy="530" r="100" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="950" cy="150" r="60" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="200" cy="500" r="70" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- Money/Partnership Icons -->
+  <!-- Dollar Sign Icon -->
+  <g transform="translate(100, 250)">
+    <circle cx="0" cy="0" r="50" fill="rgba(255,255,255,0.15)" filter="url(#glow)"/>
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">$</text>
+  </g>
+
+  <!-- Handshake/Partnership Icon -->
+  <g transform="translate(1050, 300)">
+    <circle cx="0" cy="0" r="50" fill="rgba(255,255,255,0.15)" filter="url(#glow)"/>
+    <path d="M -20,-10 L -10,-10 L 0,0 L 10,-10 L 20,-10 M -10,-10 L -10,10 M 10,-10 L 10,10"
+          stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Chart/Growth Icon -->
+  <g transform="translate(150, 450)">
+    <circle cx="0" cy="0" r="45" fill="rgba(255,255,255,0.15)" filter="url(#glow)"/>
+    <path d="M -20,15 L -10,5 L 0,10 L 10,0 L 20,-10"
+          stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Main Content -->
+  <g transform="translate(600, 200)">
+    <!-- Badge/Label -->
+    <rect x="-80" y="-15" width="160" height="30" rx="15" fill="rgba(255,255,255,0.2)"/>
+    <text x="0" y="5" font-family="Arial, sans-serif" font-size="16" font-weight="600"
+          fill="white" text-anchor="middle" letter-spacing="2">NEW PROGRAM</text>
+  </g>
+
+  <!-- Main Heading -->
+  <text x="600" y="300" font-family="Arial, sans-serif" font-size="72" font-weight="900"
+        fill="url(#textGradient)" text-anchor="middle" filter="url(#glow)">
+    OHWP Studios
+  </text>
+
+  <text x="600" y="370" font-family="Arial, sans-serif" font-size="68" font-weight="900"
+        fill="url(#textGradient)" text-anchor="middle" filter="url(#glow)">
+    Affiliate Program
+  </text>
+
+  <!-- Subheading -->
+  <text x="600" y="430" font-family="Arial, sans-serif" font-size="28" font-weight="400"
+        fill="rgba(255,255,255,0.9)" text-anchor="middle">
+    Earn 10-15% Commission on Every Project
+  </text>
+
+  <!-- Feature Pills -->
+  <g transform="translate(600, 500)">
+    <!-- Pill 1 -->
+    <rect x="-280" y="0" width="180" height="45" rx="22.5" fill="rgba(255,255,255,0.25)"/>
+    <text x="-190" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="600"
+          fill="white" text-anchor="middle">90-Day Cookie</text>
+
+    <!-- Pill 2 -->
+    <rect x="-90" y="0" width="180" height="45" rx="22.5" fill="rgba(255,255,255,0.25)"/>
+    <text x="0" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="600"
+          fill="white" text-anchor="middle">Recurring Revenue</text>
+
+    <!-- Pill 3 -->
+    <rect x="100" y="0" width="180" height="45" rx="22.5" fill="rgba(255,255,255,0.25)"/>
+    <text x="190" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="600"
+          fill="white" text-anchor="middle">Instant Approval</text>
+  </g>
+
+  <!-- Logo/Branding -->
+  <text x="600" y="590" font-family="Arial, sans-serif" font-size="20" font-weight="600"
+        fill="rgba(255,255,255,0.8)" text-anchor="middle" letter-spacing="1">
+    ohwpstudios.org/affiliate
+  </text>
+</svg>

@@ -1,0 +1,875 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Affiliate Dashboard" description="Track your affiliate performance and earnings">
+  <main class="affiliate-dashboard">
+    <!-- Animated Background -->
+    <div class="dashboard-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-mesh"></div>
+    </div>
+
+    <div class="dashboard-content container">
+      <!-- Dashboard Header -->
+      <div class="dashboard-header">
+        <div class="header-content">
+          <h1>Welcome Back, <span id="affiliate-name" class="text-gradient">...</span></h1>
+          <p>Here's your affiliate performance overview</p>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+          </svg>
+          <span>Logout</span>
+        </button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card glass">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3>Total Clicks</h3>
+            <p class="stat-value" id="total-clicks">0</p>
+            <span class="stat-label">All time</span>
+          </div>
+        </div>
+
+        <div class="stat-card glass">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3>Total Leads</h3>
+            <p class="stat-value" id="total-leads">0</p>
+            <span class="stat-label">Qualified leads</span>
+          </div>
+        </div>
+
+        <div class="stat-card glass">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3>Conversions</h3>
+            <p class="stat-value" id="total-conversions">0</p>
+            <span class="stat-label">Closed deals</span>
+          </div>
+        </div>
+
+        <div class="stat-card glass highlight">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3>Total Earned</h3>
+            <p class="stat-value" id="total-earned">$0</p>
+            <span class="stat-label">Lifetime earnings</span>
+          </div>
+        </div>
+
+        <div class="stat-card glass">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3>Pending</h3>
+            <p class="stat-value" id="pending-payout">$0</p>
+            <span class="stat-label">Awaiting payment</span>
+          </div>
+        </div>
+
+        <div class="stat-card glass">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <h3>Total Paid</h3>
+            <p class="stat-value" id="total-paid">$0</p>
+            <span class="stat-label">Already received</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Affiliate Links Section -->
+      <div class="dashboard-section">
+        <div class="section-card glass">
+          <div class="section-header">
+            <h2>Your Affiliate Links</h2>
+            <span class="badge badge-active" id="affiliate-status">Active</span>
+          </div>
+
+          <div class="link-cards">
+            <div class="link-item">
+              <div class="link-header">
+                <h3>Default Affiliate Link</h3>
+                <p>Share this link to track clicks and conversions</p>
+              </div>
+              <div class="link-url">
+                <input type="text" readonly id="affiliate-link" value="Loading..." />
+                <button class="btn-copy" id="copy-btn" title="Copy link">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="link-item">
+              <div class="link-header">
+                <h3>Your Affiliate Code</h3>
+                <p>Your unique referral identifier</p>
+              </div>
+              <div class="link-url">
+                <input type="text" readonly id="affiliate-code" value="Loading..." />
+                <button class="btn-copy" id="copy-code-btn" title="Copy code">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Marketing Materials Section -->
+      <div class="dashboard-section">
+        <div class="section-card glass">
+          <div class="section-header">
+            <h2>Marketing Materials</h2>
+            <span class="badge badge-new">Updated</span>
+          </div>
+
+          <p class="section-description">Download templates and resources to promote OHWP Studios and maximize your affiliate earnings.</p>
+
+          <div class="materials-grid">
+            <div class="material-card">
+              <div class="material-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <div class="material-content">
+                <h3>Quick Start Guide</h3>
+                <p>Complete onboarding walkthrough with 30-day action plan</p>
+                <a href="/affiliate-marketing-materials/affiliate-quick-start-guide.md" download class="btn btn-secondary btn-sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download
+                </a>
+              </div>
+            </div>
+
+            <div class="material-card">
+              <div class="material-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <div class="material-content">
+                <h3>Blog Post</h3>
+                <p>3,000+ word SEO-optimized article announcing the affiliate program</p>
+                <a href="/blog/introducing-ohwp-studios-affiliate-program" target="_blank" class="btn btn-secondary btn-sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                  View Blog
+                </a>
+              </div>
+            </div>
+
+            <div class="material-card">
+              <div class="material-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="material-content">
+                <h3>Email Templates</h3>
+                <p>6 pre-written email templates for different outreach scenarios</p>
+                <a href="/affiliate-marketing-materials/email-templates.md" download class="btn btn-secondary btn-sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download
+                </a>
+              </div>
+            </div>
+
+            <div class="material-card">
+              <div class="material-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </div>
+              <div class="material-content">
+                <h3>Social Media Templates</h3>
+                <p>20+ ready-to-use templates for LinkedIn, Twitter, Instagram, Facebook</p>
+                <a href="/affiliate-marketing-materials/social-media-templates.md" download class="btn btn-secondary btn-sm">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="materials-footer">
+            <p>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <strong>Tip:</strong> Customize these templates with your voice and add specific examples from your experience for best results.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="dashboard-section">
+        <div class="section-card glass">
+          <div class="section-header">
+            <h2>Recent Activity</h2>
+          </div>
+
+          <div class="activity-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody id="activity-tbody">
+                <tr>
+                  <td colspan="4" style="text-align: center; padding: 3rem; color: var(--color-text-muted);">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 1rem; opacity: 0.3;">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" y1="8" x2="12" y2="12"/>
+                      <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <div>Loading activity...</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .affiliate-dashboard {
+    min-height: 100vh;
+    padding: calc(var(--header-height) + 2rem) 0 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dashboard-background {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 35%, #f093fb 70%, #f5576c 100%);
+    z-index: 0;
+  }
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.3;
+    animation: float 30s infinite ease-in-out;
+  }
+
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.6), transparent);
+    top: -20%;
+    left: -10%;
+  }
+
+  .orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.5), transparent);
+    bottom: -20%;
+    right: -10%;
+    animation-delay: 15s;
+  }
+
+  .gradient-mesh {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -40px) scale(1.1); }
+    66% { transform: translate(-30px, 30px) scale(0.9); }
+  }
+
+  .dashboard-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    animation: slideUp 0.6s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-content p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    animation: slideUp 0.7s ease-out;
+  }
+
+  .stat-card {
+    padding: 2rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  }
+
+  .stat-card.highlight {
+    background: linear-gradient(135deg, rgba(67, 233, 123, 0.15), rgba(56, 249, 215, 0.15));
+    border: 2px solid rgba(67, 233, 123, 0.3);
+  }
+
+  .stat-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .stat-content {
+    flex: 1;
+  }
+
+  .stat-content h3 {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 0.5rem;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .dashboard-section {
+    margin-bottom: 2rem;
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .section-card {
+    padding: 2.5rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  :global(.dark) .section-card {
+    background: rgba(17, 24, 39, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.75rem;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .badge {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-active {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+
+  .link-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+  }
+
+  .link-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .link-header {
+    margin-bottom: 1rem;
+  }
+
+  .link-header h3 {
+    font-size: 1.1rem;
+    color: var(--color-text);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .link-header p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .link-url {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .link-url input {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    background: var(--color-bg-alt);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    color: var(--color-text);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .link-url input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .btn-copy {
+    padding: 1rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-copy:hover {
+    background: #5558d9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+  }
+
+  .activity-table {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 1.25rem 1.5rem;
+    color: var(--color-text-muted);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--color-bg-alt);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  tbody td {
+    padding: 1.25rem 1.5rem;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background: var(--color-bg-alt);
+  }
+
+  /* Marketing Materials Section */
+  .section-description {
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .badge-new {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
+  }
+
+  .materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .material-card {
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .material-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-primary);
+  }
+
+  .material-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+
+  .material-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .material-content p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+
+  .btn-sm {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .materials-footer {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(118, 75, 162, 0.1));
+    border-radius: 12px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  .materials-footer p {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .materials-footer strong {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 1024px) {
+    .header-content h1 {
+      font-size: 2rem;
+    }
+
+    .link-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .affiliate-dashboard {
+      padding: calc(var(--header-height) + 1rem) 0 2rem;
+    }
+
+    .dashboard-header {
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-card {
+      padding: 1.5rem;
+    }
+
+    .activity-table {
+      overflow-x: scroll;
+    }
+
+    .materials-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .materials-footer p {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  // Check authentication
+  const token = localStorage.getItem('affiliate_token');
+  if (!token) {
+    window.location.href = '/affiliate/login';
+  }
+
+  // Load dashboard data
+  async function loadDashboard() {
+    try {
+      const response = await fetch('/api/affiliate/dashboard', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to load dashboard');
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Update stats
+        document.getElementById('affiliate-name')!.textContent = data.affiliate.name;
+        document.getElementById('total-clicks')!.textContent = data.stats.total_clicks.toLocaleString();
+        document.getElementById('total-leads')!.textContent = data.stats.total_leads.toLocaleString();
+        document.getElementById('total-conversions')!.textContent = data.stats.total_conversions.toLocaleString();
+        document.getElementById('total-earned')!.textContent = `$${data.stats.total_earned.toLocaleString()}`;
+        document.getElementById('pending-payout')!.textContent = `$${data.stats.pending_payout.toLocaleString()}`;
+        document.getElementById('total-paid')!.textContent = `$${data.stats.total_paid.toLocaleString()}`;
+
+        // Update affiliate link
+        const baseUrl = window.location.origin;
+        const affiliateLink = `${baseUrl}?ref=${data.affiliate.affiliate_code}`;
+        document.getElementById('affiliate-link')!.setAttribute('value', affiliateLink);
+        document.getElementById('affiliate-code')!.setAttribute('value', data.affiliate.affiliate_code);
+
+        // Update status
+        document.getElementById('affiliate-status')!.textContent = data.affiliate.status.charAt(0).toUpperCase() + data.affiliate.status.slice(1);
+
+        // Load recent activity
+        loadActivity(data.recent_activity || []);
+      }
+    } catch (error) {
+      console.error('Error loading dashboard:', error);
+      localStorage.removeItem('affiliate_token');
+      window.location.href = '/affiliate/login';
+    }
+  }
+
+  function loadActivity(activities: any[]) {
+    const tbody = document.getElementById('activity-tbody')!;
+
+    if (activities.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" style="text-align: center; padding: 3rem; color: var(--color-text-muted);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 1rem; opacity: 0.3;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 8v4l3 3"></path>
+            </svg>
+            <div>No activity yet. Start promoting to see your stats!</div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = activities.map(activity => `
+      <tr>
+        <td>${new Date(activity.created_at).toLocaleDateString()}</td>
+        <td>${activity.type}</td>
+        <td><span class="badge badge-${activity.status}">${activity.status}</span></td>
+        <td style="font-weight: 700; color: var(--color-primary);">$${activity.amount?.toFixed(2) || '0.00'}</td>
+      </tr>
+    `).join('');
+  }
+
+  // Copy buttons with better feedback
+  function copyToClipboard(text: string, button: HTMLElement) {
+    navigator.clipboard.writeText(text).then(() => {
+      const originalHTML = button.innerHTML;
+      button.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+      button.style.background = '#10b981';
+
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.style.background = '';
+      }, 2000);
+    });
+  }
+
+  document.getElementById('copy-btn')?.addEventListener('click', (e) => {
+    const input = document.getElementById('affiliate-link') as HTMLInputElement;
+    copyToClipboard(input.value, e.currentTarget as HTMLElement);
+  });
+
+  document.getElementById('copy-code-btn')?.addEventListener('click', (e) => {
+    const input = document.getElementById('affiliate-code') as HTMLInputElement;
+    copyToClipboard(input.value, e.currentTarget as HTMLElement);
+  });
+
+  // Logout
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    localStorage.removeItem('affiliate_token');
+    localStorage.removeItem('affiliate_remember');
+    window.location.href = '/affiliate/login';
+  });
+
+  // Load dashboard on page load
+  loadDashboard();
+</script>

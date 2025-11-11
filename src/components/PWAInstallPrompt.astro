@@ -14,7 +14,7 @@
     <div class="pwa-icon-container">
       <div class="pwa-icon-wrapper">
         <div class="pwa-icon-glow"></div>
-        <img src="/icons/icon-192x192.png" alt="WP Studios" class="pwa-icon" />
+        <img src="/icons/icon-192x192.svg" alt="WP Studios" class="pwa-icon" />
       </div>
     </div>
 
@@ -485,32 +485,321 @@
     50% { opacity: 0.7; transform: scale(1.05); }
   }
 
-  /* Mobile Responsive */
-  @media (max-width: 640px) {
+  /* Improved Responsive Design */
+  @media (max-height: 800px) {
     .pwa-modal-content {
-      padding: 2rem 1.5rem;
+      max-height: 90vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--pwa-primary) var(--pwa-surface);
+    }
+
+    .pwa-modal-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .pwa-modal-content::-webkit-scrollbar-thumb {
+      background: var(--pwa-primary);
+      border-radius: 3px;
+    }
+
+    .pwa-icon-wrapper {
+      width: 80px;
+      height: 80px;
+    }
+
+    .pwa-features {
+      gap: 0.75rem;
+    }
+
+    .pwa-feature {
+      padding: 0.75rem;
+    }
+  }
+
+  /* Tablet Responsive */
+  @media (max-width: 768px) {
+    .pwa-modal-content {
+      max-width: 90vw;
+      padding: 2rem 1.75rem;
+      border-radius: 20px;
+    }
+
+    .pwa-icon-wrapper {
+      width: 90px;
+      height: 90px;
     }
 
     .pwa-title {
       font-size: 1.75rem;
     }
 
+    .pwa-description {
+      font-size: 0.9375rem;
+    }
+
+    .pwa-feature {
+      padding: 0.875rem;
+    }
+
+    .pwa-feature-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .pwa-feature h3 {
+      font-size: 0.875rem;
+    }
+
+    .pwa-feature p {
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* Mobile Responsive - Cute & Compact */
+  @media (max-width: 640px) {
+    .pwa-modal {
+      padding: 0.75rem;
+      align-items: flex-end;
+    }
+
+    .pwa-modal-content {
+      max-width: 100%;
+      padding: 1.75rem 1.25rem;
+      border-radius: 24px 24px 0 0;
+      animation: slideUpMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 85vh;
+    }
+
+    .pwa-close-btn {
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .pwa-close-btn svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .pwa-icon-container {
+      margin-bottom: 1rem;
+    }
+
+    .pwa-icon-wrapper {
+      width: 70px;
+      height: 70px;
+    }
+
+    .pwa-icon-glow {
+      inset: -8px;
+      filter: blur(15px);
+    }
+
+    .pwa-icon {
+      border-radius: 18px;
+    }
+
+    .pwa-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pwa-description {
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .pwa-features {
+      gap: 0.625rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pwa-feature {
+      padding: 0.75rem;
+      gap: 0.75rem;
+      border-radius: 10px;
+    }
+
+    .pwa-feature-icon {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 8px;
+    }
+
+    .pwa-feature-icon svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .pwa-feature h3 {
+      font-size: 0.8125rem;
+    }
+
+    .pwa-feature p {
+      font-size: 0.75rem;
+    }
+
     .pwa-actions {
       flex-direction: column;
+      gap: 0.625rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pwa-btn {
+      padding: 0.875rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.9375rem;
+    }
+
+    .pwa-btn-primary svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    .pwa-note {
+      font-size: 0.6875rem;
     }
 
     .pwa-toast {
       top: 1rem;
-      right: 1rem;
-      left: 1rem;
+      right: 0.75rem;
+      left: 0.75rem;
     }
 
     .pwa-toast-content {
       min-width: auto;
+      padding: 0.875rem 1.125rem;
+      flex-wrap: wrap;
+    }
+
+    .pwa-toast-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .pwa-toast-icon svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .pwa-toast-text h4 {
+      font-size: 0.875rem;
+    }
+
+    .pwa-toast-text p {
+      font-size: 0.8125rem;
+    }
+
+    .pwa-toast-btn {
+      padding: 0.5rem 0.875rem;
+      font-size: 0.8125rem;
     }
 
     .pwa-status {
       bottom: 1rem;
+    }
+
+    .pwa-status-content {
+      padding: 0.625rem 1.25rem;
+    }
+
+    .pwa-status-text {
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* Extra Small Mobile */
+  @media (max-width: 380px) {
+    .pwa-modal-content {
+      padding: 1.5rem 1rem;
+    }
+
+    .pwa-icon-wrapper {
+      width: 60px;
+      height: 60px;
+    }
+
+    .pwa-title {
+      font-size: 1.375rem;
+    }
+
+    .pwa-description {
+      font-size: 0.8125rem;
+    }
+
+    .pwa-features {
+      gap: 0.5rem;
+    }
+
+    .pwa-feature {
+      padding: 0.625rem;
+      gap: 0.625rem;
+    }
+
+    .pwa-feature-icon {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  }
+
+  /* Landscape Mobile - Keep it compact */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .pwa-modal-content {
+      padding: 1rem 1.5rem;
+      max-height: 95vh;
+    }
+
+    .pwa-icon-wrapper {
+      width: 50px;
+      height: 50px;
+    }
+
+    .pwa-icon-container {
+      margin-bottom: 0.5rem;
+    }
+
+    .pwa-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .pwa-description {
+      font-size: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pwa-features {
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .pwa-feature {
+      padding: 0.5rem;
+    }
+
+    .pwa-actions {
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pwa-btn {
+      padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  /* Mobile slide up animation */
+  @keyframes slideUpMobile {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
     }
   }
 </style>

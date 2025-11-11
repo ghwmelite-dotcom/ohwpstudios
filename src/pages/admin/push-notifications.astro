@@ -1,0 +1,505 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export const prerender = false;
+
+const title = 'Push Notifications';
+---
+
+<BaseLayout title={title} noLoader={true}>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div class="header-left">
+        <a href="/admin/dashboard" class="back-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Back to Dashboard
+        </a>
+        <h1>{title}</h1>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Subscriptions</div>
+        <div class="stat-value" id="stat-total">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active</div>
+        <div class="stat-value stat-success" id="stat-active">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Admin Users</div>
+        <div class="stat-value" id="stat-admin">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Client Users</div>
+        <div class="stat-value" id="stat-client">-</div>
+      </div>
+    </div>
+
+    <!-- Send Notification Form -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        Send New Notification
+      </h2>
+      <form id="send-notification-form" class="notification-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="notification-title">Title *</label>
+            <input type="text" id="notification-title" name="title" required maxlength="100" placeholder="Notification title">
+          </div>
+          <div class="form-group">
+            <label for="target-type">Target Audience *</label>
+            <select id="target-type" name="targetUserType" required>
+              <option value="all">All Users</option>
+              <option value="admin">Admin Only</option>
+              <option value="client">Clients Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notification-message">Message *</label>
+          <textarea id="notification-message" name="message" required rows="4" maxlength="200" placeholder="Notification message (max 200 characters)"></textarea>
+          <div class="char-count">
+            <span id="char-count">0</span> / 200 characters
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notification-url">Action URL (optional)</label>
+          <input type="url" id="notification-url" name="url" placeholder="https://example.com/page">
+          <small class="form-hint">Users will be redirected here when they click the notification</small>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-send" id="send-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            Send Notification
+          </button>
+          <button type="button" class="btn-test" id="test-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            Send Test
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Recent Notifications -->
+    <div class="recent-section">
+      <h2 class="section-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        Recent Notifications
+      </h2>
+      <div class="loading-state" id="loading-state">
+        <div class="spinner"></div>
+        <p>Loading data...</p>
+      </div>
+      <div class="empty-state" id="empty-state" style="display: none;">
+        <p>No notifications sent yet</p>
+      </div>
+      <div class="notifications-list" id="notifications-list"></div>
+    </div>
+
+    <!-- Active Subscriptions -->
+    <div class="subscriptions-section">
+      <h2 class="section-title">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        Active Subscriptions
+      </h2>
+      <div class="subscriptions-list" id="subscriptions-list"></div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .admin-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+  .admin-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; }
+  .header-left { flex: 1; }
+  .back-link { display: flex; align-items: center; gap: 0.5rem; color: var(--color-primary); text-decoration: none; margin-bottom: 1rem; transition: opacity 0.2s; }
+  .back-link:hover { opacity: 0.7; }
+  h1 { font-size: 2rem; font-weight: 800; margin: 0; }
+
+  /* Stats Grid */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card { padding: 1.5rem; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 12px; transition: all 0.3s; }
+  .stat-card:hover { border-color: var(--color-primary); transform: translateY(-2px); }
+  .stat-label { color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: 0.5rem; font-weight: 600; }
+  .stat-value { font-size: 2rem; font-weight: 800; color: var(--color-text); }
+  .stat-success { color: #10b981; }
+
+  /* Section Titles */
+  .section-title { display: flex; align-items: center; gap: 0.75rem; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--color-text); }
+  .section-title svg { color: var(--color-primary); }
+
+  /* Form Section */
+  .form-section { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+  .notification-form { max-width: 800px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: var(--color-text); }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--color-text);
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  .form-hint { display: block; margin-top: 0.5rem; font-size: 0.8rem; color: var(--color-text-secondary); }
+  .char-count { text-align: right; margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-secondary); }
+
+  /* Form Actions */
+  .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+  .btn-send, .btn-test {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-send {
+    background: var(--gradient-primary);
+    color: white;
+    flex: 1;
+  }
+  .btn-send:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3); }
+  .btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-test {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+  }
+  .btn-test:hover { border-color: var(--color-primary); }
+
+  /* Lists */
+  .recent-section, .subscriptions-section {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  .loading-state, .empty-state { text-align: center; padding: 3rem; color: var(--color-text-secondary); }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .notifications-list, .subscriptions-list { display: grid; gap: 1rem; }
+  .notification-card, .subscription-card {
+    padding: 1.5rem;
+    background: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    transition: border-color 0.2s;
+  }
+  .notification-card:hover, .subscription-card:hover { border-color: var(--color-primary); }
+
+  .notification-header, .subscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+  }
+  .notification-title, .subscription-title { font-weight: 700; font-size: 1.125rem; color: var(--color-text); }
+  .notification-body { color: var(--color-text-secondary); margin-bottom: 1rem; line-height: 1.6; }
+  .notification-meta, .subscription-meta {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .meta-item { display: flex; align-items: center; gap: 0.5rem; }
+  .meta-label { font-weight: 600; color: var(--color-text); }
+
+  .badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge-all { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+  .badge-admin { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+  .badge-client { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+  .badge-active { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+  .badge-inactive { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+
+  @media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; }
+    .form-actions { flex-direction: column; }
+    .btn-send, .btn-test { width: 100%; justify-content: center; }
+  }
+</style>
+
+<script>
+  let statsData: any = null;
+
+  // Character counter
+  const messageTextarea = document.getElementById('notification-message') as HTMLTextAreaElement;
+  const charCount = document.getElementById('char-count');
+
+  messageTextarea?.addEventListener('input', () => {
+    if (charCount) {
+      charCount.textContent = messageTextarea.value.length.toString();
+    }
+  });
+
+  // Load data on page load
+  async function loadData() {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      window.location.href = '/admin/login';
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/admin/push/subscriptions', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        throw new Error('Failed to load data');
+      }
+
+      const data = await response.json();
+      statsData = data;
+
+      // Update stats
+      document.getElementById('stat-total')!.textContent = data.stats?.total || '0';
+      document.getElementById('stat-active')!.textContent = data.stats?.active || '0';
+      document.getElementById('stat-admin')!.textContent = data.stats?.admin_count || '0';
+      document.getElementById('stat-client')!.textContent = data.stats?.client_count || '0';
+
+      // Render notifications
+      renderNotifications(data.notifications || []);
+
+      // Render subscriptions
+      renderSubscriptions(data.subscriptions || []);
+
+      // Hide loading state
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) loadingState.style.display = 'none';
+
+    } catch (error) {
+      console.error('Error loading data:', error);
+      const loadingState = document.getElementById('loading-state');
+      if (loadingState) {
+        loadingState.innerHTML = '<p style="color: #ef4444;">Failed to load data. Please try again.</p>';
+      }
+    }
+  }
+
+  function renderNotifications(notifications: any[]) {
+    const container = document.getElementById('notifications-list');
+    const emptyState = document.getElementById('empty-state');
+
+    if (!notifications || notifications.length === 0) {
+      if (container) container.style.display = 'none';
+      if (emptyState) emptyState.style.display = 'block';
+      return;
+    }
+
+    if (container) container.style.display = 'grid';
+    if (emptyState) emptyState.style.display = 'none';
+
+    const html = notifications.map(notif => {
+      const date = new Date(notif.created_at);
+      const badgeClass = notif.target_user_type === 'all' ? 'badge-all' :
+                         notif.target_user_type === 'admin' ? 'badge-admin' : 'badge-client';
+
+      return `
+        <div class="notification-card">
+          <div class="notification-header">
+            <div class="notification-title">${notif.title}</div>
+            <span class="badge ${badgeClass}">${notif.target_user_type}</span>
+          </div>
+          <div class="notification-body">${notif.body}</div>
+          <div class="notification-meta">
+            <div class="meta-item">
+              <span class="meta-label">Sent:</span>
+              ${date.toLocaleString()}
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Recipients:</span>
+              ${notif.sent_count}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (container) container.innerHTML = html;
+  }
+
+  function renderSubscriptions(subscriptions: any[]) {
+    const container = document.getElementById('subscriptions-list');
+
+    if (!subscriptions || subscriptions.length === 0) {
+      if (container) container.innerHTML = '<p style="text-align: center; color: var(--color-text-secondary); padding: 2rem;">No active subscriptions</p>';
+      return;
+    }
+
+    const html = subscriptions.slice(0, 10).map(sub => {
+      const date = new Date(sub.created_at);
+      const statusBadge = sub.is_active ? 'badge-active' : 'badge-inactive';
+      const statusText = sub.is_active ? 'Active' : 'Inactive';
+      const typeBadge = sub.user_type === 'admin' ? 'badge-admin' : 'badge-client';
+
+      return `
+        <div class="subscription-card">
+          <div class="subscription-header">
+            <div class="subscription-title">${sub.user_agent || 'Unknown Device'}</div>
+            <div style="display: flex; gap: 0.5rem;">
+              <span class="badge ${typeBadge}">${sub.user_type}</span>
+              <span class="badge ${statusBadge}">${statusText}</span>
+            </div>
+          </div>
+          <div class="subscription-meta">
+            <div class="meta-item">
+              <span class="meta-label">Subscribed:</span>
+              ${date.toLocaleString()}
+            </div>
+            ${sub.last_used_at ? `
+              <div class="meta-item">
+                <span class="meta-label">Last Used:</span>
+                ${new Date(sub.last_used_at).toLocaleString()}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (container) container.innerHTML = html;
+  }
+
+  // Send notification
+  const sendForm = document.getElementById('send-notification-form') as HTMLFormElement;
+  const sendBtn = document.getElementById('send-btn') as HTMLButtonElement;
+  const testBtn = document.getElementById('test-btn') as HTMLButtonElement;
+
+  async function sendNotification(isTest: boolean = false) {
+    const token = localStorage.getItem('admin_token');
+    if (!token) {
+      window.location.href = '/admin/login';
+      return;
+    }
+
+    const formData = new FormData(sendForm);
+    const payload = {
+      title: formData.get('title'),
+      message: formData.get('message'),
+      url: formData.get('url') || undefined,
+      targetUserType: isTest ? 'admin' : formData.get('targetUserType'),
+    };
+
+    sendBtn.disabled = true;
+    testBtn.disabled = true;
+    sendBtn.textContent = isTest ? 'Sending Test...' : 'Sending...';
+
+    try {
+      const response = await fetch('/api/admin/push/send', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send notification');
+      }
+
+      alert(`✅ ${isTest ? 'Test notification' : 'Notification'} sent successfully!\n\nSent to ${result.sent} recipient(s)`);
+
+      // Reset form
+      if (!isTest) {
+        sendForm.reset();
+        if (charCount) charCount.textContent = '0';
+      }
+
+      // Reload data
+      await loadData();
+
+    } catch (error) {
+      console.error('Error sending notification:', error);
+      alert(`❌ Failed to send notification: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      sendBtn.disabled = false;
+      testBtn.disabled = false;
+      sendBtn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        Send Notification
+      `;
+    }
+  }
+
+  sendForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    sendNotification(false);
+  });
+
+  testBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (sendForm.checkValidity()) {
+      sendNotification(true);
+    } else {
+      sendForm.reportValidity();
+    }
+  });
+
+  // Load data on page load
+  loadData();
+</script>
+</BaseLayout>

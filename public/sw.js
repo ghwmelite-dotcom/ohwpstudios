@@ -1,15 +1,22 @@
-const CACHE_VERSION = 'v1.0.0';
+const CACHE_VERSION = 'v1.2.0';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
 
-// Assets to cache on install
+// Assets to cache on install - Critical resources for performance
 const STATIC_ASSETS = [
   '/',
   '/offline',
   '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/animations.js',
+  '/icons/icon-192x192.svg',
+  '/icons/icon-512x512.svg',
+  '/icons/icon-72x72.svg',
+  '/icons/icon-96x96.svg',
+  '/icons/icon-128x128.svg',
+  '/icons/icon-144x144.svg',
+  '/icons/icon-152x152.svg',
+  '/icons/icon-384x384.svg'
 ];
 
 // Install event - cache static assets
@@ -88,7 +95,8 @@ async function cacheFirstStrategy(request, cacheName) {
 
     const networkResponse = await fetch(request);
 
-    if (networkResponse.ok) {
+    // Only cache GET requests (Cache API doesn't support POST, PUT, DELETE, etc.)
+    if (networkResponse.ok && request.method === 'GET') {
       cache.put(request, networkResponse.clone());
     }
 
@@ -111,7 +119,8 @@ async function networkFirstStrategy(request, cacheName) {
   try {
     const networkResponse = await fetch(request);
 
-    if (networkResponse.ok) {
+    // Only cache GET requests (Cache API doesn't support POST, PUT, DELETE, etc.)
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(cacheName);
       cache.put(request, networkResponse.clone());
     }

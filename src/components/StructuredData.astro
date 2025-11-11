@@ -1,0 +1,143 @@
+---
+interface Props {
+  type: 'organization' | 'website' | 'article' | 'breadcrumb' | 'service';
+  data?: any;
+}
+
+const { type, data } = Astro.props;
+const siteUrl = Astro.url.origin;
+
+// Organization Schema
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "WP Studios",
+  "alternateName": "OHWP Studios",
+  "url": siteUrl,
+  "logo": `${siteUrl}/icons/icon-512x512.svg`,
+  "description": "Professional web development agency specializing in custom web applications, mobile apps, and digital solutions",
+  "email": "ohwpstudios@gmail.com",
+  "telephone": "+233-123-456-789",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "GH"
+  },
+  "sameAs": [
+    "https://twitter.com/ohwpstudios",
+    "https://linkedin.com/company/ohwpstudios",
+    "https://github.com/ohwpstudios",
+    "https://instagram.com/ohwpstudios"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+233-123-456-789",
+    "contactType": "customer service",
+    "email": "ohwpstudios@gmail.com"
+  }
+};
+
+// Website Schema with Search Action
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "WP Studios",
+  "url": siteUrl,
+  "description": "Professional web development and digital solutions agency",
+  "publisher": {
+    "@type": "Organization",
+    "name": "WP Studios",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/icons/icon-512x512.svg`
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteUrl}/blog?search={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// Article Schema (for blog posts)
+const articleSchema = data ? {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": data.title,
+  "description": data.excerpt || data.seo_description,
+  "image": data.featured_image || `${siteUrl}/og-image.jpg`,
+  "author": {
+    "@type": "Person",
+    "name": data.author || "WP Studios"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WP Studios",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/icons/icon-512x512.svg`
+    }
+  },
+  "datePublished": data.published_at,
+  "dateModified": data.updated_at || data.published_at,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `${siteUrl}/blog/${data.slug}`
+  },
+  "keywords": data.tags
+} : null;
+
+// BreadcrumbList Schema
+const breadcrumbSchema = data?.breadcrumbs ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": data.breadcrumbs.map((crumb: any, index: number) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": crumb.name,
+    "item": `${siteUrl}${crumb.path}`
+  }))
+} : null;
+
+// Service Schema
+const serviceSchema = data ? {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": data.name,
+  "description": data.description,
+  "provider": {
+    "@type": "Organization",
+    "name": "WP Studios"
+  },
+  "serviceType": data.type || "Web Development",
+  "areaServed": {
+    "@type": "Place",
+    "name": "Worldwide"
+  }
+} : null;
+
+let schema;
+switch (type) {
+  case 'organization':
+    schema = organizationSchema;
+    break;
+  case 'website':
+    schema = websiteSchema;
+    break;
+  case 'article':
+    schema = articleSchema;
+    break;
+  case 'breadcrumb':
+    schema = breadcrumbSchema;
+    break;
+  case 'service':
+    schema = serviceSchema;
+    break;
+}
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

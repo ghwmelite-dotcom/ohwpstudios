@@ -13,6 +13,7 @@ import Logo from '@/components/Logo.astro';
       <li class="nav-dropdown">
         <a href="/#services" class="dropdown-trigger">
           Services
+          <span class="nav-badge hot">🔥 Hot</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
@@ -51,8 +52,9 @@ import Logo from '@/components/Logo.astro';
         </div>
       </li>
       <li class="nav-dropdown">
-        <a href="/sitemap-pages" class="dropdown-trigger">
-          Solutions
+        <a href="#" class="dropdown-trigger">
+          Explore
+          <span class="nav-badge explore">🚀 Discover</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
@@ -61,46 +63,68 @@ import Logo from '@/components/Logo.astro';
           <div class="dropdown-menu-content">
             <div class="dropdown-grid">
               <div class="dropdown-col">
-                <h4>By Industry</h4>
-              <a href="/industries/healthcare-software-development">Healthcare</a>
-              <a href="/industries/fintech-software-development">Fintech</a>
-              <a href="/industries/education-software-development">Education</a>
-              <a href="/industries/elearning-platform-development">E-Learning</a>
-            </div>
-            <div class="dropdown-col">
-              <h4>By Technology</h4>
-              <a href="/technologies/react-development">React</a>
-              <a href="/technologies/flutter-development">Flutter</a>
-              <a href="/technologies/nextjs-development">Next.js</a>
-              <a href="/technologies/python-development">Python</a>
-            </div>
-            <div class="dropdown-col">
-              <h4>By Solution</h4>
-              <a href="/solutions/startup-mvp-development">Startup MVP</a>
-              <a href="/solutions/ai-powered-application-development">AI Development</a>
-              <a href="/solutions/cloud-migration-services">Cloud Migration</a>
-              <a href="/solutions/enterprise-digital-transformation">Digital Transformation</a>
-            </div>
-            <div class="dropdown-col">
-              <h4>Explore</h4>
-              <a href="/sitemap-pages" class="view-all">All Solutions →</a>
-              <a href="/industries/retail-software-development">Retail</a>
-              <a href="/technologies/nodejs-development">Node.js</a>
-              <a href="/solutions/custom-crm-development">Custom CRM</a>
+                <h4>Solutions</h4>
+                <a href="/solutions/startup-mvp-development">Startup MVP</a>
+                <a href="/solutions/ai-powered-application-development">AI Development</a>
+                <a href="/solutions/cloud-migration-services">Cloud Migration</a>
+                <a href="/solutions/enterprise-digital-transformation">Digital Transformation</a>
+                <a href="/solutions/custom-crm-development">Custom CRM</a>
+              </div>
+              <div class="dropdown-col">
+                <h4>Industries</h4>
+                <a href="/industries/healthcare-software-development">Healthcare</a>
+                <a href="/industries/fintech-software-development">Fintech</a>
+                <a href="/industries/education-software-development">Education</a>
+                <a href="/industries/retail-software-development">Retail</a>
+                <a href="/industries/elearning-platform-development">E-Learning</a>
+              </div>
+              <div class="dropdown-col">
+                <h4>Technologies</h4>
+                <a href="/technologies/react-development">React</a>
+                <a href="/technologies/nextjs-development">Next.js</a>
+                <a href="/technologies/flutter-development">Flutter</a>
+                <a href="/technologies/python-development">Python</a>
+                <a href="/technologies/nodejs-development">Node.js</a>
+              </div>
+              <div class="dropdown-col">
+                <h4>Company</h4>
+                <a href="/#portfolio">
+                  Portfolio
+                  <span class="nav-badge premium" style="margin-left: 0.5rem;">✨</span>
+                </a>
+                <a href="/case-studies">
+                  Case Studies
+                  <span class="nav-badge trending" style="margin-left: 0.5rem;">🎯</span>
+                </a>
+                <a href="/quiz">
+                  Project Quiz
+                  <span class="nav-badge hot" style="margin-left: 0.5rem;">🔥</span>
+                </a>
+                <a href="/blog">
+                  Blog
+                  <span id="blog-post-counter-dropdown" class="nav-counter pulse" style="margin-left: 0.5rem;">...</span>
+                </a>
+                <a href="/careers">
+                  Careers
+                  <span class="nav-badge hiring" style="margin-left: 0.5rem;">💼</span>
+                </a>
+                <a href="/sitemap-pages" class="view-all">View All Pages →</a>
+              </div>
             </div>
           </div>
           </div>
         </div>
       </li>
-      <li><a href="/#portfolio">Portfolio</a></li>
-      <li><a href="/clients">Clients</a></li>
-      <li><a href="/careers">Careers</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li>
+        <a href="/affiliate/signup" class="nav-link-with-badge">
+          Partners
+          <span class="nav-badge partner">🤝 Join</span>
+        </a>
+      </li>
     </ul>
 
     <div class="nav-actions">
-      <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
         <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>
@@ -112,12 +136,20 @@ import Logo from '@/components/Logo.astro';
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
-        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
 
-      <a href="/estimate-project" class="btn btn-primary">Get AI Estimate</a>
+      <a href="/estimate-project" class="btn btn-primary header-cta">
+        <svg class="cta-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+        <span class="cta-text">Get AI Estimate</span>
+        <span class="cta-text-short">Estimate</span>
+      </a>
 
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
@@ -309,46 +341,208 @@ import Logo from '@/components/Logo.astro';
     margin-top: var(--spacing-sm);
   }
 
-  .nav-actions {
-    display: flex;
+  /* Creative Navigation Badges */
+  .nav-link-with-badge {
+    position: relative;
+    display: inline-flex !important;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
-  .theme-toggle {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    border: none;
-    background: var(--color-surface);
-    color: var(--color-text);
-    cursor: pointer;
+  .nav-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 12px;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  /* Hot Badge - Pulsing Red/Orange */
+  .nav-badge.hot {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    animation: badgePulse 2s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+  }
+
+  /* Trending Badge - Electric Blue */
+  .nav-badge.trending {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    animation: badgeGlow 2s ease-in-out infinite alternate;
+    box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+  }
+
+  /* Premium Badge - Gold Shimmer */
+  .nav-badge.premium {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    color: white;
+    animation: badgeShimmer 3s linear infinite;
+    box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
+  }
+
+  /* Hiring Badge - Green Glow */
+  .nav-badge.hiring {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: white;
+    animation: badgeBounce 2s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(56, 239, 125, 0.5);
+  }
+
+  /* Counter Badge - Modern Notification Style */
+  .nav-counter {
+    position: absolute;
+    top: -8px;
+    right: -12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    border: 2px solid var(--color-bg);
+    transition: all var(--transition-fast);
+  }
+
+  .nav-counter.pulse {
+    animation: counterPulse 2s ease-in-out infinite;
+  }
+
+  /* Badge Animations */
+  @keyframes badgePulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+    }
+  }
+
+  @keyframes badgeGlow {
+    from {
+      box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+    }
+    to {
+      box-shadow: 0 0 20px rgba(79, 172, 254, 0.8), 0 0 30px rgba(79, 172, 254, 0.4);
+    }
+  }
+
+  @keyframes badgeShimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes badgeBounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  @keyframes counterPulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    50% {
+      transform: scale(1.15);
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.3);
+    }
+  }
+
+  /* Hover Effects */
+  .nav-link-with-badge:hover .nav-badge {
+    transform: translateY(-2px);
+  }
+
+  .nav-link-with-badge:hover .nav-counter {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Header CTA Button - Expert Responsive Design */
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-primary);
+    color: white;
+    text-decoration: none;
     transition: all var(--transition-base);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
     position: relative;
+    overflow: hidden;
   }
 
-  .theme-toggle:hover {
-    background: var(--color-bg-alt);
-    transform: scale(1.05);
-  }
-
-  .sun-icon,
-  .moon-icon {
+  .header-cta::before {
+    content: '';
     position: absolute;
-    transition: all var(--transition-base);
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
   }
 
-  [data-theme="light"] .moon-icon {
-    opacity: 0;
-    transform: rotate(90deg);
+  .header-cta:hover::before {
+    left: 100%;
   }
 
-  [data-theme="dark"] .sun-icon {
-    opacity: 0;
-    transform: rotate(-90deg);
+  .header-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+  }
+
+  .header-cta:active {
+    transform: translateY(0);
+  }
+
+  .cta-icon {
+    flex-shrink: 0;
+    transition: transform var(--transition-base);
+  }
+
+  .header-cta:hover .cta-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .cta-text-short {
+    display: none;
   }
 
   .mobile-menu-toggle {
@@ -369,6 +563,36 @@ import Logo from '@/components/Logo.astro';
     transition: all var(--transition-base);
   }
 
+  /* Tablet Breakpoint - Optimize for medium screens */
+  @media (max-width: 1024px) {
+    .header-cta {
+      padding: 0.55rem 1rem;
+      font-size: 0.85rem;
+      gap: 0.4rem;
+    }
+
+    .cta-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* Small Tablet - Show shorter button text */
+  @media (max-width: 900px) {
+    .cta-text {
+      display: none;
+    }
+
+    .cta-text-short {
+      display: inline;
+    }
+
+    .header-cta {
+      padding: 0.55rem 0.9rem;
+      font-size: 0.85rem;
+    }
+  }
+
   @media (max-width: 768px) {
     .header {
       padding: 0 var(--spacing-md);
@@ -385,6 +609,36 @@ import Logo from '@/components/Logo.astro';
     #header-logo-img {
       height: 38px !important;
       max-width: 140px !important;
+    }
+
+    /* Mobile badge adjustments */
+    .nav-badge {
+      font-size: 0.6rem;
+      padding: 0.1rem 0.4rem;
+    }
+
+    .nav-counter {
+      top: -6px;
+      right: -10px;
+      min-width: 20px;
+      height: 20px;
+      font-size: 0.65rem;
+    }
+
+    /* Compact CTA for mobile */
+    .header-cta {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.8rem;
+      gap: 0.35rem;
+    }
+
+    .cta-icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    .nav-actions {
+      gap: 0.6rem;
     }
 
     .nav-links {
@@ -451,10 +705,6 @@ import Logo from '@/components/Logo.astro';
     .mobile-menu-toggle {
       display: flex;
     }
-
-    .btn-primary {
-      display: none;
-    }
   }
 
   @media (max-width: 480px) {
@@ -478,6 +728,64 @@ import Logo from '@/components/Logo.astro';
     .nav-links {
       top: 65px;
       padding: 1.5rem 1rem;
+    }
+
+    /* Extra compact CTA for smallest screens */
+    .header-cta {
+      padding: 0.45rem 0.75rem;
+      font-size: 0.75rem;
+      gap: 0.3rem;
+    }
+
+    .cta-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .nav-actions {
+      gap: 0.5rem;
+    }
+  }
+
+  /* Theme Toggle */
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .theme-toggle:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.95);
+  }
+
+  [data-theme="dark"] .sun-icon {
+    display: none;
+  }
+
+  [data-theme="dark"] .moon-icon {
+    display: block !important;
+  }
+
+  @media (max-width: 768px) {
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
     }
   }
 </style>
@@ -557,4 +865,101 @@ import Logo from '@/components/Logo.astro';
 
   loadSiteName();
   document.addEventListener('astro:page-load', loadSiteName);
+
+  // Load dynamic blog post count
+  async function loadBlogPostCount() {
+    try {
+      const response = await fetch('/api/admin/blog');
+      console.log('Blog API response status:', response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Blog API data:', data);
+
+        const counter = document.getElementById('blog-post-counter');
+        const dropdownCounter = document.getElementById('blog-post-counter-dropdown');
+
+        if (!counter && !dropdownCounter) {
+          console.error('Blog counter elements not found');
+          return;
+        }
+
+        if (data.success && data.posts) {
+          const count = data.posts.length;
+          console.log('Blog post count:', count);
+
+          if (counter) {
+            counter.textContent = count.toString();
+            counter.style.display = 'flex';
+          }
+          if (dropdownCounter) {
+            dropdownCounter.textContent = count.toString();
+            dropdownCounter.style.display = 'inline-flex';
+          }
+        } else {
+          console.warn('Unexpected API response structure:', data);
+          if (counter) {
+            counter.textContent = '0';
+            counter.style.display = 'flex';
+          }
+          if (dropdownCounter) {
+            dropdownCounter.textContent = '0';
+            dropdownCounter.style.display = 'inline-flex';
+          }
+        }
+      } else {
+        console.error('Blog API request failed with status:', response.status);
+        const counter = document.getElementById('blog-post-counter');
+        const dropdownCounter = document.getElementById('blog-post-counter-dropdown');
+
+        if (counter) {
+          counter.textContent = '0';
+          counter.style.display = 'flex';
+        }
+        if (dropdownCounter) {
+          dropdownCounter.textContent = '0';
+          dropdownCounter.style.display = 'inline-flex';
+        }
+      }
+    } catch (error) {
+      console.error('Error loading blog post count:', error);
+      const counter = document.getElementById('blog-post-counter');
+      const dropdownCounter = document.getElementById('blog-post-counter-dropdown');
+
+      if (counter) {
+        counter.textContent = '0';
+        counter.style.display = 'flex';
+      }
+      if (dropdownCounter) {
+        dropdownCounter.textContent = '0';
+        dropdownCounter.style.display = 'inline-flex';
+      }
+    }
+  }
+
+  loadBlogPostCount();
+  document.addEventListener('astro:page-load', loadBlogPostCount);
+
+  // Theme Toggle Functionality
+  function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    // Check for saved theme preference or default to light mode
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', currentTheme);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    }
+  }
+
+  initThemeToggle();
+  document.addEventListener('astro:page-load', initThemeToggle);
 </script>

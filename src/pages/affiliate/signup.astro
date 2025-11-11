@@ -1,0 +1,794 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Join Our Affiliate Program" description="Earn generous commissions by referring clients to our world-class development services">
+  <main class="affiliate-signup-page">
+    <!-- Animated Background -->
+    <div class="page-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="gradient-mesh"></div>
+    </div>
+
+    <div class="signup-container container">
+      <!-- Left Side - Marketing Content -->
+      <div class="signup-hero">
+        <div class="hero-badge animate-in">
+          <span class="badge-pulse"></span>
+          <span class="badge-text">🤝 Partner Program</span>
+        </div>
+
+        <h1 class="hero-title" data-text-reveal>
+          Join Our
+          <span class="text-gradient animate-gradient">Affiliate Program</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Earn industry-leading commissions by connecting businesses with world-class software development services. No tech expertise required.
+        </p>
+
+        <!-- Benefits Grid -->
+        <div class="benefits-grid">
+          <div class="benefit-card glass">
+            <div class="benefit-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <div class="benefit-content">
+              <h3>10-15% Commission</h3>
+              <p>Industry-leading rates on every project</p>
+            </div>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="benefit-content">
+              <h3>90-Day Cookies</h3>
+              <p>Extended attribution window</p>
+            </div>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <div class="benefit-content">
+              <h3>Real-Time Dashboard</h3>
+              <p>Track clicks, leads & commissions</p>
+            </div>
+          </div>
+
+          <div class="benefit-card glass">
+            <div class="benefit-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+            <div class="benefit-content">
+              <h3>Monthly Payouts</h3>
+              <p>Via PayPal or bank transfer</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="trust-indicators">
+          <div class="trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Instant approval for qualified applicants</span>
+          </div>
+          <div class="trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Free marketing materials provided</span>
+          </div>
+          <div class="trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Dedicated affiliate support team</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side - Application Form -->
+      <div class="signup-form-wrapper">
+        <div class="form-card glass">
+          <div class="form-header">
+            <h2>Start Earning Today</h2>
+            <p>Fill out the form below to apply. We review applications within 24 hours.</p>
+          </div>
+
+          <form class="signup-form" id="signup-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="john@example.com"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="company_name">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                  </svg>
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  id="company_name"
+                  name="company_name"
+                  placeholder="Your Company (optional)"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="website">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  </svg>
+                  Website URL
+                </label>
+                <input
+                  type="url"
+                  id="website"
+                  name="website"
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="social_profiles">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+                Social Media Links
+              </label>
+              <input
+                type="text"
+                id="social_profiles"
+                name="social_profiles"
+                placeholder="LinkedIn, Twitter, Instagram, etc. (separate with commas)"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="traffic_source">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+                How will you promote us? *
+              </label>
+              <select id="traffic_source" name="traffic_source" required>
+                <option value="">Select an option</option>
+                <option value="website">My Website/Blog</option>
+                <option value="social_media">Social Media</option>
+                <option value="email_list">Email List</option>
+                <option value="youtube">YouTube Channel</option>
+                <option value="podcast">Podcast</option>
+                <option value="word_of_mouth">Word of Mouth / Direct Referrals</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="why_join">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Why do you want to join our affiliate program? *
+              </label>
+              <textarea
+                id="why_join"
+                name="why_join"
+                rows="4"
+                required
+                placeholder="Tell us about your audience and how you plan to promote our services..."
+              ></textarea>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="agree_terms" name="agree_terms" required />
+                <span>I agree to the <a href="/terms" target="_blank">Terms & Conditions</a> and <a href="/privacy" target="_blank">Privacy Policy</a></span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" data-ripple>
+              <span>Submit Application</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 2L11 13"/>
+                <path d="M22 2L15 22L11 13L2 9L22 2z"/>
+              </svg>
+            </button>
+
+            <div class="form-status" id="signup-status"></div>
+          </form>
+
+          <div class="form-footer">
+            <p>Already an affiliate? <a href="/affiliate/login">Sign in here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .affiliate-signup-page {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--header-height) + 3rem) 0 4rem;
+  }
+
+  .page-background {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      #667eea 0%,
+      #764ba2 35%,
+      #f093fb 70%,
+      #f5576c 100%
+    );
+    z-index: 0;
+  }
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    animation: float 25s infinite ease-in-out;
+  }
+
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent);
+    top: -20%;
+    left: -10%;
+    animation-delay: 0s;
+  }
+
+  .orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.6), transparent);
+    bottom: -20%;
+    right: -10%;
+    animation-delay: 8s;
+  }
+
+  .orb-3 {
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.7), transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 16s;
+  }
+
+  .gradient-mesh {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 90%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(40px, -40px) scale(1.1);
+    }
+    66% {
+      transform: translate(-30px, 30px) scale(0.9);
+    }
+  }
+
+  .signup-container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .signup-hero {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 2rem;
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .badge-pulse {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    position: relative;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+  }
+
+  .badge-text {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: white;
+    margin-bottom: 1.5rem;
+    animation: slideUp 0.7s ease-out;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b, #fb923c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 8s ease infinite;
+    background-size: 200% 200%;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .benefit-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideUp 0.9s ease-out;
+  }
+
+  .benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .benefit-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  .benefit-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.25rem;
+  }
+
+  .benefit-content p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+  .trust-indicators {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: slideUp 1s ease-out;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+  }
+
+  .trust-item svg {
+    color: #10b981;
+    flex-shrink: 0;
+  }
+
+  .signup-form-wrapper {
+    animation: slideUp 1.1s ease-out;
+  }
+
+  .form-card {
+    padding: 3rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  :global(.dark) .form-card {
+    background: rgba(17, 24, 39, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .form-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .form-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-header p {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+
+  .signup-form {
+    margin-bottom: 2rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .form-group label svg {
+    color: var(--color-primary);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    transition: all var(--transition-base);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .checkbox-group {
+    margin-top: 0.5rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    color: var(--color-text);
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+  }
+
+  .checkbox-label a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .btn-full {
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all var(--transition-base);
+  }
+
+  .btn-full:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+  }
+
+  .form-status {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .form-status.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 2px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .form-status.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 2px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .form-footer {
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .form-footer p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .form-footer a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .form-footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .signup-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .signup-hero {
+      position: relative;
+      top: 0;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .affiliate-signup-page {
+      padding: calc(var(--header-height) + 2rem) 0 2rem;
+    }
+
+    .form-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('signup-form') as HTMLFormElement;
+  const statusDiv = document.getElementById('signup-status') as HTMLDivElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      company_name: formData.get('company_name'),
+      website: formData.get('website'),
+      social_profiles: formData.get('social_profiles'),
+      why_join: formData.get('why_join'),
+      traffic_source: formData.get('traffic_source'),
+    };
+
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Submitting...</span>';
+
+    try {
+      const response = await fetch('/api/affiliate/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        statusDiv.className = 'form-status success';
+        statusDiv.textContent = '✓ Application submitted successfully! We\'ll review your application and get back to you within 24 hours via email.';
+        form.reset();
+
+        // Redirect to login after 4 seconds
+        setTimeout(() => {
+          window.location.href = '/affiliate/login';
+        }, 4000);
+      } else {
+        throw new Error(result.error || 'Failed to submit application');
+      }
+    } catch (error) {
+      statusDiv.className = 'form-status error';
+      statusDiv.textContent = '✗ ' + (error instanceof Error ? error.message : 'An error occurred. Please try again.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
+  });
+</script>

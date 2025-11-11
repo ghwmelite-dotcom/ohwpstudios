@@ -103,6 +103,7 @@
   "share_target": {
     "action": "/admin/contact",
     "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
     "params": {
       "title": "title",
       "text": "text",

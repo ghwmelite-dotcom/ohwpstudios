@@ -122,7 +122,7 @@ const description = project.subtitle || project.description;
 
         {project.featured_image && (
           <div class="hero-image">
-            <img src={project.featured_image} alt={project.title} />
+            <img src={project.featured_image} alt={project.title} loading="lazy" />
           </div>
         )}
       </div>
@@ -250,7 +250,7 @@ const description = project.subtitle || project.description;
                 <div class="testimonial-quote">"{testimonial.testimonial}"</div>
                 <div class="testimonial-author">
                   {testimonial.avatar_url && (
-                    <img src={testimonial.avatar_url} alt={testimonial.client_name} class="author-avatar" />
+                    <img src={testimonial.avatar_url} alt={testimonial.client_name} class="author-avatar" loading="lazy" />
                   )}
                   <div class="author-info">
                     <div class="author-name">{testimonial.client_name}</div>

@@ -1,0 +1,370 @@
+---
+// Interactive Quiz Call-to-Action Component
+---
+
+<section class="quiz-cta-section" data-animate>
+  <div class="container">
+    <div class="quiz-cta-card glass">
+      <div class="quiz-cta-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Free Project Quiz
+      </div>
+
+      <h2 class="quiz-cta-title">Not Sure What You Need?</h2>
+      <p class="quiz-cta-description">
+        Take our 2-minute project discovery quiz and get personalized recommendations plus a custom project estimate.
+      </p>
+
+      <div class="quiz-features">
+        <div class="quiz-feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span>Only 7 Questions</span>
+        </div>
+        <div class="quiz-feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span>2 Minutes</span>
+        </div>
+        <div class="quiz-feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Personalized Results</span>
+        </div>
+      </div>
+
+      <div class="quiz-cta-actions">
+        <a href="/quiz" class="btn btn-primary btn-lg quiz-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14"/>
+            <path d="M12 5l7 7-7 7"/>
+          </svg>
+          Take the Quiz
+        </a>
+        <a href="/case-studies" class="btn btn-secondary btn-lg">
+          View Case Studies
+        </a>
+      </div>
+
+      <div class="quiz-stats">
+        <div class="quiz-stat">
+          <span class="quiz-stat-value">1,250+</span>
+          <span class="quiz-stat-label">Quizzes Completed</span>
+        </div>
+        <div class="quiz-stat-divider"></div>
+        <div class="quiz-stat">
+          <span class="quiz-stat-value">95%</span>
+          <span class="quiz-stat-label">Got Perfect Match</span>
+        </div>
+        <div class="quiz-stat-divider"></div>
+        <div class="quiz-stat">
+          <span class="quiz-stat-value">4.9/5</span>
+          <span class="quiz-stat-label">Satisfaction Rate</span>
+        </div>
+      </div>
+
+      <!-- Decorative Elements -->
+      <div class="quiz-orb quiz-orb-1"></div>
+      <div class="quiz-orb quiz-orb-2"></div>
+      <div class="quiz-sparkle quiz-sparkle-1">✨</div>
+      <div class="quiz-sparkle quiz-sparkle-2">⭐</div>
+      <div class="quiz-sparkle quiz-sparkle-3">💡</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .quiz-cta-section {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-cta-card {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 3rem;
+    border-radius: 32px;
+    text-align: center;
+    position: relative;
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+  }
+
+  .quiz-cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 100px;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes badgePulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+    }
+  }
+
+  .quiz-cta-title {
+    font-size: 2.75rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+
+  .quiz-cta-description {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .quiz-features {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .quiz-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .quiz-feature svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .quiz-cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .quiz-btn {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  .quiz-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+    flex-wrap: wrap;
+  }
+
+  .quiz-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .quiz-stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .quiz-stat-label {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .quiz-stat-divider {
+    width: 1px;
+    height: 50px;
+    background: var(--glass-border);
+  }
+
+  /* Decorative Elements */
+  .quiz-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.3;
+    pointer-events: none;
+    animation: orbFloat 6s ease-in-out infinite;
+  }
+
+  .quiz-orb-1 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    top: -100px;
+    left: -100px;
+  }
+
+  .quiz-orb-2 {
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    bottom: -80px;
+    right: -80px;
+    animation-delay: 1s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  .quiz-sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    pointer-events: none;
+    animation: sparkle 3s ease-in-out infinite;
+  }
+
+  .quiz-sparkle-1 {
+    top: 2rem;
+    right: 3rem;
+  }
+
+  .quiz-sparkle-2 {
+    bottom: 3rem;
+    left: 2rem;
+    animation-delay: 1s;
+  }
+
+  .quiz-sparkle-3 {
+    top: 50%;
+    left: 2rem;
+    animation-delay: 2s;
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.2) rotate(180deg);
+      opacity: 1;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .quiz-cta-section {
+      padding: 4rem 0;
+    }
+
+    .quiz-cta-card {
+      padding: 3rem 2rem;
+    }
+
+    .quiz-cta-title {
+      font-size: 2rem;
+    }
+
+    .quiz-cta-description {
+      font-size: 1rem;
+    }
+
+    .quiz-features {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .quiz-cta-actions {
+      flex-direction: column;
+    }
+
+    .quiz-cta-actions .btn {
+      width: 100%;
+    }
+
+    .quiz-stats {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .quiz-stat-divider {
+      display: none;
+    }
+
+    .quiz-sparkle {
+      display: none;
+    }
+  }
+
+  /* Dark Mode */
+  [data-theme="dark"] .quiz-cta-badge {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border-color: rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+  }
+
+  [data-theme="dark"] .quiz-cta-title {
+    color: #f1f5f9;
+  }
+
+  [data-theme="dark"] .quiz-cta-description {
+    color: #cbd5e1;
+  }
+
+  [data-theme="dark"] .quiz-feature {
+    color: #f1f5f9;
+  }
+
+  [data-theme="dark"] .quiz-stat-label {
+    color: #94a3b8;
+  }
+</style>

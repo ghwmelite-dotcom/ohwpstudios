@@ -5,7 +5,7 @@
 
 <div id="social-proof-container" class="social-proof-container"></div>
 
-<style>
+<style is:global>
   .social-proof-container {
     position: fixed;
     bottom: 2rem;
@@ -272,24 +272,57 @@
       this.displayedNotifications = new Set();
       this.notificationInterval = 8000; // Show notification every 8 seconds
 
-      // Realistic notification data
-      this.notifications = [
-        { name: 'Sarah M.', location: 'New York', action: 'just requested a quote for Website Redesign', timeAgo: '2 minutes ago', initials: 'SM', icon: '📋' },
-        { name: 'Michael T.', location: 'Los Angeles', action: 'signed up for a consultation', timeAgo: '5 minutes ago', initials: 'MT', icon: '📅' },
-        { name: 'Jennifer K.', location: 'Chicago', action: 'downloaded the SEO Guide', timeAgo: '8 minutes ago', initials: 'JK', icon: '📥' },
-        { name: 'David R.', location: 'Houston', action: 'just started a new project', timeAgo: '12 minutes ago', initials: 'DR', icon: '🚀' },
-        { name: 'Emily P.', location: 'Phoenix', action: 'requested a custom development quote', timeAgo: '15 minutes ago', initials: 'EP', icon: '💻' },
-        { name: 'Robert C.', location: 'Philadelphia', action: 'booked a discovery call', timeAgo: '18 minutes ago', initials: 'RC', icon: '📞' },
-        { name: 'Lisa W.', location: 'San Antonio', action: 'just launched their new website', timeAgo: '22 minutes ago', initials: 'LW', icon: '🎉' },
-        { name: 'James H.', location: 'San Diego', action: 'requested a performance audit', timeAgo: '25 minutes ago', initials: 'JH', icon: '⚡' },
-        { name: 'Patricia B.', location: 'Dallas', action: 'signed up for WordPress hosting', timeAgo: '30 minutes ago', initials: 'PB', icon: '🌐' },
-        { name: 'Christopher L.', location: 'San Jose', action: 'downloaded the pricing guide', timeAgo: '35 minutes ago', initials: 'CL', icon: '💰' },
-        { name: 'Amanda G.', location: 'Austin', action: 'requested a branding package quote', timeAgo: '40 minutes ago', initials: 'AG', icon: '🎨' },
-        { name: 'Daniel M.', location: 'Jacksonville', action: 'just started their SEO campaign', timeAgo: '45 minutes ago', initials: 'DM', icon: '📊' },
-        { name: 'Michelle S.', location: 'Fort Worth', action: 'booked a strategy session', timeAgo: '50 minutes ago', initials: 'MS', icon: '💡' },
-        { name: 'Kevin J.', location: 'Columbus', action: 'requested cloud migration services', timeAgo: '55 minutes ago', initials: 'KJ', icon: '☁️' },
-        { name: 'Nancy D.', location: 'Charlotte', action: 'just upgraded to premium support', timeAgo: '1 hour ago', initials: 'ND', icon: '⭐' },
+      // Data pools for dynamic generation
+      this.firstNames = {
+        americas: ['Sarah', 'Michael', 'Jennifer', 'David', 'Emily', 'James', 'Lisa', 'Robert', 'Maria', 'John'],
+        europe: ['Oliver', 'Sophie', 'Lars', 'Isabella', 'Emma', 'Marco', 'Anna', 'Henrik', 'Nina', 'Erik', 'Andrei', 'Elena', 'Dimitri', 'Nikos', 'Carlos'],
+        africa: ['Ahmed', 'Fatima', 'Youssef', 'Chioma', 'Kwame', 'Aisha', 'Amara', 'Tadesse', 'Zainab', 'Thabo', 'Naledi', 'Tendai', 'Kofi', 'Amina', 'Ibrahim']
+      };
+
+      this.locations = {
+        americas: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Toronto', 'Miami', 'Boston', 'Seattle', 'San Francisco', 'Austin'],
+        europe: ['London', 'Paris', 'Amsterdam', 'Berlin', 'Madrid', 'Dublin', 'Milan', 'Brussels', 'Stockholm', 'Copenhagen', 'Oslo', 'Helsinki', 'Warsaw', 'Prague', 'Bucharest', 'Athens', 'Lisbon', 'Vienna', 'Zurich', 'Barcelona'],
+        africa: ['Cairo', 'Casablanca', 'Tunis', 'Lagos', 'Accra', 'Dakar', 'Nairobi', 'Addis Ababa', 'Dar es Salaam', 'Johannesburg', 'Cape Town', 'Harare', 'Kigali', 'Kampala', 'Abuja']
+      };
+
+      this.actions = [
+        { text: 'just requested a quote for Website Redesign', icon: '📋' },
+        { text: 'signed up for a consultation', icon: '📅' },
+        { text: 'downloaded the SEO Guide', icon: '📥' },
+        { text: 'just started a new project', icon: '🚀' },
+        { text: 'requested a custom development quote', icon: '💻' },
+        { text: 'booked a discovery call', icon: '📞' },
+        { text: 'just launched their e-commerce store', icon: '🎉' },
+        { text: 'requested a performance audit', icon: '⚡' },
+        { text: 'signed up for mobile app development', icon: '📱' },
+        { text: 'downloaded the pricing guide', icon: '💰' },
+        { text: 'requested a branding package quote', icon: '🎨' },
+        { text: 'just started their digital transformation', icon: '🔄' },
+        { text: 'booked a strategy session', icon: '💡' },
+        { text: 'requested cloud migration services', icon: '☁️' },
+        { text: 'just upgraded to premium support', icon: '⭐' },
+        { text: 'signed up for API development', icon: '🔌' },
+        { text: 'requested SaaS development quote', icon: '💼' },
+        { text: 'just launched their marketplace platform', icon: '🛒' },
+        { text: 'booked a consultation for fintech app', icon: '💳' },
+        { text: 'requested enterprise software quote', icon: '🏢' },
+        { text: 'signed up for WordPress hosting', icon: '🌐' },
+        { text: 'downloaded the startup MVP guide', icon: '📚' },
+        { text: 'requested custom CRM development', icon: '📊' },
+        { text: 'just started their e-learning platform', icon: '🎓' },
+        { text: 'booked a mobile app consultation', icon: '📱' },
+        { text: 'requested fintech application quote', icon: '💰' },
+        { text: 'just launched their logistics platform', icon: '🚚' },
+        { text: 'signed up for digital marketing services', icon: '📈' },
+        { text: 'requested healthcare software quote', icon: '🏥' },
+        { text: 'booked cloud infrastructure consultation', icon: '☁️' },
+        { text: 'just started their education app project', icon: '📚' },
+        { text: 'requested real estate platform development', icon: '🏠' },
+        { text: 'signed up for UX/UI design services', icon: '🎨' },
+        { text: 'downloaded the API integration guide', icon: '🔧' }
       ];
+
+      this.notifications = []; // Will be generated dynamically
 
       this.init();
     }
@@ -311,27 +344,49 @@
     showRandomNotification() {
       if (!this.container) return;
 
-      // Get a random notification that hasn't been shown recently
-      let randomIndex: number;
-      let attempts = 0;
-
-      do {
-        randomIndex = Math.floor(Math.random() * this.notifications.length);
-        attempts++;
-      } while (this.displayedNotifications.has(randomIndex) && attempts < 50);
-
-      this.displayedNotifications.add(randomIndex);
-
-      // Reset displayed set if all notifications have been shown
-      if (this.displayedNotifications.size >= this.notifications.length) {
-        this.displayedNotifications.clear();
-      }
-
-      const notification = this.notifications[randomIndex];
+      // Generate a completely random notification
+      const notification = this.generateRandomNotification();
       this.displayNotification(notification);
     }
 
-    displayNotification(data: typeof this.notifications[0]) {
+    generateRandomNotification() {
+      // Pick random region
+      const regions = ['americas', 'europe', 'africa'] as const;
+      const region = regions[Math.floor(Math.random() * regions.length)];
+
+      // Pick random name and location from that region
+      const firstName = this.firstNames[region][Math.floor(Math.random() * this.firstNames[region].length)];
+      const location = this.locations[region][Math.floor(Math.random() * this.locations[region].length)];
+
+      // Pick random action
+      const actionData = this.actions[Math.floor(Math.random() * this.actions.length)];
+
+      // Generate random last initial
+      const lastInitials = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Z'];
+      const lastInitial = lastInitials[Math.floor(Math.random() * lastInitials.length)];
+
+      // Generate random time (1-60 minutes ago)
+      const minutes = Math.floor(Math.random() * 60) + 1;
+      let timeAgo: string;
+      if (minutes === 1) {
+        timeAgo = '1 minute ago';
+      } else if (minutes < 60) {
+        timeAgo = `${minutes} minutes ago`;
+      } else {
+        timeAgo = '1 hour ago';
+      }
+
+      return {
+        name: `${firstName} ${lastInitial}.`,
+        location,
+        action: actionData.text,
+        timeAgo,
+        initials: `${firstName.charAt(0)}${lastInitial}`,
+        icon: actionData.icon
+      };
+    }
+
+    displayNotification(data: { name: string; location: string; action: string; timeAgo: string; initials: string; icon?: string }) {
       if (!this.container) return;
 
       const el = document.createElement('div');
