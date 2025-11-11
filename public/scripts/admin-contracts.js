@@ -7,6 +7,8 @@ class ContractsAdmin {
     this.currentFilter = 'all';
     this.contracts = [];
     this.templates = [];
+    this.currentContract = null;
+    this.milestones = [];
 
     if (!this.token) {
       window.location.href = '/admin/login';
@@ -20,6 +22,7 @@ class ContractsAdmin {
     this.setupTabs();
     this.setupFilters();
     this.setupButtons();
+    this.setupMilestoneModals();
     this.setupLogout();
     this.loadContracts();
     this.loadTemplates();
@@ -195,6 +198,9 @@ class ContractsAdmin {
       document.getElementById(`view-${contract.id}`)?.addEventListener('click', () => {
         this.viewContract(contract.id);
       });
+      document.getElementById(`milestones-${contract.id}`)?.addEventListener('click', () => {
+        this.openMilestonesModal(contract);
+      });
       document.getElementById(`send-${contract.id}`)?.addEventListener('click', () => {
         this.sendContract(contract.id);
       });
@@ -252,6 +258,13 @@ class ContractsAdmin {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
               <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+
+          <button class="btn-icon" id="milestones-${contract.id}" title="Manage Payments">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
             </svg>
           </button>
 
@@ -475,6 +488,272 @@ class ContractsAdmin {
     } catch (error) {
       console.error('Error deleting contract:', error);
       alert('Failed to delete contract: ' + error.message);
+    }
+  }
+
+  setupMilestoneModals() {
+    // Close milestone modal
+    document.getElementById('close-milestone-modal')?.addEventListener('click', () => {
+      document.getElementById('milestone-modal').classList.remove('active');
+    });
+
+    // Close edit milestone modal
+    document.getElementById('close-edit-milestone-modal')?.addEventListener('click', () => {
+      document.getElementById('edit-milestone-modal').classList.remove('active');
+    });
+
+    // Cancel milestone edit
+    document.getElementById('cancel-milestone-btn')?.addEventListener('click', () => {
+      document.getElementById('edit-milestone-modal').classList.remove('active');
+      document.getElementById('milestone-form').reset();
+    });
+
+    // Add milestone button
+    document.getElementById('add-milestone-btn')?.addEventListener('click', () => {
+      this.openEditMilestoneModal();
+    });
+
+    // Milestone form submit
+    document.getElementById('milestone-form')?.addEventListener('submit', (e) => {
+      this.handleMilestoneSubmit(e);
+    });
+
+    // Close modals when clicking outside
+    document.getElementById('milestone-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'milestone-modal') {
+        document.getElementById('milestone-modal').classList.remove('active');
+      }
+    });
+
+    document.getElementById('edit-milestone-modal')?.addEventListener('click', (e) => {
+      if (e.target.id === 'edit-milestone-modal') {
+        document.getElementById('edit-milestone-modal').classList.remove('active');
+      }
+    });
+  }
+
+  async openMilestonesModal(contract) {
+    this.currentContract = contract;
+    document.getElementById('milestone-contract-title').textContent =
+      `${contract.contract_number} - ${contract.client_name}`;
+    document.getElementById('milestone-modal').classList.add('active');
+    await this.loadMilestones(contract.id);
+  }
+
+  async loadMilestones(contractId) {
+    const container = document.getElementById('milestones-list');
+    container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading milestones...</p></div>';
+
+    try {
+      const response = await fetch(`/api/admin/contract-milestones?contract_id=${contractId}`, {
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      });
+
+      if (!response.ok) throw new Error('Failed to load milestones');
+
+      this.milestones = await response.json();
+      this.renderMilestones();
+      this.updateMilestoneSummary();
+    } catch (error) {
+      console.error('Error loading milestones:', error);
+      container.innerHTML = '<div class="empty-milestones"><p>Failed to load milestones</p></div>';
+    }
+  }
+
+  renderMilestones() {
+    const container = document.getElementById('milestones-list');
+
+    if (this.milestones.length === 0) {
+      container.innerHTML = `
+        <div class="empty-milestones">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <p>No payment milestones yet. Add your first milestone to get started.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = this.milestones.map(milestone => this.milestoneItemHTML(milestone)).join('');
+
+    // Attach event listeners
+    this.milestones.forEach(milestone => {
+      document.getElementById(`edit-milestone-${milestone.id}`)?.addEventListener('click', () => {
+        this.openEditMilestoneModal(milestone);
+      });
+
+      if (milestone.status !== 'paid') {
+        document.getElementById(`delete-milestone-${milestone.id}`)?.addEventListener('click', () => {
+          this.deleteMilestone(milestone.id);
+        });
+      }
+    });
+  }
+
+  milestoneItemHTML(milestone) {
+    const dueDate = milestone.due_date ? new Date(milestone.due_date).toLocaleDateString() : 'No due date';
+    const paidDate = milestone.paid_at ? new Date(milestone.paid_at).toLocaleDateString() : null;
+
+    return `
+      <div class="milestone-item ${milestone.status}">
+        <div class="milestone-item-header">
+          <div>
+            <h4 class="milestone-item-title">${milestone.title}</h4>
+            ${milestone.description ? `<p class="milestone-item-description">${milestone.description}</p>` : ''}
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="status-badge ${milestone.status}">${milestone.status}</span>
+            <div class="milestone-item-actions">
+              ${milestone.status !== 'paid' ? `
+                <button class="btn-icon" id="edit-milestone-${milestone.id}" title="Edit Milestone">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+                <button class="btn-icon" id="delete-milestone-${milestone.id}" title="Delete Milestone">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone-item-details">
+          <div class="milestone-detail">
+            <span class="milestone-detail-label">Amount</span>
+            <span class="milestone-detail-value">${this.currentContract.currency || 'USD'} ${parseFloat(milestone.amount).toFixed(2)}</span>
+          </div>
+          ${milestone.percentage ? `
+          <div class="milestone-detail">
+            <span class="milestone-detail-label">Percentage</span>
+            <span class="milestone-detail-value">${milestone.percentage}%</span>
+          </div>
+          ` : ''}
+          <div class="milestone-detail">
+            <span class="milestone-detail-label">${milestone.status === 'paid' ? 'Paid On' : 'Due Date'}</span>
+            <span class="milestone-detail-value">${milestone.status === 'paid' ? paidDate : dueDate}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  updateMilestoneSummary() {
+    const total = this.currentContract.total_amount || 0;
+    const paid = this.milestones
+      .filter(m => m.status === 'paid')
+      .reduce((sum, m) => sum + parseFloat(m.amount), 0);
+    const pending = this.milestones
+      .filter(m => m.status === 'pending')
+      .reduce((sum, m) => sum + parseFloat(m.amount), 0);
+
+    const currency = this.currentContract.currency || 'USD';
+    document.getElementById('milestone-total').textContent = `${currency} ${total.toFixed(2)}`;
+    document.getElementById('milestone-paid').textContent = `${currency} ${paid.toFixed(2)}`;
+    document.getElementById('milestone-pending').textContent = `${currency} ${pending.toFixed(2)}`;
+  }
+
+  openEditMilestoneModal(milestone = null) {
+    const modal = document.getElementById('edit-milestone-modal');
+    const form = document.getElementById('milestone-form');
+    const title = document.getElementById('edit-milestone-title');
+
+    if (milestone) {
+      title.textContent = 'Edit Milestone';
+      document.getElementById('milestone-id').value = milestone.id;
+      document.getElementById('milestone-title-input').value = milestone.title;
+      document.getElementById('milestone-description').value = milestone.description || '';
+      document.getElementById('milestone-amount').value = milestone.amount;
+      document.getElementById('milestone-percentage').value = milestone.percentage || '';
+      document.getElementById('milestone-due-date').value = milestone.due_date || '';
+    } else {
+      title.textContent = 'Add Milestone';
+      form.reset();
+      document.getElementById('milestone-id').value = '';
+    }
+
+    document.getElementById('milestone-contract-id').value = this.currentContract.id;
+    modal.classList.add('active');
+  }
+
+  async handleMilestoneSubmit(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    try {
+      const formData = new FormData(form);
+      const milestoneId = formData.get('id');
+      const data = {
+        contract_id: formData.get('contract_id'),
+        title: formData.get('title'),
+        description: formData.get('description'),
+        amount: parseFloat(formData.get('amount')),
+        percentage: formData.get('percentage') ? parseFloat(formData.get('percentage')) : null,
+        due_date: formData.get('due_date') || null
+      };
+
+      const url = '/api/admin/contract-milestones';
+      const method = milestoneId ? 'PUT' : 'POST';
+
+      if (milestoneId) {
+        data.id = parseInt(milestoneId);
+      }
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) throw new Error('Failed to save milestone');
+
+      document.getElementById('edit-milestone-modal').classList.remove('active');
+      form.reset();
+      await this.loadMilestones(this.currentContract.id);
+    } catch (error) {
+      console.error('Error saving milestone:', error);
+      alert('Failed to save milestone: ' + error.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save Milestone';
+    }
+  }
+
+  async deleteMilestone(id) {
+    if (!confirm('Delete this milestone?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/contract-milestones?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${this.token}`
+        }
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete milestone');
+      }
+
+      await this.loadMilestones(this.currentContract.id);
+    } catch (error) {
+      console.error('Error deleting milestone:', error);
+      alert(error.message);
     }
   }
 }

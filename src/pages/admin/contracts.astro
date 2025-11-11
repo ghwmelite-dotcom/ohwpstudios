@@ -260,6 +260,113 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         </form>
       </div>
     </main>
+
+    <!-- Milestone Management Modal -->
+    <div class="modal" id="milestone-modal">
+      <div class="modal-content milestone-modal-content">
+        <div class="modal-header">
+          <div>
+            <h2>Payment Milestones</h2>
+            <p class="subtitle" id="milestone-contract-title"></p>
+          </div>
+          <button class="btn-close" id="close-milestone-modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="milestone-content">
+          <div class="milestone-summary">
+            <div class="summary-card">
+              <span class="summary-label">Total Amount</span>
+              <span class="summary-value" id="milestone-total">--</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Paid</span>
+              <span class="summary-value success" id="milestone-paid">--</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Pending</span>
+              <span class="summary-value warning" id="milestone-pending">--</span>
+            </div>
+          </div>
+
+          <div class="milestones-list" id="milestones-list">
+            <div class="loading-state">
+              <div class="spinner"></div>
+              <p>Loading milestones...</p>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="add-milestone-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            Add Milestone
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Milestone Modal -->
+    <div class="modal" id="edit-milestone-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="edit-milestone-title">Add Milestone</h2>
+          <button class="btn-close" id="close-edit-milestone-modal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <form id="milestone-form" class="milestone-form">
+          <input type="hidden" id="milestone-id" name="id" />
+          <input type="hidden" id="milestone-contract-id" name="contract_id" />
+
+          <div class="form-group">
+            <label for="milestone-title-input">Milestone Title *</label>
+            <input type="text" id="milestone-title-input" name="title" class="form-input" required
+              placeholder="e.g., Initial Deposit, Midpoint Payment" />
+          </div>
+
+          <div class="form-group">
+            <label for="milestone-description">Description</label>
+            <textarea id="milestone-description" name="description" class="form-input" rows="3"
+              placeholder="Brief description of what this payment covers"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="milestone-amount">Amount *</label>
+              <input type="number" id="milestone-amount" name="amount" class="form-input"
+                step="0.01" min="0" required />
+            </div>
+
+            <div class="form-group">
+              <label for="milestone-percentage">Percentage (%)</label>
+              <input type="number" id="milestone-percentage" name="percentage" class="form-input"
+                step="0.01" min="0" max="100" placeholder="Optional" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="milestone-due-date">Due Date</label>
+            <input type="date" id="milestone-due-date" name="due_date" class="form-input" />
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-milestone-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Milestone</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <style is:global>
@@ -688,6 +795,223 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       border-top: 1px solid var(--glass-border);
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(20px);
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    .milestone-modal-content {
+      max-width: 900px;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 2rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .modal-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .modal-header .subtitle {
+      margin-top: 0.25rem;
+    }
+
+    .btn-close {
+      padding: 0.5rem;
+      background: rgba(239, 68, 68, 0.1);
+      border: none;
+      border-radius: var(--radius-md);
+      color: #ef4444;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-close:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    .milestone-content {
+      padding: 2rem;
+    }
+
+    .milestone-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .summary-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .summary-value.success {
+      color: #10b981;
+    }
+
+    .summary-value.warning {
+      color: #f59e0b;
+    }
+
+    .milestones-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      min-height: 200px;
+    }
+
+    .milestone-item {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .milestone-item:hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    }
+
+    .milestone-item.paid {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .milestone-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .milestone-item-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0 0 0.25rem;
+    }
+
+    .milestone-item-description {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    .milestone-item-details {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .milestone-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .milestone-detail-label {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .milestone-detail-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .milestone-item-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .milestone-form {
+      padding: 2rem;
+    }
+
+    .empty-milestones {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-text-muted);
+    }
+
+    .empty-milestones svg {
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
     @media (max-width: 768px) {
       .admin-layout {
         flex-direction: column;
@@ -719,6 +1043,20 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
       .search-box {
         min-width: auto;
+      }
+
+      .modal-content {
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+      }
+
+      .milestone-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .milestone-item-details {
+        flex-wrap: wrap;
       }
     }
   </style>
