@@ -17,10 +17,12 @@ database_id = "ddff1c97-f090-43eb-9f8d-4a4f68517faf"
 # Environment variables
 [vars]
 SITE_URL = "https://ohwpstudios.org"
+PAYSTACK_PUBLIC_KEY = "pk_live_073a86e6624fea1b49c77d020e0beb0b5d23d12a"
 # Sensitive API keys are stored as Cloudflare Pages secrets:
 # - RESEND_API_KEY (via: wrangler pages secret put RESEND_API_KEY)
 # - GEMINI_API_KEY (via: wrangler pages secret put GEMINI_API_KEY)
 # - ANTHROPIC_API_KEY (via: wrangler pages secret put ANTHROPIC_API_KEY)
+# - PAYSTACK_SECRET_KEY (via: wrangler pages secret put PAYSTACK_SECRET_KEY)
 # For local development, add these to .dev.vars file
 
 # Production environment
