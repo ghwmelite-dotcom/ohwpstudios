@@ -15,7 +15,7 @@
     z-index: -1;
   }
 
-  :global(.dark) .page-background {
+  .dark .page-background {
     background: linear-gradient(135deg,
       #0a0a0a 0%,
       #1a1a1a 50%,

@@ -12,14 +12,17 @@ let aboutContent: any = {
   story_content: 'Founded with a vision to transform the digital landscape, our agency has grown from a small team of passionate creators into a full-service digital powerhouse. We believe in the power of great design and cutting-edge technology to solve real business challenges.'
 };
 
-try {
-  const response = await fetch(Astro.url.origin + '/api/admin/about');
-  const data = await response.json();
-  if (data.success && data.content) {
-    aboutContent = { ...aboutContent, ...data.content };
+// Only fetch from API during runtime (not during build)
+if (import.meta.env.DEV || Astro.request.url.includes('localhost') || Astro.request.url.includes('127.0.0.1')) {
+  try {
+    const response = await fetch(Astro.url.origin + '/api/admin/about');
+    const data = await response.json();
+    if (data.success && data.content) {
+      aboutContent = { ...aboutContent, ...data.content };
+    }
+  } catch (error) {
+    // Silently use fallback data
   }
-} catch (error) {
-  console.error('Error fetching about content:', error);
 }
 
 // Fetch core values
@@ -33,16 +36,20 @@ const fallbackValues = [
   { title: 'Passion Driven', description: 'We love what we do. This passion fuels our creativity and drives us to create extraordinary digital experiences.', icon: 'heart' }
 ];
 
-try {
-  const response = await fetch(Astro.url.origin + '/api/admin/values');
-  const data = await response.json();
-  if (data.success && data.values && data.values.length > 0) {
-    values = data.values;
-  } else {
+// Only fetch from API during runtime (not during build)
+if (import.meta.env.DEV || Astro.request.url.includes('localhost') || Astro.request.url.includes('127.0.0.1')) {
+  try {
+    const response = await fetch(Astro.url.origin + '/api/admin/values');
+    const data = await response.json();
+    if (data.success && data.values && data.values.length > 0) {
+      values = data.values;
+    } else {
+      values = fallbackValues;
+    }
+  } catch (error) {
     values = fallbackValues;
   }
-} catch (error) {
-  console.error('Error fetching core values:', error);
+} else {
   values = fallbackValues;
 }
 
@@ -55,16 +62,20 @@ const fallbackTeam = [
   { name: 'Emily Rodriguez', role: 'Marketing Director', bio: 'Strategic thinker driving growth and engagement.', image_url: '' }
 ];
 
-try {
-  const response = await fetch(Astro.url.origin + '/api/admin/team');
-  const data = await response.json();
-  if (data.success && data.team && data.team.length > 0) {
-    team = data.team;
-  } else {
+// Only fetch from API during runtime (not during build)
+if (import.meta.env.DEV || Astro.request.url.includes('localhost') || Astro.request.url.includes('127.0.0.1')) {
+  try {
+    const response = await fetch(Astro.url.origin + '/api/admin/team');
+    const data = await response.json();
+    if (data.success && data.team && data.team.length > 0) {
+      team = data.team;
+    } else {
+      team = fallbackTeam;
+    }
+  } catch (error) {
     team = fallbackTeam;
   }
-} catch (error) {
-  console.error('Error fetching team members:', error);
+} else {
   team = fallbackTeam;
 }
 
