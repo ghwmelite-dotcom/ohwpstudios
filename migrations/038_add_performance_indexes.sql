@@ -30,10 +30,10 @@ CREATE INDEX IF NOT EXISTS idx_client_users_token_expires ON client_users(token,
 
 -- Affiliate programs indexes
 -- Speeds up affiliate tracking and commission calculations
-CREATE INDEX IF NOT EXISTS idx_affiliate_users_referral_code ON affiliate_users(referral_code);
-CREATE INDEX IF NOT EXISTS idx_affiliate_users_status ON affiliate_users(status);
-CREATE INDEX IF NOT EXISTS idx_affiliate_referrals_affiliate_id ON affiliate_referrals(affiliate_id);
-CREATE INDEX IF NOT EXISTS idx_affiliate_referrals_status ON affiliate_referrals(status);
+CREATE INDEX IF NOT EXISTS idx_affiliates_code ON affiliates(affiliate_code);
+CREATE INDEX IF NOT EXISTS idx_affiliates_status ON affiliates(status);
+CREATE INDEX IF NOT EXISTS idx_affiliate_commissions_affiliate_id ON affiliate_commissions(affiliate_id);
+CREATE INDEX IF NOT EXISTS idx_affiliate_commissions_status ON affiliate_commissions(status);
 
 -- Contact and newsletter indexes
 -- Speeds up admin dashboard queries
