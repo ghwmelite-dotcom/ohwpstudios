@@ -1,5 +1,5 @@
--- Insert Affiliate Program Blog Post
-INSERT INTO blog_posts (
+-- Insert Affiliate Program Blog Post (skip if already exists)
+INSERT OR IGNORE INTO blog_posts (
   title,
   slug,
   excerpt,
