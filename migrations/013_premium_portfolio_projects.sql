@@ -20,7 +20,7 @@ INSERT OR IGNORE INTO portfolio_tags (name, slug) VALUES
 ('API Integration', 'api-integration');
 
 -- PROJECT 1: FinPay - Revolutionary FinTech Mobile App
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -57,7 +57,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 2: CloudOps Enterprise - SaaS Infrastructure Platform
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -94,7 +94,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 3: LuxeStyle - Premium Fashion E-Commerce
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -131,7 +131,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 4: HealthConnect - Patient Portal & Telemedicine
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -168,7 +168,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 5: PropSphere - Real Estate Intelligence Platform
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -205,7 +205,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 6: Velocity Dynamics - Brand Transformation
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -242,7 +242,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 7: FlavorFusion - Restaurant Ordering Ecosystem
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -279,7 +279,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- PROJECT 8: EduQuest - Interactive Learning Platform
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, project_url,
   featured_image, thumbnail_image,
   challenge, solution, results,
@@ -317,39 +317,39 @@ INSERT INTO portfolio_projects (
 
 -- Link projects to relevant tags
 -- FinPay tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 1, id FROM portfolio_tags WHERE slug IN ('react-native', 'typescript', 'nodejs', 'aws', 'security', 'ai-ml', 'real-time');
 
 -- CloudOps tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 2, id FROM portfolio_tags WHERE slug IN ('nodejs', 'graphql', 'typescript', 'aws', 'microservices', 'real-time', 'performance');
 
 -- LuxeStyle tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 3, id FROM portfolio_tags WHERE slug IN ('next-js', 'react', 'e-commerce', 'ai-ml', 'responsive', 'animation', 'api-integration');
 
 -- HealthConnect tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 4, id FROM portfolio_tags WHERE slug IN ('react', 'nodejs', 'postgresql', 'security', 'real-time', 'api-integration', 'pwa');
 
 -- PropSphere tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 5, id FROM portfolio_tags WHERE slug IN ('next-js', 'typescript', 'ai-ml', 'postgresql', 'api-integration', 'responsive', 'seo');
 
 -- Velocity Dynamics tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 6, id FROM portfolio_tags WHERE slug IN ('figma', 'adobe-xd', 'react', 'tailwind-css', 'animation', 'responsive');
 
 -- FlavorFusion tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 7, id FROM portfolio_tags WHERE slug IN ('react-native', 'flutter', 'nodejs', 'real-time', 'api-integration', 'pwa');
 
 -- EduQuest tags
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT 8, id FROM portfolio_tags WHERE slug IN ('react', 'next-js', 'nodejs', 'ai-ml', 'real-time', 'animation', 'pwa');
 
 -- Add client testimonials for each project
-INSERT INTO portfolio_testimonials (project_id, client_name, client_position, client_company, testimonial, rating, is_featured) VALUES
+INSERT OR IGNORE INTO portfolio_testimonials (project_id, client_name, client_position, client_company, testimonial, rating, is_featured) VALUES
 (1, 'Sarah Mitchell', 'CEO', 'FinPay Technologies', 'Hodges & Co. transformed our vision into a world-class product. Their expertise in mobile development and financial tech security was instrumental in our successful launch. The attention to detail and user experience is outstanding.', 5, 1),
 
 (2, 'Michael Chen', 'CTO', 'CloudOps Inc.', 'Working with Hodges & Co. was a game-changer for our business. They delivered a scalable, enterprise-grade platform that exceeded all expectations. Their technical expertise and project management were exceptional.', 5, 1),
