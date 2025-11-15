@@ -14,9 +14,28 @@ import Testimonials from '@/components/Testimonials.astro';
 import Contact from '@/components/Contact.astro';
 import Footer from '@/components/Footer.astro';
 import { SITE_CONFIG } from '@/config';
+
+// Fetch first portfolio image for LCP preload
+let firstPortfolioImage = '';
+try {
+  const DB = Astro.locals.runtime?.env?.DB;
+  if (DB) {
+    const result = await DB.prepare(
+      'SELECT featured_image FROM portfolio_projects WHERE is_published = 1 AND featured_image IS NOT NULL ORDER BY display_order ASC, created_at DESC LIMIT 1'
+    ).first();
+    if (result?.featured_image) {
+      firstPortfolioImage = result.featured_image;
+    }
+  }
+} catch (e) {
+  console.error('Failed to fetch portfolio image for preload:', e);
+}
 ---
 
 <BaseLayout title={SITE_CONFIG.name} description={SITE_CONFIG.description}>
+  {firstPortfolioImage && (
+    <link slot="head" rel="preload" as="image" href={firstPortfolioImage} fetchpriority="high" />
+  )}
   <Header />
   <main>
     <HeroWorld />

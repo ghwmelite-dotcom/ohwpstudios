@@ -1221,12 +1221,18 @@
         </div>
       ` : '';
 
+      // First 2 images should load eagerly with high priority for LCP optimization
+      const isAboveFold = index < 2;
+      const loadingAttr = isAboveFold ? 'eager' : 'lazy';
+      const fetchPriorityAttr = isAboveFold ? 'fetchpriority="high"' : '';
+      const decodingAttr = isAboveFold ? 'sync' : 'async';
+
       return `
         <article class="portfolio-item" style="animation-delay: ${index * 100}ms">
           <a href="/portfolio/${project.slug}" class="portfolio-link">
             <div class="portfolio-image">
               ${project.featured_image
-                ? `<img src="${project.featured_image}" alt="${project.title}" loading="lazy" />`
+                ? `<img src="${project.featured_image}" alt="${project.title}" width="800" height="450" loading="${loadingAttr}" decoding="${decodingAttr}" ${fetchPriorityAttr} />`
                 : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#6366f1,#ec4899)"></div>'
               }
               <div class="portfolio-overlay">
