@@ -1844,6 +1844,31 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 </style>
 
 <script>
+  // Sanitization utilities
+  const sanitizeHTML = (html) => {
+    if (!html) return '';
+    let safe = String(html);
+    safe = safe.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    safe = safe.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+    safe = safe.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+    safe = safe.replace(/javascript:/gi, '');
+    safe = safe.replace(/data:text\/html/gi, '');
+    safe = safe.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+    safe = safe.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+    safe = safe.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+    return safe;
+  };
+
+  const escapeHTML = (text) => {
+    if (!text) return '';
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+
   // Check authentication
   const token = localStorage.getItem('admin_token');
   if (!token) {
@@ -2144,24 +2169,25 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       if (!list) return;
 
       if (data.success && data.services && data.services.length > 0) {
+        // Sanitize service data from API to prevent XSS
         list.innerHTML = data.services.map((service: any) => `
           <div class="crud-item">
             <div class="crud-item-content">
-              <h4>${service.title}</h4>
-              <p>${service.description}</p>
+              <h4>${escapeHTML(service.title)}</h4>
+              <p>${escapeHTML(service.description)}</p>
               <div class="crud-item-meta">
-                <span class="meta-badge">Icon: ${service.icon}</span>
-                <span class="meta-badge">Order: ${service.display_order}</span>
+                <span class="meta-badge">Icon: ${escapeHTML(service.icon)}</span>
+                <span class="meta-badge">Order: ${escapeHTML(service.display_order)}</span>
               </div>
             </div>
             <div class="crud-item-actions">
-              <button class="icon-btn edit" onclick="editService(${service.id})">
+              <button class="icon-btn edit" onclick="editService(${parseInt(service.id)})">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                 </svg>
               </button>
-              <button class="icon-btn delete" onclick="deleteService(${service.id})">
+              <button class="icon-btn delete" onclick="deleteService(${parseInt(service.id)})">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="3 6 5 6 21 6"/>
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -2171,6 +2197,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           </div>
         `).join('');
       } else {
+        // Static HTML - safe (no user content)
         list.innerHTML = `
           <div class="empty-state">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2306,13 +2333,13 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       if (!list) return;
 
       if (data.success && data.portfolio && data.portfolio.length > 0) {
-        list.innerHTML = data.portfolio.map((item: any) => `
+        list.innerHTML = sanitizeHTML(data.portfolio.map((item: any) => `
           <div class="portfolio-item">
-            ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}" class="portfolio-image" />` : `<div class="portfolio-image">No Image</div>`}
+            ${item.image_url ? `<img src="${escapeHTML(item.image_url)}" alt="${escapeHTML(item.title)}" class="portfolio-image" />` : `<div class="portfolio-image">No Image</div>`}
             <div class="portfolio-content">
-              <h4>${item.title}</h4>
-              <p>${item.description}</p>
-              ${item.tags ? `<div class="crud-item-meta">${item.tags.split(',').map((tag: string) => `<span class="meta-badge">${tag.trim()}</span>`).join('')}</div>` : ''}
+              <h4>${escapeHTML(item.title)}</h4>
+              <p>${escapeHTML(item.description)}</p>
+              ${item.tags ? `<div class="crud-item-meta">${item.tags.split(',').map((tag: string) => `<span class="meta-badge">${escapeHTML(tag.trim())}</span>`).join('')}</div>` : ''}
               <div class="crud-item-actions" style="justify-content: center; margin-top: 1rem;">
                 <button class="icon-btn edit" onclick="editPortfolio(${item.id})">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2329,7 +2356,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
             </div>
           </div>
-        `).join('');
+        `).join(''));
       } else {
         list.innerHTML = `
           <div class="empty-state">
@@ -2339,7 +2366,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <h4>No Portfolio Projects Yet</h4>
             <p>Click "Add Project" to showcase your first project</p>
           </div>
-        `;
+        `; // Static HTML - safe
       }
     } catch (error) {
       console.error('Error loading portfolio:', error);
@@ -2482,20 +2509,20 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       if (!list) return;
 
       if (data.success && data.posts && data.posts.length > 0) {
-        list.innerHTML = data.posts.map((post: any) => `
+        list.innerHTML = sanitizeHTML(data.posts.map((post: any) => `
           <div class="crud-item">
             <div class="crud-item-content">
               <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem;">
                 <div style="flex: 1;">
-                  <h4>${post.title}</h4>
-                  ${post.excerpt ? `<p style="margin: 0.5rem 0;">${post.excerpt}</p>` : ''}
+                  <h4>${escapeHTML(post.title)}</h4>
+                  ${post.excerpt ? `<p style="margin: 0.5rem 0;">${escapeHTML(post.excerpt)}</p>` : ''}
                   <div class="crud-item-meta">
                     <span class="meta-badge ${post.published ? 'success' : 'warning'}">
                       ${post.published ? '✓ Published' : '○ Draft'}
                     </span>
-                    ${post.author ? `<span class="meta-badge">By: ${post.author}</span>` : ''}
+                    ${post.author ? `<span class="meta-badge">By: ${escapeHTML(post.author)}</span>` : ''}
                     ${post.published_at ? `<span class="meta-badge">${new Date(post.published_at).toLocaleDateString()}</span>` : ''}
-                    ${post.tags ? `<span class="meta-badge">${post.tags}</span>` : ''}
+                    ${post.tags ? `<span class="meta-badge">${escapeHTML(post.tags)}</span>` : ''}
                   </div>
                 </div>
                 <div class="crud-item-actions" style="flex-shrink: 0;">
@@ -2515,7 +2542,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
             </div>
           </div>
-        `).join('');
+        `).join(''));
       } else {
         list.innerHTML = `
           <div class="empty-state">
@@ -2526,7 +2553,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <h4>No Blog Posts Yet</h4>
             <p>Click "New Post" to create your first blog post</p>
           </div>
-        `;
+        `; // Static HTML - safe
       }
     } catch (error) {
       console.error('Error loading blog posts:', error);
@@ -2732,15 +2759,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       if (!list) return;
 
       if (data.success && data.team && data.team.length > 0) {
-        list.innerHTML = data.team.map((member: any) => `
+        list.innerHTML = sanitizeHTML(data.team.map((member: any) => `
           <div class="team-item">
             <div class="team-avatar">
-              ${member.image_url ? `<img src="${member.image_url}" alt="${member.name}" />` : member.name.charAt(0)}
+              ${member.image_url ? `<img src="${escapeHTML(member.image_url)}" alt="${escapeHTML(member.name)}" />` : escapeHTML(member.name.charAt(0))}
             </div>
             <div class="team-content">
-              <h4>${member.name}</h4>
-              <div class="team-role">${member.role}</div>
-              ${member.bio ? `<p class="team-bio">${member.bio}</p>` : ''}
+              <h4>${escapeHTML(member.name)}</h4>
+              <div class="team-role">${escapeHTML(member.role)}</div>
+              ${member.bio ? `<p class="team-bio">${escapeHTML(member.bio)}</p>` : ''}
               <div class="crud-item-actions" style="justify-content: center; margin-top: 1rem;">
                 <button class="icon-btn edit" onclick="editTeam(${member.id})">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2757,7 +2784,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
             </div>
           </div>
-        `).join('');
+        `).join(''));
       } else {
         list.innerHTML = `
           <div class="empty-state">
@@ -2768,7 +2795,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <h4>No Team Members Yet</h4>
             <p>Click "Add Member" to add your first team member</p>
           </div>
-        `;
+        `; // Static HTML - safe
       }
     } catch (error) {
       console.error('Error loading team:', error);
@@ -2897,7 +2924,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       if (!list) return;
 
       if (data.success && data.values && data.values.length > 0) {
-        list.innerHTML = data.values.map((value: any) => `
+        list.innerHTML = sanitizeHTML(data.values.map((value: any) => `
           <div class="value-item">
             <div class="value-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2905,8 +2932,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </svg>
             </div>
             <div class="value-content">
-              <h4>${value.title}</h4>
-              <p>${value.description}</p>
+              <h4>${escapeHTML(value.title)}</h4>
+              <p>${escapeHTML(value.description)}</p>
               <div class="crud-item-actions" style="margin-top: 1rem;">
                 <button class="icon-btn edit" onclick="editValue(${value.id})">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2923,7 +2950,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
             </div>
           </div>
-        `).join('');
+        `).join(''));
       } else {
         list.innerHTML = `
           <div class="empty-state">
@@ -2933,7 +2960,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <h4>No Core Values Yet</h4>
             <p>Click "Add Value" to define your first core value</p>
           </div>
-        `;
+        `; // Static HTML - safe
       }
     } catch (error) {
       console.error('Error loading values:', error);

@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { generateCSRFToken } from '@/utils/csrf';
+import { rateLimitMiddleware, getClientIdentifier, RATE_LIMITS, clearRateLimit } from '@/utils/rate-limit';
 
 export const prerender = false;
 
@@ -14,6 +16,13 @@ async function hashPassword(password: string): Promise<string> {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    // Apply rate limiting based on IP address
+    const clientIP = getClientIdentifier(request);
+    const rateLimitResponse = await rateLimitMiddleware(clientIP, RATE_LIMITS.LOGIN);
+    if (rateLimitResponse) {
+      return rateLimitResponse; // Rate limit exceeded
+    }
+
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
@@ -54,21 +63,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Generate token
+    // Generate token and CSRF token
     const token = crypto.randomUUID();
+    const csrfToken = generateCSRFToken();
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 30); // 30 days
 
-    // Update user with token
+    // Update user with token and CSRF token
     await db
-      .prepare('UPDATE client_users SET token = ?, token_expires_at = ?, updated_at = datetime("now") WHERE id = ?')
-      .bind(token, expiresAt.toISOString(), user.id)
+      .prepare('UPDATE client_users SET token = ?, csrf_token = ?, token_expires_at = ?, updated_at = datetime("now") WHERE id = ?')
+      .bind(token, csrfToken, expiresAt.toISOString(), user.id)
       .run();
+
+    // Clear rate limit after successful login
+    clearRateLimit(clientIP);
 
     return new Response(
       JSON.stringify({
         success: true,
         token,
+        csrfToken,
         user: {
           id: user.id,
           email: user.email,

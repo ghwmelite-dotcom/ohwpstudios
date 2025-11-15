@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { getCORSHeaders, handleCORSPreflight } from '@/utils/cors';
 
 export const prerender = false;
 
@@ -109,13 +110,10 @@ export const GET: APIRoute = async ({ request, locals }) => {
   }
 };
 
-export const OPTIONS: APIRoute = async () => {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-  });
+export const OPTIONS: APIRoute = async (context) => {
+  const preflightResponse = handleCORSPreflight(context.request);
+  if (preflightResponse) {
+    return preflightResponse;
+  }
+  return new Response(null, { status: 405 });
 };

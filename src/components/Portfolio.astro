@@ -1128,21 +1128,29 @@
   async function loadProjects() {
     const loadingState = document.getElementById('loading-state');
     const grid = document.getElementById('portfolio-grid');
+    const filtersContainer = document.getElementById('category-filters');
 
     if (loadingState) loadingState.style.display = 'flex';
     if (grid) grid.innerHTML = '';
 
     try {
-      const response = await fetch('/api/admin/portfolio?status=published');
+      // Determine if we're on homepage (filters hidden) or portfolio page (filters visible)
+      const isHomepage = filtersContainer && getComputedStyle(filtersContainer).display === 'none';
+
+      // Use server-side LIMIT for homepage instead of client-side slice
+      const apiUrl = isHomepage
+        ? '/api/admin/portfolio?status=published&limit=2'
+        : '/api/admin/portfolio?status=published';
+
+      const response = await fetch(apiUrl);
       const data = await response.json();
 
       if (loadingState) loadingState.style.display = 'none';
 
       if (data.success && data.projects) {
         allProjects = data.projects;
-        // Limit to 2 featured projects for homepage
-        const limitedProjects = allProjects.slice(0, 2);
-        renderProjects(limitedProjects);
+        // No need to slice - API returns limited results for homepage
+        renderProjects(allProjects);
       } else {
         showEmptyState();
       }

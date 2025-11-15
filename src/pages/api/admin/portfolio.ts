@@ -17,6 +17,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const url = new URL(request.url);
     const categoryId = url.searchParams.get('category_id');
     const status = url.searchParams.get('status');
+    const limit = url.searchParams.get('limit');
 
     // Build query
     let query = 'SELECT * FROM portfolio_projects WHERE 1=1';
@@ -36,6 +37,15 @@ export const GET: APIRoute = async ({ request, locals }) => {
     }
 
     query += ' ORDER BY display_order ASC, created_at DESC';
+
+    // Add LIMIT clause if specified
+    if (limit) {
+      const limitNum = parseInt(limit, 10);
+      if (!isNaN(limitNum) && limitNum > 0) {
+        query += ' LIMIT ?';
+        params.push(limitNum);
+      }
+    }
 
     const projects = await db.prepare(query).bind(...params).all();
 

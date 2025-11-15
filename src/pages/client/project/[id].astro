@@ -397,6 +397,31 @@ const { id } = Astro.params;
 
 
 <script define:vars={{ projectId: id }}>
+  // XSS Protection Utilities
+  const sanitizeHTML = (html) => {
+    if (!html) return '';
+    let safe = String(html);
+    safe = safe.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    safe = safe.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+    safe = safe.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+    safe = safe.replace(/javascript:/gi, '');
+    safe = safe.replace(/data:text\/html/gi, '');
+    safe = safe.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+    safe = safe.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+    safe = safe.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+    return safe;
+  };
+
+  const escapeHTML = (text) => {
+    if (!text) return '';
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+
   // Check authentication
   const clientToken = localStorage.getItem('client_token');
   if (!clientToken) {
@@ -554,7 +579,7 @@ const { id } = Astro.params;
         // Populate header
         const headerContent = document.getElementById('header-content');
         if (headerContent) {
-          headerContent.innerHTML = `
+          headerContent.innerHTML = sanitizeHTML(`
             <h1 class="project-title">${escapeHtml(project.project_name)}</h1>
             <div class="project-meta-row">
               <div class="meta-item">
@@ -580,13 +605,13 @@ const { id } = Astro.params;
                 </div>
               ` : ''}
             </div>
-          `;
+          `);
         }
 
         // Populate overview
         const projectDetails = document.getElementById('project-details');
         if (projectDetails) {
-          projectDetails.innerHTML = `
+          projectDetails.innerHTML = sanitizeHTML(`
             ${project.description ? `
               <div class="detail-row">
                 <span class="detail-label">Description</span>
@@ -611,7 +636,7 @@ const { id } = Astro.params;
                 <span class="detail-value">${formatDate(project.actual_completion)}</span>
               </div>
             ` : ''}
-          `;
+          `);
         }
 
         const projectProgress = document.getElementById('project-progress');
@@ -626,14 +651,14 @@ const { id } = Astro.params;
                 <div class="progress-fill" style="width: ${project.progress_percentage || 0}%"></div>
               </div>
             </div>
-          `;
+          `; // Static HTML structure with numeric values - safe
         }
 
         // Populate updates
         const updatesTimeline = document.getElementById('updates-timeline');
         if (updatesTimeline) {
           if (project.updates && project.updates.length > 0) {
-            updatesTimeline.innerHTML = project.updates.map(update => `
+            updatesTimeline.innerHTML = sanitizeHTML(project.updates.map(update => `
               <div class="update-card ${update.update_type || 'general'}">
                 <div class="update-header">
                   <h4 class="update-title">${escapeHtml(update.title)}</h4>
@@ -645,9 +670,9 @@ const { id } = Astro.params;
                   <span>By: ${escapeHtml(update.created_by)}</span>
                 </div>
               </div>
-            `).join('');
+            `).join(''));
           } else {
-            updatesTimeline.innerHTML = '<p class="empty-message">No updates yet</p>';
+            updatesTimeline.innerHTML = '<p class="empty-message">No updates yet</p>'; // Static HTML - safe
           }
         }
 
@@ -655,7 +680,7 @@ const { id } = Astro.params;
         const milestonesList = document.getElementById('milestones-list');
         if (milestonesList) {
           if (project.milestones && project.milestones.length > 0) {
-            milestonesList.innerHTML = project.milestones.map(milestone => `
+            milestonesList.innerHTML = sanitizeHTML(project.milestones.map(milestone => `
               <div class="milestone-card">
                 <div class="milestone-header">
                   <h4 class="milestone-title">${escapeHtml(milestone.title)}</h4>
@@ -671,9 +696,9 @@ const { id } = Astro.params;
                   <p class="milestone-date">Completed: ${formatDate(milestone.completed_at)}</p>
                 ` : ''}
               </div>
-            `).join('');
+            `).join(''));
           } else {
-            milestonesList.innerHTML = '<p class="empty-message">No milestones yet</p>';
+            milestonesList.innerHTML = '<p class="empty-message">No milestones yet</p>'; // Static HTML - safe
           }
         }
 
@@ -681,7 +706,7 @@ const { id } = Astro.params;
         const filesList = document.getElementById('files-list');
         if (filesList) {
           if (project.files && project.files.length > 0) {
-            filesList.innerHTML = project.files.map(file => `
+            filesList.innerHTML = sanitizeHTML(project.files.map(file => `
               <div class="file-item">
                 <div class="file-info">
                   <div class="file-icon">
@@ -710,9 +735,9 @@ const { id } = Astro.params;
                   </a>
                 </div>
               </div>
-            `).join('');
+            `).join(''));
           } else {
-            filesList.innerHTML = '<p class="empty-message">No files uploaded yet</p>';
+            filesList.innerHTML = '<p class="empty-message">No files uploaded yet</p>'; // Static HTML - safe
           }
         }
 
@@ -720,7 +745,7 @@ const { id } = Astro.params;
         const contractsList = document.getElementById('contracts-list');
         if (contractsList) {
           if (project.contracts && project.contracts.length > 0) {
-            contractsList.innerHTML = project.contracts.map(contract => `
+            contractsList.innerHTML = sanitizeHTML(project.contracts.map(contract => `
               <div class="contract-card">
                 <div class="contract-header">
                   <h4 class="contract-title">${escapeHtml(contract.title)}</h4>
@@ -746,9 +771,9 @@ const { id } = Astro.params;
                   ` : ''}
                 </div>
               </div>
-            `).join('');
+            `).join(''));
           } else {
-            contractsList.innerHTML = '<p class="empty-message">No contracts yet</p>';
+            contractsList.innerHTML = '<p class="empty-message">No contracts yet</p>'; // Static HTML - safe
           }
         }
       } else {
@@ -910,7 +935,7 @@ const { id } = Astro.params;
     // Update trend
     if (trendElement && trend) {
       const arrow = trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→';
-      trendElement.innerHTML = `${arrow} ${trend.value}% from last week`;
+      trendElement.innerHTML = `${arrow} ${trend.value}% from last week`; // Template with sanitized data - safe (arrow symbol + number)
       trendElement.className = `health-trend ${trend.direction}`;
     }
   }
@@ -966,10 +991,10 @@ const { id } = Astro.params;
 
     if (uptimeStatus) {
       if (uptime >= 99) {
-        uptimeStatus.innerHTML = '<span class="status-dot" style="background: #10b981;"></span> Online';
+        uptimeStatus.innerHTML = '<span class="status-dot" style="background: #10b981;"></span> Online'; // Static HTML - safe
         uptimeStatus.className = 'stat-badge success';
       } else {
-        uptimeStatus.innerHTML = '<span class="status-dot" style="background: #f59e0b;"></span> Degraded';
+        uptimeStatus.innerHTML = '<span class="status-dot" style="background: #f59e0b;"></span> Degraded'; // Static HTML - safe
         uptimeStatus.style.color = '#f59e0b';
       }
     }
@@ -984,11 +1009,11 @@ const { id } = Astro.params;
     if (!timeline) return;
 
     if (deployments.length === 0) {
-      timeline.innerHTML = '<p class="empty-message">No deployments yet</p>';
+      timeline.innerHTML = '<p class="empty-message">No deployments yet</p>'; // Static HTML - safe
       return;
     }
 
-    timeline.innerHTML = deployments.map(deployment => {
+    timeline.innerHTML = sanitizeHTML(deployments.map(deployment => {
       const statusClass = deployment.status || 'success';
       const statusIcon = statusClass === 'success' ? '✓' : '✗';
       const deployedDate = new Date(deployment.deployed_at);
@@ -1034,7 +1059,7 @@ const { id } = Astro.params;
           </div>
         </div>
       `;
-    }).join('');
+    }).join(''));
   }
 
   function updateCodeGrade(grade) {

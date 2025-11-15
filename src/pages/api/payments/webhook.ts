@@ -1,10 +1,18 @@
 import type { APIRoute } from 'astro';
+import { rateLimitMiddleware, getClientIdentifier, RATE_LIMITS } from '@/utils/rate-limit';
 
 export const prerender = false;
 
 // POST: Handle Paystack webhooks
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    // Apply rate limiting to prevent webhook spam/abuse
+    const clientIP = getClientIdentifier(request);
+    const rateLimitResponse = await rateLimitMiddleware(clientIP, RATE_LIMITS.PAYMENT);
+    if (rateLimitResponse) {
+      return rateLimitResponse; // Rate limit exceeded
+    }
+
     const PAYSTACK_SECRET_KEY = locals.runtime?.env?.PAYSTACK_SECRET_KEY;
     const db = locals.runtime?.env?.DB;
 

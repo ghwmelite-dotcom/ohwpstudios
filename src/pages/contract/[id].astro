@@ -392,6 +392,21 @@ if (!id) {
   </style>
 
   <script define:vars={{ contractId: id }}>
+    // Sanitization utilities
+    const sanitizeHTML = (html) => {
+      if (!html) return '';
+      let safe = String(html);
+      safe = safe.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      safe = safe.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+      safe = safe.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+      safe = safe.replace(/javascript:/gi, '');
+      safe = safe.replace(/data:text\/html/gi, '');
+      safe = safe.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+      safe = safe.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+      safe = safe.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+      return safe;
+    };
+
     let contract = null;
 
     async function loadContract() {
@@ -427,8 +442,8 @@ if (!id) {
       statusBadge.textContent = data.status;
       statusBadge.className = `contract-status-badge ${data.status}`;
 
-      // Set contract body
-      document.getElementById('contract-body').innerHTML = data.content;
+      // Set contract body - sanitize HTML content from API
+      document.getElementById('contract-body').innerHTML = sanitizeHTML(data.content);
 
       // Pre-fill form if client info exists
       if (data.client_name) {
@@ -459,6 +474,7 @@ if (!id) {
 
       const submitBtn = document.getElementById('submit-signature');
       submitBtn.disabled = true;
+      // Static HTML - safe (no user content)
       submitBtn.innerHTML = '<span>Signing...</span>';
 
       try {
@@ -496,6 +512,7 @@ if (!id) {
         console.error('Error signing contract:', error);
         alert(error.message || 'Failed to sign contract. Please try again.');
         submitBtn.disabled = false;
+        // Static HTML - safe (no user content)
         submitBtn.innerHTML = `
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="20 6 9 17 4 12"/>

@@ -1149,6 +1149,31 @@ import Footer from '@/components/Footer.astro';
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
+    // XSS Protection Utilities
+    const sanitizeHTML = (html) => {
+      if (!html) return '';
+      let safe = String(html);
+      safe = safe.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      safe = safe.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+      safe = safe.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+      safe = safe.replace(/javascript:/gi, '');
+      safe = safe.replace(/data:text\/html/gi, '');
+      safe = safe.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+      safe = safe.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+      safe = safe.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+      return safe;
+    };
+
+    const escapeHTML = (text) => {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
+
     let currentStep = 1;
     const totalSteps = 3;
     let currentEstimateData = null; // Store estimate data for PDF generation
@@ -1322,24 +1347,24 @@ import Footer from '@/components/Footer.astro';
       // Technology Stack
       const techStack = document.getElementById('techStack');
       if (data.technology_stack && data.technology_stack.length > 0) {
-        techStack.innerHTML = data.technology_stack
-          .map(tech => `<span class="tech-badge">${tech}</span>`)
-          .join('');
+        techStack.innerHTML = sanitizeHTML(data.technology_stack
+          .map(tech => `<span class="tech-badge">${escapeHTML(tech)}</span>`)
+          .join(''));
       } else {
-        techStack.innerHTML = '<span class="text-gray-400">To be determined based on detailed requirements</span>';
+        techStack.innerHTML = '<span class="text-gray-400">To be determined based on detailed requirements</span>'; // Static HTML - safe
       }
 
       // Risk Level
       const riskLevel = document.getElementById('riskLevel');
       const riskClass = `risk-${data.risk_level || 'medium'}`;
-      riskLevel.innerHTML = `<span class="${riskClass}">${(data.risk_level || 'medium').toUpperCase()} RISK</span>`;
+      riskLevel.innerHTML = `<span class="${riskClass}">${(data.risk_level || 'medium').toUpperCase()} RISK</span>`; // Static template with controlled value - safe
 
       // AI Analysis
       const aiAnalysis = document.getElementById('aiAnalysis');
       if (data.ai_analysis && data.ai_analysis.summary) {
-        aiAnalysis.innerHTML = formatAnalysis(data.ai_analysis.summary);
+        aiAnalysis.innerHTML = sanitizeHTML(formatAnalysis(data.ai_analysis.summary));
       } else {
-        aiAnalysis.innerHTML = '<p>Analysis details will be provided in your consultation.</p>';
+        aiAnalysis.innerHTML = '<p>Analysis details will be provided in your consultation.</p>'; // Static HTML - safe
       }
 
       // Store estimate ID for PDF download

@@ -136,6 +136,31 @@ const BUILD_VERSION = '20250109-v4';
 
 
 <script>
+  // XSS Protection Utilities
+  const sanitizeHTML = (html) => {
+    if (!html) return '';
+    let safe = String(html);
+    safe = safe.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    safe = safe.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+    safe = safe.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+    safe = safe.replace(/javascript:/gi, '');
+    safe = safe.replace(/data:text\/html/gi, '');
+    safe = safe.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+    safe = safe.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+    safe = safe.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+    return safe;
+  };
+
+  const escapeHTML = (text) => {
+    if (!text) return '';
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+
   // Check authentication
   const clientToken = localStorage.getItem('client_token');
   const clientUser = localStorage.getItem('client_user');
@@ -193,7 +218,7 @@ const BUILD_VERSION = '20250109-v4';
       if (result.success && result.projects.length > 0) {
         if (projectsGrid) {
           projectsGrid.style.display = 'grid';
-          projectsGrid.innerHTML = result.projects.map(project => `
+          projectsGrid.innerHTML = sanitizeHTML(result.projects.map(project => `
             <div class="project-card" onclick="window.location.href='/client/project/${project.id}'">
               <div class="project-header">
                 <h3 class="project-name">${escapeHtml(project.project_name)}</h3>
@@ -229,7 +254,7 @@ const BUILD_VERSION = '20250109-v4';
                 </div>
               </div>
             </div>
-          `).join('');
+          `).join(''));
         }
       } else {
         if (emptyState) emptyState.style.display = 'flex';
