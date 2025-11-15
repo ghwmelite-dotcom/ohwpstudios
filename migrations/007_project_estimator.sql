@@ -39,9 +39,5 @@ CREATE INDEX IF NOT EXISTS idx_project_estimates_status ON project_estimates(sta
 CREATE INDEX IF NOT EXISTS idx_project_estimates_created ON project_estimates(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_project_estimates_email ON project_estimates(email);
 
--- Trigger to update updated_at timestamp
-CREATE TRIGGER IF NOT EXISTS update_project_estimates_timestamp
-AFTER UPDATE ON project_estimates
-BEGIN
-  UPDATE project_estimates SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
-END;
+-- Note: Triggers not supported in D1 migrations
+-- Update updated_at manually in application code or use separate migration after D1 adds trigger support
