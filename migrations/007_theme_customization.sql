@@ -3,7 +3,7 @@
 -- Date: 2025-01-07
 
 -- Add 2 more testimonials
-INSERT INTO testimonials (name, role, company, content, rating, avatar_initials, avatar_gradient, featured, display_order, is_active) VALUES
+INSERT OR IGNORE INTO testimonials (name, role, company, content, rating, avatar_initials, avatar_gradient, featured, display_order, is_active) VALUES
 ('Emily R.', 'E-Commerce Director', 'FashionHub Retail', 'Their WooCommerce expertise transformed our online store completely. Sales increased by 85% in the first quarter, and the checkout experience is now seamless. Best investment we ever made!', 5, 'ER', 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)', 1, 5, 1),
 ('David K.', 'CTO', 'InnovateTech Solutions', 'The team''s technical prowess and attention to security is outstanding. They built us a scalable WordPress platform that handles millions of visitors flawlessly. Truly world-class work!', 5, 'DK', 'linear-gradient(135deg, #10b981 0%, #3b82f6 100%)', 1, 6, 1);
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS color_presets (
 );
 
 -- Insert predefined color schemes
-INSERT INTO color_presets (name, description, primary_color, secondary_color, accent_color, wordpress_color) VALUES
+INSERT OR IGNORE INTO color_presets (name, description, primary_color, secondary_color, accent_color, wordpress_color) VALUES
 ('Default (Indigo & Pink)', 'Modern vibrant gradient with WordPress blue', '#6366f1', '#ec4899', '#f59e0b', '#0073aa'),
 ('WordPress Classic', 'Classic WordPress blue with warm accents', '#0073aa', '#00a0d2', '#f59e0b', '#0073aa'),
 ('Purple Haze', 'Rich purple with pink accents', '#8b5cf6', '#ec4899', '#f59e0b', '#6d28d9'),
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS font_presets (
 );
 
 -- Insert popular Google Fonts
-INSERT INTO font_presets (name, category, google_font_name, google_font_weights, fallback_fonts) VALUES
+INSERT OR IGNORE INTO font_presets (name, category, google_font_name, google_font_weights, fallback_fonts) VALUES
 -- Sans-Serif
 ('Inter', 'sans-serif', 'Inter', '300,400,500,600,700,800', 'system-ui, -apple-system, sans-serif'),
 ('Poppins', 'sans-serif', 'Poppins', '300,400,500,600,700,800', 'system-ui, sans-serif'),
