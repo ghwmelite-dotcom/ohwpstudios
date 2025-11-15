@@ -23,7 +23,7 @@ CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published);
 
 -- Insert sample blog posts
-INSERT INTO blog_posts (title, slug, excerpt, content, featured_image, published, published_at, seo_title, seo_description, tags) VALUES
+INSERT OR IGNORE INTO blog_posts (title, slug, excerpt, content, featured_image, published, published_at, seo_title, seo_description, tags) VALUES
 (
   'Getting Started with Web Development in 2025',
   'getting-started-web-development-2025',
