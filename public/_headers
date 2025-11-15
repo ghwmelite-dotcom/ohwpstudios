@@ -23,8 +23,52 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Allow caching of images
+# Cache JavaScript files (1 year)
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache CSS files (1 year)
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache font files (1 year)
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+/*.eot
+  Cache-Control: public, max-age=31536000, immutable
+/*.otf
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache image files (1 year)
 /images/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+/*.gif
+  Cache-Control: public, max-age=31536000, immutable
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+/*.avif
+  Cache-Control: public, max-age=31536000, immutable
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache manifest and service worker (shorter cache for PWA files)
+/manifest.json
+  Cache-Control: public, max-age=86400, must-revalidate
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+/workbox-*.js
   Cache-Control: public, max-age=31536000, immutable
 
 # Default for other pages - short cache

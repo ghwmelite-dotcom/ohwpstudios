@@ -1074,6 +1074,28 @@
     }
   }
 
-  initChatbot();
-  document.addEventListener('astro:page-load', initChatbot);
+  // Lazy load chatbot: only initialize when user opens it
+  let chatbotInitialized = false;
+
+  function lazyInitChatbot() {
+    if (!chatbotInitialized) {
+      chatbotInitialized = true;
+      initChatbot();
+    }
+  }
+
+  // Initialize on first toggle click
+  const toggle = document.getElementById('chatbot-toggle');
+  toggle?.addEventListener('click', lazyInitChatbot, { once: true });
+
+  // Reinitialize on Astro page transitions (if already initialized)
+  document.addEventListener('astro:page-load', () => {
+    if (chatbotInitialized) {
+      initChatbot();
+    } else {
+      // Re-attach listener for new page
+      const newToggle = document.getElementById('chatbot-toggle');
+      newToggle?.addEventListener('click', lazyInitChatbot, { once: true });
+    }
+  });
 </script>
