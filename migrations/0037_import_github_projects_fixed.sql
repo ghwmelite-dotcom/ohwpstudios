@@ -2,7 +2,7 @@
 -- Updated to match actual schema
 
 -- Project 1: OHWP Studios
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, category_id,
   challenge, solution, results,
   metric_1_label, metric_1_value, metric_2_label, metric_2_value,
@@ -31,7 +31,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- Project 2: AI Football Predictions
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, category_id,
   challenge, solution, results,
   metric_1_label, metric_1_value, metric_2_label, metric_2_value,
@@ -60,7 +60,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- Project 3: AI Real Estate Bot
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, category_id,
   challenge, solution, results,
   metric_1_label, metric_1_value, metric_2_label, metric_2_value,
@@ -89,7 +89,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- Project 4: Client Database System
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, category_id,
   challenge, solution, results,
   metric_1_label, metric_1_value, metric_2_label, metric_2_value,
@@ -118,7 +118,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- Project 5: Physician Platform
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, category_id,
   challenge, solution, results,
   metric_1_label, metric_1_value, metric_2_label, metric_2_value,
@@ -147,7 +147,7 @@ INSERT INTO portfolio_projects (
 );
 
 -- Project 6: RIA Wealth Platform
-INSERT INTO portfolio_projects (
+INSERT OR IGNORE INTO portfolio_projects (
   title, slug, subtitle, description, client_name, category_id,
   challenge, solution, results,
   metric_1_label, metric_1_value, metric_2_label, metric_2_value,
@@ -195,26 +195,26 @@ INSERT OR IGNORE INTO portfolio_tags (name, slug) VALUES ('Tailwind', 'tailwind'
 INSERT OR IGNORE INTO portfolio_tags (name, slug) VALUES ('Finance', 'finance');
 
 -- Link tags to projects
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT p.id, t.id FROM portfolio_projects p, portfolio_tags t
 WHERE p.slug = 'ohwp-studios-agency-website' AND t.slug IN ('astro', 'typescript', 'cloudflare', 'd1', 'ai');
 
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT p.id, t.id FROM portfolio_projects p, portfolio_tags t
 WHERE p.slug = 'ai-football-predictions-platform' AND t.slug IN ('react', 'typescript', 'ai', 'real-time', 'convex');
 
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT p.id, t.id FROM portfolio_projects p, portfolio_tags t
 WHERE p.slug = 'ai-real-estate-chatbot' AND t.slug IN ('ai', 'chatbot', 'real-estate', 'cloudflare', 'd1');
 
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT p.id, t.id FROM portfolio_projects p, portfolio_tags t
 WHERE p.slug = 'client-database-management-system' AND t.slug IN ('react', 'cloudflare', 'd1', 'r2', 'crm');
 
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT p.id, t.id FROM portfolio_projects p, portfolio_tags t
 WHERE p.slug = 'physician-contracts-intelligence-platform' AND t.slug IN ('typescript', 'healthcare', 'ai', 'analytics', 'react');
 
-INSERT INTO portfolio_project_tags (project_id, tag_id)
+INSERT OR IGNORE INTO portfolio_project_tags (project_id, tag_id)
 SELECT p.id, t.id FROM portfolio_projects p, portfolio_tags t
 WHERE p.slug = 'ria-wealth-advisor-platform' AND t.slug IN ('react', 'vite', 'tailwind', 'finance');
