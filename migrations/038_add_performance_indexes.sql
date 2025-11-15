@@ -17,11 +17,11 @@ CREATE INDEX IF NOT EXISTS idx_portfolio_created ON portfolio_projects(created_a
 
 -- Blog posts indexes
 -- Speeds up blog listing and filtering
-CREATE INDEX IF NOT EXISTS idx_blog_posts_status ON blog_posts(status);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_published_at ON blog_posts(published_at);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_status_published ON blog_posts(status, published_at);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published_date ON blog_posts(published, published_at);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_author ON blog_posts(author_id);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_author ON blog_posts(author);
 
 -- Client users indexes
 -- Speeds up client login and token validation
