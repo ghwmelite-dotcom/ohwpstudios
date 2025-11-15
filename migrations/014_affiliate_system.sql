@@ -174,17 +174,17 @@ CREATE TABLE IF NOT EXISTS affiliate_resource_downloads (
 );
 
 -- Indexes for performance
-CREATE INDEX idx_affiliates_code ON affiliates(affiliate_code);
-CREATE INDEX idx_affiliates_email ON affiliates(email);
-CREATE INDEX idx_affiliates_status ON affiliates(status);
+CREATE INDEX IF NOT EXISTS idx_affiliates_code ON affiliates(affiliate_code);
+CREATE INDEX IF NOT EXISTS idx_affiliates_email ON affiliates(email);
+CREATE INDEX IF NOT EXISTS idx_affiliates_status ON affiliates(status);
 
-CREATE INDEX idx_clicks_affiliate ON affiliate_clicks(affiliate_id);
-CREATE INDEX idx_clicks_cookie ON affiliate_clicks(tracking_cookie);
-CREATE INDEX idx_clicks_converted ON affiliate_clicks(converted);
+CREATE INDEX IF NOT EXISTS idx_clicks_affiliate ON affiliate_clicks(affiliate_id);
+CREATE INDEX IF NOT EXISTS idx_clicks_cookie ON affiliate_clicks(tracking_cookie);
+CREATE INDEX IF NOT EXISTS idx_clicks_converted ON affiliate_clicks(converted);
 
-CREATE INDEX idx_commissions_affiliate ON affiliate_commissions(affiliate_id);
-CREATE INDEX idx_commissions_status ON affiliate_commissions(status);
-CREATE INDEX idx_commissions_project ON affiliate_commissions(project_id);
+CREATE INDEX IF NOT EXISTS idx_commissions_affiliate ON affiliate_commissions(affiliate_id);
+CREATE INDEX IF NOT EXISTS idx_commissions_status ON affiliate_commissions(status);
+CREATE INDEX IF NOT EXISTS idx_commissions_project ON affiliate_commissions(project_id);
 
-CREATE INDEX idx_payouts_affiliate ON affiliate_payouts(affiliate_id);
-CREATE INDEX idx_payouts_status ON affiliate_payouts(status);
+CREATE INDEX IF NOT EXISTS idx_payouts_affiliate ON affiliate_payouts(affiliate_id);
+CREATE INDEX IF NOT EXISTS idx_payouts_status ON affiliate_payouts(status);
