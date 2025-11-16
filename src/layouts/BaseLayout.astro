@@ -32,8 +32,25 @@ const {
 
 const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG.name}`;
 const siteUrl = Astro.url.origin;
-const canonicalUrl = Astro.url.href;
+
+// Normalize canonical URL - remove trailing slash except for homepage
+let canonicalUrl = Astro.url.href;
+if (canonicalUrl.endsWith('/') && canonicalUrl !== siteUrl + '/') {
+  canonicalUrl = canonicalUrl.slice(0, -1);
+}
+
 const imageUrl = new URL(image, Astro.url).href;
+
+// Determine if this is a utility/noindex page
+const currentPath = Astro.url.pathname;
+const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
+  currentPath.includes('/newsletter/verify') ||
+  currentPath.includes('/offline') ||
+  currentPath.includes('/quiz/thank-you') ||
+  currentPath.includes('/sitemap-pages') ||
+  currentPath.includes('/admin/') ||
+  currentPath.includes('/client/') ||
+  currentPath.includes('/api/');
 ---
 
 <!DOCTYPE html>
@@ -101,7 +118,73 @@ const imageUrl = new URL(image, Astro.url).href;
     <!-- Performance & SEO -->
     <meta name="theme-color" content="#6366f1" />
     <meta name="msapplication-TileColor" content="#6366f1" />
-    <link rel="canonical" href={Astro.url} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Meta Robots - Prevent indexing of utility pages -->
+    {isNoIndex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Structured Data (JSON-LD) for rich search results -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "OHWP Studios",
+      "alternateName": "WP Studios",
+      "url": siteUrl,
+      "logo": `${siteUrl}/icons/icon-512x512.png`,
+      "description": SITE_CONFIG.description,
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://twitter.com/ohwpstudios",
+        "https://www.linkedin.com/company/ohwpstudios",
+        "https://github.com/ohwpstudios"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": `${siteUrl}/contact`
+      }
+    })} />
+
+    {currentPath === '/' && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "OHWP Studios",
+        "url": siteUrl,
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": `${siteUrl}/search?q={search_term_string}`,
+          "query-input": "required name=search_term_string"
+        }
+      })} />
+    )}
+
+    {article && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": title,
+        "description": description,
+        "image": imageUrl,
+        "datePublished": article.publishedTime,
+        "dateModified": article.modifiedTime || article.publishedTime,
+        "author": {
+          "@type": "Person",
+          "name": article.author || "OHWP Studios"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "OHWP Studios",
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${siteUrl}/icons/icon-512x512.png`
+          }
+        }
+      })} />
+    )}
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
