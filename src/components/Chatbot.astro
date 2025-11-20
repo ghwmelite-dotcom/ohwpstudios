@@ -165,12 +165,13 @@
     bottom: 2rem;
     right: 2rem;
     z-index: 9999;
+    overflow: visible;
   }
 
   .chatbot-circle-text {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -179,6 +180,7 @@
     transition: opacity 0.3s ease;
     animation: rotate 20s linear infinite;
     z-index: 1;
+    overflow: visible;
   }
 
   .chatbot-container:hover .chatbot-circle-text {
