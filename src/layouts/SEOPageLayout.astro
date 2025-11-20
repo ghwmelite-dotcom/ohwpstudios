@@ -38,6 +38,39 @@ const defaultSchema = {
 };
 
 const finalSchema = schema || defaultSchema;
+
+// Generate breadcrumb schema based on URL path
+const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems = [
+  {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": Astro.url.origin
+  }
+];
+
+// Add intermediate path segments
+pathSegments.forEach((segment, index) => {
+  const name = segment.split('-').map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ');
+
+  const url = `${Astro.url.origin}/${pathSegments.slice(0, index + 1).join('/')}`;
+
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    "position": index + 2,
+    "name": name,
+    "item": url
+  });
+});
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems
+};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -45,6 +78,7 @@ const finalSchema = schema || defaultSchema;
     <meta name="keywords" content={keywords}>
     {canonicalUrl && <link rel="canonical" href={canonicalUrl}>}
     <script type="application/ld+json" set:html={JSON.stringify(finalSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
   </Fragment>
 
   <Header />
