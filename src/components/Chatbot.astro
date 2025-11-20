@@ -3,7 +3,21 @@
 ---
 
 <div class="chatbot-container" id="chatbot-container">
-  <div class="chatbot-label">ohwp Live Chat</div>
+  <svg class="chatbot-circle-text" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="circlePath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" />
+      <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <text class="circle-text">
+      <textPath href="#circlePath" startOffset="0%">
+        ohwp live chat • ohwp live chat • ohwp live chat •
+      </textPath>
+    </text>
+  </svg>
   <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Toggle chatbot">
     <div class="chatbot-toggle-inner">
       <svg class="chat-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,6 +165,48 @@
     bottom: 2rem;
     right: 2rem;
     z-index: 9999;
+  }
+
+  .chatbot-circle-text {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: rotate 20s linear infinite;
+  }
+
+  .chatbot-container:hover .chatbot-circle-text {
+    opacity: 1;
+  }
+
+  .chatbot-toggle.active ~ .chatbot-circle-text {
+    opacity: 0;
+  }
+
+  .circle-text {
+    fill: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .circle-text textPath {
+    fill: url(#textGradient);
+  }
+
+  @keyframes rotate {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
   }
 
   .chatbot-label {
@@ -993,7 +1049,6 @@
       height: 10px;
       right: -5px;
     }
-  }
 
     .chatbot-window {
       width: calc(100vw - 2rem);
