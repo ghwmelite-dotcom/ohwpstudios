@@ -3,6 +3,7 @@
 ---
 
 <div class="chatbot-container" id="chatbot-container">
+  <div class="chatbot-label">ohwp Live Chat</div>
   <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Toggle chatbot">
     <div class="chatbot-toggle-inner">
       <svg class="chat-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,6 +151,47 @@
     bottom: 2rem;
     right: 2rem;
     z-index: 9999;
+  }
+
+  .chatbot-label {
+    position: absolute;
+    bottom: 50%;
+    right: 85px;
+    transform: translateY(50%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.625rem 1.125rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    pointer-events: none;
+    opacity: 0.95;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chatbot-label::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .chatbot-toggle:hover ~ .chatbot-label,
+  .chatbot-container:hover .chatbot-label {
+    opacity: 1;
+    transform: translateY(50%) translateX(-4px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .chatbot-toggle.active ~ .chatbot-label {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .chatbot-toggle {
@@ -921,6 +963,14 @@
     }
   }
 
+  @media (max-width: 768px) {
+    .chatbot-label {
+      font-size: 0.8125rem;
+      padding: 0.5rem 0.875rem;
+      right: 78px;
+    }
+  }
+
   @media (max-width: 480px) {
     .chatbot-container {
       bottom: 1rem;
@@ -931,6 +981,19 @@
       width: 60px;
       height: 60px;
     }
+
+    .chatbot-label {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      right: 70px;
+    }
+
+    .chatbot-label::after {
+      width: 10px;
+      height: 10px;
+      right: -5px;
+    }
+  }
 
     .chatbot-window {
       width: calc(100vw - 2rem);
