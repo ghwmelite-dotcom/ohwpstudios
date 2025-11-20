@@ -1112,6 +1112,7 @@
   let conversationId: string | null = null;
   let lastQualificationCheck = 0;
   let currentQualification: any = null;
+  let preferredCurrency: 'USD' | 'GHS' = 'USD'; // Default to USD
 
   // AI Qualification Function
   async function runQualificationCheck() {
@@ -1169,10 +1170,17 @@
     estimateDiv.style.maxWidth = '90%';
 
     const projectType = qualification.projectType || 'Your Project';
-    const range = qualification.estimate.range;
-    const breakdown = qualification.estimate.breakdown || [];
+    const estimate = qualification.estimate;
 
-    const breakdownHTML = breakdown.map((item: string) =>
+    // Generate unique ID for this estimate card
+    const cardId = 'estimate-' + Date.now();
+
+    const rangeUSD = estimate.range || 'Custom quote needed';
+    const rangeGHS = estimate.rangeGHS || 'Custom quote needed';
+    const breakdownUSD = estimate.breakdown || [];
+    const breakdownGHS = estimate.breakdownGHS || [];
+
+    const getBreakdownHTML = (items: string[]) => items.map((item: string) =>
       `<li style="margin-bottom: 0.375rem; font-size: 0.85rem;">${sanitizeHTML(item)}</li>`
     ).join('');
 
@@ -1185,21 +1193,31 @@
         </svg>
       </div>
       <div class="message-content estimate-card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(240, 147, 251, 0.05)); color: var(--color-text); border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 16px; padding: 1.25rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.875rem;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
-            <line x1="12" y1="1" x2="12" y2="23"></line>
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
-          <strong style="font-size: 1rem; color: #667eea;">Instant Estimate: ${sanitizeHTML(projectType)}</strong>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.875rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <strong style="font-size: 1rem; color: #667eea;">Instant Estimate: ${sanitizeHTML(projectType)}</strong>
+          </div>
+          <div class="currency-toggle" id="${cardId}-toggle" style="display: flex; gap: 0.25rem; background: white; padding: 0.25rem; border-radius: 8px; border: 1px solid rgba(102, 126, 234, 0.2);">
+            <button class="currency-btn active" data-currency="USD" style="padding: 0.375rem 0.75rem; border: none; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">USD</button>
+            <button class="currency-btn" data-currency="GHS" style="padding: 0.375rem 0.75rem; border: none; background: transparent; color: #667eea; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">GHS</button>
+          </div>
         </div>
         <div style="background: white; padding: 0.875rem; border-radius: 10px; margin-bottom: 0.875rem; border: 1px solid rgba(102, 126, 234, 0.1);">
           <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem;">Estimated Range</div>
-          <div style="font-size: 1.375rem; font-weight: 700; color: #667eea;">${sanitizeHTML(range)}</div>
+          <div id="${cardId}-range-usd" style="font-size: 1.375rem; font-weight: 700; color: #667eea; display: block;">${sanitizeHTML(rangeUSD)}</div>
+          <div id="${cardId}-range-ghs" style="font-size: 1.375rem; font-weight: 700; color: #667eea; display: none;">${sanitizeHTML(rangeGHS)}</div>
         </div>
-        ${breakdown.length > 0 ? `
+        ${breakdownUSD.length > 0 ? `
           <div style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.625rem; color: var(--color-text);">Cost Breakdown:</div>
-          <ul style="margin: 0; padding-left: 1.25rem; color: var(--color-text-muted);">
-            ${breakdownHTML}
+          <ul id="${cardId}-breakdown-usd" style="margin: 0; padding-left: 1.25rem; color: var(--color-text-muted); display: block;">
+            ${getBreakdownHTML(breakdownUSD)}
+          </ul>
+          <ul id="${cardId}-breakdown-ghs" style="margin: 0; padding-left: 1.25rem; color: var(--color-text-muted); display: none;">
+            ${getBreakdownHTML(breakdownGHS)}
           </ul>
         ` : ''}
         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(102, 126, 234, 0.15); font-size: 0.8125rem; color: var(--color-text-muted);">
@@ -1210,6 +1228,48 @@
 
     messages.appendChild(estimateDiv);
     messages.scrollTop = messages.scrollHeight;
+
+    // Add currency toggle event listeners
+    const toggleButtons = estimateDiv.querySelectorAll('.currency-btn');
+    toggleButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.target as HTMLButtonElement;
+        const currency = target.dataset.currency;
+
+        // Update button states
+        toggleButtons.forEach(b => {
+          if (b === target) {
+            b.classList.add('active');
+            (b as HTMLElement).style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            (b as HTMLElement).style.color = 'white';
+          } else {
+            b.classList.remove('active');
+            (b as HTMLElement).style.background = 'transparent';
+            (b as HTMLElement).style.color = '#667eea';
+          }
+        });
+
+        // Toggle visibility of ranges and breakdowns
+        const rangeUSD = document.getElementById(`${cardId}-range-usd`);
+        const rangeGHS = document.getElementById(`${cardId}-range-ghs`);
+        const breakdownUSD = document.getElementById(`${cardId}-breakdown-usd`);
+        const breakdownGHS = document.getElementById(`${cardId}-breakdown-ghs`);
+
+        if (currency === 'USD') {
+          if (rangeUSD) rangeUSD.style.display = 'block';
+          if (rangeGHS) rangeGHS.style.display = 'none';
+          if (breakdownUSD) breakdownUSD.style.display = 'block';
+          if (breakdownGHS) breakdownGHS.style.display = 'none';
+          preferredCurrency = 'USD';
+        } else {
+          if (rangeUSD) rangeUSD.style.display = 'none';
+          if (rangeGHS) rangeGHS.style.display = 'block';
+          if (breakdownUSD) breakdownUSD.style.display = 'none';
+          if (breakdownGHS) breakdownGHS.style.display = 'block';
+          preferredCurrency = 'GHS';
+        }
+      });
+    });
   }
 
   function initChatbot() {
