@@ -818,43 +818,71 @@ import Logo from '@/components/Logo.astro';
   initMobileMenu();
   document.addEventListener('astro:page-load', initMobileMenu);
 
-  // Load dynamic site name and logo from API
+  // Load dynamic site name and logo from API with sessionStorage caching
   async function loadSiteName() {
     try {
-      const response = await fetch('/api/admin/content');
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success && data.content) {
-          // Update site name
-          if (data.content.site_name) {
-            const siteNameEl = document.getElementById('header-site-name');
-            if (siteNameEl) {
-              siteNameEl.textContent = data.content.site_name;
-            }
+      // Check cache first (10 minute TTL)
+      const cacheKey = 'header-site-content';
+      const cached = sessionStorage.getItem(cacheKey);
+      let data;
+
+      if (cached) {
+        const { content, timestamp } = JSON.parse(cached);
+        const now = Date.now();
+
+        // Use cache if less than 10 minutes old
+        if (now - timestamp < 600000) {
+          data = content;
+        }
+      }
+
+      // Fetch from API if no cache or expired
+      if (!data) {
+        const response = await fetch('/api/admin/content');
+        if (response.ok) {
+          const apiData = await response.json();
+          if (apiData.success && apiData.content) {
+            data = apiData.content;
+            // Cache for 10 minutes
+            sessionStorage.setItem(cacheKey, JSON.stringify({
+              content: data,
+              timestamp: Date.now()
+            }));
           }
+        }
+      }
 
-          // Update logo if available
-          if (data.content.site_logo && data.content.site_logo.trim() !== '') {
-            const logoImg = document.getElementById('header-logo-img') as HTMLImageElement;
-            const logoText = document.getElementById('header-site-name');
+      // Apply cached or fetched data
+      if (data) {
+        // Update site name
+        if (data.site_name) {
+          const siteNameEl = document.getElementById('header-site-name');
+          if (siteNameEl) {
+            siteNameEl.textContent = data.site_name;
+          }
+        }
 
-            if (logoImg) {
-              logoImg.src = data.content.site_logo;
-              logoImg.style.display = 'block';
+        // Update logo if available
+        if (data.site_logo && data.site_logo.trim() !== '') {
+          const logoImg = document.getElementById('header-logo-img') as HTMLImageElement;
+          const logoText = document.getElementById('header-site-name');
 
-              // Hide text logo when image logo is shown
-              if (logoText) {
-                logoText.style.display = 'none';
-              }
+          if (logoImg) {
+            logoImg.src = data.site_logo;
+            logoImg.style.display = 'block';
 
-              // Fallback to text if image fails to load
-              logoImg.onerror = () => {
-                logoImg.style.display = 'none';
-                if (logoText) {
-                  logoText.style.display = 'inline';
-                }
-              };
+            // Hide text logo when image logo is shown
+            if (logoText) {
+              logoText.style.display = 'none';
             }
+
+            // Fallback to text if image fails to load
+            logoImg.onerror = () => {
+              logoImg.style.display = 'none';
+              if (logoText) {
+                logoText.style.display = 'inline';
+              }
+            };
           }
         }
       }
@@ -866,60 +894,53 @@ import Logo from '@/components/Logo.astro';
   loadSiteName();
   document.addEventListener('astro:page-load', loadSiteName);
 
-  // Load dynamic blog post count
+  // Load dynamic blog post count with sessionStorage caching
   async function loadBlogPostCount() {
     try {
-      const response = await fetch('/api/admin/blog');
-      console.log('Blog API response status:', response.status);
+      // Check cache first (10 minute TTL)
+      const cacheKey = 'header-blog-count';
+      const cached = sessionStorage.getItem(cacheKey);
+      let count = 0;
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Blog API data:', data);
+      if (cached) {
+        const { blogCount, timestamp } = JSON.parse(cached);
+        const now = Date.now();
 
-        const counter = document.getElementById('blog-post-counter');
-        const dropdownCounter = document.getElementById('blog-post-counter-dropdown');
-
-        if (!counter && !dropdownCounter) {
-          console.error('Blog counter elements not found');
-          return;
+        // Use cache if less than 10 minutes old
+        if (now - timestamp < 600000) {
+          count = blogCount;
         }
+      }
 
-        if (data.success && data.posts) {
-          const count = data.posts.length;
-          console.log('Blog post count:', count);
+      // Fetch from API if no cache or expired
+      if (!cached || count === 0) {
+        const response = await fetch('/api/admin/blog');
 
-          if (counter) {
-            counter.textContent = count.toString();
-            counter.style.display = 'flex';
-          }
-          if (dropdownCounter) {
-            dropdownCounter.textContent = count.toString();
-            dropdownCounter.style.display = 'inline-flex';
-          }
-        } else {
-          console.warn('Unexpected API response structure:', data);
-          if (counter) {
-            counter.textContent = '0';
-            counter.style.display = 'flex';
-          }
-          if (dropdownCounter) {
-            dropdownCounter.textContent = '0';
-            dropdownCounter.style.display = 'inline-flex';
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.success && data.posts) {
+            count = data.posts.length;
+            // Cache for 10 minutes
+            sessionStorage.setItem(cacheKey, JSON.stringify({
+              blogCount: count,
+              timestamp: Date.now()
+            }));
           }
         }
-      } else {
-        console.error('Blog API request failed with status:', response.status);
-        const counter = document.getElementById('blog-post-counter');
-        const dropdownCounter = document.getElementById('blog-post-counter-dropdown');
+      }
 
-        if (counter) {
-          counter.textContent = '0';
-          counter.style.display = 'flex';
-        }
-        if (dropdownCounter) {
-          dropdownCounter.textContent = '0';
-          dropdownCounter.style.display = 'inline-flex';
-        }
+      // Update UI with cached or fetched count
+      const counter = document.getElementById('blog-post-counter');
+      const dropdownCounter = document.getElementById('blog-post-counter-dropdown');
+
+      if (counter) {
+        counter.textContent = count.toString();
+        counter.style.display = 'flex';
+      }
+      if (dropdownCounter) {
+        dropdownCounter.textContent = count.toString();
+        dropdownCounter.style.display = 'inline-flex';
       }
     } catch (error) {
       console.error('Error loading blog post count:', error);

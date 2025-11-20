@@ -74,19 +74,35 @@ const { sections, features, benefits, faqs } = Astro.props;
 )}
 
 {faqs && faqs.length > 0 && (
-  <section class="faq-section">
-    <div class="container">
-      <h2 class="section-title" data-animate>Frequently Asked Questions</h2>
-      <div class="faq-list">
-        {faqs.map((faq, index) => (
-          <div class="faq-item glass" data-animate style={`--animation-delay: ${index * 50}ms`}>
-            <h3>{faq.question}</h3>
-            <p>{faq.answer}</p>
-          </div>
-        ))}
+  <>
+    <section class="faq-section">
+      <div class="container">
+        <h2 class="section-title" data-animate>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          {faqs.map((faq, index) => (
+            <div class="faq-item glass" data-animate style={`--animation-delay: ${index * 50}ms`}>
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- FAQPage Schema for Rich Snippets -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    })} />
+  </>
 )}
 
 <style>

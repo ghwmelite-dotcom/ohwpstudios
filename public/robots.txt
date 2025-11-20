@@ -52,6 +52,7 @@ Crawl-delay: 0.5
 # Sitemap locations
 Sitemap: https://ohwpstudios.org/sitemap-index.xml
 Sitemap: https://ohwpstudios.org/sitemap-0.xml
+Sitemap: https://ohwpstudios.org/sitemap-blog.xml
 
 # Specific bot instructions
 User-agent: Googlebot
