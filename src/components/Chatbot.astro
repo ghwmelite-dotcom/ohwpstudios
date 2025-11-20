@@ -169,15 +169,16 @@
 
   .chatbot-circle-text {
     position: absolute;
-    width: 140px;
-    height: 140px;
+    width: 150px;
+    height: 150px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 1;
     transition: opacity 0.3s ease;
     animation: rotate 20s linear infinite;
+    z-index: 1;
   }
 
   .chatbot-container:hover .chatbot-circle-text {
@@ -189,11 +190,13 @@
   }
 
   .circle-text {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
     text-transform: uppercase;
     fill: url(#textGradient);
+    stroke: rgba(102, 126, 234, 0.5);
+    stroke-width: 0.5px;
   }
 
   @keyframes rotate {
@@ -259,6 +262,7 @@
     color: white;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    z-index: 2;
   }
 
   .chatbot-toggle-inner {
