@@ -3,7 +3,6 @@ import '@/styles/design-system.css';
 import '@/styles/dark-mode-fixes.css';
 import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
-import CustomCursor from '@/components/CustomCursor.astro';
 import Chatbot from '@/components/Chatbot.astro';
 import PWAInstallPrompt from '@/components/PWAInstallPrompt.astro';
 import SocialProof from '@/components/SocialProof.astro';
@@ -334,7 +333,6 @@ const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
   </head>
   <body>
     {!noLoader && <LoadingScreen />}
-    <CustomCursor />
     <slot />
     <Chatbot />
     <SocialProof />
