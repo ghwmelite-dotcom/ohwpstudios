@@ -263,48 +263,79 @@ function ruleBasedAnalysis(history: any[]): QualificationResult {
 }
 
 function generateEstimate(projectType: string, budgetStr: string, requirements: string[]): any {
-  const estimates: Record<string, any> = {
+  // Base estimates in USD
+  const estimatesUSD: Record<string, any> = {
     'Website Development': {
       range: '$5,000 - $25,000',
+      rangeGHS: 'GH₵75,000 - GH₵375,000',
       breakdown: [
         'Design & UX: $2,000 - $8,000',
         'Development: $3,000 - $12,000',
         'Content & SEO: $500 - $3,000',
         'Testing & Launch: $500 - $2,000'
+      ],
+      breakdownGHS: [
+        'Design & UX: GH₵30,000 - GH₵120,000',
+        'Development: GH₵45,000 - GH₵180,000',
+        'Content & SEO: GH₵7,500 - GH₵45,000',
+        'Testing & Launch: GH₵7,500 - GH₵30,000'
       ]
     },
     'Mobile App': {
       range: '$25,000 - $100,000+',
+      rangeGHS: 'GH₵375,000 - GH₵1,500,000+',
       breakdown: [
         'iOS Development: $15,000 - $50,000',
         'Android Development: $15,000 - $50,000',
         'Backend API: $10,000 - $30,000',
         'Design & UX: $5,000 - $15,000'
+      ],
+      breakdownGHS: [
+        'iOS Development: GH₵225,000 - GH₵750,000',
+        'Android Development: GH₵225,000 - GH₵750,000',
+        'Backend API: GH₵150,000 - GH₵450,000',
+        'Design & UX: GH₵75,000 - GH₵225,000'
       ]
     },
     'E-Commerce': {
       range: '$10,000 - $50,000+',
+      rangeGHS: 'GH₵150,000 - GH₵750,000+',
       breakdown: [
         'Platform Setup: $3,000 - $10,000',
         'Custom Features: $5,000 - $25,000',
         'Payment Integration: $2,000 - $8,000',
         'SEO & Marketing: $2,000 - $7,000'
+      ],
+      breakdownGHS: [
+        'Platform Setup: GH₵45,000 - GH₵150,000',
+        'Custom Features: GH₵75,000 - GH₵375,000',
+        'Payment Integration: GH₵30,000 - GH₵120,000',
+        'SEO & Marketing: GH₵30,000 - GH₵105,000'
       ]
     },
     'SEO Services': {
       range: '$1,500 - $5,000/month',
+      rangeGHS: 'GH₵22,500 - GH₵75,000/month',
       breakdown: [
         'Technical SEO Audit: $1,500',
         'Monthly Optimization: $1,000 - $3,000',
         'Content Strategy: $500 - $1,500',
         'Link Building: $500 - $1,000'
+      ],
+      breakdownGHS: [
+        'Technical SEO Audit: GH₵22,500',
+        'Monthly Optimization: GH₵15,000 - GH₵45,000',
+        'Content Strategy: GH₵7,500 - GH₵22,500',
+        'Link Building: GH₵7,500 - GH₵15,000'
       ]
     }
   };
 
-  return estimates[projectType] || {
+  return estimatesUSD[projectType] || {
     range: 'Custom quote needed',
-    breakdown: ['Contact us for detailed estimate based on your specific requirements']
+    rangeGHS: 'Custom quote needed',
+    breakdown: ['Contact us for detailed estimate based on your specific requirements'],
+    breakdownGHS: ['Contact us for detailed estimate based on your specific requirements']
   };
 }
 
