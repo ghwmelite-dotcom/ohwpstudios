@@ -172,15 +172,13 @@
     position: absolute;
     width: 160px;
     height: 160px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: -46px;
+    left: -46px;
     pointer-events: none;
     opacity: 1;
     transition: opacity 0.3s ease;
     animation: rotate 20s linear infinite;
     z-index: 1;
-    overflow: visible;
   }
 
   .chatbot-container:hover .chatbot-circle-text {
@@ -203,10 +201,10 @@
 
   @keyframes rotate {
     from {
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: rotate(0deg);
     }
     to {
-      transform: translate(-50%, -50%) rotate(360deg);
+      transform: rotate(360deg);
     }
   }
 
