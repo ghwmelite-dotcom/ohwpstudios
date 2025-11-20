@@ -52,6 +52,34 @@ import Footer from '@/components/Footer.astro';
       </div>
     </section>
 
+    <!-- Lead Capture Modal -->
+    <div class="modal-overlay" id="lead-modal" style="display: none;">
+      <div class="modal glass">
+        <div class="modal-header">
+          <h3>Get Your Full Analysis Report</h3>
+          <p>Enter your email to receive the detailed analysis and personalized recommendations</p>
+        </div>
+        <form id="lead-form" class="lead-form">
+          <div class="form-group">
+            <label for="lead-name">Name (optional)</label>
+            <input type="text" id="lead-name" placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="lead-email">Email Address *</label>
+            <input type="email" id="lead-email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="skip-email">
+              View Without Email
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Get Full Report
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Results Section -->
     <section class="results-section" id="results-section" style="display: none;">
       <div class="container">
@@ -641,6 +669,98 @@ import Footer from '@/components/Footer.astro';
     color: var(--color-text-muted);
   }
 
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+  }
+
+  .modal {
+    max-width: 500px;
+    width: 100%;
+    padding: 3rem;
+    border-radius: var(--radius-2xl);
+    animation: modalSlideUp 0.3s ease;
+  }
+
+  @keyframes modalSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-header p {
+    color: var(--color-text-muted);
+  }
+
+  .lead-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-group input {
+    padding: 0.875rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-actions button {
+    flex: 1;
+  }
+
   @media (max-width: 768px) {
     .analyzer-hero {
       padding: 6rem 0 3rem;
@@ -673,11 +793,17 @@ import Footer from '@/components/Footer.astro';
     private form: HTMLFormElement | null;
     private urlInput: HTMLInputElement | null;
     private resultsSection: HTMLElement | null;
+    private leadModal: HTMLElement | null;
+    private leadForm: HTMLFormElement | null;
+    private currentUrl: string = '';
+    private currentAnalysis: any = null;
 
     constructor() {
       this.form = document.getElementById('analyzer-form') as HTMLFormElement;
       this.urlInput = document.getElementById('website-url') as HTMLInputElement;
       this.resultsSection = document.getElementById('results-section');
+      this.leadModal = document.getElementById('lead-modal');
+      this.leadForm = document.getElementById('lead-form') as HTMLFormElement;
 
       this.init();
     }
@@ -696,13 +822,30 @@ import Footer from '@/components/Footer.astro';
           this.resetAnalyzer();
         });
       }
+
+      // Lead form handlers
+      if (this.leadForm) {
+        this.leadForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          this.submitLeadAndShowResults();
+        });
+      }
+
+      const skipBtn = document.getElementById('skip-email');
+      if (skipBtn) {
+        skipBtn.addEventListener('click', () => {
+          this.showResults();
+        });
+      }
     }
 
     async analyzeWebsite() {
-      if (!this.urlInput || !this.resultsSection) return;
+      if (!this.urlInput) return;
 
       const url = this.urlInput.value.trim();
       if (!url) return;
+
+      this.currentUrl = url;
 
       // Show loading state
       const btnText = document.getElementById('btn-text');
@@ -715,58 +858,162 @@ import Footer from '@/components/Footer.astro';
         submitBtn.disabled = true;
       }
 
-      // Simulate analysis (in production, this would call a real API)
-      await this.simulateAnalysis(url);
+      try {
+        // Call real analysis API
+        const response = await fetch('/api/website-grader/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
 
-      // Show results
-      this.resultsSection.style.display = 'block';
-      this.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const data = await response.json();
 
-      // Reset button
-      if (btnText && btnLoader && submitBtn) {
-        btnText.style.display = 'block';
-        btnLoader.style.display = 'none';
-        submitBtn.disabled = false;
+        if (data.success && data.analysis) {
+          this.currentAnalysis = data.analysis;
+
+          // Show lead capture modal
+          if (this.leadModal) {
+            this.leadModal.style.display = 'flex';
+          }
+        } else {
+          alert('Failed to analyze website: ' + (data.error || 'Unknown error'));
+        }
+      } catch (error: any) {
+        alert('Error analyzing website: ' + error.message);
+      } finally {
+        // Reset button
+        if (btnText && btnLoader && submitBtn) {
+          btnText.style.display = 'block';
+          btnLoader.style.display = 'none';
+          submitBtn.disabled = false;
+        }
       }
     }
 
-    async simulateAnalysis(url: string) {
+    async submitLeadAndShowResults() {
+      const nameInput = document.getElementById('lead-name') as HTMLInputElement;
+      const emailInput = document.getElementById('lead-email') as HTMLInputElement;
+
+      const name = nameInput?.value.trim() || '';
+      const email = emailInput?.value.trim();
+
+      if (!email) {
+        alert('Please enter your email address');
+        return;
+      }
+
+      try {
+        // Submit lead with full analysis
+        await fetch('/api/website-grader/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: this.currentUrl,
+            email,
+            name
+          })
+        });
+
+        // Hide modal and show results
+        if (this.leadModal) {
+          this.leadModal.style.display = 'none';
+        }
+        this.showResults();
+      } catch (error) {
+        console.error('Error submitting lead:', error);
+        // Still show results even if lead submission fails
+        if (this.leadModal) {
+          this.leadModal.style.display = 'none';
+        }
+        this.showResults();
+      }
+    }
+
+    showResults() {
+      if (!this.currentAnalysis || !this.resultsSection) return;
+
+      // Hide modal if still visible
+      if (this.leadModal) {
+        this.leadModal.style.display = 'none';
+      }
+
       // Update analyzed URL
       const analyzedUrlEl = document.getElementById('analyzed-url');
       if (analyzedUrlEl) {
-        analyzedUrlEl.textContent = url;
+        analyzedUrlEl.textContent = this.currentAnalysis.url;
       }
 
-      // Simulate delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Display all scores
+      this.displayRealResults(this.currentAnalysis);
 
-      // Generate mock scores (in production, these would be real)
-      const performanceScore = Math.floor(Math.random() * 30) + 60; // 60-90
-      const seoScore = Math.floor(Math.random() * 30) + 65; // 65-95
-      const mobileScore = Math.floor(Math.random() * 25) + 70; // 70-95
-      const securityScore = Math.floor(Math.random() * 20) + 75; // 75-95
+      // Show results section
+      this.resultsSection.style.display = 'block';
+      this.resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-      const overallScore = Math.round((performanceScore + seoScore + mobileScore + securityScore) / 4);
-
+    displayRealResults(analysis: any) {
       // Update scores with animation
-      this.updateScore('overall-score', overallScore);
-      this.updateScore('performance-score', performanceScore);
-      this.updateScore('seo-score', seoScore);
-      this.updateScore('mobile-score', mobileScore);
-      this.updateScore('security-score', securityScore);
+      this.updateScore('overall-score', analysis.scores.overall);
+      this.updateScore('performance-score', analysis.scores.performance);
+      this.updateScore('seo-score', analysis.scores.seo);
+      this.updateScore('mobile-score', analysis.scores.mobile);
+      this.updateScore('security-score', analysis.scores.security);
 
       // Update circle
-      this.updateCircle(overallScore);
+      this.updateCircle(analysis.scores.overall);
 
       // Update status
-      this.updateStatus(overallScore);
+      this.updateStatus(analysis.scores.overall);
 
-      // Update details
-      this.updateDetails(performanceScore, seoScore, mobileScore, securityScore);
+      // Update performance details
+      document.getElementById('load-time')!.textContent = `${(analysis.performance.loadTime / 1000).toFixed(2)}s`;
+      document.getElementById('page-size')!.textContent = 'N/A';
+      document.getElementById('requests')!.textContent = 'N/A';
 
-      // Generate recommendations
-      this.generateRecommendations(performanceScore, seoScore, mobileScore, securityScore);
+      // Update SEO details
+      document.getElementById('meta-tags')!.textContent = analysis.seo.hasDescription ? '✓ Good' : '✗ Missing';
+      document.getElementById('headings')!.textContent = analysis.seo.hasHeadings ? '✓ Proper' : '⚠️ Issues';
+      document.getElementById('images-alt')!.textContent = 'N/A';
+
+      // Update mobile details
+      document.getElementById('responsive')!.textContent = analysis.mobile.isResponsive ? '✓ Yes' : '✗ No';
+      document.getElementById('viewport')!.textContent = analysis.mobile.hasViewport ? '✓ Set' : '✗ Missing';
+      document.getElementById('touch-targets')!.textContent = 'N/A';
+
+      // Update security details
+      document.getElementById('https')!.textContent = analysis.security.hasSSL ? '✓ Enabled' : '✗ Disabled';
+      document.getElementById('ssl')!.textContent = analysis.security.hasSSL ? '✓ Valid' : '⚠️ Issue';
+      document.getElementById('security-headers')!.textContent = analysis.security.hasSecurityHeaders ? '✓ Some' : '✗ Missing';
+
+      // Generate recommendations from all categories
+      this.displayRecommendations(analysis);
     }
+
+    displayRecommendations(analysis: any) {
+      const listEl = document.getElementById('recommendations-list');
+      if (!listEl) return;
+
+      const allRecommendations = [
+        ...analysis.performance.recommendations,
+        ...analysis.seo.recommendations,
+        ...analysis.security.recommendations,
+        ...analysis.mobile.recommendations
+      ];
+
+      if (allRecommendations.length === 0) {
+        allRecommendations.push('🎉 Great job! Your website is well-optimized.');
+      }
+
+      const icons = ['🚀', '⚡', '🔍', '📝', '🔒', '🛡️', '📱', '📲'];
+
+      listEl.innerHTML = allRecommendations.map((rec, index) => `
+        <div class="recommendation-item">
+          <div class="icon">${icons[index % icons.length]}</div>
+          <div>${rec}</div>
+        </div>
+      `).join('');
+    }
+
 
     updateScore(elementId: string, score: number) {
       const el = document.getElementById(elementId);
@@ -824,54 +1071,6 @@ import Footer from '@/components/Footer.astro';
       }
     }
 
-    updateDetails(perf: number, seo: number, mobile: number, security: number) {
-      // Performance details
-      document.getElementById('load-time')!.textContent = `${(Math.random() * 2 + 1).toFixed(2)}s`;
-      document.getElementById('page-size')!.textContent = `${(Math.random() * 2 + 0.5).toFixed(1)} MB`;
-      document.getElementById('requests')!.textContent = `${Math.floor(Math.random() * 50 + 30)}`;
-
-      // SEO details
-      document.getElementById('meta-tags')!.textContent = seo > 80 ? '✓ Good' : '⚠️ Missing';
-      document.getElementById('headings')!.textContent = seo > 70 ? '✓ Proper' : '⚠️ Issues';
-      document.getElementById('images-alt')!.textContent = `${Math.floor(Math.random() * 30 + 60)}%`;
-
-      // Mobile details
-      document.getElementById('responsive')!.textContent = mobile > 75 ? '✓ Yes' : '✗ No';
-      document.getElementById('viewport')!.textContent = mobile > 70 ? '✓ Set' : '✗ Missing';
-      document.getElementById('touch-targets')!.textContent = mobile > 80 ? '✓ Good' : '⚠️ Small';
-
-      // Security details
-      document.getElementById('https')!.textContent = security > 70 ? '✓ Enabled' : '✗ Disabled';
-      document.getElementById('ssl')!.textContent = security > 75 ? '✓ Valid' : '⚠️ Expired';
-      document.getElementById('security-headers')!.textContent = `${Math.floor(security / 20)}/5`;
-    }
-
-    generateRecommendations(perf: number, seo: number, mobile: number, security: number) {
-      const listEl = document.getElementById('recommendations-list');
-      if (!listEl) return;
-
-      const recommendations: string[] = [];
-
-      if (perf < 80) recommendations.push('🚀 Optimize images and enable compression to improve load times');
-      if (perf < 70) recommendations.push('⚡ Minimize JavaScript and CSS files to reduce page weight');
-      if (seo < 85) recommendations.push('🔍 Add missing meta descriptions and improve title tags');
-      if (seo < 75) recommendations.push('📝 Improve heading structure and add more descriptive alt text to images');
-      if (mobile < 85) recommendations.push('📱 Improve mobile responsiveness and touch target sizes');
-      if (mobile < 75) recommendations.push('📲 Add viewport meta tag and optimize for mobile devices');
-      if (security < 90) recommendations.push('🔒 Implement additional security headers (CSP, HSTS)');
-      if (security < 80) recommendations.push('🛡️ Ensure SSL certificate is valid and up to date');
-
-      if (recommendations.length === 0) {
-        recommendations.push('🎉 Great job! Your website is well-optimized. Keep up the good work!');
-      }
-
-      listEl.innerHTML = recommendations.map(rec => `
-        <div class="recommendation-item">
-          <div class="icon">${rec.split(' ')[0]}</div>
-          <div>${rec.substring(rec.indexOf(' ') + 1)}</div>
-        </div>
-      `).join('');
-    }
 
     resetAnalyzer() {
       if (this.resultsSection) {
