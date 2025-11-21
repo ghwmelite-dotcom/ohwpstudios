@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
 
+export const prerender = false;
+
 /**
  * Website Grader API - Comprehensive Website Analysis
  * Analyzes performance, SEO, security, and mobile-friendliness
@@ -46,6 +48,17 @@ interface AnalysisResult {
   };
   timestamp: string;
 }
+
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({
+    message: 'Website Grader API',
+    method: 'POST required',
+    usage: 'Send POST request with { url, email?, name? }'
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
