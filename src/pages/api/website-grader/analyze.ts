@@ -49,7 +49,20 @@ interface AnalysisResult {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const data = await request.json();
+    // Parse request body
+    let data;
+    try {
+      data = await request.json();
+    } catch (e) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Invalid request body'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const { url, email, name } = data;
 
     if (!url) {
@@ -66,6 +79,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
     let normalizedUrl = url.trim();
     if (!normalizedUrl.startsWith('http://') && !normalizedUrl.startsWith('https://')) {
       normalizedUrl = 'https://' + normalizedUrl;
+    }
+
+    // Validate URL format
+    try {
+      new URL(normalizedUrl);
+    } catch (e) {
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Invalid URL format'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     // Perform comprehensive analysis
@@ -109,12 +135,20 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   } catch (error: any) {
     console.error('Website analysis error:', error);
-    return new Response(JSON.stringify({
+
+    // Ensure we always return valid JSON
+    const errorMessage = error?.message || 'Failed to analyze website';
+    const errorResponse = {
       success: false,
-      error: error.message || 'Failed to analyze website'
-    }), {
+      error: errorMessage
+    };
+
+    return new Response(JSON.stringify(errorResponse), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
+      }
     });
   }
 };
