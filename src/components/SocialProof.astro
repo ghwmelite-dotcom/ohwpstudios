@@ -1,11 +1,28 @@
 ---
 // Live Social Proof Notification System
 // Shows recent activity to build trust and urgency
+
+// Don't render on admin/client/contract/affiliate pages
+const currentPath = Astro.url.pathname;
+const shouldHide = currentPath.startsWith('/admin') ||
+  currentPath.startsWith('/client') ||
+  currentPath.startsWith('/contract') ||
+  currentPath.startsWith('/affiliate');
 ---
 
-<div id="social-proof-container" class="social-proof-container"></div>
+{!shouldHide && <div id="social-proof-container" class="social-proof-container" data-path={currentPath} data-hide={String(shouldHide)}></div>}
 
 <style is:global>
+  /* Hide social proof on client/admin/affiliate portal pages */
+  body:has(.dashboard-page) .social-proof-container,
+  body:has(.login-page) .social-proof-container,
+  body:has(.project-detail-page) .social-proof-container,
+  body:has(.admin-page) .social-proof-container,
+  body:has(.affiliate-page) .social-proof-container,
+  body:has([class*="contract-"]) .social-proof-container {
+    display: none !important;
+  }
+
   .social-proof-container {
     position: fixed;
     bottom: 2rem;
@@ -253,6 +270,13 @@
 </style>
 
 <script>
+  // IMMEDIATE EXIT: Don't run on portal pages
+  (function() {
+    const p = window.location.pathname;
+    if (p.startsWith('/admin') || p.startsWith('/client') || p.startsWith('/contract') || p.startsWith('/affiliate')) {
+      return; // Exit immediately, don't define class or run anything
+    }
+
   // Social Proof Notification System
   class SocialProofNotifier {
     private container: HTMLElement | null;
@@ -329,6 +353,15 @@
 
     init() {
       if (!this.container) return;
+
+      // Don't show on admin/client/contract/affiliate pages
+      const path = window.location.pathname;
+      if (path.startsWith('/admin') ||
+          path.startsWith('/client') ||
+          path.startsWith('/contract') ||
+          path.startsWith('/affiliate')) {
+        return;
+      }
 
       // Show first notification after 3 seconds
       setTimeout(() => {
@@ -429,15 +462,28 @@
     }
   }
 
+  // Check if we should show social proof (hide on admin/client/contract/affiliate pages)
+  function shouldShowSocialProof() {
+    const path = window.location.pathname;
+    return !path.startsWith('/admin') &&
+           !path.startsWith('/client') &&
+           !path.startsWith('/contract') &&
+           !path.startsWith('/affiliate');
+  }
+
   // Initialize on page load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new SocialProofNotifier());
+    document.addEventListener('DOMContentLoaded', () => {
+      if (shouldShowSocialProof()) new SocialProofNotifier();
+    });
   } else {
-    new SocialProofNotifier();
+    if (shouldShowSocialProof()) new SocialProofNotifier();
   }
 
   // Reinitialize on Astro page transitions
   document.addEventListener('astro:page-load', () => {
-    new SocialProofNotifier();
+    if (shouldShowSocialProof()) new SocialProofNotifier();
   });
+
+  })(); // Close IIFE wrapper
 </script>

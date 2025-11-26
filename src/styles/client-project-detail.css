@@ -1,8 +1,13 @@
-  .project-detail-page {
-    min-height: 100vh;
-    position: relative;
-    padding: 2rem;
-  }
+/* Hide social proof notifications on client portal */
+body:has(.project-detail-page) #social-proof-container {
+  display: none !important;
+}
+
+.project-detail-page {
+  min-height: 100vh;
+  position: relative;
+  padding: 2rem;
+}
 
   .page-background {
     position: fixed;

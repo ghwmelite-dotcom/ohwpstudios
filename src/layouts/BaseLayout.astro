@@ -50,6 +50,12 @@ const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
   currentPath.includes('/admin/') ||
   currentPath.includes('/client/') ||
   currentPath.includes('/api/');
+
+// Hide social proof on admin/client portals and contract pages
+const hideSocialProof = currentPath.startsWith('/admin') ||
+  currentPath.startsWith('/client') ||
+  currentPath.startsWith('/contract') ||
+  currentPath.startsWith('/affiliate');
 ---
 
 <!DOCTYPE html>
@@ -57,6 +63,7 @@ const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    {hideSocialProof && <style is:inline>#social-proof-container,.social-proof-notification{display:none!important;visibility:hidden!important;}</style>}
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -335,7 +342,7 @@ const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
     {!noLoader && <LoadingScreen />}
     <slot />
     <Chatbot />
-    <SocialProof />
+    {!hideSocialProof && <SocialProof />}
     <PWAInstallPrompt />
 
     <!-- Consolidated initialization scripts (deferred for performance) -->
