@@ -1,4 +1,12 @@
 /* Client Dashboard Styles */
+
+/* Hide social proof notifications on client portal */
+.dashboard-page ~ #social-proof-container,
+.dashboard-page ~ * #social-proof-container,
+body:has(.dashboard-page) #social-proof-container {
+  display: none !important;
+}
+
 .dashboard-page {
   min-height: 100vh;
   position: relative;
