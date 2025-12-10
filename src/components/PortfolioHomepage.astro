@@ -1,39 +1,36 @@
 ---
 // Server-side rendered portfolio for homepage - optimized for performance
-// Fetches only 2 projects at build/render time, no client-side API calls
+// Uses internal API fetch for reliable data loading
 
-let projects = [];
+let projects: any[] = [];
+let categories: any[] = [];
+let debugInfo = '';
 
 try {
-  const DB = Astro.locals.runtime?.env?.DB;
-  if (DB) {
-    const result = await DB.prepare(
-      `SELECT
-        id, title, slug, description, featured_image, category_id,
-        tech_stack, project_url, metric_1_label, metric_1_value,
-        metric_2_label, metric_2_value, metric_3_label, metric_3_value,
-        metric_4_label, metric_4_value
-      FROM portfolio_projects
-      WHERE is_published = 1 AND featured_image IS NOT NULL
-      ORDER BY display_order ASC, created_at DESC
-      LIMIT 2`
-    ).all();
-    projects = result.results || [];
-  }
-} catch (e) {
-  console.error('Failed to fetch portfolio projects:', e);
-}
+  // Get the request URL to build the API URL
+  const url = Astro.url;
+  const baseUrl = `${url.protocol}//${url.host}`;
 
-// Fetch categories for display
-let categories = [];
-try {
-  const DB = Astro.locals.runtime?.env?.DB;
-  if (DB) {
-    const result = await DB.prepare('SELECT id, name FROM portfolio_categories ORDER BY name').all();
-    categories = result.results || [];
+  // Fetch from the internal API (which we know works)
+  const [projectsRes, categoriesRes] = await Promise.all([
+    fetch(`${baseUrl}/api/admin/portfolio?status=published&limit=2`),
+    fetch(`${baseUrl}/api/admin/portfolio/categories`)
+  ]);
+
+  if (projectsRes.ok) {
+    const projectsData = await projectsRes.json();
+    projects = projectsData.projects || projectsData.results || [];
+  } else {
+    debugInfo = `Projects fetch failed: ${projectsRes.status}`;
+  }
+
+  if (categoriesRes.ok) {
+    const categoriesData = await categoriesRes.json();
+    categories = categoriesData.categories || categoriesData.results || [];
   }
 } catch (e) {
-  console.error('Failed to fetch categories:', e);
+  console.error('Failed to fetch portfolio data:', e);
+  debugInfo = `Error: ${e instanceof Error ? e.message : String(e)}`;
 }
 ---
 
