@@ -69,18 +69,18 @@ INSERT INTO blog_posts (title, slug, excerpt, content, author, published, publis
 VALUES (
   'Cms Development',
   'services-cms-development',
-  'Professional CMS development services. Build custom content management systems or implement WordPress, Strapi, Contentful. Easy content updates for your team.',
+  'Professional CMS development services. Build custom content management systems or implement Strapi, Contentful, Sanity. Easy content updates for your team.',
   '<p class="lead"><strong>Expert CMS development services creating flexible content management systems that put you in control.</strong></p>
 
 <h2>CMS Development Services</h2>
-<p>Empower your team to manage content independently with <strong>CMS development services</strong>. We build custom content management systems and implement leading platforms like WordPress, Strapi, and Contentful tailored to your workflow.</p>
+<p>Empower your team to manage content independently with <strong>CMS development services</strong>. We build custom content management systems and implement leading platforms like Strapi, Contentful, and Sanity tailored to your workflow.</p>
     <p>A well-designed CMS lets you update content, publish pages, and manage media without developer assistance.</p>
 
 <h2>CMS Solutions We Provide</h2>
 <p>Flexible content management options:</p>
     <ul>
       <li><strong>Headless CMS:</strong> API-first systems for multi-channel content delivery</li>
-      <li><strong>WordPress Development:</strong> The world''s most popular CMS</li>
+      <li><strong>Payload &amp; Strapi:</strong> TypeScript-native, developer-friendly CMS</li>
       <li><strong>Custom CMS:</strong> Tailored systems for unique requirements</li>
       <li><strong>Jamstack CMS:</strong> Modern architectures with Contentful, Strapi, Sanity</li>
       <li><strong>Migration Services:</strong> Move from legacy systems to modern CMS</li>
@@ -91,7 +91,7 @@ VALUES (
   1,
   '2025-11-09T16:20:57.761Z',
   'CMS Development Services | Content Management Systems | OHWP Studios',
-  'Professional CMS development services. Build custom content management systems or implement WordPress, Strapi, Contentful. Easy content updates for your team.',
+  'Professional CMS development services. Build custom content management systems or implement Strapi, Contentful, Sanity. Easy content updates for your team.',
   'Services, Web Development, Software',
   '2025-11-09T16:20:57.761Z',
   '2025-11-09T16:20:57.761Z'
@@ -173,11 +173,11 @@ INSERT INTO blog_posts (title, slug, excerpt, content, author, published, publis
 VALUES (
   'Ecommerce Development',
   'services-ecommerce-development',
-  'Professional e-commerce development services. Build powerful online stores with Shopify, WooCommerce, or custom platforms. Expert developers, proven results.',
+  'Professional e-commerce development services. Build powerful online stores with Shopify, BigCommerce, or custom headless platforms. Expert developers, proven results.',
   '<p class="lead"><strong>Expert e-commerce development creating high-converting online stores with seamless shopping experiences.</strong></p>
 
 <h2>E-Commerce Development Services</h2>
-<p>Build powerful online stores that drive sales with our <strong>e-commerce development services</strong>. We create custom e-commerce platforms and integrate leading platforms like Shopify, WooCommerce, and BigCommerce to help you sell online successfully.</p>
+<p>Build powerful online stores that drive sales with our <strong>e-commerce development services</strong>. We create custom e-commerce platforms and integrate leading platforms like Shopify, BigCommerce, and Medusa.js to help you sell online successfully.</p>
     <p>From product catalogs to payment processing and order management, we build complete e-commerce solutions tailored to your business needs.</p>
 
 <h2>E-Commerce Solutions We Offer</h2>
@@ -185,7 +185,7 @@ VALUES (
     <ul>
       <li><strong>Custom E-Commerce Platforms:</strong> Tailored solutions for unique requirements</li>
       <li><strong>Shopify Development:</strong> Theme customization and app integration</li>
-      <li><strong>WooCommerce Development:</strong> WordPress-based online stores</li>
+      <li><strong>Medusa.js Development:</strong> Open-source headless commerce stores</li>
       <li><strong>Headless Commerce:</strong> API-first architecture for flexibility</li>
       <li><strong>B2B & B2C Solutions:</strong> Wholesale and retail platforms</li>
       <li><strong>Marketplace Development:</strong> Multi-vendor platforms</li>
@@ -196,7 +196,7 @@ VALUES (
   1,
   '2025-11-09T16:20:57.761Z',
   'E-Commerce Development Services | Online Store Development | OHWP Studios',
-  'Professional e-commerce development services. Build powerful online stores with Shopify, WooCommerce, or custom platforms. Expert developers, proven results.',
+  'Professional e-commerce development services. Build powerful online stores with Shopify, BigCommerce, or custom headless platforms. Expert developers, proven results.',
   'Services, Web Development, Software',
   '2025-11-09T16:20:57.761Z',
   '2025-11-09T16:20:57.761Z'
@@ -1901,35 +1901,35 @@ VALUES (
 
 INSERT INTO blog_posts (title, slug, excerpt, content, author, published, published_at, seo_title, seo_description, tags, created_at, updated_at)
 VALUES (
-  'Wordpress Development',
-  'technologies-wordpress-development',
-  'Professional WordPress development services. Build custom websites with WordPress. Expert WordPress developers creating beautiful, functional sites with custom themes and plugins.',
-  '<p class="lead"><strong>Expert WordPress development creating beautiful, functional websites with custom themes, plugins, and professional optimization for performance and SEO.</strong></p>
+  'Fullstack Development',
+  'technologies-fullstack-development',
+  'Expert fullstack development delivering frontend, backend, APIs, databases, and cloud infrastructure as one integrated, end-to-end engagement.',
+  '<p class="lead"><strong>Expert fullstack development delivering frontend, backend, APIs, databases, and cloud infrastructure as one integrated, end-to-end engagement.</strong></p>
 
-<h2>WordPress Development Services</h2>
-<p>Build powerful, flexible websites with <strong>WordPress development services</strong>. WordPress powers over 40% of the web, providing a robust platform for everything from blogs to complex enterprise websites. Our team builds custom WordPress solutions that combine the platform''s flexibility with professional design and functionality.</p>
-    <p>We create custom themes, plugins, and integrate WordPress with modern tools to deliver secure, fast, and maintainable websites that serve your business goals.</p>
+<h2>Fullstack Development Services</h2>
+<p>Ship complete, production-grade products with <strong>fullstack development services</strong>. We design and build every layer of your application — responsive frontends, robust APIs, scalable databases, and cloud infrastructure — so you get one team accountable for the entire stack.</p>
+    <p>From the first line of UI to the last query at the database, we deliver secure, fast, and maintainable software engineered around your business goals.</p>
 
-<h2>Why Choose WordPress</h2>
-<p>WordPress advantages for web development:</p>
+<h2>Why Choose Fullstack</h2>
+<p>Fullstack development advantages for modern products:</p>
     <ul>
-      <li><strong>Easy to Use:</strong> Intuitive interface for managing content</li>
-      <li><strong>Highly Flexible:</strong> Custom themes and plugins for any functionality</li>
-      <li><strong>SEO Friendly:</strong> Built-in SEO capabilities and excellent tools</li>
-      <li><strong>Scalable:</strong> Handles from small blogs to enterprise sites</li>
-      <li><strong>Cost Effective:</strong> Open source with no licensing costs</li>
-      <li><strong>Massive Community:</strong> Thousands of themes, plugins, and developers</li>
+      <li><strong>One Accountable Team:</strong> Frontend, backend, and infrastructure under a single roof</li>
+      <li><strong>Faster Delivery:</strong> No hand-offs or integration gaps between teams</li>
+      <li><strong>End-to-End Type Safety:</strong> Shared TypeScript contracts from UI to API</li>
+      <li><strong>Scalable by Design:</strong> Architecture that grows from MVP to enterprise</li>
+      <li><strong>Performance First:</strong> Edge rendering, caching, and optimized queries</li>
+      <li><strong>Lower Total Cost:</strong> Fewer dependencies, cleaner handovers, less rework</li>
     </ul>
 
-<h2>Professional WordPress Solutions</h2>
-<p>We go beyond standard WordPress. Our team builds custom themes, develops specialized plugins, and optimizes WordPress installations for performance and security, delivering professional solutions that grow with your business.</p>
+<h2>Our Modern Stack</h2>
+<p>We build with the technologies powering today''s best products: React, Next.js, Astro, and Vue on the frontend; Node.js, TypeScript, Python, and Hono on the backend; PostgreSQL, D1, and Redis for data; and Cloudflare, AWS, and Vercel for deployment — chosen to fit your project, not the other way around.</p>
 
 ',
   'OHWP Studios',
   1,
   '2025-11-09T16:20:57.761Z',
-  'WordPress Development Services | Expert WordPress Developers | OHWP Studios',
-  'Professional WordPress development services. Build custom websites with WordPress. Expert WordPress developers creating beautiful, functional sites with custom themes and plugins.',
+  'Fullstack Development Services | Expert Fullstack Developers | OHWP Studios',
+  'Professional fullstack development services. Frontend, backend, APIs, databases, and cloud infrastructure built by one accountable team using React, Next.js, Node.js, and TypeScript.',
   'Technologies, Programming, Development',
   '2025-11-09T16:20:57.761Z',
   '2025-11-09T16:20:57.761Z'

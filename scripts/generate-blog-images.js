@@ -95,7 +95,7 @@ const blogPosts = [
   { id: 50, title: "Swift Development", slug: "technologies-swift-development", category: "technologies" },
   { id: 51, title: "Typescript Development", slug: "technologies-typescript-development", category: "technologies" },
   { id: 52, title: "Vuejs Development", slug: "technologies-vuejs-development", category: "technologies" },
-  { id: 53, title: "Wordpress Development", slug: "technologies-wordpress-development", category: "technologies" }
+  { id: 53, title: "Fullstack Development", slug: "technologies-fullstack-development", category: "technologies" }
 ];
 
 function generateSVG(post, index) {

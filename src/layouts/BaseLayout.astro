@@ -74,11 +74,11 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <title>{pageTitle}</title>
     <meta name="title" content={pageTitle} />
     <meta name="description" content={description} />
-    <meta name="author" content="WP Studios" />
+    <meta name="author" content="OhWP Studios" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={article ? "article" : "website"} />
-    <meta property="og:site_name" content="WP Studios" />
+    <meta property="og:site_name" content="OhWP Studios" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -134,7 +134,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "OHWP Studios",
-      "alternateName": "WP Studios",
+      "alternateName": "OhWP Studios",
       "url": siteUrl,
       "logo": `${siteUrl}/icons/icon-512x512.png`,
       "description": SITE_CONFIG.description,
@@ -206,7 +206,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
 
     <!-- Apple Web App -->
-    <meta name="apple-mobile-web-app-title" content="WP Studios" />
+    <meta name="apple-mobile-web-app-title" content="OhWP Studios" />
 
     <!-- Microsoft Tiles -->
     <meta name="msapplication-config" content="/browserconfig.xml" />
@@ -271,18 +271,20 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
             if (settings.color_accent) {
               root.style.setProperty('--color-accent', settings.color_accent);
             }
-            if (settings.color_wordpress) {
-              root.style.setProperty('--color-wordpress', settings.color_wordpress);
-              root.style.setProperty('--color-wordpress-dark', shadeColor(settings.color_wordpress, -20));
-              root.style.setProperty('--color-wordpress-light', shadeColor(settings.color_wordpress, 20));
+            // Highlight color (falls back to the legacy key for themes saved before the rename)
+            const highlightColor = settings.color_highlight || settings.color_wordpress;
+            if (highlightColor) {
+              root.style.setProperty('--color-highlight', highlightColor);
+              root.style.setProperty('--color-highlight-dark', shadeColor(highlightColor, -20));
+              root.style.setProperty('--color-highlight-light', shadeColor(highlightColor, 20));
             }
 
             // Update gradients
             if (settings.color_primary && settings.color_secondary) {
               root.style.setProperty('--gradient-primary', `linear-gradient(135deg, ${settings.color_primary} 0%, ${settings.color_secondary} 100%)`);
             }
-            if (settings.color_wordpress) {
-              root.style.setProperty('--gradient-wordpress', `linear-gradient(135deg, ${settings.color_wordpress} 0%, ${shadeColor(settings.color_wordpress, 20)} 100%)`);
+            if (highlightColor) {
+              root.style.setProperty('--gradient-highlight', `linear-gradient(135deg, ${highlightColor} 0%, ${shadeColor(highlightColor, 20)} 100%)`);
             }
 
             // Load Google Fonts

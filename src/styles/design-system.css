@@ -7,15 +7,15 @@
   --color-primary-light: #818cf8;
   --color-secondary: #ec4899;
   --color-accent: #f59e0b;
-  --color-wordpress: #0073aa;
-  --color-wordpress-dark: #005a87;
-  --color-wordpress-light: #00a0d2;
+  --color-highlight: #0073aa;
+  --color-highlight-dark: #005a87;
+  --color-highlight-light: #00a0d2;
 
   /* Gradients - Premium Collection */
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
   --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-  --gradient-wordpress: linear-gradient(135deg, #0073aa 0%, #00a0d2 100%);
+  --gradient-highlight: linear-gradient(135deg, #0073aa 0%, #00a0d2 100%);
   --gradient-mesh: radial-gradient(at 40% 20%, hsla(263, 82%, 65%, 0.3) 0px, transparent 50%),
                    radial-gradient(at 80% 0%, hsla(343, 79%, 63%, 0.3) 0px, transparent 50%),
                    radial-gradient(at 0% 50%, hsla(192, 100%, 41%, 0.3) 0px, transparent 50%),

@@ -1,0 +1,297 @@
+---
+// "From our GitHub" — live strip of top public repos (About + README complete).
+// Server-rendered via the internal /api/github-projects endpoint (edge-cached).
+let projects: any[] = [];
+try {
+  const res = await fetch(`${Astro.url.origin}/api/github-projects`);
+  if (res.ok) {
+    const data = await res.json();
+    projects = Array.isArray(data.projects) ? data.projects : [];
+  }
+} catch (e) {
+  console.error('GitHub projects fetch failed:', e);
+}
+
+// Brand-ish colors for common languages
+const langColors: Record<string, string> = {
+  TypeScript: '#3178c6',
+  JavaScript: '#f1e05a',
+  Astro: '#ff5d01',
+  Python: '#3572A5',
+  Svelte: '#ff3e00',
+  HTML: '#e34c26',
+  CSS: '#563d7c',
+  Vue: '#41b883',
+  Go: '#00ADD8',
+  Rust: '#dea584',
+};
+const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#8b5cf6';
+---
+
+{projects.length > 0 && (
+  <section id="github" class="section gh-section" data-animate>
+    <div class="container">
+      <div class="section-header" style="text-align:center; max-width:720px; margin:0 auto 3rem;">
+        <span class="gh-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/>
+          </svg>
+          Open Source
+        </span>
+        <h2 data-text-reveal class="title-hero gh-title">
+          <span class="title-gradient">Fresh From Our GitHub</span>
+          <div class="title-underline"></div>
+        </h2>
+        <p style="font-size:1.15rem; margin-top:1rem;">
+          A live look at what we're building in the open — pulled straight from our repositories
+        </p>
+      </div>
+
+      <div class="gh-grid">
+        {projects.map((p) => (
+          <article class="gh-card card" data-tilt data-stagger>
+            <div class="gh-card-top">
+              {p.language && (
+                <span class="gh-lang">
+                  <span class="gh-lang-dot" style={`background:${colorFor(p.language)}`}></span>
+                  {p.language}
+                </span>
+              )}
+              {p.stars > 0 && (
+                <span class="gh-stars" title={`${p.stars} stars`}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  {p.stars}
+                </span>
+              )}
+            </div>
+
+            <h3 class="gh-name">{p.title}</h3>
+            <p class="gh-desc">{p.description}</p>
+
+            {p.topics && p.topics.length > 0 && (
+              <div class="gh-topics">
+                {p.topics.map((t: string) => <span class="gh-topic">{t}</span>)}
+              </div>
+            )}
+
+            <div class="gh-actions">
+              <a class="gh-link gh-link-code" href={p.url} target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                View Code
+              </a>
+              {p.homepage && (
+                <a class="gh-link gh-link-demo" href={p.homepage} target="_blank" rel="noopener noreferrer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Live Demo
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="gh-cta">
+        <a class="gh-cta-link" href="https://github.com/ghwmelite-dotcom" target="_blank" rel="noopener noreferrer">
+          See all our work on GitHub
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .gh-section {
+    position: relative;
+  }
+
+  .gh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .gh-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .gh-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .gh-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+  }
+
+  .gh-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    min-height: 1.5rem;
+  }
+
+  .gh-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .gh-lang-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .gh-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #f59e0b;
+  }
+
+  .gh-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+  }
+
+  .gh-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0 0 1.25rem;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .gh-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .gh-topic {
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    background: var(--gradient-card);
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .gh-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+
+  .gh-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.55rem 1rem;
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+  }
+
+  .gh-link-code {
+    background: var(--color-bg-alt);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+
+  .gh-link-code:hover {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .gh-link-demo {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  }
+
+  .gh-link-demo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  }
+
+  .gh-cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .gh-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    color: var(--color-primary);
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    transition: gap var(--transition-fast);
+  }
+
+  .gh-cta-link:hover {
+    gap: 1rem;
+  }
+
+  [data-theme='dark'] .gh-card {
+    background: var(--color-surface);
+  }
+
+  @media (max-width: 640px) {
+    .gh-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -79,10 +79,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
                     </div>
                   </div>
                   <div class="color-input-group">
-                    <label for="colorWordPress">WordPress Color</label>
+                    <label for="colorHighlight">Highlight Color</label>
                     <div class="color-picker">
-                      <input type="color" id="colorWordPress" value="#0073aa">
-                      <input type="text" id="colorWordPressText" value="#0073aa" placeholder="#0073aa">
+                      <input type="color" id="colorHighlight" value="#0073aa">
+                      <input type="text" id="colorHighlightText" value="#0073aa" placeholder="#0073aa">
                     </div>
                   </div>
                 </div>
@@ -539,7 +539,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           <div class="preset-color" style="background: ${preset.primary_color}"></div>
           <div class="preset-color" style="background: ${preset.secondary_color}"></div>
           <div class="preset-color" style="background: ${preset.accent_color}"></div>
-          <div class="preset-color" style="background: ${preset.wordpress_color}"></div>
+          <div class="preset-color" style="background: ${preset.highlight_color || preset.wordpress_color}"></div>
         </div>
         <div class="preset-name">${preset.name}</div>
       </div>
@@ -564,9 +564,12 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   // Apply current settings to inputs
   function applyCurrentSettings() {
     // Apply colors
-    ['Primary', 'Secondary', 'Accent', 'WordPress'].forEach(colorType => {
+    ['Primary', 'Secondary', 'Accent', 'Highlight'].forEach(colorType => {
       const key = `color${colorType}`;
-      const value = currentSettings[`color_${colorType.toLowerCase()}`] || '';
+      // Fall back to the legacy "wordpress" key for themes saved before the rename
+      const value = currentSettings[`color_${colorType.toLowerCase()}`]
+        || (colorType === 'Highlight' ? currentSettings.color_wordpress : '')
+        || '';
       const colorInput = document.getElementById(key) as HTMLInputElement;
       const textInput = document.getElementById(`${key}Text`) as HTMLInputElement;
 
@@ -602,8 +605,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     (document.getElementById('colorSecondaryText') as HTMLInputElement).value = preset.secondary_color;
     (document.getElementById('colorAccent') as HTMLInputElement).value = preset.accent_color;
     (document.getElementById('colorAccentText') as HTMLInputElement).value = preset.accent_color;
-    (document.getElementById('colorWordPress') as HTMLInputElement).value = preset.wordpress_color;
-    (document.getElementById('colorWordPressText') as HTMLInputElement).value = preset.wordpress_color;
+    const presetHighlight = preset.highlight_color || preset.wordpress_color;
+    (document.getElementById('colorHighlight') as HTMLInputElement).value = presetHighlight;
+    (document.getElementById('colorHighlightText') as HTMLInputElement).value = presetHighlight;
 
     // Update active state
     document.querySelectorAll('.color-preset').forEach(el => el.classList.remove('active'));
@@ -666,7 +670,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         color_primary: (document.getElementById('colorPrimary') as HTMLInputElement).value,
         color_secondary: (document.getElementById('colorSecondary') as HTMLInputElement).value,
         color_accent: (document.getElementById('colorAccent') as HTMLInputElement).value,
-        color_wordpress: (document.getElementById('colorWordPress') as HTMLInputElement).value,
+        color_highlight: (document.getElementById('colorHighlight') as HTMLInputElement).value,
         font_heading: (document.getElementById('fontHeading') as HTMLSelectElement).value,
         font_body: (document.getElementById('fontBody') as HTMLSelectElement).value
       };
@@ -718,7 +722,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     loadThemeSettings();
 
     // Color input synchronization
-    ['Primary', 'Secondary', 'Accent', 'WordPress'].forEach(type => {
+    ['Primary', 'Secondary', 'Accent', 'Highlight'].forEach(type => {
       const colorInput = document.getElementById(`color${type}`) as HTMLInputElement;
       const textInput = document.getElementById(`color${type}Text`) as HTMLInputElement;
 

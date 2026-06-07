@@ -1,0 +1,235 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const { token } = Astro.params;
+const RATE = 12; // 1 USD ≈ 12 GH₵
+
+let row: any = null;
+try {
+  const DB = (Astro.locals as any).runtime?.env?.DB;
+  if (DB && token) {
+    row = await DB.prepare(
+      'SELECT name, company, project_type, project_description, website_url, ai_analysis, created_at FROM project_estimates WHERE share_token = ? LIMIT 1'
+    ).bind(token).first();
+  }
+} catch (e) {
+  console.error('Proposal lookup failed:', e);
+}
+
+if (!row) {
+  return new Response(null, { status: 404, statusText: 'Proposal not found' });
+}
+
+let a: any = {};
+try { a = typeof row.ai_analysis === 'string' ? JSON.parse(row.ai_analysis) : (row.ai_analysis || {}); } catch {}
+
+const typeLabel: Record<string, string> = { web: 'Web', mobile: 'Mobile', both: 'Web & Mobile', other: 'Software' };
+const fmtUSD = (n: number) => `$${Number(n || 0).toLocaleString()}`;
+const fmtGHS = (n: number) => `GH₵${Math.round(Number(n || 0) * RATE).toLocaleString()}`;
+const costMin = a.estimated_cost_min || 0;
+const costMax = a.estimated_cost_max || 0;
+const riskClass = ['low', 'medium', 'high'].includes(a.risk_level) ? a.risk_level : 'medium';
+const created = row.created_at ? new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+const client = row.company || row.name || 'Your Project';
+---
+
+<BaseLayout title={`Project Proposal — ${client} | OhWP Studios`} description="Your AI-scoped project proposal from OhWP Studios.">
+  <Header />
+  <main class="prop">
+    <div class="container prop-wrap">
+      <!-- Header -->
+      <header class="prop-head">
+        <div class="prop-head-row">
+          <span class="prop-kicker">OhWP Studios · Project Proposal</span>
+          <span class="prop-type">{typeLabel[row.project_type] || 'Software'}</span>
+        </div>
+        <h1 class="prop-title">Scope &amp; estimate for <span class="prop-accent">{client}</span></h1>
+        <p class="prop-date">Prepared {created} · AI-scoped, refined on a discovery call</p>
+      </header>
+
+      <!-- Headline numbers -->
+      <section class="prop-stats">
+        <div class="prop-stat prop-stat-hero">
+          <span class="prop-stat-label">Estimated investment</span>
+          <span class="prop-stat-value">{fmtGHS(costMin)} – {fmtGHS(costMax)}</span>
+          <span class="prop-stat-sub">{fmtUSD(costMin)} – {fmtUSD(costMax)}</span>
+        </div>
+        <div class="prop-stat">
+          <span class="prop-stat-label">Timeline</span>
+          <span class="prop-stat-value">{a.estimated_timeline_weeks || '—'} <small>weeks</small></span>
+        </div>
+        <div class="prop-stat">
+          <span class="prop-stat-label">Team</span>
+          <span class="prop-stat-value">{a.team_size_needed || '—'} <small>people</small></span>
+        </div>
+        <div class="prop-stat">
+          <span class="prop-stat-label">Risk</span>
+          <span class={`prop-risk prop-risk-${riskClass}`}>{riskClass}</span>
+        </div>
+      </section>
+
+      <div class="prop-grid">
+        <div class="prop-main">
+          {a.summary && (
+            <section class="prop-card">
+              <h2>Overview</h2>
+              <p class="prop-summary">{a.summary}</p>
+              {row.website_url && <p class="prop-note">Scoped with your existing site in mind: <a href={row.website_url} target="_blank" rel="noopener noreferrer">{row.website_url}</a></p>}
+            </section>
+          )}
+
+          {Array.isArray(a.key_features) && a.key_features.length > 0 && (
+            <section class="prop-card">
+              <h2>Key features</h2>
+              <ul class="prop-checklist">
+                {a.key_features.map((f: string) => <li>{f}</li>)}
+              </ul>
+            </section>
+          )}
+
+          {Array.isArray(a.recommendations) && a.recommendations.length > 0 && (
+            <section class="prop-card">
+              <h2>Our recommendations</h2>
+              <ul class="prop-checklist prop-check-blue">
+                {a.recommendations.map((r: string) => <li>{r}</li>)}
+              </ul>
+            </section>
+          )}
+
+          {Array.isArray(a.next_steps) && a.next_steps.length > 0 && (
+            <section class="prop-card">
+              <h2>Next steps</h2>
+              <ol class="prop-steps">
+                {a.next_steps.map((s: string) => <li>{s}</li>)}
+              </ol>
+            </section>
+          )}
+        </div>
+
+        <aside class="prop-side">
+          {Array.isArray(a.technology_stack) && a.technology_stack.length > 0 && (
+            <section class="prop-card">
+              <h3>Recommended stack</h3>
+              <div class="prop-chips">
+                {a.technology_stack.map((t: string) => <span class="prop-chip">{t}</span>)}
+              </div>
+            </section>
+          )}
+
+          {Array.isArray(a.team_composition) && a.team_composition.length > 0 && (
+            <section class="prop-card">
+              <h3>Team composition</h3>
+              <ul class="prop-team">
+                {a.team_composition.map((m: any) => <li><span>{m.role}</span><strong>×{m.count}</strong></li>)}
+              </ul>
+            </section>
+          )}
+
+          {Array.isArray(a.risk_factors) && a.risk_factors.length > 0 && (
+            <section class="prop-card">
+              <h3>What we'll watch</h3>
+              <ul class="prop-risks">
+                {a.risk_factors.map((r: string) => <li>{r}</li>)}
+              </ul>
+            </section>
+          )}
+
+          <section class="prop-cta-card no-print">
+            <h3>Ready to move?</h3>
+            <p>Let's turn this scope into a plan on a free 30-minute call.</p>
+            <a class="prop-btn prop-btn-primary" href="/booking">Book a free consult</a>
+            <button class="prop-btn prop-btn-ghost" onclick="window.print()" type="button">Save as PDF</button>
+          </section>
+        </aside>
+      </div>
+
+      <p class="prop-disclaimer">
+        This is an AI-generated scope to start the conversation — figures are indicative ranges, not a fixed quote.
+        We finalise scope, price, and timeline together on a discovery call.
+      </p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .prop { padding: calc(var(--header-height) + 2.5rem) 0 4rem; }
+  .prop-wrap { max-width: 960px; }
+
+  .prop-head { margin-bottom: 2rem; }
+  .prop-head-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .prop-kicker { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); }
+  .prop-type { font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.85rem; border-radius: var(--radius-full); background: var(--gradient-card); color: var(--color-primary); }
+  .prop-title { font-size: clamp(1.9rem, 4.5vw, 2.75rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 0.6rem; color: var(--color-text); }
+  .prop-accent { background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .prop-date { color: var(--color-text-muted); font-size: 0.95rem; margin: 0; }
+
+  .prop-stats { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  .prop-stat { padding: 1.25rem 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); display: flex; flex-direction: column; gap: 0.35rem; }
+  .prop-stat-hero { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(236,72,153,0.08)); border-color: rgba(99,102,241,0.3); }
+  .prop-stat-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); }
+  .prop-stat-value { font-size: 1.6rem; font-weight: 800; color: var(--color-text); line-height: 1.1; }
+  .prop-stat-value small { font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); }
+  .prop-stat-hero .prop-stat-value { font-size: 1.5rem; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .prop-stat-sub { font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600; }
+  .prop-risk { font-size: 1.1rem; font-weight: 800; text-transform: capitalize; }
+  .prop-risk-low { color: #10b981; } .prop-risk-medium { color: #f59e0b; } .prop-risk-high { color: #ef4444; }
+
+  .prop-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 1.5rem; align-items: start; }
+  .prop-card { padding: 1.75rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); margin-bottom: 1.5rem; }
+  .prop-card h2 { font-size: 1.3rem; font-weight: 800; margin: 0 0 1rem; color: var(--color-text); }
+  .prop-card h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.9rem; color: var(--color-text); }
+  .prop-summary { font-size: 1.02rem; line-height: 1.7; color: var(--color-text-muted); margin: 0; white-space: pre-line; }
+  .prop-note { margin: 1rem 0 0; font-size: 0.9rem; color: var(--color-text-muted); }
+  .prop-note a { color: var(--color-primary); }
+
+  .prop-checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .prop-checklist li { position: relative; padding-left: 1.85rem; font-size: 0.97rem; line-height: 1.5; color: var(--color-text); }
+  .prop-checklist li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 1.3rem; height: 1.3rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(16,185,129,0.12); color: #10b981; font-size: 0.8rem; font-weight: 800; }
+  .prop-check-blue li::before { background: var(--gradient-card); color: var(--color-primary); content: '→'; }
+
+  .prop-steps { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.7rem; }
+  .prop-steps li { font-size: 0.97rem; line-height: 1.5; color: var(--color-text); padding-left: 0.3rem; }
+  .prop-steps li::marker { color: var(--color-primary); font-weight: 800; }
+
+  .prop-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .prop-chip { font-size: 0.85rem; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: var(--radius-full); background: var(--gradient-card); color: var(--color-primary); border: 1px solid var(--color-border); }
+
+  .prop-team { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+  .prop-team li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.92rem; color: var(--color-text); padding-bottom: 0.6rem; border-bottom: 1px solid var(--color-border); }
+  .prop-team li:last-child { border-bottom: none; padding-bottom: 0; }
+  .prop-team strong { color: var(--color-primary); }
+
+  .prop-risks { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .prop-risks li { position: relative; padding-left: 1.4rem; font-size: 0.9rem; line-height: 1.45; color: var(--color-text-muted); }
+  .prop-risks li::before { content: '!'; position: absolute; left: 0; top: 0.05rem; width: 1.05rem; height: 1.05rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(245,158,11,0.15); color: #f59e0b; font-size: 0.72rem; font-weight: 800; }
+
+  .prop-cta-card { padding: 1.75rem; border-radius: var(--radius-xl); background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(236,72,153,0.08)); border: 1px solid rgba(99,102,241,0.3); text-align: center; }
+  .prop-cta-card h3 { margin: 0 0 0.5rem; }
+  .prop-cta-card p { font-size: 0.92rem; color: var(--color-text-muted); margin: 0 0 1.25rem; line-height: 1.5; }
+  .prop-btn { display: flex; align-items: center; justify-content: center; min-height: 46px; padding: 0.75rem 1.25rem; border-radius: var(--radius-lg); font-weight: 700; font-size: 0.97rem; width: 100%; margin-bottom: 0.6rem; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; border: none; }
+  .prop-btn-primary { background: var(--gradient-primary); color: #fff; box-shadow: 0 6px 18px rgba(99,102,241,0.3); }
+  .prop-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(99,102,241,0.4); }
+  .prop-btn-ghost { background: transparent; border: 1px solid var(--color-border); color: var(--color-text); margin-bottom: 0; }
+  .prop-btn-ghost:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .prop-disclaimer { margin-top: 2rem; font-size: 0.85rem; line-height: 1.6; color: var(--color-text-muted); text-align: center; max-width: 640px; margin-left: auto; margin-right: auto; opacity: 0.85; }
+
+  @media (max-width: 820px) {
+    .prop-stats { grid-template-columns: 1fr 1fr; }
+    .prop-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .prop-stats { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    .no-print, .header, .footer, header.header, footer { display: none !important; }
+    .prop { padding: 0; }
+    .prop-card, .prop-stat { break-inside: avoid; box-shadow: none; }
+  }
+</style>
