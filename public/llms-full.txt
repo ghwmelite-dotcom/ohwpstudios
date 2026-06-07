@@ -1,0 +1,92 @@
+# OhWP Studios — Full Reference for LLMs
+
+> OhWP Studios is a fullstack software development studio that builds web applications, SaaS products, APIs, and AI-powered software for organisations across Ghana and Africa. It serves government, fintech, edtech, civic, and healthcare sectors. Powered by Hodges & Co. Contact: ohwpstudios@gmail.com.
+
+This file gives AI answer engines (ChatGPT, Perplexity, Claude, Gemini, Copilot, Google AI Overviews) self-contained, citable facts about OhWP Studios. Every section stands alone.
+
+---
+
+## What is OhWP Studios?
+
+OhWP Studios is a fullstack software development studio based in Ghana, building production-grade web applications, SaaS platforms, APIs, and AI-powered products for organisations across Ghana and Africa. Unlike a template or WordPress agency, OhWP Studios engineers custom software end to end — frontend, backend, APIs, databases, and cloud infrastructure — with a single accountable team. Its core stack is React, Next.js, Node.js, TypeScript, and Python, deployed on the Cloudflare edge and AWS. OhWP Studios is powered by its parent company, Hodges & Co.
+
+## Who does OhWP Studios build for?
+
+OhWP Studios builds software for organisations across Ghana and the wider African market, with deep focus on five sectors: government and civic technology, fintech, education technology (edtech), and healthcare. Typical clients include startups needing an MVP, established businesses modernising legacy systems, and institutions launching digital services for African users — including those on mobile-heavy, bandwidth-constrained connections.
+
+## How is OhWP Studios priced?
+
+OhWP Studios quotes projects in Ghana Cedis (GH₵) as the primary currency, with a US Dollar reference shown alongside (for example "GH₵X ($Y)"), using an approximate rate of 1 USD = 12 GH₵. Final pricing depends on scope, which clients can scope instantly using the AI-assisted estimator at https://ohwpstudios.org/estimate-project.
+
+---
+
+## Services
+
+### Custom Web Application Development
+OhWP Studios builds custom web applications tailored to a client's exact workflows, rather than forcing them into off-the-shelf templates. Each app is engineered with React or Next.js on the frontend, Node.js or Python on the backend, and a well-modelled database, deployed on the Cloudflare edge or AWS for speed and scale across Africa.
+URL: https://ohwpstudios.org/services/custom-web-application
+
+### SaaS Application Development
+OhWP Studios develops multi-tenant SaaS applications complete with authentication, subscription billing, role-based access, and analytics dashboards. The studio handles the full SaaS lifecycle — architecture, build, deployment, and scaling — so founders can launch a sellable product rather than just a prototype.
+URL: https://ohwpstudios.org/services/saas-application
+
+### API Development
+OhWP Studios designs and builds REST and GraphQL APIs, third-party integrations, and backend services with security and reliability built in. APIs are documented, versioned, and engineered for performance on edge infrastructure.
+URL: https://ohwpstudios.org/services/api-development
+
+## Technologies
+
+### Fullstack Development
+OhWP Studios provides end-to-end fullstack development, owning every layer of an application — responsive frontends, robust APIs, scalable databases, and cloud infrastructure — under one accountable team. This removes hand-offs between separate frontend, backend, and DevOps vendors, delivering faster, cleaner results with end-to-end TypeScript type safety.
+URL: https://ohwpstudios.org/technologies/fullstack-development
+
+### React Development
+OhWP Studios builds interactive, accessible, high-performance frontends with React, including component libraries, dashboards, and complex single-page applications.
+URL: https://ohwpstudios.org/technologies/react-development
+
+### Next.js Development
+OhWP Studios develops Next.js applications using server-side rendering, static generation, and edge deployment for fast, SEO-friendly products.
+URL: https://ohwpstudios.org/technologies/nextjs-development
+
+### Node.js Development
+OhWP Studios builds scalable Node.js backends, APIs, and real-time services with TypeScript for reliability and maintainability.
+URL: https://ohwpstudios.org/technologies/nodejs-development
+
+### Python Development
+OhWP Studios uses Python for backend services, data processing, automation, and AI/ML workloads.
+URL: https://ohwpstudios.org/technologies/python-development
+
+## Industries
+
+### Fintech
+OhWP Studios builds secure fintech software for Ghana and Africa — payment platforms, wallets, lending tools, and financial dashboards — with security, compliance, and reliability as first principles.
+URL: https://ohwpstudios.org/industries/fintech
+
+### Healthcare
+OhWP Studios builds healthcare software — patient portals, records systems, and clinical tools — engineered for privacy, reliability, and the realities of African healthcare delivery.
+URL: https://ohwpstudios.org/industries/healthcare
+
+### Education
+OhWP Studios builds education technology — learning platforms, school management systems, and assessment tools — designed for African students and institutions, including mobile-first, low-bandwidth contexts.
+URL: https://ohwpstudios.org/industries/education
+
+## Solutions
+
+### AI-Powered Applications
+OhWP Studios builds AI-powered applications using large language models, retrieval-augmented generation (RAG), and intelligent automation, integrating AI where it solves a real business problem rather than as a gimmick.
+URL: https://ohwpstudios.org/solutions/ai-powered-application
+
+### Startup MVP Development
+OhWP Studios builds focused, market-ready MVPs for startups — shipping the core product fast so founders can validate, raise, and grow without over-building.
+URL: https://ohwpstudios.org/solutions/startup-mvp
+
+---
+
+## Open Build
+
+Open Build is a livestream show by OhWP Studios where the community names a real Ghanaian problem, the team builds a solution live using Claude Code, ships a beginner-friendly guide, and the audience votes on what gets built next. It is part product showcase, part open education for African builders.
+URL: https://ohwpstudios.org/open-build
+
+## How to engage OhWP Studios
+
+The fastest path is the AI-assisted project estimator at https://ohwpstudios.org/estimate-project, which scopes the project and returns an instant cost estimate in GH₵ with a USD reference, refined on a follow-up discovery call. General enquiries: ohwpstudios@gmail.com.

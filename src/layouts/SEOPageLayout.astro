@@ -28,13 +28,17 @@ const {
 const defaultSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": title,
+  "name": h1 || title,
   "description": description,
   "provider": {
     "@type": "Organization",
-    "name": "OHWP Studios",
-    "url": "https://ohwpstudios.pages.dev"
-  }
+    "name": "OhWP Studios",
+    "url": "https://ohwpstudios.org"
+  },
+  "areaServed": [
+    { "@type": "Country", "name": "Ghana" },
+    { "@type": "Place", "name": "Africa" }
+  ]
 };
 
 const finalSchema = schema || defaultSchema;
@@ -76,7 +80,8 @@ const breadcrumbSchema = {
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
     <meta name="keywords" content={keywords}>
-    {canonicalUrl && <link rel="canonical" href={canonicalUrl}>}
+    {/* BaseLayout already emits a canonical from the request URL; only override when an explicit one is passed */}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} data-canonical-override>}
     <script type="application/ld+json" set:html={JSON.stringify(finalSchema)}></script>
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
   </Fragment>
