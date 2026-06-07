@@ -47,6 +47,7 @@ interface AnalysisResult {
     recommendations: string[];
   };
   timestamp: string;
+  aiRecommendations?: string[];
 }
 
 export const GET: APIRoute = async () => {
@@ -110,6 +111,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Perform comprehensive analysis
     const analysis = await analyzeWebsite(normalizedUrl);
 
+    // AI-written, prioritized action plan (free Cloudflare Workers AI)
+    const ai = locals.runtime?.env?.AI;
+    if (ai) {
+      analysis.aiRecommendations = await getGraderAIRecommendations(analysis, ai);
+    }
+
     // Save lead if email provided
     const db = locals.runtime?.env?.DB;
     if (db && email) {
@@ -165,6 +172,60 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 };
+
+const GRADER_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+
+const GRADER_SCHEMA = {
+  type: 'object',
+  properties: { recommendations: { type: 'array', items: { type: 'string' } } },
+  required: ['recommendations'],
+};
+
+// Turn the raw audit into a prioritized, plain-English action plan via Workers AI.
+async function getGraderAIRecommendations(analysis: AnalysisResult, ai: any): Promise<string[]> {
+  try {
+    const issues = [
+      ...analysis.performance.issues.map((i) => `Performance: ${i}`),
+      ...analysis.seo.issues.map((i) => `SEO: ${i}`),
+      ...analysis.security.issues.map((i) => `Security: ${i}`),
+      ...analysis.mobile.issues.map((i) => `Mobile: ${i}`),
+    ];
+    const prompt = `You are a senior web consultant at OhWP Studios reviewing a website audit for ${analysis.url}.
+
+Scores (0-100): Overall ${analysis.scores.overall}, Performance ${analysis.scores.performance}, SEO ${analysis.scores.seo}, Security ${analysis.scores.security}, Mobile ${analysis.scores.mobile}.
+
+Issues found:
+${issues.length ? issues.map((i) => `- ${i}`).join('\n') : '- No major issues detected.'}
+
+Write 4-6 prioritized, specific, plain-English recommendations the owner should act on first — most impactful and business-relevant first. Each is one concrete sentence, no jargon, no numbering. Respond as JSON: { "recommendations": ["...", "..."] }.`;
+
+    const result: any = await ai.run(GRADER_MODEL, {
+      messages: [
+        { role: 'system', content: 'You are a concise, practical senior web consultant. Output only valid JSON.' },
+        { role: 'user', content: prompt },
+      ],
+      response_format: { type: 'json_schema', json_schema: GRADER_SCHEMA },
+      temperature: 0.4,
+      max_tokens: 800,
+    });
+
+    let parsed: any = result?.response ?? result;
+    if (typeof parsed === 'string') {
+      try {
+        parsed = JSON.parse(parsed);
+      } catch {
+        const s = parsed.indexOf('{');
+        const e = parsed.lastIndexOf('}');
+        parsed = s !== -1 && e !== -1 ? JSON.parse(parsed.slice(s, e + 1)) : {};
+      }
+    }
+    const recs = parsed?.recommendations;
+    return Array.isArray(recs) ? recs.filter((r: any) => typeof r === 'string').slice(0, 6) : [];
+  } catch (error) {
+    console.error('Grader AI recommendations error:', error);
+    return [];
+  }
+}
 
 async function analyzeWebsite(url: string): Promise<AnalysisResult> {
   const startTime = Date.now();

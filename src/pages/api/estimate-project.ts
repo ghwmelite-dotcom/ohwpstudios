@@ -11,6 +11,7 @@ interface ProjectEstimateRequest {
   project_type: 'web' | 'mobile' | 'both' | 'other';
   timeline_preference: 'asap' | '1-3 months' | '3-6 months' | '6+ months';
   budget_range: 'under 10k' | '10k-25k' | '25k-50k' | '50k-100k' | '100k+';
+  website_url?: string;
 }
 
 interface AIAnalysis {
@@ -36,6 +37,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const data: ProjectEstimateRequest = await request.json();
 
+    // Unique token for the shareable /proposal/<token> page
+    const shareToken = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+
     // Validate required fields
     if (!data.name || !data.email || !data.project_description || !data.project_type || !data.timeline_preference || !data.budget_range) {
       return new Response(JSON.stringify({
@@ -59,58 +63,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Get API key from environment
-    const apiKey = import.meta.env.ANTHROPIC_API_KEY || (locals as any).runtime?.env?.ANTHROPIC_API_KEY;
+    // Generate the analysis with Cloudflare Workers AI (free), falling back to a heuristic estimate.
+    const ai = (locals as any).runtime?.env?.AI;
+    const aiAnalysis = ai ? await getWorkersAIAnalysis(data, ai) : getFallbackEstimate(data);
 
-    if (!apiKey) {
-      console.error('ANTHROPIC_API_KEY not found in environment');
-      // Return fallback estimate if no API key
-      const fallbackAnalysis = getFallbackEstimate(data);
-
-      // Store in database
-      const db = (locals as any).runtime?.env?.DB;
-      if (db) {
-        await db.prepare(`
-          INSERT INTO project_estimates (
-            name, email, company, phone,
-            project_description, project_type, timeline_preference, budget_range,
-            ai_analysis, estimated_cost_min, estimated_cost_max,
-            estimated_timeline_weeks, technology_stack, team_size_needed,
-            risk_level, status
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
-        `).bind(
-          data.name,
-          data.email,
-          data.company || null,
-          data.phone || null,
-          data.project_description,
-          data.project_type,
-          data.timeline_preference,
-          data.budget_range,
-          JSON.stringify(fallbackAnalysis),
-          fallbackAnalysis.estimated_cost_min,
-          fallbackAnalysis.estimated_cost_max,
-          fallbackAnalysis.estimated_timeline_weeks,
-          JSON.stringify(fallbackAnalysis.technology_stack),
-          fallbackAnalysis.team_size_needed,
-          fallbackAnalysis.risk_level
-        ).run();
-      }
-
-      return new Response(JSON.stringify({
-        success: true,
-        ...fallbackAnalysis
-      }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Get AI analysis from Claude
-    const aiAnalysis = await getAIAnalysis(data, apiKey);
-
-    // Store in database
+    // Store in the database
     const db = (locals as any).runtime?.env?.DB;
+    let insertedId: number | undefined;
     if (db) {
       const result = await db.prepare(`
         INSERT INTO project_estimates (
@@ -118,8 +77,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
           project_description, project_type, timeline_preference, budget_range,
           ai_analysis, estimated_cost_min, estimated_cost_max,
           estimated_timeline_weeks, technology_stack, team_size_needed,
-          risk_level, status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
+          risk_level, share_token, website_url, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
       `).bind(
         data.name,
         data.email,
@@ -135,25 +94,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
         aiAnalysis.estimated_timeline_weeks,
         JSON.stringify(aiAnalysis.technology_stack),
         aiAnalysis.team_size_needed,
-        aiAnalysis.risk_level
+        aiAnalysis.risk_level,
+        shareToken,
+        data.website_url || null
       ).run();
-
-      const insertedId = result.meta.last_row_id;
-
-      // Return the analysis and estimate details
-      return new Response(JSON.stringify({
-        success: true,
-        id: insertedId,
-        ...aiAnalysis
-      }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      insertedId = result.meta.last_row_id;
     }
 
-    // If no database, still return the analysis
     return new Response(JSON.stringify({
       success: true,
+      id: insertedId,
+      share_token: shareToken,
       ...aiAnalysis
     }), {
       status: 200,
@@ -173,7 +124,33 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 };
 
-async function getAIAnalysis(data: ProjectEstimateRequest, apiKey: string): Promise<AIAnalysis> {
+// Best free, JSON-mode-capable Workers AI model for structured reasoning.
+const WORKERS_AI_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+
+const ANALYSIS_SCHEMA = {
+  type: 'object',
+  properties: {
+    summary: { type: 'string' },
+    complexity_assessment: { type: 'string' },
+    key_features: { type: 'array', items: { type: 'string' } },
+    estimated_cost_min: { type: 'number' },
+    estimated_cost_max: { type: 'number' },
+    estimated_timeline_weeks: { type: 'number' },
+    technology_stack: { type: 'array', items: { type: 'string' } },
+    team_composition: {
+      type: 'array',
+      items: { type: 'object', properties: { role: { type: 'string' }, count: { type: 'number' } }, required: ['role', 'count'] },
+    },
+    team_size_needed: { type: 'number' },
+    risk_level: { type: 'string' },
+    risk_factors: { type: 'array', items: { type: 'string' } },
+    recommendations: { type: 'array', items: { type: 'string' } },
+    next_steps: { type: 'array', items: { type: 'string' } },
+  },
+  required: ['summary', 'estimated_cost_min', 'estimated_cost_max', 'estimated_timeline_weeks', 'technology_stack', 'team_size_needed', 'risk_level', 'recommendations', 'next_steps'],
+};
+
+async function getWorkersAIAnalysis(data: ProjectEstimateRequest, ai: any): Promise<AIAnalysis> {
   const systemPrompt = `You are an expert software project estimator with 15+ years of experience in web and mobile development.
 Your role is to analyze project requirements and provide accurate, realistic estimates for cost, timeline, team size, and technology recommendations.
 
@@ -219,85 +196,56 @@ Client Information:
 - Name: ${data.name}
 - Email: ${data.email}
 ${data.company ? `- Company: ${data.company}` : ''}
+${data.website_url ? `\nExisting website: ${data.website_url} — factor in a redesign/migration and audit-style improvements when scoping the work.` : ''}
 
 Provide a detailed analysis considering the project scope, complexity, and the client's constraints.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 4096,
-        temperature: 0.7,
-        system: systemPrompt,
-        messages: [
-          {
-            role: 'user',
-            content: userPrompt
-          }
-        ]
-      })
+    const result: any = await ai.run(WORKERS_AI_MODEL, {
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      response_format: { type: 'json_schema', json_schema: ANALYSIS_SCHEMA },
+      temperature: 0.4,
+      max_tokens: 2048,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Anthropic API error:', errorText);
-      throw new Error(`Anthropic API error: ${response.status}`);
-    }
-
-    const result = await response.json();
-    const content = result.content[0].text;
-
-    // Parse the JSON response from Claude
-    let analysis: AIAnalysis;
-    try {
-      // Try to parse directly first
-      analysis = JSON.parse(content);
-    } catch (parseError) {
-      // If that fails, try to extract JSON from markdown code blocks
-      const jsonMatch = content.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
-      if (jsonMatch) {
-        analysis = JSON.parse(jsonMatch[1]);
-      } else {
-        // Try to find JSON object in the text
-        const jsonStart = content.indexOf('{');
-        const jsonEnd = content.lastIndexOf('}');
-        if (jsonStart !== -1 && jsonEnd !== -1) {
-          analysis = JSON.parse(content.slice(jsonStart, jsonEnd + 1));
-        } else {
-          throw new Error('Could not parse AI response as JSON');
-        }
+    // JSON mode returns the structured object (or a JSON string) on `response`.
+    let analysis: any = result?.response ?? result;
+    if (typeof analysis === 'string') {
+      try {
+        analysis = JSON.parse(analysis);
+      } catch {
+        const s = analysis.indexOf('{');
+        const e = analysis.lastIndexOf('}');
+        if (s !== -1 && e !== -1) analysis = JSON.parse(analysis.slice(s, e + 1));
+        else throw new Error('Could not parse AI response as JSON');
       }
     }
+    if (!analysis || typeof analysis !== 'object') {
+      throw new Error('Empty AI response');
+    }
 
-    // Validate and ensure all required fields are present
-    const validated: AIAnalysis = {
-      summary: analysis.summary || 'Analysis summary not available.',
-      complexity_assessment: analysis.complexity_assessment || 'Medium complexity project.',
-      key_features: Array.isArray(analysis.key_features) ? analysis.key_features : [],
-      estimated_cost_min: typeof analysis.estimated_cost_min === 'number' ? analysis.estimated_cost_min : 10000,
-      estimated_cost_max: typeof analysis.estimated_cost_max === 'number' ? analysis.estimated_cost_max : 25000,
-      estimated_timeline_weeks: typeof analysis.estimated_timeline_weeks === 'number' ? analysis.estimated_timeline_weeks : 12,
-      technology_stack: Array.isArray(analysis.technology_stack) ? analysis.technology_stack : [],
-      team_composition: Array.isArray(analysis.team_composition) ? analysis.team_composition : [],
-      team_size_needed: typeof analysis.team_size_needed === 'number' ? analysis.team_size_needed : 3,
-      risk_level: ['low', 'medium', 'high'].includes(analysis.risk_level) ? analysis.risk_level : 'medium',
-      risk_factors: Array.isArray(analysis.risk_factors) ? analysis.risk_factors : [],
-      recommendations: Array.isArray(analysis.recommendations) ? analysis.recommendations : [],
-      next_steps: Array.isArray(analysis.next_steps) ? analysis.next_steps : []
+    // Validate, filling any gaps from the heuristic baseline so output is always complete.
+    const fb = getFallbackEstimate(data);
+    return {
+      summary: analysis.summary || fb.summary,
+      complexity_assessment: analysis.complexity_assessment || fb.complexity_assessment,
+      key_features: Array.isArray(analysis.key_features) && analysis.key_features.length ? analysis.key_features : fb.key_features,
+      estimated_cost_min: typeof analysis.estimated_cost_min === 'number' ? analysis.estimated_cost_min : fb.estimated_cost_min,
+      estimated_cost_max: typeof analysis.estimated_cost_max === 'number' ? analysis.estimated_cost_max : fb.estimated_cost_max,
+      estimated_timeline_weeks: typeof analysis.estimated_timeline_weeks === 'number' ? analysis.estimated_timeline_weeks : fb.estimated_timeline_weeks,
+      technology_stack: Array.isArray(analysis.technology_stack) && analysis.technology_stack.length ? analysis.technology_stack : fb.technology_stack,
+      team_composition: Array.isArray(analysis.team_composition) && analysis.team_composition.length ? analysis.team_composition : fb.team_composition,
+      team_size_needed: typeof analysis.team_size_needed === 'number' ? analysis.team_size_needed : fb.team_size_needed,
+      risk_level: ['low', 'medium', 'high'].includes(analysis.risk_level) ? analysis.risk_level : fb.risk_level,
+      risk_factors: Array.isArray(analysis.risk_factors) && analysis.risk_factors.length ? analysis.risk_factors : fb.risk_factors,
+      recommendations: Array.isArray(analysis.recommendations) && analysis.recommendations.length ? analysis.recommendations : fb.recommendations,
+      next_steps: Array.isArray(analysis.next_steps) && analysis.next_steps.length ? analysis.next_steps : fb.next_steps,
     };
-
-    return validated;
-
   } catch (error) {
-    console.error('Error calling Anthropic API:', error);
-
-    // Return fallback estimates based on project type and budget
+    console.error('Workers AI error:', error);
     return getFallbackEstimate(data);
   }
 }

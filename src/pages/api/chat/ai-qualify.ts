@@ -144,7 +144,7 @@ GUIDELINES:
 - "cold" leads: General questions, "just looking", no timeline/budget mentioned
 - Mark as qualified if they discuss a specific project need or ask about services
 - Extract budget even if approximate (e.g., "not much" = "Under $5k", "enterprise" = "$50k+")
-- Include specific tech requirements (React, WordPress, iOS, etc.) in requirements array
+- Include specific tech requirements (React, Node.js, iOS, etc.) in requirements array
 
 Respond ONLY with valid JSON, no additional text.`;
 

@@ -1,0 +1,110 @@
+---
+import SEOPageLayout from '../../layouts/SEOPageLayout.astro';
+import SEOContent from '../../components/SEOContent.astro';
+
+const sections = [
+  {
+    title: 'Fullstack Development Services',
+    content: `<p>Ship complete, production-grade products with <strong>fullstack development services</strong>. We design and build every layer of your application &mdash; responsive frontends, robust APIs, scalable databases, and cloud infrastructure &mdash; so you get one team accountable for the entire stack.</p>
+    <p>From the first line of UI to the last query at the database, we deliver secure, fast, and maintainable software engineered around your business goals.</p>`
+  },
+  {
+    title: 'Why Choose Fullstack',
+    content: `<p>Fullstack development advantages for modern products:</p>
+    <ul>
+      <li><strong>One Accountable Team:</strong> Frontend, backend, and infrastructure under a single roof</li>
+      <li><strong>Faster Delivery:</strong> No hand-offs or integration gaps between teams</li>
+      <li><strong>End-to-End Type Safety:</strong> Shared TypeScript contracts from UI to API</li>
+      <li><strong>Scalable by Design:</strong> Architecture that grows from MVP to enterprise</li>
+      <li><strong>Performance First:</strong> Edge rendering, caching, and optimized queries</li>
+      <li><strong>Lower Total Cost:</strong> Fewer dependencies, cleaner handovers, less rework</li>
+    </ul>`
+  },
+  {
+    title: 'Our Modern Stack',
+    content: `<p>We build with the technologies powering today's best products: React, Next.js, Astro, and Vue on the frontend; Node.js, TypeScript, Python, and Hono on the backend; PostgreSQL, D1, and Redis for data; and Cloudflare, AWS, and Vercel for deployment &mdash; chosen to fit your project, not the other way around.</p>`
+  }
+];
+
+const features = [
+  {
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+    title: 'Frontend Engineering',
+    description: 'Pixel-perfect, accessible interfaces with React, Next.js, and Astro.'
+  },
+  {
+    icon: '13 10V3L4 14h7v7l9-11h-7z',
+    title: 'API & Backend',
+    description: 'Robust REST and GraphQL APIs built with Node.js and TypeScript.'
+  },
+  {
+    icon: 'M4 7v10c0 2 1.5 3 4 3s4-1 4-3V7M4 7c0 2 1.5 3 4 3s4-1 4-3M4 7c0-2 1.5-3 4-3s4 1 4 3m0 10c0 2 1.5 3 4 3s4-1 4-3V7m-8 0c0 2 1.5 3 4 3s4-1 4-3',
+    title: 'Database Design',
+    description: 'Well-modeled, indexed schemas on PostgreSQL, D1, and more.'
+  },
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Security',
+    description: 'Input validation, hardened auth, and secure-by-default architecture.'
+  },
+  {
+    icon: 'M5 13l4 4L19 7',
+    title: 'Cloud & DevOps',
+    description: 'CI/CD pipelines and zero-downtime deploys on Cloudflare and AWS.'
+  },
+  {
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+    title: 'Performance',
+    description: 'Edge rendering, smart caching, and Core Web Vitals optimization.'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Single Source of Truth',
+    description: 'One team owns the whole stack, so nothing falls through the cracks.'
+  },
+  {
+    title: 'Ship Faster',
+    description: 'Shared tooling and contracts eliminate costly integration delays.'
+  },
+  {
+    title: 'Built to Scale',
+    description: 'Architecture that holds up from your first user to your millionth.'
+  },
+  {
+    title: 'Future-Proof',
+    description: 'Modern, well-supported technologies with long-term maintainability.'
+  }
+];
+
+const faqs = [
+  {
+    question: 'What does fullstack development include?',
+    answer: 'Everything from the user interface to the server, database, and deployment. We handle frontend, backend, APIs, data modeling, and cloud infrastructure as a single, integrated engagement.'
+  },
+  {
+    question: 'Which technologies do you use?',
+    answer: 'We work with React, Next.js, Astro, and Vue on the frontend; Node.js, TypeScript, Python, and Hono on the backend; PostgreSQL, D1, and Redis for data; and deploy on Cloudflare, AWS, and Vercel. We pick the right tool for each project.'
+  },
+  {
+    question: 'Can fullstack development handle large, complex applications?',
+    answer: 'Absolutely. Our architecture is designed to scale &mdash; with edge caching, optimized databases, and modular services that grow from MVP to enterprise-grade systems serving millions of users.'
+  },
+  {
+    question: 'Is a fullstack team right for my project?',
+    answer: 'If you want one accountable partner for the entire product rather than coordinating separate frontend, backend, and DevOps vendors, a fullstack team delivers faster, cleaner results with less overhead.'
+  }
+];
+---
+
+<SEOPageLayout
+  title="Fullstack Development Services | Expert Fullstack Developers | OHWP Studios"
+  description="Professional fullstack development services. Frontend, backend, APIs, databases, and cloud infrastructure built by one accountable team using React, Next.js, Node.js, and TypeScript."
+  keywords="fullstack development, fullstack developers, React development, Next.js development, Node.js development, TypeScript, API development, cloud infrastructure"
+  h1="Fullstack Development Services"
+  heroTitle="Build Complete Products With Fullstack Development"
+  heroSubtitle="Expert fullstack development delivering frontend, backend, APIs, databases, and cloud infrastructure as one integrated, end-to-end engagement."
+>
+  <SEOContent sections={sections} features={features} benefits={benefits} faqs={faqs} />
+</SEOPageLayout>

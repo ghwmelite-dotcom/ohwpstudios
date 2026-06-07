@@ -82,7 +82,7 @@
           </svg>
         </div>
         <h3>Welcome! 👋</h3>
-        <p>I'm Kodie, your AI assistant. I can help with web development, WordPress, SEO, debugging, and technical questions.</p>
+        <p>I'm Kodie, your AI assistant. I can help with fullstack web development, SEO, debugging, and technical questions.</p>
       </div>
       <form class="welcome-form" id="welcome-form">
         <div class="form-group">
@@ -335,7 +335,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 800;
     border: 3px solid var(--color-bg);
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.5);
@@ -447,7 +447,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.825rem;
+    font-size: 0.9rem;
     color: var(--color-text-muted);
     font-weight: 500;
   }
@@ -987,7 +987,7 @@
   .chatbot-footer {
     padding: 0.875rem;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--color-text-muted);
     border-top: 1px solid var(--color-border);
@@ -1292,7 +1292,7 @@
 
       // Add welcome message from bot
       setTimeout(() => {
-        addMessage(`Hi ${userInfo.name}! 👋 I'm Kodie, your AI assistant at Hodges & Co. I can help with web development, WordPress, SEO, performance optimization, and technical questions. What would you like to know?`, 'bot');
+        addMessage(`Hi ${userInfo.name}! 👋 I'm Kodie, your AI assistant at OhWP Studios. I can help with fullstack web development, SEO, performance optimization, and technical questions. What would you like to know?`, 'bot');
       }, 300);
 
       // Focus on input
@@ -1471,6 +1471,14 @@
     if (!chatbotInitialized) {
       chatbotInitialized = true;
       initChatbot();
+      // The click that triggered lazy-init was meant to OPEN the panel. The real
+      // toggle handler attached in initChatbot() won't fire for this same click,
+      // so open the window here to avoid a dead first click.
+      const toggleEl = document.getElementById('chatbot-toggle');
+      const windowEl = document.getElementById('chatbot-window');
+      toggleEl?.classList.add('active');
+      windowEl?.classList.add('active');
+      document.querySelector('.chatbot-badge')?.classList.add('hidden');
     }
   }
 

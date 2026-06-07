@@ -41,7 +41,7 @@ const { content } = Astro.props;
       <!-- Badge -->
       <div class="hero-badge animate-in" data-animate>
         <span class="badge-pulse"></span>
-        <span class="badge-text">We Speak WordPress Fluently</span>
+        <span class="badge-text">Fullstack Development, End to End</span>
       </div>
 
       <!-- Main Headline -->
@@ -52,14 +52,14 @@ const { content } = Astro.props;
 
       <!-- Subtitle -->
       <p class="hero-subtitle animate-in stagger-1" data-animate>
-        Transform your digital presence with world-class WordPress development,
+        Transform your digital presence with world-class fullstack development,
         stunning design, and cutting-edge solutions that drive real results.
       </p>
 
       <!-- CTA Buttons -->
       <div class="hero-ctas animate-in stagger-2" data-animate>
         <a href="/estimate-project" class="btn btn-primary btn-hero" data-magnetic data-ripple>
-          <span>Get AI Estimate</span>
+          <span>Scope My Project</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
           </svg>
@@ -87,7 +87,7 @@ const { content } = Astro.props;
         <div class="stat-divider"></div>
         <div class="stat-item">
           <div class="stat-value">100%</div>
-          <div class="stat-label">WordPress Focused</div>
+          <div class="stat-label">Fullstack Focused</div>
         </div>
       </div>
     </div>
@@ -110,7 +110,7 @@ const { content } = Astro.props;
               <polyline points="16 18 22 12 16 6"></polyline>
               <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
-            functions.php
+            app.ts
           </div>
           <div class="code-status">
             <span class="status-dot"></span>
@@ -120,35 +120,35 @@ const { content } = Astro.props;
         <div class="code-content">
           <div class="code-line">
             <span class="line-number">1</span>
-            <span class="code-keyword">&lt;?php</span>
+            <span class="code-keyword">import</span> <span class="code-bracket">{</span> <span class="code-function">Hono</span> <span class="code-bracket">}</span> <span class="code-keyword">from</span> <span class="code-string">'hono'</span><span class="code-bracket">;</span>
           </div>
           <div class="code-line">
             <span class="line-number">2</span>
-            <span class="code-comment">// Premium WordPress Development</span>
+            <span class="code-comment">// Premium Fullstack Development</span>
           </div>
           <div class="code-line">
             <span class="line-number">3</span>
-            <span class="code-keyword">function</span> <span class="code-function">custom_theme</span><span class="code-bracket">() {</span>
+            <span class="code-keyword">const</span> <span class="code-variable">app</span> <span class="code-operator">=</span> <span class="code-keyword">new</span> <span class="code-function">Hono</span><span class="code-bracket">();</span>
           </div>
           <div class="code-line indent-1">
             <span class="line-number">4</span>
-            <span class="code-variable">$design</span> <span class="code-operator">=</span> <span class="code-string">'stunning'</span><span class="code-bracket">;</span>
+            <span class="code-variable">app</span><span class="code-bracket">.</span><span class="code-function">get</span><span class="code-bracket">(</span><span class="code-string">'/'</span><span class="code-bracket">, (c) =&gt; {</span>
           </div>
           <div class="code-line indent-1">
             <span class="line-number">5</span>
-            <span class="code-variable">$performance</span> <span class="code-operator">=</span> <span class="code-string">'blazing'</span><span class="code-bracket">;</span>
+            <span class="code-keyword">const</span> <span class="code-variable">design</span> <span class="code-operator">=</span> <span class="code-string">'stunning'</span><span class="code-bracket">;</span>
           </div>
           <div class="code-line indent-1">
             <span class="line-number">6</span>
-            <span class="code-keyword">return</span> <span class="code-variable">$excellence</span><span class="code-bracket">;</span>
+            <span class="code-keyword">return</span> <span class="code-variable">c</span><span class="code-bracket">.</span><span class="code-function">json</span><span class="code-bracket">({</span> <span class="code-variable">excellence</span> <span class="code-bracket">});</span>
           </div>
           <div class="code-line">
             <span class="line-number">7</span>
-            <span class="code-bracket">}</span>
+            <span class="code-bracket">});</span>
           </div>
           <div class="code-line">
             <span class="line-number">8</span>
-            <span class="code-keyword">?&gt;</span>
+            <span class="code-keyword">export</span> <span class="code-keyword">default</span> <span class="code-variable">app</span><span class="code-bracket">;</span>
           </div>
         </div>
 
@@ -157,16 +157,15 @@ const { content } = Astro.props;
 
         <!-- Floating Tech Badges -->
         <div class="tech-badges">
-          <div class="tech-badge badge-wp" data-magnetic>
-            <div class="badge-icon badge-icon-wp">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.158 12.786L9.46 20.625 12.003 21.132 14.638 13.115 14.632 13.104z"></path>
-                <path d="M3.009 12c0 3.559 2.068 6.634 5.067 8.092L3.788 8.341C3.289 9.459 3.009 10.696 3.009 12z"></path>
-                <path d="M18.069 11.551c0-1.113-.399-1.883-.74-2.482-.456-.74-.883-1.365-.883-2.107 0-.825.627-1.595 1.51-1.595l.113.002c.044.002.088.004.131.009A8.956 8.956 0 0012.009 3c-3.176 0-5.973 1.653-7.584 4.152.213.006.413.01.584.01.949 0 2.417-.114 2.417-.114.489-.027.547.683.057.74 0 0-.491.058-1.038.086L9.6 17.274l2.403-7.205-1.71-4.689c-.489-.028-.952-.086-.952-.086-.489-.027-.433-.767.058-.74 0 0 1.51.114 2.404.114.949 0 2.417-.114 2.417-.114.489-.027.547.683.057.74 0 0-.491.058-1.038.086l3.153 9.384.871-2.906c.376-1.205.663-2.071.663-2.816z"></path>
-                <path d="M12.009 21c-4.971 0-9-4.029-9-9s4.029-9 9-9 9 4.029 9 9-4.029 9-9 9zm0-17.5c-4.687 0-8.5 3.813-8.5 8.5s3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5-3.813-8.5-8.5-8.5z"></path>
+          <div class="tech-badge badge-fullstack" data-magnetic>
+            <div class="badge-icon badge-icon-fullstack">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
               </svg>
             </div>
-            <span>WordPress</span>
+            <span>Fullstack</span>
             <div class="badge-sparkle"></div>
           </div>
           <div class="tech-badge badge-responsive" data-magnetic>
@@ -548,7 +547,7 @@ const { content } = Astro.props;
   }
 
   .status-text {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: #22c55e;
     text-transform: uppercase;
@@ -720,9 +719,9 @@ const { content } = Astro.props;
     color: white;
   }
 
-  .badge-icon-wp {
-    --badge-color-1: #0073aa;
-    --badge-color-2: #00a0d2;
+  .badge-icon-fullstack {
+    --badge-color-1: #6366f1;
+    --badge-color-2: #8b5cf6;
   }
 
   .badge-icon-responsive {
@@ -740,9 +739,9 @@ const { content } = Astro.props;
     --badge-color-2: #f97316;
   }
 
-  .badge-wp {
-    --badge-color-1: #0073aa;
-    --badge-color-2: #00a0d2;
+  .badge-fullstack {
+    --badge-color-1: #6366f1;
+    --badge-color-2: #8b5cf6;
     top: -24px;
     left: 50%;
     transform: translateX(-50%);

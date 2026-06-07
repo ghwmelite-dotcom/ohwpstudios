@@ -4,7 +4,7 @@ import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 ---
 
-<BaseLayout title="AI Project Estimator - Get Instant Estimates" description="Get instant AI-powered project estimates with cost, timeline, and technology recommendations">
+<BaseLayout title="Scope My Project | Instant AI Project Scoping - OhWP Studios" description="Scope your project in minutes: an AI-powered breakdown of approach, tech stack, timeline, investment range, and a shareable proposal you can send to your team.">
   <Header />
   <main class="estimator-page">
   <div class="estimator-container">
@@ -15,14 +15,14 @@ import Footer from '@/components/Footer.astro';
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
           </svg>
-          AI-Powered Estimation
+          AI-Powered Project Scoping
         </div>
         <h1 class="page-title">
-          Get Your Project Estimate
-          <span class="title-highlight">Instantly</span>
+          Scope Your Project
+          <span class="title-highlight">in Minutes</span>
         </h1>
         <p class="page-subtitle">
-          Describe your project and receive a comprehensive AI-powered analysis including cost estimates, timeline, technology recommendations, and team requirements.
+          Answer a few questions and get an instant, AI-powered scope — recommended approach, tech stack, timeline, and investment range — saved as a shareable proposal you can send to your team.
         </p>
       </div>
 
@@ -193,6 +193,22 @@ import Footer from '@/components/Footer.astro';
                   <span id="charCount">0</span> characters
                 </div>
               </div>
+
+              <div class="form-group-full">
+                <label for="website_url" class="form-label">
+                  Existing website <span class="form-hint" style="display:inline; font-weight:400;">(optional)</span>
+                </label>
+                <p class="form-hint">
+                  Have a site already? Drop the URL and we'll factor a redesign or migration into the scope.
+                </p>
+                <input
+                  type="url"
+                  id="website_url"
+                  name="website_url"
+                  class="form-input"
+                  placeholder="https://yourcompany.com"
+                />
+              </div>
             </div>
 
             <div class="form-actions form-actions-split">
@@ -328,8 +344,21 @@ import Footer from '@/components/Footer.astro';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h2 class="text-3xl font-bold text-white mb-2">Your Project Estimate is Ready!</h2>
-            <p class="text-gray-400">Here's what our AI analysis suggests for your project</p>
+            <h2 class="text-3xl font-bold text-white mb-2">Your scoped proposal is ready</h2>
+            <p class="text-gray-400">Here's what our AI analysis suggests — saved as a shareable proposal.</p>
+          </div>
+
+          <!-- Shareable proposal link -->
+          <div id="shareBox" class="hidden" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 0.85rem; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700; color:#fff; margin-bottom:0.75rem;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              Your shareable proposal link
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+              <input id="proposalUrl" type="text" readonly value="" style="flex:1; min-width:200px; min-height:44px; padding:0.6rem 0.85rem; border-radius:0.6rem; border:1px solid rgba(255,255,255,0.18); background:rgba(0,0,0,0.3); color:#fff; font-size:0.9rem;" />
+              <button id="copyProposalBtn" type="button" style="min-height:44px; padding:0.6rem 1.25rem; border-radius:0.6rem; border:none; background:linear-gradient(135deg,#6366f1,#ec4899); color:#fff; font-weight:700; cursor:pointer;">Copy</button>
+              <a id="openProposalBtn" href="#" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; min-height:44px; padding:0.6rem 1.25rem; border-radius:0.6rem; border:1px solid rgba(255,255,255,0.2); color:#fff; font-weight:700; text-decoration:none;">Open ↗</a>
+            </div>
           </div>
 
           <!-- Cost Estimate -->
@@ -412,13 +441,13 @@ import Footer from '@/components/Footer.astro';
             </p>
             <div class="cta-buttons">
               <a
-                href="/contact"
+                href="/booking"
                 class="cta-btn cta-btn-primary"
               >
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                Schedule a Consultation
+                Book a Free Consult
               </a>
               <button
                 id="downloadPdfBtn"
@@ -1322,6 +1351,24 @@ import Footer from '@/components/Footer.astro';
       currentEstimateData.clientEmail = formData.get('email');
       currentEstimateData.clientCompany = formData.get('company');
 
+      // Shareable proposal link
+      if (data.share_token) {
+        const url = location.origin + '/proposal/' + data.share_token;
+        const shareBox = document.getElementById('shareBox');
+        const urlInput = document.getElementById('proposalUrl');
+        const openBtn = document.getElementById('openProposalBtn');
+        const copyBtn = document.getElementById('copyProposalBtn');
+        if (urlInput) urlInput.value = url;
+        if (openBtn) openBtn.href = url;
+        if (shareBox) shareBox.classList.remove('hidden');
+        if (copyBtn) copyBtn.onclick = () => {
+          navigator.clipboard.writeText(url).then(() => {
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1800);
+          });
+        };
+      }
+
       const exchangeRate = 12; // 1 USD = 12 GH₵
 
       // Helper function to format dual currency
@@ -1421,11 +1468,11 @@ import Footer from '@/components/Footer.astro';
         doc.setFillColor(...primaryColor);
         doc.rect(0, 0, pageWidth, 50, 'F');
 
-        // Company Logo/Branding (Hodges & Co.)
+        // Company Logo/Branding (OhWP Studios)
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(18);
         doc.setFont('helvetica', 'bold');
-        doc.text('Hodges & Co.', margin, 15);
+        doc.text('OhWP Studios', margin, 15);
 
         // Title
         doc.setFontSize(24);
@@ -1613,7 +1660,7 @@ import Footer from '@/components/Footer.astro';
         doc.setFontSize(9);
         doc.setTextColor(...primaryColor);
         doc.setFont('helvetica', 'bold');
-        doc.text('Hodges & Co.', pageWidth / 2, footerY, { align: 'center' });
+        doc.text('OhWP Studios', pageWidth / 2, footerY, { align: 'center' });
 
         // Footer disclaimers
         doc.setFontSize(8);

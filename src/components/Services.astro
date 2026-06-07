@@ -99,7 +99,7 @@ const getIcon = (iconName: string) => {
           </div>
           <h3 data-stagger>{service.title}</h3>
           <p data-stagger>{service.description}</p>
-          <a href={`/services/${service.title.toLowerCase().replace(/\s/g, '-')}`} class="service-link" data-ripple data-stagger>
+          <a href="/estimate-project" class="service-link" data-ripple data-stagger>
             <span>Learn More</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="12" x2="19" y2="12"/>
@@ -337,6 +337,8 @@ const getIcon = (iconName: string) => {
     color: var(--color-primary);
     font-weight: 600;
     font-size: 0.95rem;
+    min-height: 44px;
+    padding: 0.5rem 0;
     transition: gap var(--transition-base);
   }
 

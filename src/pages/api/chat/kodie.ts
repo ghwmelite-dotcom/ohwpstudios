@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-// Kodie - AI Chat Assistant powered by Google Gemini
+// Kodie - AI Chat Assistant powered by Cloudflare Workers AI (free)
 // Handles initial customer inquiries and escalates to human agents when needed
 
 interface KodieResponse {
@@ -14,7 +14,7 @@ interface KodieResponse {
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const db = locals.runtime?.env?.DB;
-    const GEMINI_API_KEY = locals.runtime?.env?.GEMINI_API_KEY;
+    const AI = locals.runtime?.env?.AI;
 
     if (!db) {
       return new Response(JSON.stringify({ success: false, error: 'Database not available' }), {
@@ -36,8 +36,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Get Kodie's response using Gemini AI
-    const kodieResponse = await getKodieResponse(message, conversation_history || [], GEMINI_API_KEY);
+    // Get Kodie's response using Workers AI
+    const kodieResponse = await getKodieResponse(message, conversation_history || [], AI);
 
     // If Kodie decides to escalate, update conversation status
     if (kodieResponse.escalate && conversation_id) {
@@ -105,19 +105,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 };
 
-// Call Google Gemini API for intelligent responses (using Gemini 2.5 Flash)
-async function callGeminiAPI(message: string, history: any[], apiKey: string): Promise<KodieResponse> {
-  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+// Kodie's chat model — free Cloudflare Workers AI.
+const KODIE_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 
-  // Build conversation context
-  const conversationContext = history.slice(-10).map((msg: any) => ({
-    role: msg.sender_type === 'visitor' ? 'user' : 'model',
-    parts: [{ text: msg.message }]
-  }));
-
+// Generate an intelligent response via Workers AI
+async function callWorkersAI(message: string, history: any[], ai: any): Promise<KodieResponse> {
   // System prompt to guide Kodie's behavior
-  const systemPrompt = `You are Kodie, a helpful and friendly AI assistant for OH WP Studios, a software development agency specializing in:
-- Web Development (WordPress, React, Vue, Next.js, etc.)
+  const systemPrompt = `You are Kodie, a helpful and friendly AI assistant for OhWP Studios, a software development agency specializing in:
+- Web Development (React, Vue, Next.js, Node.js, etc.)
 - Mobile App Development (iOS, Android, React Native, Flutter)
 - UI/UX Design
 - E-Commerce Solutions
@@ -132,8 +127,8 @@ Your personality:
 - Honest when you don't know something
 
 Guidelines:
-1. Answer technical questions about WordPress, SEO, web development, AI, security, performance, and related topics
-2. Provide information about OH WP Studios services and pricing
+1. Answer technical questions about fullstack development, SEO, web development, AI, security, performance, and related topics
+2. Provide information about OhWP Studios services and pricing
 3. Be conversational and helpful
 4. If the question is too complex or requires human expertise, suggest connecting with a specialist (but still try to help first)
 5. Keep responses concise but informative (2-4 paragraphs max)
@@ -150,45 +145,25 @@ Contact: ohwpstudios@gmail.com | +233505982361
 
 Now respond to the user's message helpfully and professionally.`;
 
-  const payload = {
-    contents: [
-      {
-        role: 'user',
-        parts: [{ text: systemPrompt }]
-      },
-      ...conversationContext,
-      {
-        role: 'user',
-        parts: [{ text: message }]
-      }
-    ],
-    generationConfig: {
-      temperature: 0.7,
-      topK: 40,
-      topP: 0.95,
-      maxOutputTokens: 1024,
-    }
-  };
+  const messages = [
+    { role: 'system', content: systemPrompt },
+    ...history.slice(-10).map((msg: any) => ({
+      role: msg.sender_type === 'visitor' ? 'user' : 'assistant',
+      content: String(msg.message || ''),
+    })),
+    { role: 'user', content: message },
+  ];
 
-  const response = await fetch(GEMINI_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload)
+  const result: any = await ai.run(KODIE_MODEL, {
+    messages,
+    temperature: 0.7,
+    max_tokens: 1024,
   });
 
-  if (!response.ok) {
-    const errorData = await response.text();
-    console.error('Gemini API error:', errorData);
-    throw new Error(`Gemini API failed: ${response.status}`);
-  }
-
-  const data = await response.json();
-
   // Extract the response text
-  const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text ||
-                    "I apologize, but I'm having trouble generating a response right now. Could you rephrase your question?";
+  const aiMessage = (typeof result?.response === 'string' && result.response.trim())
+    ? result.response.trim()
+    : "I apologize, but I'm having trouble generating a response right now. Could you rephrase your question?";
 
   // Determine if we should escalate based on response content
   const shouldEscalate = aiMessage.toLowerCase().includes('connect you with') ||
@@ -206,7 +181,7 @@ Now respond to the user's message helpfully and professionally.`;
     suggestedActions.push('View services', 'See portfolio', 'Get quote');
   } else if (lowerMessage.includes('portfolio') || lowerMessage.includes('work')) {
     suggestedActions.push('View portfolio', 'Discuss project');
-  } else if (lowerMessage.includes('wordpress') || lowerMessage.includes('seo') || lowerMessage.includes('technical')) {
+  } else if (lowerMessage.includes('fullstack') || lowerMessage.includes('seo') || lowerMessage.includes('technical')) {
     suggestedActions.push('Technical consultation', 'Talk to specialist');
   } else {
     suggestedActions.push('Learn more', 'Talk to specialist', 'Get quote');
@@ -220,8 +195,8 @@ Now respond to the user's message helpfully and professionally.`;
   };
 }
 
-// Kodie's AI Logic using Google Gemini
-async function getKodieResponse(message: string, history: any[], apiKey?: string): Promise<KodieResponse> {
+// Kodie's AI logic — Workers AI with a rule-based fallback
+async function getKodieResponse(message: string, history: any[], ai?: any): Promise<KodieResponse> {
   const lowerMessage = message.toLowerCase();
 
   // Escalation triggers - when Kodie should hand off to human
@@ -243,37 +218,36 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
     };
   }
 
-  // If Gemini API key is available, use AI
-  if (apiKey) {
+  // If the Workers AI binding is available, use it
+  if (ai) {
     try {
-      const geminiResponse = await callGeminiAPI(message, history, apiKey);
-      return geminiResponse;
+      return await callWorkersAI(message, history, ai);
     } catch (error) {
-      console.error('Gemini API error, falling back to rule-based:', error);
+      console.error('Workers AI error, falling back to rule-based:', error);
       // Fall through to rule-based responses
     }
   }
 
-  // WordPress technical questions
-  if (lowerMessage.includes('plugin') || lowerMessage.includes('plugins')) {
+  // Tooling & integration questions
+  if (lowerMessage.includes('plugin') || lowerMessage.includes('integration') || lowerMessage.includes('package')) {
     if (lowerMessage.includes('recommend') || lowerMessage.includes('best') || lowerMessage.includes('which')) {
       return {
-        message: "Great question about WordPress plugins! Here are my top recommendations:\n\n🔌 **Essential Plugins:**\n• **Security**: Wordfence or Sucuri Security\n• **Performance**: WP Rocket or W3 Total Cache\n• **SEO**: Yoast SEO or Rank Math\n• **Backup**: UpdraftPlus or BackWPup\n• **Forms**: Contact Form 7 or WPForms\n• **Page Builder**: Elementor or Beaver Builder\n\nWhat specific functionality are you looking for? I can give you more targeted recommendations!",
+        message: "Great question about dev tooling! Here are some of our go-to choices:\n\n🔌 **Essential Stack:**\n• **Auth**: Auth.js or Clerk\n• **Payments**: Stripe\n• **Performance**: Redis caching + a global CDN\n• **SEO**: structured data + sitemaps\n• **Forms**: React Hook Form + Zod\n• **Email**: Resend or Postmark\n\nWhat functionality are you looking to add? I can give you more targeted recommendations!",
         escalate: false,
         confidence: 0.95,
-        suggestedActions: ['Security plugins', 'Performance optimization', 'SEO plugins', 'Talk to specialist']
+        suggestedActions: ['Auth & security', 'Performance optimization', 'Payments & email', 'Talk to specialist']
       };
     }
     if (lowerMessage.includes('conflict') || lowerMessage.includes('error') || lowerMessage.includes('not working')) {
       return {
-        message: "Plugin conflicts can be tricky! Here's how to troubleshoot:\n\n🔍 **Step-by-step:**\n1. Deactivate all plugins\n2. Reactivate them one by one\n3. Test after each activation\n4. Identify which plugin causes the issue\n5. Check for updates or alternatives\n\n**Pro tip**: Use a staging site to test plugin combinations safely!\n\nNeed help with a specific plugin conflict? I can guide you through it or connect you with our WordPress specialist.",
+        message: "Integration conflicts can be tricky! Here's how to troubleshoot:\n\n🔍 **Step-by-step:**\n1. Reproduce the issue in isolation\n2. Disable integrations one at a time\n3. Check for version mismatches and peer dependencies\n4. Review logs and error traces\n5. Confirm the fix against a staging environment\n\n**Pro tip**: Pin dependency versions and test in staging before shipping!\n\nNeed help with a specific integration conflict? I can guide you through it or connect you with one of our engineers.",
         escalate: false,
         confidence: 0.9,
         suggestedActions: ['Troubleshooting guide', 'Talk to specialist', 'Emergency support']
       };
     }
     return {
-      message: "I can help with WordPress plugins! Common topics I cover:\n\n• Plugin recommendations for specific needs\n• Troubleshooting plugin conflicts\n• Performance optimization\n• Security best practices\n• Plugin alternatives\n\nWhat specific aspect of plugins would you like to know about?",
+      message: "I can help with dev tooling and integrations! Common topics I cover:\n\n• Tooling recommendations for specific needs\n• Troubleshooting integration conflicts\n• Performance optimization\n• Security best practices\n• Library alternatives\n\nWhat specific aspect would you like to know about?",
       escalate: false,
       confidence: 0.85
     };
@@ -362,7 +336,7 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
   if (lowerMessage.includes('performance') || lowerMessage.includes('speed') ||
       lowerMessage.includes('slow') || lowerMessage.includes('optimize') || lowerMessage.includes('faster')) {
     return {
-      message: "Website performance is critical! Here's how to optimize:\n\n⚡ **Performance Optimization:**\n\n**Frontend:**\n• Minimize HTTP requests\n• Compress images (WebP format)\n• Use CDN for static assets\n• Implement lazy loading\n• Minify CSS/JavaScript\n• Enable browser caching\n\n**Backend:**\n• Database query optimization\n• Server-side caching (Redis)\n• Use efficient algorithms\n• Optimize API responses\n• Enable GZIP compression\n\n**WordPress Specific:**\n• WP Rocket or W3 Total Cache\n• Image optimization plugins\n• Limit plugins\n• Use quality hosting\n• PHP 8+ for better performance\n\n**Target Metrics:**\n• First Contentful Paint < 1.8s\n• Largest Contentful Paint < 2.5s\n• Total Blocking Time < 200ms\n\nWant a performance audit of your site?",
+      message: "Website performance is critical! Here's how to optimize:\n\n⚡ **Performance Optimization:**\n\n**Frontend:**\n• Minimize HTTP requests\n• Compress images (WebP format)\n• Use CDN for static assets\n• Implement lazy loading\n• Minify CSS/JavaScript\n• Enable browser caching\n\n**Backend:**\n• Database query optimization\n• Server-side caching (Redis)\n• Use efficient algorithms\n• Optimize API responses\n• Enable GZIP compression\n\n**Framework Specific:**\n• Server-side rendering & edge caching\n• Code splitting and tree shaking\n• Smaller, optimized bundles\n• Modern image formats (WebP/AVIF)\n• Quality hosting on a global CDN\n\n**Target Metrics:**\n• First Contentful Paint < 1.8s\n• Largest Contentful Paint < 2.5s\n• Total Blocking Time < 200ms\n\nWant a performance audit of your site?",
       escalate: false,
       confidence: 0.93,
       suggestedActions: ['Performance audit', 'Optimization service', 'Speed test']
@@ -373,7 +347,7 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
   if (lowerMessage.includes('security') || lowerMessage.includes('hack') ||
       lowerMessage.includes('secure') || lowerMessage.includes('ssl') || lowerMessage.includes('https')) {
     return {
-      message: "Security is paramount! Here's how to protect your site:\n\n🔒 **Essential Security Measures:**\n\n**WordPress Security:**\n• Use strong, unique passwords\n• Enable 2FA (Two-Factor Authentication)\n• Keep WordPress, themes & plugins updated\n• Install security plugin (Wordfence/Sucuri)\n• Limit login attempts\n• Hide WordPress version\n• Regular backups\n\n**General Web Security:**\n• SSL certificate (HTTPS)\n• WAF (Web Application Firewall)\n• DDoS protection (Cloudflare)\n• Regular security audits\n• Input validation & sanitization\n• SQL injection prevention\n• XSS protection\n\n**Red Flags:**\n⚠️ Suspicious login attempts\n⚠️ Unexpected file changes\n⚠️ Slow site performance\n⚠️ Strange admin users\n\nThink your site is compromised? Let's connect you with our security team immediately!",
+      message: "Security is paramount! Here's how to protect your site:\n\n🔒 **Essential Security Measures:**\n\n**Application Security:**\n• Use strong, unique passwords\n• Enable 2FA (Two-Factor Authentication)\n• Keep dependencies and frameworks updated\n• Hardened authentication & session handling\n• Rate limiting and brute-force protection\n• Principle of least privilege\n• Regular backups\n\n**General Web Security:**\n• SSL certificate (HTTPS)\n• WAF (Web Application Firewall)\n• DDoS protection (Cloudflare)\n• Regular security audits\n• Input validation & sanitization\n• SQL injection prevention\n• XSS protection\n\n**Red Flags:**\n⚠️ Suspicious login attempts\n⚠️ Unexpected file changes\n⚠️ Slow site performance\n⚠️ Strange admin users\n\nThink your site is compromised? Let's connect you with our security team immediately!",
       escalate: false,
       confidence: 0.91,
       suggestedActions: ['Security audit', 'Emergency security help', 'SSL setup']
@@ -383,7 +357,7 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
   // Greeting detection
   if (lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)) {
     return {
-      message: "Hi there! 👋 I'm Kodie, your AI assistant at OH WP Studios. I'm here to help answer questions about our services, pricing, and technical challenges. How can I assist you today?",
+      message: "Hi there! 👋 I'm Kodie, your AI assistant at OhWP Studios. I'm here to help answer questions about our services, pricing, and technical challenges. How can I assist you today?",
       escalate: false,
       confidence: 1.0,
       suggestedActions: ['Services', 'Pricing', 'Portfolio', 'Technical Support']
@@ -393,7 +367,7 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
   // Services inquiry
   if (lowerMessage.includes('service') || lowerMessage.includes('what do you do') || lowerMessage.includes('what can you help')) {
     return {
-      message: "Great question! OH WP Studios specializes in:\n\n🌐 Web Development - Custom websites and web applications\n📱 Mobile Apps - iOS and Android development\n🎨 UI/UX Design - Beautiful, user-friendly interfaces\n✨ Branding - Logo and brand identity design\n🛒 E-Commerce - Online stores and shopping platforms\n📊 SEO & Marketing - Digital marketing and optimization\n\nWhich service are you interested in learning more about?",
+      message: "Great question! OhWP Studios specializes in:\n\n🌐 Web Development - Custom websites and web applications\n📱 Mobile Apps - iOS and Android development\n🎨 UI/UX Design - Beautiful, user-friendly interfaces\n✨ Branding - Logo and brand identity design\n🛒 E-Commerce - Online stores and shopping platforms\n📊 SEO & Marketing - Digital marketing and optimization\n\nWhich service are you interested in learning more about?",
       escalate: false,
       confidence: 1.0,
       suggestedActions: ['Get a quote', 'See portfolio', 'Discuss project']
@@ -430,18 +404,18 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
     };
   }
 
-  // Technical support - WordPress specific
-  if (lowerMessage.includes('wordpress') || lowerMessage.includes('wp')) {
+  // Technical support - fullstack specific
+  if (lowerMessage.includes('fullstack') || lowerMessage.includes('full stack') || lowerMessage.includes('full-stack')) {
     if (lowerMessage.includes('error') || lowerMessage.includes('problem') || lowerMessage.includes('not working') || lowerMessage.includes('broken')) {
       return {
-        message: "I can help with WordPress technical issues! 🔧\n\nCommon WordPress problems I can assist with:\n• Plugin conflicts\n• Theme issues\n• Performance optimization\n• Security concerns\n• Database errors\n• White screen of death\n\nCould you describe the specific error or issue you're experiencing? If it's a complex technical problem, I can connect you with our WordPress specialist.",
+        message: "I can help with fullstack technical issues! 🔧\n\nCommon problems I can assist with:\n• API & integration errors\n• Frontend rendering issues\n• Performance optimization\n• Security concerns\n• Database errors\n• Build & deployment failures\n\nCould you describe the specific error or issue you're experiencing? If it's a complex technical problem, I can connect you with one of our engineers.",
         escalate: false,
         confidence: 0.7,
-        suggestedActions: ['Describe the error', 'Connect to specialist', 'View WordPress services']
+        suggestedActions: ['Describe the error', 'Connect to specialist', 'View development services']
       };
     }
     return {
-      message: "We're WordPress experts! 💙\n\nWe offer:\n• WordPress website development\n• Custom theme creation\n• Plugin development\n• WooCommerce solutions\n• WordPress maintenance & support\n• Security hardening\n• Performance optimization\n\nWhat WordPress services are you looking for?",
+      message: "We're fullstack development experts! 💙\n\nWe offer:\n• Custom web application development\n• Frontend engineering (React, Next.js, Vue)\n• API & backend development (Node.js, TypeScript)\n• Database design & cloud infrastructure\n• Maintenance & support\n• Security hardening\n• Performance optimization\n\nWhat fullstack services are you looking for?",
       escalate: false,
       confidence: 1.0,
       suggestedActions: ['Custom development', 'Maintenance plans', 'Get a quote']
@@ -492,7 +466,7 @@ async function getKodieResponse(message: string, history: any[], apiKey?: string
 
   // Default response when uncertain
   return {
-    message: "I want to make sure I understand your question correctly. I can help with:\n\n• Information about our services\n• Pricing and quotes\n• Project timelines\n• Technical WordPress support\n• Scheduling consultations\n• Portfolio examples\n\nCould you clarify what you'd like to know more about? Or, if you prefer, I can connect you with a human agent for more personalized assistance.",
+    message: "I want to make sure I understand your question correctly. I can help with:\n\n• Information about our services\n• Pricing and quotes\n• Project timelines\n• Technical development support\n• Scheduling consultations\n• Portfolio examples\n\nCould you clarify what you'd like to know more about? Or, if you prefer, I can connect you with a human agent for more personalized assistance.",
     escalate: false,
     confidence: 0.4,
     suggestedActions: ['Services info', 'Get pricing', 'Talk to human', 'See portfolio']
