@@ -25,7 +25,9 @@ export default defineConfig({
           page.includes('/register') ||
           page.includes('/reset-password') ||
           page.includes('/affiliate/dashboard') ||
-          page.includes('/affiliate/login');
+          page.includes('/affiliate/login') ||
+          page.includes('/proposal/') ||
+          page.includes('/contract');
 
         // Exclude utility pages that shouldn't be indexed
         const isUtility = page.includes('/newsletter/unsubscribe') ||

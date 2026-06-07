@@ -1,0 +1,50 @@
+# OhWP Studios
+
+> OhWP Studios is a fullstack software development studio building web applications, SaaS products, APIs, and AI-powered software for organisations across Ghana and Africa. We work across government, fintech, edtech, civic technology, and healthcare. Powered by Hodges & Co.
+
+OhWP Studios designs and ships complete, production-grade products — frontend, backend, APIs, databases, and cloud infrastructure — as one accountable team. Core stack: React, Next.js, Node.js, TypeScript, and Python, deployed on the Cloudflare edge and AWS, with AI integrated where it adds real value.
+
+Key facts:
+- Type: Fullstack software development studio (not a WordPress shop).
+- Location & focus: Ghana and the wider African market.
+- Sectors served: government, fintech, edtech, civic, healthcare.
+- Pricing: quoted in Ghana Cedis with a USD reference (GH₵ primary, $ secondary).
+- Parent company: Hodges & Co.
+- Contact: ohwpstudios@gmail.com
+
+## Services
+
+- [Custom Web Application Development](https://ohwpstudios.org/services/custom-web-application): Bespoke web apps built with React, Next.js, Node.js, and TypeScript.
+- [SaaS Application Development](https://ohwpstudios.org/services/saas-application): Multi-tenant SaaS products with auth, billing, and dashboards.
+- [API Development](https://ohwpstudios.org/services/api-development): REST and GraphQL APIs, integrations, and backend services.
+
+## Technologies
+
+- [Fullstack Development](https://ohwpstudios.org/technologies/fullstack-development): End-to-end product engineering across the whole stack.
+- [React Development](https://ohwpstudios.org/technologies/react-development): Interactive, accessible frontends with React.
+- [Next.js Development](https://ohwpstudios.org/technologies/nextjs-development): Server-rendered and edge-deployed Next.js apps.
+- [Node.js Development](https://ohwpstudios.org/technologies/nodejs-development): Scalable Node.js backends and APIs.
+- [Python Development](https://ohwpstudios.org/technologies/python-development): Python services, data, and AI workloads.
+
+## Industries
+
+- [Fintech Software Development](https://ohwpstudios.org/industries/fintech): Secure payments, wallets, and financial platforms.
+- [Healthcare Software Development](https://ohwpstudios.org/industries/healthcare): Compliant, reliable healthcare applications.
+- [Education Technology Development](https://ohwpstudios.org/industries/education): Learning platforms and edtech tools.
+
+## Solutions
+
+- [AI-Powered Application Development](https://ohwpstudios.org/solutions/ai-powered-application): Products with LLMs, RAG, and intelligent automation.
+- [Startup MVP Development](https://ohwpstudios.org/solutions/startup-mvp): Fast, focused MVPs that get startups to market.
+
+## Company & engagement
+
+- [Estimate a Project](https://ohwpstudios.org/estimate-project): AI-assisted project scoping and instant cost estimate (GH₵ / USD).
+- [Case Studies](https://ohwpstudios.org/case-studies): Selected client work and outcomes.
+- [Open Build](https://ohwpstudios.org/open-build): A livestream show where the community names a real Ghanaian problem and OhWP Studios builds it live.
+- [Blog](https://ohwpstudios.org/blog): Articles on fullstack engineering, AI, and building software in Africa.
+
+## Optional
+
+- [Sitemap Index](https://ohwpstudios.org/sitemap-index.xml)
+- [Blog Sitemap](https://ohwpstudios.org/sitemap-blog.xml)

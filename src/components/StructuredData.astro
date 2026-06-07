@@ -14,14 +14,33 @@ const organizationSchema = {
   "name": "OhWP Studios",
   "alternateName": "OHWP Studios",
   "url": siteUrl,
-  "logo": `${siteUrl}/icons/icon-512x512.svg`,
-  "description": "Professional web development agency specializing in custom web applications, mobile apps, and digital solutions",
+  "logo": `${siteUrl}/icons/icon-512x512.png`,
+  "description": "OhWP Studios is a fullstack software development studio building web apps, SaaS, APIs and AI-powered products for organisations across Ghana and Africa.",
   "email": "ohwpstudios@gmail.com",
-  "telephone": "+233-123-456-789",
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "Hodges & Co."
+  },
   "address": {
     "@type": "PostalAddress",
     "addressCountry": "GH"
   },
+  "areaServed": [
+    { "@type": "Country", "name": "Ghana" },
+    { "@type": "Place", "name": "Africa" }
+  ],
+  "knowsAbout": [
+    "Fullstack software development",
+    "React development",
+    "Next.js development",
+    "Node.js development",
+    "Python development",
+    "Custom web application development",
+    "SaaS development",
+    "API development",
+    "AI-powered applications",
+    "Startup MVP development"
+  ],
   "sameAs": [
     "https://twitter.com/ohwpstudios",
     "https://linkedin.com/company/ohwpstudios",
@@ -30,34 +49,27 @@ const organizationSchema = {
   ],
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+233-123-456-789",
     "contactType": "customer service",
-    "email": "ohwpstudios@gmail.com"
+    "email": "ohwpstudios@gmail.com",
+    "areaServed": "GH",
+    "availableLanguage": ["en"]
   }
 };
 
-// Website Schema with Search Action
+// Website Schema (no SearchAction: site search is client-side only, no query-string endpoint exists)
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "OhWP Studios",
   "url": siteUrl,
-  "description": "Professional web development and digital solutions agency",
+  "description": "Fullstack software development studio for Ghana and Africa.",
   "publisher": {
     "@type": "Organization",
     "name": "OhWP Studios",
     "logo": {
       "@type": "ImageObject",
-      "url": `${siteUrl}/icons/icon-512x512.svg`
+      "url": `${siteUrl}/icons/icon-512x512.png`
     }
-  },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteUrl}/blog?search={search_term_string}`
-    },
-    "query-input": "required name=search_term_string"
   }
 };
 
@@ -77,7 +89,7 @@ const articleSchema = data ? {
     "name": "OhWP Studios",
     "logo": {
       "@type": "ImageObject",
-      "url": `${siteUrl}/icons/icon-512x512.svg`
+      "url": `${siteUrl}/icons/icon-512x512.png`
     }
   },
   "datePublished": data.published_at,
@@ -111,11 +123,11 @@ const serviceSchema = data ? {
     "@type": "Organization",
     "name": "OhWP Studios"
   },
-  "serviceType": data.type || "Web Development",
-  "areaServed": {
-    "@type": "Place",
-    "name": "Worldwide"
-  }
+  "serviceType": data.type || "Software Development",
+  "areaServed": [
+    { "@type": "Country", "name": "Ghana" },
+    { "@type": "Place", "name": "Africa" }
+  ]
 } : null;
 
 let schema;

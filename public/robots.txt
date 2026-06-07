@@ -1,68 +1,118 @@
-# robots.txt for OHWP Studios
-# Last updated: 2025-01-10
+# robots.txt for OhWP Studios — https://ohwpstudios.org
+# Fullstack software development studio for Ghana & Africa
+# Last updated: 2026-06-07
 
-# Allow all search engines to crawl public content
+# ---------------------------------------------------------------------------
+# Default: allow all crawlers to index public content
+# ---------------------------------------------------------------------------
 User-agent: *
 Allow: /
-Allow: /about
-Allow: /services/
-Allow: /services/*
-Allow: /portfolio
-Allow: /portfolio/*
-Allow: /contact
-Allow: /blog/
-Allow: /blog/*
-Allow: /careers
-Allow: /technologies/
-Allow: /technologies/*
-Allow: /industries/
-Allow: /industries/*
-Allow: /solutions/
-Allow: /solutions/*
-Allow: /estimate-project
-Allow: /booking
-Allow: /affiliate/signup
-Allow: /sitemap-pages
 
-# Disallow private admin and client areas
+# Private admin and client areas
 Disallow: /admin/
-Disallow: /admin/*
 Disallow: /client/
-Disallow: /client/*
 Disallow: /affiliate/dashboard
 Disallow: /affiliate/login
 
-# Disallow API endpoints
-Disallow: /api/
-Disallow: /api/*
+# Private/utility routes (also noindex at the page level)
+Disallow: /proposal/
+Disallow: /contract
+Disallow: /newsletter/unsubscribe
+Disallow: /newsletter/verify
+Disallow: /quiz/thank-you
+Disallow: /offline
+Disallow: /sitemap-pages
 
-# Disallow auth-related pages
+# API endpoints
+Disallow: /api/
+
+# Auth-related pages
 Disallow: /login
 Disallow: /register
 Disallow: /reset-password
 
-# Disallow build artifacts and system files
+# Build artifacts and system files
 Disallow: /_astro/
 Disallow: /dist/
 Disallow: /node_modules/
 
-# Crawl delay (polite crawling)
-Crawl-delay: 0.5
-
-# Sitemap locations
-Sitemap: https://ohwpstudios.org/sitemap-index.xml
-Sitemap: https://ohwpstudios.org/sitemap-0.xml
-Sitemap: https://ohwpstudios.org/sitemap-blog.xml
-
-# Specific bot instructions
+# ---------------------------------------------------------------------------
+# Search engine crawlers
+# ---------------------------------------------------------------------------
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0.2
 
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 0.5
 
 User-agent: DuckDuckBot
 Allow: /
-Crawl-delay: 0.5
+
+# ---------------------------------------------------------------------------
+# AI answer-engine crawlers (AEO / GEO) — explicitly allowed so OhWP Studios
+# can be cited as a source by ChatGPT, Perplexity, Claude, Gemini, Copilot, etc.
+# ---------------------------------------------------------------------------
+# OpenAI — model training crawler
+User-agent: GPTBot
+Allow: /
+
+# OpenAI — ChatGPT live browsing / search
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI — ChatGPT user-initiated fetches
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic — Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google — Gemini / AI Overviews (Extended)
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Microsoft Copilot
+User-agent: CCBot
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# Common Crawl (feeds many LLMs)
+User-agent: cohere-ai
+Allow: /
+
+# ---------------------------------------------------------------------------
+# Sitemaps
+# ---------------------------------------------------------------------------
+Sitemap: https://ohwpstudios.org/sitemap-index.xml
+Sitemap: https://ohwpstudios.org/sitemap-blog.xml
+
+# LLM guidance file (AEO/GEO)
+# See: https://ohwpstudios.org/llms.txt
