@@ -135,11 +135,11 @@ Guidelines:
 6. Use occasional emojis to be friendly
 7. Provide actionable advice when possible
 
-Pricing info:
-- Basic websites: $5,000 - $15,000
-- Custom web apps: $15,000 - $50,000+
-- Mobile apps: $25,000 - $100,000+
-- Design projects: $3,000 - $20,000
+Pricing info (always quote prices in Ghana Cedis first, with the USD equivalent in brackets):
+- Basic websites: GH₵60,000 - GH₵180,000 ($5,000 - $15,000)
+- Custom web apps: GH₵180,000 - GH₵600,000+ ($15,000 - $50,000+)
+- Mobile apps: GH₵300,000 - GH₵1,200,000+ ($25,000 - $100,000+)
+- Design projects: GH₵36,000 - GH₵240,000 ($3,000 - $20,000)
 
 Contact: ohwpstudios@gmail.com | +233505982361
 
@@ -377,7 +377,7 @@ async function getKodieResponse(message: string, history: any[], ai?: any): Prom
   // Pricing inquiry
   if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('how much') || lowerMessage.includes('quote')) {
     return {
-      message: "I'd be happy to help with pricing information! 💰\n\nOur projects typically range from:\n• Basic websites: $5,000 - $15,000\n• Custom web apps: $15,000 - $50,000+\n• Mobile apps: $25,000 - $100,000+\n• Design projects: $3,000 - $20,000\n\nThe exact cost depends on your specific requirements, features, and timeline. Would you like to schedule a free consultation to discuss your project in detail and get an accurate quote?",
+      message: "I'd be happy to help with pricing information! 💰\n\nOur projects typically range from:\n• Basic websites: GH₵60,000 - GH₵180,000 ($5,000 - $15,000)\n• Custom web apps: GH₵180,000 - GH₵600,000+ ($15,000 - $50,000+)\n• Mobile apps: GH₵300,000 - GH₵1,200,000+ ($25,000 - $100,000+)\n• Design projects: GH₵36,000 - GH₵240,000 ($3,000 - $20,000)\n\nThe exact cost depends on your specific requirements, features, and timeline. Would you like to schedule a free consultation to discuss your project in detail and get an accurate quote?",
       escalate: false,
       confidence: 0.9,
       suggestedActions: ['Schedule consultation', 'Tell me more about your project', 'See portfolio']

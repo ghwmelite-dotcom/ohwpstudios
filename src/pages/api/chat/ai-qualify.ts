@@ -267,7 +267,7 @@ function generateEstimate(projectType: string, budgetStr: string, requirements: 
   const estimatesUSD: Record<string, any> = {
     'Website Development': {
       range: '$3,500 - $17,500',
-      rangeGHS: 'GH₵52,500 - GH₵262,500',
+      rangeGHS: 'GH₵42,000 - GH₵210,000',
       breakdown: [
         'Design & UX: $1,400 - $5,600',
         'Development: $2,100 - $8,400',
@@ -275,15 +275,15 @@ function generateEstimate(projectType: string, budgetStr: string, requirements: 
         'Testing & Launch: $350 - $1,400'
       ],
       breakdownGHS: [
-        'Design & UX: GH₵21,000 - GH₵84,000',
-        'Development: GH₵31,500 - GH₵126,000',
-        'Content & SEO: GH₵5,250 - GH₵31,500',
-        'Testing & Launch: GH₵5,250 - GH₵21,000'
+        'Design & UX: GH₵16,800 - GH₵67,200',
+        'Development: GH₵25,200 - GH₵100,800',
+        'Content & SEO: GH₵4,200 - GH₵25,200',
+        'Testing & Launch: GH₵4,200 - GH₵16,800'
       ]
     },
     'Mobile App': {
       range: '$17,500 - $70,000+',
-      rangeGHS: 'GH₵262,500 - GH₵1,050,000+',
+      rangeGHS: 'GH₵210,000 - GH₵840,000+',
       breakdown: [
         'iOS Development: $10,500 - $35,000',
         'Android Development: $10,500 - $35,000',
@@ -291,15 +291,15 @@ function generateEstimate(projectType: string, budgetStr: string, requirements: 
         'Design & UX: $3,500 - $10,500'
       ],
       breakdownGHS: [
-        'iOS Development: GH₵157,500 - GH₵525,000',
-        'Android Development: GH₵157,500 - GH₵525,000',
-        'Backend API: GH₵105,000 - GH₵315,000',
-        'Design & UX: GH₵52,500 - GH₵157,500'
+        'iOS Development: GH₵126,000 - GH₵420,000',
+        'Android Development: GH₵126,000 - GH₵420,000',
+        'Backend API: GH₵84,000 - GH₵252,000',
+        'Design & UX: GH₵42,000 - GH₵126,000'
       ]
     },
     'E-Commerce': {
       range: '$7,000 - $35,000+',
-      rangeGHS: 'GH₵105,000 - GH₵525,000+',
+      rangeGHS: 'GH₵84,000 - GH₵420,000+',
       breakdown: [
         'Platform Setup: $2,100 - $7,000',
         'Custom Features: $3,500 - $17,500',
@@ -307,15 +307,15 @@ function generateEstimate(projectType: string, budgetStr: string, requirements: 
         'SEO & Marketing: $1,400 - $4,900'
       ],
       breakdownGHS: [
-        'Platform Setup: GH₵31,500 - GH₵105,000',
-        'Custom Features: GH₵52,500 - GH₵262,500',
-        'Payment Integration: GH₵21,000 - GH₵84,000',
-        'SEO & Marketing: GH₵21,000 - GH₵73,500'
+        'Platform Setup: GH₵25,200 - GH₵84,000',
+        'Custom Features: GH₵42,000 - GH₵210,000',
+        'Payment Integration: GH₵16,800 - GH₵67,200',
+        'SEO & Marketing: GH₵16,800 - GH₵58,800'
       ]
     },
     'SEO Services': {
       range: '$1,050 - $3,500/month',
-      rangeGHS: 'GH₵15,750 - GH₵52,500/month',
+      rangeGHS: 'GH₵12,600 - GH₵42,000/month',
       breakdown: [
         'Technical SEO Audit: $1,050',
         'Monthly Optimization: $700 - $2,100',
@@ -323,10 +323,10 @@ function generateEstimate(projectType: string, budgetStr: string, requirements: 
         'Link Building: $350 - $700'
       ],
       breakdownGHS: [
-        'Technical SEO Audit: GH₵15,750',
-        'Monthly Optimization: GH₵10,500 - GH₵31,500',
-        'Content Strategy: GH₵5,250 - GH₵15,750',
-        'Link Building: GH₵5,250 - GH₵10,500'
+        'Technical SEO Audit: GH₵12,600',
+        'Monthly Optimization: GH₵8,400 - GH₵25,200',
+        'Content Strategy: GH₵4,200 - GH₵12,600',
+        'Link Building: GH₵4,200 - GH₵8,400'
       ]
     }
   };
