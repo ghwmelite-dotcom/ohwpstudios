@@ -210,7 +210,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('WP Studios', options)
+    self.registration.showNotification('OhWP Studios', options)
   );
 });
 

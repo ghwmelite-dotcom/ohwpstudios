@@ -786,14 +786,14 @@ VALUES (
 
 INSERT INTO blog_posts (title, slug, excerpt, content, author, published, published_at, seo_title, seo_description, tags, created_at, updated_at)
 VALUES (
-  "Wordpress Development",
-  "technologies-wordpress-development",
+  "Fullstack Development",
+  "technologies-fullstack-development",
   "......",
   "<p>...</p>",
   'OHWP Studios',
   1,
   "2025-11-09T16:17:29.428Z",
-  "Wordpress Development | OHWP Studios",
+  "Fullstack Development | OHWP Studios",
   "......",
   "Technologies, Programming",
   "2025-11-09T16:17:29.428Z",
