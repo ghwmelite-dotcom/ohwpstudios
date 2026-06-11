@@ -852,7 +852,7 @@ import Footer from '@/components/Footer.astro';
         });
 
         if (response.ok) {
-          window.ohwpTrack?.('quiz_completed', { transport_type: 'beacon' });
+          window.ohwpTrack?.('quiz_completed');
           window.location.href = '/quiz/thank-you';
         } else {
           alert('Something went wrong. Please try again.');

@@ -1326,7 +1326,10 @@ import Footer from '@/components/Footer.astro';
         progressBar.style.width = '100%';
 
         if (response.ok) {
-          window.ohwpTrack?.('estimator_completed');
+          window.ohwpTrack?.('estimator_completed', {
+            project_type: String(data.project_type || ''),
+            budget_range: String(data.budget_range || ''),
+          });
           // Display results
           setTimeout(() => {
             loadingState.classList.add('hidden');
