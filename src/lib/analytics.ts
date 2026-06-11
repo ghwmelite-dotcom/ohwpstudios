@@ -1,4 +1,4 @@
-/** Canonical consent contract — inline scripts must hardcode these exact strings. */
+/** Canonical consent contract — BaseLayout's inline GA loader receives these via define:vars. */
 export const CONSENT_KEY = 'analytics-consent';
 export const CONSENT_GRANTED = 'granted';
 
