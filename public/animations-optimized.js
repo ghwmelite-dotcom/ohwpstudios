@@ -405,6 +405,23 @@
   // ============================================
 
   function smartInit() {
+    // Bail out entirely when the OS requests reduced motion.
+    // Elements that animations-optimized.js would otherwise hide/animate
+    // are made immediately visible before we return.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // [data-text-reveal] elements: revealText() would empty them and rebuild
+      // chars at opacity:0. Since we skip that, the original text stays intact
+      // and visible — no style fix needed.
+      // [data-parallax] elements: no initial hidden state, just transform offset.
+      // Ensure transform is cleared in case a prior run left one.
+      document.querySelectorAll('[data-parallax]').forEach(function(el) {
+        el.style.transform = 'none';
+      });
+      // Gradient-mesh and particle orbs are injected by JS; skipping init means
+      // they are never created, so nothing is left invisible.
+      return; // skip all animation wiring
+    }
+
     // Always initialize core features
     initScrollProgress();
     initPageLoader();
