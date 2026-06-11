@@ -45,50 +45,37 @@ const { content } = Astro.props;
       </div>
 
       <!-- Main Headline -->
-      <h1 class="hero-title" data-text-reveal>
-        Let's Talk About<br/>
-        <span class="text-gradient animate-gradient">Your Next Project</span>
+      <!-- No data-text-reveal here: that script flattens textContent and would
+           destroy the gradient span and line break -->
+      <h1 class="hero-title">
+        Your next project,<br/>
+        <span class="text-gradient animate-gradient">scoped by AI in 2 minutes</span>
       </h1>
 
       <!-- Subtitle -->
       <p class="hero-subtitle animate-in stagger-1" data-animate>
-        Transform your digital presence with world-class fullstack development,
-        stunning design, and cutting-edge solutions that drive real results.
+        Tell us what you're building. Get a realistic cost range, timeline, and team plan &mdash;
+        free, before you talk to anyone.
       </p>
 
-      <!-- CTA Buttons -->
-      <div class="hero-ctas animate-in stagger-2" data-animate>
+      <!-- CTA: one dominant action + quiet text link -->
+      <div class="hero-cta animate-in stagger-2" data-animate>
         <a href="/estimate-project" class="btn btn-primary btn-hero" data-magnetic data-ripple>
-          <span>Scope My Project</span>
+          <span>Scope My Project &mdash; Free</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
           </svg>
         </a>
-        <a href="#portfolio" class="btn btn-secondary btn-hero" data-magnetic data-ripple>
-          <span>View Our Work</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-        </a>
+        <a href="#portfolio" class="hero-link-secondary">or view our work &rarr;</a>
       </div>
 
-      <!-- Trust Indicators -->
-      <div class="hero-stats animate-in stagger-3" data-animate>
-        <div class="stat-item">
-          <div class="stat-value" data-counter="10" data-suffix="+">0</div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <div class="stat-value" data-counter="400" data-suffix="+">0</div>
-          <div class="stat-label">Happy Clients</div>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <div class="stat-value">100%</div>
-          <div class="stat-label">Fullstack Focused</div>
-        </div>
+      <!-- Honest proof row -->
+      <div class="hero-proof animate-in stagger-3" data-animate aria-label="Track record">
+        <span>10+ years building</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>14+ shipped projects</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>100% fullstack, end to end</span>
       </div>
     </div>
 
@@ -228,7 +215,7 @@ const { content } = Astro.props;
     padding: calc(var(--header-height) + 2rem) 0 4rem;
   }
 
-  [data-theme="dark"] .hero-world {
+  :global([data-theme="dark"]) .hero-world {
     background: linear-gradient(135deg,
       hsl(222, 47%, 11%) 0%,
       hsl(222, 45%, 13%) 50%,
@@ -240,7 +227,9 @@ const { content } = Astro.props;
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* minmax(0, 1fr) lets columns shrink below the code mockup's min-content
+       width so the CTA column never overflows narrow viewports */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 4rem;
     align-items: center;
   }
@@ -365,7 +354,7 @@ const { content } = Astro.props;
     color: var(--color-text);
   }
 
-  [data-theme="dark"] .hero-title {
+  :global([data-theme="dark"]) .hero-title {
     color: var(--color-text);
   }
 
@@ -376,16 +365,16 @@ const { content } = Astro.props;
     margin-bottom: 2.5rem;
   }
 
-  [data-theme="dark"] .hero-subtitle {
+  :global([data-theme="dark"]) .hero-subtitle {
     color: var(--color-text-muted);
     opacity: 0.9;
   }
 
-  .hero-ctas {
+  .hero-cta {
     display: flex;
+    align-items: center;
+    gap: var(--spacing-md, 1.5rem);
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 3rem;
   }
 
   .btn-hero {
@@ -394,43 +383,41 @@ const { content } = Astro.props;
     gap: 0.75rem;
   }
 
-  .hero-stats {
-    display: flex;
+  .hero-link-secondary {
+    /* Light theme: --color-text-muted fails AA on the hero gradient/mesh, so use full text color */
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-size: 0.95rem;
+    min-height: 44px;
+    display: inline-flex;
     align-items: center;
-    gap: 2rem;
-    padding: 2rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
+    transition: color var(--transition-fast);
   }
 
-  .stat-item {
-    text-align: center;
+  .hero-link-secondary:hover {
+    color: var(--color-primary-dark);
   }
 
-  .stat-value {
-    font-size: 2rem;
-    font-weight: 800;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
+  /* Dark theme: the global `[data-theme="dark"] a:not(.btn)` rule
+     (dark-mode-fixes.css) colors this link #a5b4fc (~8.2:1 on the dark
+     hero — passes AA) and #c7d2fe on hover, matching site-wide dark links. */
 
-  .stat-label {
-    font-size: 0.875rem;
+  .hero-proof {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    align-items: center;
     color: var(--color-text-muted);
-    font-weight: 500;
+    font-size: 0.875rem;
+    margin-top: var(--spacing-lg, 2rem);
   }
 
-  .stat-divider {
-    width: 1px;
-    height: 40px;
-    background: var(--color-border);
+  /* Keep the proof row quiet in dark mode: dark-mode-fixes.css force-brightens
+     bare spans at (0,4,1) specificity, so a targeted !important is required.
+     Muted (#94a3b8) is ~6.4:1 on the dark hero — passes AA. */
+  :global([data-theme="dark"]) .hero-proof span {
+    color: var(--color-text-muted) !important;
   }
 
   /* ========== Hero Visual ========== */
@@ -472,7 +459,7 @@ const { content } = Astro.props;
       0 40px 80px rgba(0, 0, 0, 0.25);
   }
 
-  [data-theme="dark"] .code-mockup {
+  :global([data-theme="dark"]) .code-mockup {
     box-shadow:
       0 50px 100px rgba(99, 102, 241, 0.25),
       0 30px 60px rgba(0, 0, 0, 0.4),
@@ -622,10 +609,10 @@ const { content } = Astro.props;
     font-weight: 600;
   }
 
-  [data-theme="dark"] .code-keyword { color: #c678dd; }
-  [data-theme="dark"] .code-function { color: #61afef; }
-  [data-theme="dark"] .code-variable { color: #e06c75; }
-  [data-theme="dark"] .code-string { color: #98c379; }
+  :global([data-theme="dark"]) .code-keyword { color: #c678dd; }
+  :global([data-theme="dark"]) .code-function { color: #61afef; }
+  :global([data-theme="dark"]) .code-variable { color: #e06c75; }
+  :global([data-theme="dark"]) .code-string { color: #98c379; }
 
   /* Animated Cursor */
   .code-cursor {
@@ -676,7 +663,7 @@ const { content } = Astro.props;
     cursor: pointer;
   }
 
-  [data-theme="dark"] .tech-badge {
+  :global([data-theme="dark"]) .tech-badge {
     background: rgba(30, 35, 50, 0.95);
     background-image: linear-gradient(rgba(30, 35, 50, 0.95), rgba(30, 35, 50, 0.95)),
                       linear-gradient(135deg, var(--badge-color-1, #6366f1), var(--badge-color-2, #ec4899));
@@ -693,7 +680,7 @@ const { content } = Astro.props;
       0 15px 30px rgba(0, 0, 0, 0.15);
   }
 
-  [data-theme="dark"] .tech-badge:hover {
+  :global([data-theme="dark"]) .tech-badge:hover {
     box-shadow:
       0 30px 60px rgba(0, 0, 0, 0.6),
       0 15px 30px rgba(0, 0, 0, 0.5);
@@ -842,7 +829,7 @@ const { content } = Astro.props;
   /* ========== Responsive ========== */
   @media (max-width: 1024px) {
     .hero-container {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 3rem;
       text-align: center;
     }
@@ -857,14 +844,12 @@ const { content } = Astro.props;
       margin-right: auto;
     }
 
-    .hero-ctas {
+    .hero-cta {
       justify-content: center;
     }
 
-    .hero-stats {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 500px;
+    .hero-proof {
+      justify-content: center;
     }
 
     .tech-badges {
@@ -886,14 +871,11 @@ const { content } = Astro.props;
       font-size: 1.0625rem;
     }
 
-    .hero-stats {
-      flex-direction: column;
-      gap: 1.5rem;
-      padding: 1.5rem;
-    }
-
-    .stat-divider {
-      display: none;
+    /* Code lines don't wrap; scroll them inside the mockup instead of
+       blowing out the page width on narrow viewports */
+    .code-content {
+      overflow-x: auto;
+      font-size: 0.875rem;
     }
 
     .float-orb {
@@ -904,6 +886,28 @@ const { content } = Astro.props;
 
     .float-badge, .float-shape {
       display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-cta {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    .hero-cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-link-secondary {
+      justify-content: center;
+    }
+
+    .hero-proof {
+      justify-content: center;
+      font-size: 0.8rem;
     }
   }
 </style>
