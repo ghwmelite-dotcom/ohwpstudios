@@ -1,0 +1,375 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export const prerender = false;
+
+const title = 'Bookings';
+---
+
+<BaseLayout title={title} noLoader={true}>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div class="header-left">
+        <a href="/admin/dashboard" class="back-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Dashboard
+        </a>
+        <h1>Bookings</h1>
+      </div>
+    </div>
+
+    <!-- Bookings Table -->
+    <div class="bookings-container">
+      <div id="loading-state" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading bookings...</p>
+      </div>
+
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <h3>No bookings found</h3>
+        <p>New consultation bookings will appear here</p>
+      </div>
+
+      <div id="table-wrap" class="table-wrap" style="display: none;">
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="bookings-body">
+            <!-- Rows are built with createElement/textContent in the script below -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .admin-container {
+    min-height: 100vh;
+    background: var(--color-background);
+    padding: 2rem;
+  }
+
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .admin-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  .bookings-container {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    min-height: 400px;
+  }
+
+  .loading-state,
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .empty-state svg {
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--color-text-secondary);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .bookings-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .bookings-table :global(td) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    vertical-align: middle;
+  }
+
+  .bookings-table :global(tbody tr:hover) {
+    background: var(--color-background);
+  }
+
+  .bookings-table :global(a) {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .bookings-table :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .bookings-table :global(.cell-message) {
+    max-width: 280px;
+    color: var(--color-text-secondary);
+  }
+
+  .bookings-table :global(.cell-muted) {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .bookings-table :global(.status-select) {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: var(--color-background);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .bookings-table :global(.status-select:focus) {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    .admin-container {
+      padding: 1rem;
+    }
+
+    .admin-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  const STATUSES = ['new', 'pending', 'confirmed', 'completed', 'cancelled'];
+  const STATUS_LABELS: Record<string, string> = {
+    new: 'New',
+    pending: 'Pending',
+    confirmed: 'Confirmed',
+    completed: 'Completed',
+    cancelled: 'Cancelled'
+  };
+
+  interface Booking {
+    id: number;
+    name: string;
+    email: string;
+    phone: string | null;
+    preferred_date: string;
+    preferred_time: string;
+    message: string;
+    status: string;
+    created_at: string;
+  }
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+  }
+
+  function textCell(text: string, className?: string, title?: string): HTMLTableCellElement {
+    const td = document.createElement('td');
+    if (className) td.className = className;
+    if (title) td.title = title;
+    td.textContent = text;
+    return td;
+  }
+
+  // All user-supplied fields (name, email, phone, message) are rendered via
+  // textContent / safe attribute assignment — never innerHTML.
+  function buildRow(booking: Booking): HTMLTableRowElement {
+    const tr = document.createElement('tr');
+
+    tr.appendChild(textCell(booking.name || ''));
+
+    const emailTd = document.createElement('td');
+    const mailLink = document.createElement('a');
+    mailLink.href = 'mailto:' + encodeURIComponent(booking.email || '');
+    mailLink.textContent = booking.email || '';
+    emailTd.appendChild(mailLink);
+    tr.appendChild(emailTd);
+
+    tr.appendChild(textCell(booking.phone || '—'));
+    tr.appendChild(textCell(booking.preferred_date || '', 'cell-muted'));
+    tr.appendChild(textCell(booking.preferred_time || '', 'cell-muted'));
+
+    const message = booking.message || '';
+    const truncated = message.length > 60 ? message.slice(0, 60) + '…' : message;
+    tr.appendChild(textCell(truncated, 'cell-message', message));
+
+    const statusTd = document.createElement('td');
+    const select = document.createElement('select');
+    select.className = 'status-select';
+    select.setAttribute('aria-label', 'Booking status');
+    for (const status of STATUSES) {
+      const option = document.createElement('option');
+      option.value = status;
+      option.textContent = STATUS_LABELS[status];
+      if (booking.status === status) option.selected = true;
+      select.appendChild(option);
+    }
+    select.addEventListener('change', () => updateStatus(booking.id, select));
+    statusTd.appendChild(select);
+    tr.appendChild(statusTd);
+
+    tr.appendChild(textCell(formatDate(booking.created_at), 'cell-muted'));
+
+    return tr;
+  }
+
+  async function updateStatus(id: number, select: HTMLSelectElement) {
+    const previous = select.dataset.current || select.options[select.selectedIndex].value;
+    const status = select.value;
+    select.disabled = true;
+
+    try {
+      const response = await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        select.dataset.current = status;
+      } else {
+        select.value = previous;
+        alert('Failed to update status');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      select.value = previous;
+      alert('Failed to update status');
+    } finally {
+      select.disabled = false;
+    }
+  }
+
+  async function loadBookings() {
+    const loadingState = document.getElementById('loading-state');
+    const emptyState = document.getElementById('empty-state');
+    const tableWrap = document.getElementById('table-wrap');
+    const tbody = document.getElementById('bookings-body');
+
+    try {
+      const response = await fetch('/api/admin/bookings');
+      const data = await response.json();
+
+      if (loadingState) loadingState.style.display = 'none';
+
+      if (data.success && data.bookings.length > 0 && tbody && tableWrap) {
+        tbody.replaceChildren();
+        for (const booking of data.bookings as Booking[]) {
+          const row = buildRow(booking);
+          const select = row.querySelector('select');
+          if (select) select.dataset.current = booking.status;
+          tbody.appendChild(row);
+        }
+        tableWrap.style.display = 'block';
+      } else {
+        if (emptyState) emptyState.style.display = 'flex';
+      }
+    } catch (error) {
+      console.error('Error loading bookings:', error);
+      if (loadingState) loadingState.style.display = 'none';
+      if (emptyState) emptyState.style.display = 'flex';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadBookings);
+</script>
