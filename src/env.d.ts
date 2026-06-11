@@ -11,3 +11,23 @@ interface Env {
   DB?: D1Database;
   AI?: any;
 }
+
+interface Window {
+  gtag?: (...args: unknown[]) => void;
+  dataLayer?: unknown[];
+  ohwpTrack?: (
+    event: string,
+    params?: Record<string, string | number | boolean>
+  ) => void;
+}
+
+interface ImportMetaEnv {
+  readonly PUBLIC_GA_ID?: string;
+  readonly PUBLIC_CF_BEACON_TOKEN?: string;
+  readonly PUBLIC_SENTRY_DSN?: string;
+  readonly PUBLIC_COMMIT_SHA?: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

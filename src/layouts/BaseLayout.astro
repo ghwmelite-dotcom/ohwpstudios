@@ -387,6 +387,12 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     {!hideSocialProof && <SocialProof />}
     <PWAInstallPrompt />
 
+    <!-- Expose analytics helper globally (consent-gated, non-blocking) -->
+    <script>
+      import { track } from '../lib/analytics';
+      window.ohwpTrack = track;
+    </script>
+
     <!-- Consolidated initialization scripts (deferred for performance) -->
     <script src="/scripts/init.js" is:inline defer></script>
 
