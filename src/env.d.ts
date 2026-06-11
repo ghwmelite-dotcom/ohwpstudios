@@ -1,5 +1,6 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
+// Ambient declaration file — do NOT add top-level import/export statements; they would convert this to a module and silently un-merge the global Window/ImportMetaEnv augmentations.
 
 // Cloudflare Pages types
 type D1Database = import('@cloudflare/workers-types').D1Database;
@@ -15,10 +16,7 @@ interface Env {
 interface Window {
   gtag?: (...args: unknown[]) => void;
   dataLayer?: unknown[];
-  ohwpTrack?: (
-    event: string,
-    params?: Record<string, string | number | boolean>
-  ) => void;
+  ohwpTrack?: typeof import('./lib/analytics').track;
 }
 
 interface ImportMetaEnv {
