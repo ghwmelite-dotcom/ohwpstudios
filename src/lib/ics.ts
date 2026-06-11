@@ -12,7 +12,7 @@ export function buildConsultIcs(opts: {
   const start = `${opts.dateISO.replace(/-/g, '')}T${String(h).padStart(2, '0')}${String(m).padStart(2, '0')}00Z`;
   const endMinutes = h * 60 + m + 45;
   const end = `${opts.dateISO.replace(/-/g, '')}T${String(Math.floor(endMinutes / 60)).padStart(2, '0')}${String(endMinutes % 60).padStart(2, '0')}00Z`;
-  const stamp = `${opts.dateISO.replace(/-/g, '')}T000000Z`;
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
   const uid = `booking-${opts.dateISO}-${opts.timeHHMM.replace(':', '')}-${crypto.randomUUID()}`;
   // iCalendar requires CRLF line endings (RFC 5545 §3.1)
   return [

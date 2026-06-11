@@ -16,6 +16,7 @@ interface SendOpts {
   to: string;
   subject: string;
   html: string;
+  replyTo?: string;
   attachments?: Array<{ filename: string; content: string; contentType?: string }>;
 }
 
@@ -32,6 +33,7 @@ export async function sendEmail(env: { RESEND_API_KEY?: string }, opts: SendOpts
     to: opts.to,
     subject: opts.subject,
     html: opts.html,
+    replyTo: opts.replyTo,
     attachments: opts.attachments?.map((a) => ({
       filename: a.filename,
       content: a.content,
