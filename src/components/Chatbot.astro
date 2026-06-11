@@ -1470,6 +1470,7 @@
   function lazyInitChatbot() {
     if (!chatbotInitialized) {
       chatbotInitialized = true;
+      window.ohwpTrack?.('chat_opened');
       initChatbot();
       // The click that triggered lazy-init was meant to OPEN the panel. The real
       // toggle handler attached in initChatbot() won't fire for this same click,

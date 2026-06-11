@@ -1596,6 +1596,7 @@
         }
 
         if (result.success) {
+          window.ohwpTrack?.('contact_submitted');
           // Show success step
           this.form.querySelectorAll('.form-step').forEach(s => {
             s.classList.remove('active');

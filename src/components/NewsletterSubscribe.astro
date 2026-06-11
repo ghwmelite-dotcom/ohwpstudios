@@ -256,6 +256,7 @@ const {
       const data = await response.json();
 
       if (data.success) {
+        window.ohwpTrack?.('newsletter_signup');
         showMessage(data.message || 'Thanks for subscribing! Please check your email to confirm.', 'success');
         form.reset();
       } else {
