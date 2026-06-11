@@ -3,6 +3,15 @@ import { Resend } from 'resend';
 const FROM = 'OhWP Studios <noreply@ohwpstudios.org>';
 export const ADMIN_EMAIL = 'ohwpstudios@gmail.com';
 
+/** Escape user-supplied strings before interpolating into email HTML. */
+export function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 interface SendOpts {
   to: string;
   subject: string;
