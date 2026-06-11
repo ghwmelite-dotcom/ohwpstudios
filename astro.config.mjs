@@ -51,8 +51,9 @@ export default defineConfig({
       cssMinify: 'lightningcss'
     },
     ssr: {
-      // @sentry/cloudflare imports node:async_hooks (AsyncLocalStorage);
-      // the Workers runtime provides it via the nodejs_compat flag in
+      // The Sentry middleware (src/middleware.ts) imports node:async_hooks
+      // (AsyncLocalStorage) for its per-request async context strategy; the
+      // Workers runtime provides it via the nodejs_compat flag in
       // wrangler.toml, so keep it external instead of bundling.
       external: ['node:async_hooks']
     }
