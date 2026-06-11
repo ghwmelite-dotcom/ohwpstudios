@@ -6,6 +6,8 @@ import LoadingScreen from '@/components/LoadingScreen.astro';
 import Chatbot from '@/components/Chatbot.astro';
 import PWAInstallPrompt from '@/components/PWAInstallPrompt.astro';
 import SocialProof from '@/components/SocialProof.astro';
+import ConsentBanner from '@/components/ConsentBanner.astro';
+import { CONSENT_KEY, CONSENT_GRANTED } from '@/lib/analytics';
 
 interface Props {
   title?: string;
@@ -31,6 +33,7 @@ const {
 
 const GA_ID = import.meta.env.PUBLIC_GA_ID;
 const CF_BEACON_TOKEN = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+const cfBeaconConfig = CF_BEACON_TOKEN ? JSON.stringify({ token: CF_BEACON_TOKEN }) : undefined;
 
 const pageTitle = title === SITE_CONFIG.name ? title : `${title} | ${SITE_CONFIG.name}`;
 const siteUrl = Astro.url.origin;
@@ -265,13 +268,12 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
         is:inline
         defer
         src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon={`{"token": "${CF_BEACON_TOKEN}"}`}
+        data-cf-beacon={cfBeaconConfig}
       ></script>
     )}
     <!-- Analytics: GA4 with Consent Mode v2 defaults (deny-by-default until banner accept) -->
     {GA_ID && (
-      <script is:inline define:vars={{ GA_ID }}>
-        // keep in sync with CONSENT_KEY/CONSENT_GRANTED in src/lib/analytics.ts
+      <script is:inline define:vars={{ GA_ID, CONSENT_KEY, CONSENT_GRANTED }}>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         window.gtag = gtag;
@@ -282,12 +284,12 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
           ad_personalization: 'denied'
         });
         try {
-          if (localStorage.getItem('analytics-consent') === 'granted') {
+          if (localStorage.getItem(CONSENT_KEY) === CONSENT_GRANTED) {
             gtag('consent', 'update', { analytics_storage: 'granted' });
           }
         } catch (e) { /* private mode etc. — stay denied */ }
         gtag('js', new Date());
-        gtag('config', GA_ID, { anonymize_ip: true });
+        gtag('config', GA_ID);
         var gaScript = document.createElement('script');
         gaScript.async = true;
         gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
@@ -425,6 +427,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <Chatbot />
     {!hideSocialProof && <SocialProof />}
     <PWAInstallPrompt />
+    <ConsentBanner />
 
     <!-- Expose analytics helper globally (consent-gated, non-blocking) -->
     <script>

@@ -1,0 +1,97 @@
+---
+// Only meaningful when GA4 is configured; CF Web Analytics is cookieless
+// and needs no consent.
+const GA_ID = import.meta.env.PUBLIC_GA_ID;
+---
+{GA_ID && (
+  <div
+    id="consent-banner"
+    role="dialog"
+    aria-label="Analytics consent"
+    aria-describedby="consent-text"
+    hidden
+  >
+    <p id="consent-text">
+      We use analytics cookies to understand how visitors use our site.
+    </p>
+    <div class="consent-actions">
+      <button id="consent-accept" type="button">Accept</button>
+      <button id="consent-decline" type="button">Decline</button>
+    </div>
+  </div>
+)}
+<style>
+  #consent-banner {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 9999;
+    max-width: 22rem;
+    padding: 1rem;
+    border-radius: var(--radius-lg, 0.75rem);
+    border: 1px solid var(--color-border, #334155);
+    background: var(--color-surface, #1e293b);
+    color: var(--color-text, #f1f5f9);
+    box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04));
+    font-family: var(--font-sans, system-ui, sans-serif);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  #consent-banner p { margin: 0 0 0.75rem; }
+  .consent-actions { display: flex; gap: 0.5rem; }
+  .consent-actions button {
+    min-height: 44px;
+    padding: 0 1rem;
+    border-radius: var(--radius-md, 0.5rem);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color var(--transition-fast, 150ms ease), border-color var(--transition-fast, 150ms ease);
+  }
+  #consent-accept {
+    /* primary-dark, not primary: #6366f1 on white text is ~4.47:1 (just under AA) */
+    background: var(--color-primary-dark, #4f46e5);
+    color: #fff;
+  }
+  #consent-accept:hover {
+    background: var(--color-primary, #6366f1);
+  }
+  #consent-decline {
+    background: transparent;
+    color: inherit;
+    border-color: var(--color-border, rgba(255, 255, 255, 0.3));
+  }
+  #consent-decline:hover {
+    border-color: var(--color-text-muted, #94a3b8);
+  }
+  .consent-actions button:focus-visible {
+    outline: 2px solid var(--color-primary, #6366f1);
+    outline-offset: 2px;
+  }
+  @media (max-width: 480px) {
+    #consent-banner { left: 0.5rem; right: 0.5rem; max-width: none; }
+  }
+</style>
+<script>
+  import { CONSENT_KEY, CONSENT_GRANTED } from '../lib/analytics';
+
+  const banner = document.getElementById('consent-banner');
+  if (banner) {
+    const choice = (() => {
+      try { return localStorage.getItem(CONSENT_KEY); } catch { return 'denied'; }
+    })();
+    if (choice !== CONSENT_GRANTED && choice !== 'denied') {
+      banner.hidden = false;
+    }
+    const decide = (value: 'granted' | 'denied') => {
+      try { localStorage.setItem(CONSENT_KEY, value); } catch { /* ignore */ }
+      if (value === CONSENT_GRANTED && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+      banner.hidden = true;
+    };
+    document.getElementById('consent-accept')?.addEventListener('click', () => decide('granted'));
+    document.getElementById('consent-decline')?.addEventListener('click', () => decide('denied'));
+  }
+</script>
