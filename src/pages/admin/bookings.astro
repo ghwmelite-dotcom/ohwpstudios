@@ -278,7 +278,7 @@ const title = 'Bookings';
 
     const emailTd = document.createElement('td');
     const mailLink = document.createElement('a');
-    mailLink.href = 'mailto:' + encodeURIComponent(booking.email || '');
+    mailLink.href = 'mailto:' + (booking.email || '');
     mailLink.textContent = booking.email || '';
     emailTd.appendChild(mailLink);
     tr.appendChild(emailTd);
@@ -302,6 +302,7 @@ const title = 'Bookings';
       if (booking.status === status) option.selected = true;
       select.appendChild(option);
     }
+    select.dataset.current = booking.status;
     select.addEventListener('change', () => updateStatus(booking.id, select));
     statusTd.appendChild(select);
     tr.appendChild(statusTd);
@@ -355,10 +356,7 @@ const title = 'Bookings';
       if (data.success && data.bookings.length > 0 && tbody && tableWrap) {
         tbody.replaceChildren();
         for (const booking of data.bookings as Booking[]) {
-          const row = buildRow(booking);
-          const select = row.querySelector('select');
-          if (select) select.dataset.current = booking.status;
-          tbody.appendChild(row);
+          tbody.appendChild(buildRow(booking));
         }
         tableWrap.style.display = 'block';
       } else {
