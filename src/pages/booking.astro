@@ -128,7 +128,7 @@ import Footer from '@/components/Footer.astro';
               </div>
 
               <div class="form-group">
-                <label for="booking-time">Preferred Time *</label>
+                <label for="booking-time">Preferred Time (GMT) *</label>
                 <select id="booking-time" name="time" required>
                   <option value="">Select a time...</option>
                   <option value="09:00">9:00 AM</option>
@@ -383,6 +383,8 @@ import Footer from '@/components/Footer.astro';
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) submitBtn.disabled = true;
 
       try {
         const response = await fetch('/api/booking', {
@@ -402,6 +404,8 @@ import Footer from '@/components/Footer.astro';
       } catch (error) {
         status.className = 'form-status error';
         status.textContent = 'Oops! Something went wrong. Please try again.';
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
   }

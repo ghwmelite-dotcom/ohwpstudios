@@ -1,15 +1,7 @@
--- Bookings: consultation requests from /booking (previously lost — API 404'd)
-CREATE TABLE IF NOT EXISTS bookings (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT,
-  preferred_date TEXT NOT NULL,
-  preferred_time TEXT NOT NULL,
-  message TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'new',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- bookings exists since migration 001 (date/time columns); rename to the
+-- clearer names the new API uses. D1's SQLite supports RENAME COLUMN.
+ALTER TABLE bookings RENAME COLUMN date TO preferred_date;
+ALTER TABLE bookings RENAME COLUMN time TO preferred_time;
 CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status);
 CREATE INDEX IF NOT EXISTS idx_bookings_date ON bookings(preferred_date);
 
