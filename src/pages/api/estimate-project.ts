@@ -107,7 +107,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const proposalUrl = `https://ohwpstudios.org/proposal/${shareToken}?utm_source=proposal_email&utm_medium=email&utm_campaign=estimate_followup`;
       const followUp = async () => {
         try {
-          const firstName = escapeHtml(data.name.trim().split(/\s+/)[0]);
+          const firstName = escapeHtml(data.name.trim().split(/\s+/)[0] || 'there');
           const costMin = Number(aiAnalysis.estimated_cost_min);
           const costMax = Number(aiAnalysis.estimated_cost_max);
           const timelineWeeks = Number(aiAnalysis.estimated_timeline_weeks);
@@ -115,7 +115,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           const numbersHtml =
             Number.isFinite(costMin) && Number.isFinite(costMax)
               ? `<ul>
-                   <li><strong>Estimated cost:</strong> GH₵${costMin.toLocaleString()} – GH₵${costMax.toLocaleString()} ($${Math.round(costMin / 12).toLocaleString()} – $${Math.round(costMax / 12).toLocaleString()})</li>
+                   <li><strong>Estimated cost:</strong> GH₵${Math.round(Number(costMin) * 12).toLocaleString()} – GH₵${Math.round(Number(costMax) * 12).toLocaleString()} ($${Number(costMin).toLocaleString()} – $${Number(costMax).toLocaleString()})</li>
                    ${Number.isFinite(timelineWeeks) && timelineWeeks > 0 ? `<li><strong>Timeline:</strong> ~${timelineWeeks} weeks</li>` : ''}
                    ${Number.isFinite(teamSize) && teamSize > 0 ? `<li><strong>Team:</strong> ${teamSize} people</li>` : ''}
                  </ul>`
