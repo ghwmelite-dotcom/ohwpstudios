@@ -432,7 +432,9 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <!-- Expose analytics helper globally (consent-gated, non-blocking) -->
     <script>
       import { track } from '../lib/analytics';
+      import { initSentry } from '../lib/sentry-client';
       window.ohwpTrack = track;
+      initSentry();
     </script>
 
     <!-- Consolidated initialization scripts (deferred for performance) -->
