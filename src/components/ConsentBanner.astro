@@ -6,7 +6,7 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID;
 {GA_ID && (
   <div
     id="consent-banner"
-    role="dialog"
+    role="region"
     aria-label="Analytics consent"
     aria-describedby="consent-text"
     hidden
@@ -55,7 +55,7 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID;
     color: #fff;
   }
   #consent-accept:hover {
-    background: var(--color-primary, #6366f1);
+    background: var(--color-primary-darker, #4338ca); /* indigo-700 — keeps white text ≥ AA on hover */
   }
   #consent-decline {
     background: transparent;
@@ -70,11 +70,12 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID;
     outline-offset: 2px;
   }
   @media (max-width: 480px) {
-    #consent-banner { left: 0.5rem; right: 0.5rem; max-width: none; }
+    /* bottom clears the chatbot toggle (bottom: 2rem + ~72px button height) */
+    #consent-banner { left: 0.5rem; right: 0.5rem; max-width: none; bottom: calc(2rem + 72px); }
   }
 </style>
 <script>
-  import { CONSENT_KEY, CONSENT_GRANTED } from '../lib/analytics';
+  import { CONSENT_KEY, CONSENT_GRANTED } from '@/lib/analytics';
 
   const banner = document.getElementById('consent-banner');
   if (banner) {
@@ -84,14 +85,15 @@ const GA_ID = import.meta.env.PUBLIC_GA_ID;
     if (choice !== CONSENT_GRANTED && choice !== 'denied') {
       banner.hidden = false;
     }
-    const decide = (value: 'granted' | 'denied') => {
+    const decide = (value: typeof CONSENT_GRANTED | 'denied') => {
+      // storage blocked → treat as denied; persistence is impossible anyway
       try { localStorage.setItem(CONSENT_KEY, value); } catch { /* ignore */ }
       if (value === CONSENT_GRANTED && typeof window.gtag === 'function') {
         window.gtag('consent', 'update', { analytics_storage: 'granted' });
       }
       banner.hidden = true;
     };
-    document.getElementById('consent-accept')?.addEventListener('click', () => decide('granted'));
+    document.getElementById('consent-accept')?.addEventListener('click', () => decide(CONSENT_GRANTED));
     document.getElementById('consent-decline')?.addEventListener('click', () => decide('denied'));
   }
 </script>
