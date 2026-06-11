@@ -1255,7 +1255,11 @@ import Footer from '@/components/Footer.astro';
         });
 
         if (valid && currentStep < totalSteps) {
+          if (currentStep === 1) {
+            window.ohwpTrack?.('estimator_started');
+          }
           currentStep++;
+          window.ohwpTrack?.('estimator_step', { step: currentStep });
           updateStepIndicators();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1322,6 +1326,7 @@ import Footer from '@/components/Footer.astro';
         progressBar.style.width = '100%';
 
         if (response.ok) {
+          window.ohwpTrack?.('estimator_completed');
           // Display results
           setTimeout(() => {
             loadingState.classList.add('hidden');

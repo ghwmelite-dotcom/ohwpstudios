@@ -392,6 +392,7 @@ import Footer from '@/components/Footer.astro';
         });
 
         if (response.ok) {
+          window.ohwpTrack?.('booking_submitted');
           status.className = 'form-status success';
           status.textContent = 'Booking confirmed! Check your email for the calendar invite.';
           form.reset();

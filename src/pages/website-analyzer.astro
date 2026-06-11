@@ -845,6 +845,7 @@ import Footer from '@/components/Footer.astro';
       if (!url) return;
 
       this.currentUrl = url;
+      window.ohwpTrack?.('grader_run');
 
       // Show loading state
       const btnText = document.getElementById('btn-text');
