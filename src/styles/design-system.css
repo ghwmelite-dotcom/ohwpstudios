@@ -214,12 +214,14 @@ a:hover {
 }
 
 .section {
-  padding: var(--spacing-3xl) 0;
+  /* Breathing room: 7.5rem desktop rhythm (was --spacing-3xl = 6rem) */
+  padding: 7.5rem 0;
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: var(--spacing-2xl) 0;
+    /* ~+15% over the previous 3rem (--spacing-2xl) mobile rhythm */
+    padding: 3.5rem 0;
   }
 }
 
@@ -694,7 +696,7 @@ a:hover {
   }
 
   .section {
-    padding: var(--spacing-2xl) 0;
+    padding: 3.5rem 0;
   }
 }
 

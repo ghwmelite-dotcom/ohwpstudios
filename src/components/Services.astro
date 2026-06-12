@@ -36,6 +36,20 @@ if (import.meta.env.DEV || Astro.request.url.includes('localhost') || Astro.requ
 //   dwennimmen (strength with humility)       -> mobile/apps
 //   nea-onnim (he who knows not can learn)    -> consulting/training
 //   nkyinkyim (twisting: adaptability)        -> marketing/API/backend + default
+// Homepage breathing room: show only the four core services (web/fullstack
+// development, UI/UX design, cloud, consulting). Branding and SEO & Marketing
+// stay in config/admin but are not rendered on the homepage. Matches by title
+// keyword so admin-entered services from the API still resolve; if fewer than
+// four match, fill from the remaining list so the grid never looks empty.
+const CORE_SERVICE_PATTERNS = [/web|fullstack|develop/i, /ui\/ux|\bux\b|design/i, /cloud/i, /consult/i];
+const matched = CORE_SERVICE_PATTERNS
+  .map((re) => services.find((s: any) => re.test(s.title ?? '')))
+  .filter((s, i, arr): s is any => Boolean(s) && arr.indexOf(s) === i);
+const homepageServices = [
+  ...matched,
+  ...services.filter((s: any) => !matched.includes(s)),
+].slice(0, 4);
+
 const adinkraFor = (service: { icon?: string; title?: string }): AdinkraSymbol => {
   const key = `${service.icon ?? ''} ${service.title ?? ''}`.toLowerCase();
   if (/(palette|pen\b|edit|design|ui\/ux|\bux\b)/.test(key)) return 'funtunfunefu';
@@ -63,7 +77,7 @@ const adinkraFor = (service: { icon?: string; title?: string }): AdinkraSymbol =
     </div>
 
     <div class="services-grid">
-      {services.map((service: any, index: number) => (
+      {homepageServices.map((service: any, index: number) => (
         <div class="service-card card" data-animate data-tilt data-magnetic style={`--animation-delay: ${index * 100}ms`}>
           <div class="service-glow"></div>
           <div class="service-icon" data-stagger>
@@ -80,6 +94,16 @@ const adinkraFor = (service: { icon?: string; title?: string }): AdinkraSymbol =
           </a>
         </div>
       ))}
+    </div>
+
+    <div class="services-viewall" data-animate>
+      <a href="/about" class="services-viewall-link">
+        <span>View all services</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
     </div>
 
     <div class="features-section" data-animate>
@@ -210,9 +234,31 @@ const adinkraFor = (service: { icon?: string; title?: string }): AdinkraSymbol =
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* 4 core cards -> balanced 2x2 on desktop instead of an orphaned 3+1 row */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .services-viewall {
+    text-align: center;
     margin-bottom: var(--spacing-3xl);
+  }
+
+  .services-viewall-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    transition: gap var(--transition-base);
+  }
+
+  .services-viewall-link:hover {
+    gap: 1rem;
   }
 
   .service-card {
