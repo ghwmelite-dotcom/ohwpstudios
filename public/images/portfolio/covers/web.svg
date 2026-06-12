@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#241D17"/>
+      <stop offset="1" stop-color="#8A6A1F"/>
+    </linearGradient>
+    <pattern id="k" width="168" height="24" patternUnits="userSpaceOnUse">
+      <rect width="168" height="24" fill="#E3A92B"/>
+      <rect x="48" width="24" height="24" fill="#1B5E3A"/>
+      <rect x="72" width="24" height="24" fill="#161210"/>
+      <rect x="96" width="12" height="24" fill="#CE1126"/>
+      <rect x="156" width="12" height="24" fill="#161210"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <circle cx="240" cy="220" r="320" fill="#E3A92B" opacity="0.05"/>
+  <circle cx="880" cy="620" r="420" fill="#E3A92B" opacity="0.04"/>
+  <circle cx="560" cy="860" r="240" fill="#E3A92B" opacity="0.06"/>
+  <g transform="translate(554 324) scale(38)" fill="none" stroke="#E3A92B" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.12">
+    <circle cx="12" cy="12" r="9"/>
+    <circle cx="12" cy="12" r="4.5"/>
+    <line x1="12" y1="3" x2="12" y2="21"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/>
+    <line x1="18.4" y1="5.6" x2="5.6" y2="18.4"/>
+  </g>
+  <rect width="1200" height="24" fill="url(#k)" opacity="0.35"/>
+</svg>

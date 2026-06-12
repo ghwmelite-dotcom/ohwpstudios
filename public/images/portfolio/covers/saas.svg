@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#161210"/>
+      <stop offset="1" stop-color="#5C5420"/>
+    </linearGradient>
+    <pattern id="k" width="168" height="24" patternUnits="userSpaceOnUse">
+      <rect width="168" height="24" fill="#E3A92B"/>
+      <rect x="48" width="24" height="24" fill="#1B5E3A"/>
+      <rect x="72" width="24" height="24" fill="#161210"/>
+      <rect x="96" width="12" height="24" fill="#CE1126"/>
+      <rect x="156" width="12" height="24" fill="#161210"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <circle cx="980" cy="200" r="340" fill="#E3A92B" opacity="0.05"/>
+  <circle cx="640" cy="760" r="380" fill="#E3A92B" opacity="0.04"/>
+  <circle cx="320" cy="160" r="200" fill="#E3A92B" opacity="0.06"/>
+  <g transform="translate(-570 -200) scale(55)" fill="none" stroke="#E3A92B" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.12">
+    <path d="M14 12.5 A2 2 0 0 1 10 12.5 A3.3 3.3 0 0 1 16.6 12.5 A4.8 4.8 0 0 1 7 12.5 A5.5 5.5 0 0 1 12.5 7"/>
+  </g>
+  <rect width="1200" height="24" fill="url(#k)" opacity="0.35"/>
+</svg>
