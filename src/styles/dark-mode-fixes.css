@@ -694,3 +694,40 @@
   border-color: rgba(227, 169, 43, 0.2);
   backdrop-filter: blur(20px);
 }
+
+/* ============================================
+   Ink on gold — AA contrast pass.
+   The blanket dark-mode rules above (span/p/a)
+   repaint text cream/gold; on gold-family fills
+   that fails contrast. Force ink (#161210) on
+   every gold-fill element and its inner spans.
+   ============================================ */
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-primary span,
+[data-theme="dark"] .header-cta,
+[data-theme="dark"] .header-cta span,
+[data-theme="dark"] .nav-badge.premium,
+[data-theme="dark"] .nav-counter,
+[data-theme="dark"] .newsletter-button,
+[data-theme="dark"] .newsletter-button span,
+[data-theme="dark"] .ai-badge,
+[data-theme="dark"] .ai-badge span,
+[data-theme="dark"] .gh-badge,
+[data-theme="dark"] .gh-badge span,
+[data-theme="dark"] .gh-link-demo,
+[data-theme="dark"] .gh-link-demo span,
+[data-theme="dark"] .start-chat-btn,
+[data-theme="dark"] .start-chat-btn span,
+[data-theme="dark"] .chatbot-label,
+[data-theme="dark"] .chatbot-label span,
+[data-theme="dark"] .btn-next,
+[data-theme="dark"] .btn-next span,
+[data-theme="dark"] .btn-submit,
+[data-theme="dark"] .btn-submit span,
+[data-theme="dark"] .btn-new-form,
+[data-theme="dark"] .btn-new-form span,
+[data-theme="dark"] .view-all-btn,
+[data-theme="dark"] .view-all-btn span,
+[data-theme="dark"] .portfolio-overlay .view-project {
+  color: #161210 !important;
+}

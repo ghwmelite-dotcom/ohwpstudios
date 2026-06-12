@@ -211,8 +211,8 @@
     bottom: 50%;
     right: 85px;
     transform: translateY(50%);
-    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
-    color: white;
+    background: var(--gradient-primary);
+    color: #161210;
     padding: 0.625rem 1.125rem;
     border-radius: 12px;
     font-size: 0.875rem;
@@ -232,7 +232,7 @@
     transform: translateY(-50%) rotate(45deg);
     width: 12px;
     height: 12px;
-    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
+    background: var(--gradient-primary);
   }
 
   .chatbot-toggle:hover ~ .chatbot-label,
@@ -579,8 +579,8 @@
   .start-chat-btn {
     width: 100%;
     padding: 0.875rem 1.25rem;
-    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
-    color: white;
+    background: var(--gradient-primary);
+    color: #161210;
     border: none;
     border-radius: 10px;
     font-size: 0.925rem;
@@ -733,7 +733,7 @@
   /* User message styling - ALWAYS gradient background (RIGHT SIDE) */
   .chatbot-messages .message.user-message .message-content {
     background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%) !important;
-    color: white !important;
+    color: #161210 !important;
     border-bottom-right-radius: 6px !important;
     box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -869,13 +869,13 @@
     width: 48px;
     height: 48px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
+    background: var(--gradient-primary);
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #161210;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     position: relative;
@@ -886,7 +886,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #1B5E3A 0%, #F5C969 100%);
+    background: linear-gradient(135deg, #F5C969 0%, #E3A92B 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -1181,10 +1181,10 @@
       urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">🔥 Priority Consultation Available</div>';
     } else if (sentiment === 'warm') {
       mainMessage = `Great! I understand you're interested in ${sanitizeHTML(projectType)}. The best way forward is to discuss your specific needs with our team in a free consultation. 💼`;
-      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">⭐ Free Consultation Available</div>';
+      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: #161210; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">⭐ Free Consultation Available</div>';
     } else {
       mainMessage = `Thanks for your interest in ${sanitizeHTML(projectType)}! Let's schedule a quick call to understand your needs better. 📞`;
-      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #E3A92B, #1B5E3A); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">💬 Free Consultation</div>';
+      urgencyBadge = '<div style="display: inline-block; background: var(--gradient-primary); color: #161210; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">💬 Free Consultation</div>';
     }
 
     promptDiv.innerHTML = `
@@ -1217,7 +1217,7 @@
           </ul>
         </div>
 
-        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: var(--gradient-primary); color: #161210; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -1418,7 +1418,7 @@
 
       // Force colors with inline styles
       const contentStyle = type === 'user'
-        ? 'background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%); color: white; border-bottom-right-radius: 6px; box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45); border: 1px solid rgba(255, 255, 255, 0.2);'
+        ? 'background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%); color: #161210; border-bottom-right-radius: 6px; box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45); border: 1px solid rgba(255, 255, 255, 0.2);'
         : 'background: white; color: #1f2937; border-bottom-left-radius: 6px; border: 2px solid rgba(102, 126, 234, 0.15); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);';
 
       // Sanitize user/bot message content to prevent XSS
