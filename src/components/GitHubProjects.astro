@@ -1,6 +1,7 @@
 ---
 // "From our GitHub" — live strip of top public repos (About + README complete).
 // Server-rendered via the internal /api/github-projects endpoint (edge-cached).
+const { showHeader = true } = Astro.props;
 let projects: any[] = [];
 try {
   const res = await fetch(`${Astro.url.origin}/api/github-projects`);
@@ -31,6 +32,7 @@ const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#8b5cf6
 {projects.length > 0 && (
   <section id="github" class="section gh-section" data-animate>
     <div class="container">
+      {showHeader && (
       <div class="section-header" style="text-align:center; max-width:720px; margin:0 auto 3rem;">
         <span class="gh-badge">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -46,6 +48,7 @@ const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#8b5cf6
           A live look at what we're building in the open — pulled straight from our repositories
         </p>
       </div>
+      )}
 
       <div class="gh-grid">
         {projects.map((p) => (
