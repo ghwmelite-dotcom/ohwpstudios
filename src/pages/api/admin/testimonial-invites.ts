@@ -22,6 +22,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json({ success: false, error: 'Name and valid email required' }, 400);
   }
 
+  // Unauthenticated admin surface (Phase 3 item) — cap outbound invite volume
+  // so the endpoint can't be used as a spam cannon.
+  const recent = await db
+    .prepare("SELECT COUNT(*) AS n FROM testimonial_invites WHERE created_at > datetime('now', '-1 hour')")
+    .first();
+  if (Number(recent?.n ?? 0) >= 10) {
+    return json({ success: false, error: 'Rate limit reached — try again later.' }, 429);
+  }
+
   const token = crypto.randomUUID().replace(/-/g, '').slice(0, 16);
   await db.prepare('INSERT INTO testimonial_invites (token, client_name, email) VALUES (?, ?, ?)')
     .bind(token, client_name, email).run();
