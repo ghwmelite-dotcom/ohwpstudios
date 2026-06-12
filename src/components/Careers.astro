@@ -1,5 +1,6 @@
 ---
 // Careers component with premium design
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
 <section class="careers">
@@ -11,7 +12,7 @@
     <div class="careers-hero" data-animate>
       <div class="hero-badge">
         <span class="badge-pulse"></span>
-        🚀 We're Hiring
+        We're Hiring
       </div>
       <h1 class="hero-title">
         Join Our <span class="gradient-text">Remote-First</span> Team
@@ -22,21 +23,21 @@
       </p>
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-icon">🌍</div>
+          <div class="stat-icon"><AdinkraIcon symbol="funtunfunefu" size={34} /></div>
           <div class="stat-content">
             <strong>100% Remote</strong>
             <span>Work from anywhere</span>
           </div>
         </div>
         <div class="stat-item">
-          <div class="stat-icon">⚡</div>
+          <div class="stat-icon"><AdinkraIcon symbol="nkyinkyim" size={34} /></div>
           <div class="stat-content">
             <strong>Flexible Hours</strong>
             <span>Choose your schedule</span>
           </div>
         </div>
         <div class="stat-item">
-          <div class="stat-icon">🎯</div>
+          <div class="stat-icon"><AdinkraIcon symbol="nea-onnim" size={34} /></div>
           <div class="stat-content">
             <strong>Growth Focused</strong>
             <span>Continuous learning</span>
@@ -50,32 +51,32 @@
       <h2 class="section-title">Why Join Us?</h2>
       <div class="benefits-grid">
         <div class="benefit-card">
-          <div class="benefit-icon">💰</div>
+          <div class="benefit-icon"><AdinkraIcon symbol="dwennimmen" size={40} /></div>
           <h3>Competitive Salary</h3>
           <p>Industry-leading compensation packages with performance bonuses</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">🏖️</div>
+          <div class="benefit-icon"><AdinkraIcon symbol="nkyinkyim" size={40} /></div>
           <h3>Unlimited PTO</h3>
           <p>Take time off when you need it to maintain work-life balance</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">🎓</div>
+          <div class="benefit-icon"><AdinkraIcon symbol="nea-onnim" size={40} /></div>
           <h3>Learning Budget</h3>
           <p>Annual budget for courses, conferences, and professional development</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">🏥</div>
+          <div class="benefit-icon"><AdinkraIcon symbol="eban" size={40} /></div>
           <h3>Health Coverage</h3>
           <p>Comprehensive health insurance for you and your family</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">💻</div>
+          <div class="benefit-icon"><AdinkraIcon symbol="ananse" size={40} /></div>
           <h3>Equipment Provided</h3>
           <p>Latest tech and tools to help you do your best work</p>
         </div>
         <div class="benefit-card">
-          <div class="benefit-icon">🌟</div>
+          <div class="benefit-icon"><AdinkraIcon symbol="sankofa" size={40} /></div>
           <h3>Career Growth</h3>
           <p>Clear progression paths and mentorship opportunities</p>
         </div>
@@ -121,15 +122,15 @@
         </div>
         <div class="culture-image">
           <div class="floating-card floating-card-1">
-            <div class="card-emoji">🎯</div>
+            <div class="card-emoji"><AdinkraIcon symbol="gye-nyame" size={34} /></div>
             <div class="card-text">Mission Driven</div>
           </div>
           <div class="floating-card floating-card-2">
-            <div class="card-emoji">🤝</div>
+            <div class="card-emoji"><AdinkraIcon symbol="funtunfunefu" size={34} /></div>
             <div class="card-text">Collaborative</div>
           </div>
           <div class="floating-card floating-card-3">
-            <div class="card-emoji">🚀</div>
+            <div class="card-emoji"><AdinkraIcon symbol="nkyinkyim" size={34} /></div>
             <div class="card-text">Fast Moving</div>
           </div>
         </div>
@@ -286,8 +287,8 @@
     overflow: hidden;
     padding: 6rem 0 4rem;
     background: linear-gradient(180deg,
-      rgba(99, 102, 241, 0.03) 0%,
-      rgba(236, 72, 153, 0.03) 50%,
+      rgba(227, 169, 43, 0.03) 0%,
+      rgba(245, 201, 105, 0.03) 50%,
       rgba(245, 158, 11, 0.03) 100%
     );
   }
@@ -340,7 +341,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.1), rgba(245, 201, 105, 0.1));
     border: 2px solid var(--color-primary);
     border-radius: 50px;
     font-weight: 600;
@@ -411,12 +412,16 @@
 
   .stat-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 10px 30px rgba(227, 169, 43, 0.15);
     border-color: var(--color-primary);
   }
 
   .stat-icon {
-    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
@@ -479,7 +484,7 @@
 
   .benefit-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 15px 40px rgba(227, 169, 43, 0.2);
     border-color: var(--color-primary);
   }
 
@@ -488,7 +493,9 @@
   }
 
   .benefit-icon {
-    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    color: var(--color-primary);
     margin-bottom: 1rem;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
@@ -593,7 +600,11 @@
   }
 
   .card-emoji {
-    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
@@ -698,7 +709,7 @@
   .form-group textarea:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(227, 169, 43, 0.1);
   }
 
   .form-group small {
@@ -722,7 +733,7 @@
   .btn-submit {
     padding: 1rem 3rem;
     background: var(--gradient-primary);
-    color: white;
+    color: #161210;
     border: none;
     border-radius: var(--radius-lg);
     font-size: 1.1rem;
@@ -736,7 +747,7 @@
 
   .btn-submit:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 30px rgba(227, 169, 43, 0.3);
   }
 
   .btn-submit:disabled {

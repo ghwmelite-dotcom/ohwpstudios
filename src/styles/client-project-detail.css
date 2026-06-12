@@ -39,7 +39,7 @@ body:has(.project-detail-page) #social-proof-container {
   .orb-1 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent);
+    background: radial-gradient(circle, rgba(227, 169, 43, 0.4), transparent);
     top: -20%;
     right: -10%;
   }
@@ -47,7 +47,7 @@ body:has(.project-detail-page) #social-proof-container {
   .orb-2 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
+    background: radial-gradient(circle, rgba(227, 169, 43, 0.3), transparent);
     bottom: -20%;
     left: -10%;
     animation-delay: 12s;
@@ -98,7 +98,7 @@ body:has(.project-detail-page) #social-proof-container {
     width: 50px;
     height: 50px;
     border: 4px solid rgba(255, 255, 255, 0.2);
-    border-top-color: #667eea;
+    border-top-color: #E3A92B;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 1.5rem;
@@ -254,7 +254,7 @@ body:has(.project-detail-page) #social-proof-container {
   }
 
   .tab-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     color: white;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
   }
@@ -338,7 +338,7 @@ body:has(.project-detail-page) #social-proof-container {
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #E3A92B 0%, #1B5E3A 100%);
     border-radius: 50px;
     transition: width 1s ease-out;
   }
@@ -360,7 +360,7 @@ body:has(.project-detail-page) #social-proof-container {
   }
 
   .update-card.progress {
-    border-left-color: #667eea;
+    border-left-color: #E3A92B;
   }
 
   .update-card.milestone {
@@ -372,7 +372,7 @@ body:has(.project-detail-page) #social-proof-container {
   }
 
   .update-card.general {
-    border-left-color: #8b5cf6;
+    border-left-color: #E3A92B;
   }
 
   .update-header {
@@ -524,7 +524,7 @@ body:has(.project-detail-page) #social-proof-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     border-radius: 10px;
     color: white;
   }
@@ -551,7 +551,7 @@ body:has(.project-detail-page) #social-proof-container {
 
   .file-download {
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -598,7 +598,7 @@ body:has(.project-detail-page) #social-proof-container {
 
   .contract-amount {
     font-size: 1.25rem;
-    color: #667eea;
+    color: #E3A92B;
     font-weight: 700;
   }
 
@@ -725,7 +725,7 @@ body:has(.project-detail-page) #social-proof-container {
   .form-group select:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #E3A92B;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
 
@@ -956,7 +956,7 @@ body:has(.project-detail-page) #social-proof-container {
   }
 
   .metric-icon.security {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(135deg, #E3A92B, #B8860B);
   }
 
   .metric-icon.performance {
@@ -998,7 +998,7 @@ body:has(.project-detail-page) #social-proof-container {
   }
 
   .metric-progress-bar.security {
-    background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(90deg, #E3A92B, #B8860B);
   }
 
   .metric-progress-bar.performance {
@@ -1134,7 +1134,7 @@ body:has(.project-detail-page) #social-proof-container {
   }
 
   .stat-header svg {
-    color: #667eea;
+    color: #E3A92B;
   }
 
   .stat-header h4 {
@@ -1161,7 +1161,7 @@ body:has(.project-detail-page) #social-proof-container {
 
   .stat-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #667eea, #764ba2);
+    background: linear-gradient(90deg, #E3A92B, #1B5E3A);
     border-radius: 50px;
     transition: width 1s ease-out;
   }

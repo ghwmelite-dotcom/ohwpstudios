@@ -1,5 +1,6 @@
 ---
 // AI Chatbot Widget Component - Elite Modern Design
+import AdinkraIcon from './AdinkraIcon.astro';
 ---
 
 <div class="chatbot-container" id="chatbot-container">
@@ -7,8 +8,8 @@
     <defs>
       <path id="circlePath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" />
       <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#818cf8;stop-opacity:1" />
+        <stop offset="0%" style="stop-color:#E3A92B;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#F5C969;stop-opacity:1" />
         <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
       </linearGradient>
     </defs>
@@ -20,18 +21,7 @@
   </svg>
   <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Toggle chatbot">
     <div class="chatbot-toggle-inner">
-      <svg class="chat-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#chatGradient1)" opacity="0.8"/>
-        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="12" cy="7" r="1.5" fill="currentColor"/>
-        <defs>
-          <linearGradient id="chatGradient1" x1="2" y1="2" x2="22" y2="12">
-            <stop offset="0%" stop-color="#6366f1"/>
-            <stop offset="100%" stop-color="#ec4899"/>
-          </linearGradient>
-        </defs>
-      </svg>
+      <AdinkraIcon symbol="ananse" size={26} class="chat-icon" />
       <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -75,8 +65,8 @@
             <circle cx="12" cy="7" r="3" fill="white"/>
             <defs>
               <linearGradient id="welcomeGrad" x1="2" y1="2" x2="22" y2="22">
-                <stop offset="0%" stop-color="#667eea"/>
-                <stop offset="100%" stop-color="#f093fb"/>
+                <stop offset="0%" stop-color="#E3A92B"/>
+                <stop offset="100%" stop-color="#F5C969"/>
               </linearGradient>
             </defs>
           </svg>
@@ -211,14 +201,14 @@
     bottom: 50%;
     right: 85px;
     transform: translateY(50%);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--gradient-primary);
+    color: #161210;
     padding: 0.625rem 1.125rem;
     border-radius: 12px;
     font-size: 0.875rem;
     font-weight: 600;
     white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 16px rgba(227, 169, 43, 0.3);
     pointer-events: none;
     opacity: 0.95;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -232,14 +222,14 @@
     transform: translateY(-50%) rotate(45deg);
     width: 12px;
     height: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
   }
 
   .chatbot-toggle:hover ~ .chatbot-label,
   .chatbot-container:hover .chatbot-label {
     opacity: 1;
     transform: translateY(50%) translateX(-4px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(227, 169, 43, 0.4);
   }
 
   .chatbot-toggle.active ~ .chatbot-label {
@@ -268,33 +258,33 @@
     width: 100%;
     height: 100%;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 50%, #F5C969 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4), 0 0 0 0 rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 40px rgba(227, 169, 43, 0.4), 0 0 0 0 rgba(227, 169, 43, 0.4);
     animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   @keyframes pulse-ring {
     0%, 100% {
-      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4), 0 0 0 0 rgba(102, 126, 234, 0.4);
+      box-shadow: 0 10px 40px rgba(227, 169, 43, 0.4), 0 0 0 0 rgba(227, 169, 43, 0.4);
     }
     50% {
-      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5), 0 0 0 10px rgba(102, 126, 234, 0);
+      box-shadow: 0 10px 40px rgba(227, 169, 43, 0.5), 0 0 0 10px rgba(227, 169, 43, 0);
     }
   }
 
   .chatbot-toggle:hover .chatbot-toggle-inner {
     transform: scale(1.05) rotate(5deg);
-    box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6), 0 0 0 0 rgba(102, 126, 234, 0.4);
+    box-shadow: 0 15px 50px rgba(227, 169, 43, 0.6), 0 0 0 0 rgba(227, 169, 43, 0.4);
   }
 
   .chatbot-glow {
     position: absolute;
     inset: -2px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background: linear-gradient(135deg, #E3A92B, #1B5E3A, #F5C969);
     filter: blur(12px);
     opacity: 0.7;
     z-index: -1;
@@ -310,7 +300,9 @@
     display: none;
   }
 
-  .chatbot-toggle.active .chat-icon {
+  /* :global — the svg is rendered inside AdinkraIcon, so the parent scope
+     hash isn't applied to it */
+  .chatbot-toggle.active :global(.chat-icon) {
     display: none;
   }
 
@@ -319,7 +311,7 @@
   }
 
   .chatbot-toggle.active .chatbot-toggle-inner {
-    background: linear-gradient(135deg, #f093fb 0%, #764ba2 50%, #667eea 100%);
+    background: linear-gradient(135deg, #F5C969 0%, #1B5E3A 50%, #E3A92B 100%);
   }
 
   .chatbot-badge {
@@ -376,7 +368,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(118, 75, 162, 0.03));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.03), rgba(27, 94, 58, 0.03));
     pointer-events: none;
   }
 
@@ -392,7 +384,7 @@
     display: flex;
     align-items: center;
     gap: 0.875rem;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.05));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.08), rgba(27, 94, 58, 0.05));
     border-radius: 20px 20px 0 0;
     position: relative;
     z-index: 1;
@@ -403,14 +395,14 @@
     width: 44px;
     height: 44px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 1.5rem;
     position: relative;
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(227, 169, 43, 0.3);
     flex-shrink: 0;
   }
 
@@ -418,7 +410,7 @@
     position: absolute;
     inset: -3px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #E3A92B, #1B5E3A);
     filter: blur(8px);
     opacity: 0.4;
     z-index: -1;
@@ -518,7 +510,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.1), rgba(245, 201, 105, 0.1));
     border-radius: 16px;
     animation: pulse-icon 3s ease-in-out infinite;
   }
@@ -566,9 +558,9 @@
 
   .welcome-form input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #E3A92B;
     background: var(--color-surface);
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(227, 169, 43, 0.1);
   }
 
   .welcome-form input::placeholder {
@@ -579,8 +571,8 @@
   .start-chat-btn {
     width: 100%;
     padding: 0.875rem 1.25rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--gradient-primary);
+    color: #161210;
     border: none;
     border-radius: 10px;
     font-size: 0.925rem;
@@ -591,12 +583,12 @@
     justify-content: center;
     gap: 0.5rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.3);
   }
 
   .start-chat-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 20px rgba(227, 169, 43, 0.4);
   }
 
   .start-chat-btn:active {
@@ -695,18 +687,18 @@
     width: 36px;
     height: 36px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.25);
   }
 
   .user-message .message-avatar {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.4);
   }
 
   .message-content {
@@ -724,18 +716,18 @@
   /* Bot message styling - ALWAYS white background (LEFT SIDE) */
   .chatbot-messages .message.bot-message .message-content {
     background: white !important;
-    color: #1f2937 !important;
+    color: #241D17 !important;
     border-bottom-left-radius: 6px !important;
-    border: 2px solid rgba(102, 126, 234, 0.15) !important;
+    border: 2px solid rgba(227, 169, 43, 0.15) !important;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
   }
 
   /* User message styling - ALWAYS gradient background (RIGHT SIDE) */
   .chatbot-messages .message.user-message .message-content {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
-    color: white !important;
+    background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%) !important;
+    color: #161210 !important;
     border-bottom-right-radius: 6px !important;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45) !important;
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
   }
 
@@ -754,7 +746,7 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #E3A92B, #1B5E3A);
     animation: typing 1.4s infinite ease-in-out;
   }
 
@@ -806,7 +798,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.05), rgba(27, 94, 58, 0.05));
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -818,10 +810,10 @@
   }
 
   .quick-reply:hover {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: #E3A92B;
+    color: #E3A92B;
     transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.15);
   }
 
   .quick-reply:hover::before {
@@ -855,9 +847,9 @@
 
   .chatbot-input input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #E3A92B;
     background: var(--color-surface);
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(227, 169, 43, 0.1);
   }
 
   .chatbot-input input::placeholder {
@@ -869,15 +861,15 @@
     width: 48px;
     height: 48px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #161210;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.3);
     position: relative;
     overflow: hidden;
   }
@@ -886,7 +878,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+    background: linear-gradient(135deg, #F5C969 0%, #E3A92B 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -898,7 +890,7 @@
 
   .chatbot-input button:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 20px rgba(227, 169, 43, 0.4);
   }
 
   .chatbot-input button:hover::before {
@@ -944,7 +936,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.1), rgba(27, 94, 58, 0.1));
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -957,10 +949,10 @@
   }
 
   .export-btn:hover {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: #E3A92B;
+    color: #E3A92B;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.15);
   }
 
   .export-btn:hover::before {
@@ -991,7 +983,7 @@
     font-weight: 500;
     color: var(--color-text-muted);
     border-top: 1px solid var(--color-border);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.02), rgba(118, 75, 162, 0.02));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.02), rgba(27, 94, 58, 0.02));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1181,10 +1173,10 @@
       urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">🔥 Priority Consultation Available</div>';
     } else if (sentiment === 'warm') {
       mainMessage = `Great! I understand you're interested in ${sanitizeHTML(projectType)}. The best way forward is to discuss your specific needs with our team in a free consultation. 💼`;
-      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">⭐ Free Consultation Available</div>';
+      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: #161210; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">⭐ Free Consultation Available</div>';
     } else {
       mainMessage = `Thanks for your interest in ${sanitizeHTML(projectType)}! Let's schedule a quick call to understand your needs better. 📞`;
-      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">💬 Free Consultation</div>';
+      urgencyBadge = '<div style="display: inline-block; background: var(--gradient-primary); color: #161210; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">💬 Free Consultation</div>';
     }
 
     promptDiv.innerHTML = `
@@ -1195,15 +1187,15 @@
           <circle cx="12" cy="7" r="2" fill="white"/>
         </svg>
       </div>
-      <div class="message-content booking-prompt-card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(240, 147, 251, 0.05)); color: var(--color-text); border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 16px; padding: 1.25rem;">
+      <div class="message-content booking-prompt-card" style="background: linear-gradient(135deg, rgba(227, 169, 43, 0.05), rgba(245, 201, 105, 0.05)); color: var(--color-text); border: 2px solid rgba(227, 169, 43, 0.2); border-radius: 16px; padding: 1.25rem;">
         ${urgencyBadge}
         <p style="margin: 0 0 1rem 0; font-size: 0.9375rem; line-height: 1.6; color: var(--color-text);">
           ${mainMessage}
         </p>
 
-        <div style="background: white; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid rgba(102, 126, 234, 0.15);">
+        <div style="background: white; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid rgba(227, 169, 43, 0.15);">
           <div style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text); display: flex; align-items: center; gap: 0.5rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E3A92B" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
@@ -1217,7 +1209,7 @@
           </ul>
         </div>
 
-        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: var(--gradient-primary); color: #161210; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(227, 169, 43, 0.3);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -1241,11 +1233,11 @@
     if (ctaBtn) {
       ctaBtn.addEventListener('mouseenter', () => {
         (ctaBtn as HTMLElement).style.transform = 'translateY(-2px)';
-        (ctaBtn as HTMLElement).style.boxShadow = '0 8px 20px rgba(102, 126, 234, 0.4)';
+        (ctaBtn as HTMLElement).style.boxShadow = '0 8px 20px rgba(227, 169, 43, 0.4)';
       });
       ctaBtn.addEventListener('mouseleave', () => {
         (ctaBtn as HTMLElement).style.transform = 'translateY(0)';
-        (ctaBtn as HTMLElement).style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
+        (ctaBtn as HTMLElement).style.boxShadow = '0 4px 12px rgba(227, 169, 43, 0.3)';
       });
     }
   }
@@ -1418,8 +1410,8 @@
 
       // Force colors with inline styles
       const contentStyle = type === 'user'
-        ? 'background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%); color: white; border-bottom-right-radius: 6px; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45); border: 1px solid rgba(255, 255, 255, 0.2);'
-        : 'background: white; color: #1f2937; border-bottom-left-radius: 6px; border: 2px solid rgba(102, 126, 234, 0.15); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);';
+        ? 'background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%); color: #161210; border-bottom-right-radius: 6px; box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45); border: 1px solid rgba(255, 255, 255, 0.2);'
+        : 'background: white; color: #241D17; border-bottom-left-radius: 6px; border: 2px solid rgba(227, 169, 43, 0.15); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);';
 
       // Sanitize user/bot message content to prevent XSS
       messageDiv.innerHTML = `

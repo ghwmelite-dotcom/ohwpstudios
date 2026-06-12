@@ -142,7 +142,7 @@
       left: 0;
       width: 0%;
       height: 3px;
-      background: linear-gradient(90deg, #6366f1, #ec4899, #0073aa);
+      background: linear-gradient(90deg, #E3A92B, #F5C969, #0073aa);
       z-index: 9999;
       transition: width 0.1s ease;
     `;
@@ -254,11 +254,11 @@
         `;
 
         const colors = [
-          'rgba(99, 102, 241, 0.3)',
-          'rgba(236, 72, 153, 0.3)',
+          'rgba(227, 169, 43, 0.3)',
+          'rgba(245, 201, 105, 0.3)',
           'rgba(0, 115, 170, 0.3)',
           'rgba(245, 158, 11, 0.3)',
-          'rgba(139, 92, 246, 0.3)'
+          'rgba(227, 169, 43, 0.3)'
         ];
 
         const size = 300 + Math.random() * 300;
@@ -289,7 +289,7 @@
           position: absolute;
           width: 4px;
           height: 4px;
-          background: radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent);
+          background: radial-gradient(circle, rgba(227, 169, 43, 0.8), transparent);
           border-radius: 50%;
           pointer-events: none;
           animation: particle-float ${10 + Math.random() * 10}s linear infinite;

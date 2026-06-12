@@ -83,7 +83,7 @@
 
       <div class="cta-visual">
         <div class="mockup-container">
-          <div class="mockup-screen">
+          <div class="mockup-screen kente-edge">
             <div class="mockup-header">
               <div class="mockup-dots">
                 <span></span>
@@ -158,8 +158,8 @@
   .ai-estimator-cta {
     padding: var(--spacing-section) 0;
     background: linear-gradient(135deg,
-      rgba(102, 126, 234, 0.05) 0%,
-      rgba(118, 75, 162, 0.05) 100%
+      rgba(227, 169, 43, 0.05) 0%,
+      rgba(27, 94, 58, 0.05) 100%
     );
     position: relative;
     overflow: hidden;
@@ -167,8 +167,8 @@
 
   [data-theme="dark"] .ai-estimator-cta {
     background: linear-gradient(135deg,
-      rgba(102, 126, 234, 0.03) 0%,
-      rgba(118, 75, 162, 0.03) 100%
+      rgba(227, 169, 43, 0.03) 0%,
+      rgba(27, 94, 58, 0.03) 100%
     );
   }
 
@@ -188,8 +188,8 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-    border: 1px solid rgba(102, 126, 234, 0.2);
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.1), rgba(27, 94, 58, 0.1));
+    border: 1px solid rgba(227, 169, 43, 0.25);
     border-radius: var(--radius-full);
     color: var(--color-primary);
     font-size: 0.875rem;
@@ -210,7 +210,7 @@
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -239,7 +239,7 @@
     width: 48px;
     height: 48px;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.1), rgba(27, 94, 58, 0.1));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -275,15 +275,18 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    /* Shared gold gradient + ink text (the old gold->green gradient failed
+       AA with any single text color; ink on gold passes both themes) */
+    background: var(--gradient-primary);
+    color: #161210;
     border: none;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.35);
   }
 
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    color: #161210;
+    box-shadow: 0 6px 25px rgba(227, 169, 43, 0.45);
   }
 
   .btn-secondary {
@@ -405,8 +408,8 @@
 
   .tech-tag {
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-    border: 1px solid rgba(102, 126, 234, 0.2);
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.1), rgba(27, 94, 58, 0.1));
+    border: 1px solid rgba(227, 169, 43, 0.25);
     border-radius: var(--radius-md);
     font-size: 0.875rem;
     font-weight: 600;
@@ -418,9 +421,9 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     border-radius: var(--radius-full);
-    color: white;
+    color: #161210;
     font-size: 0.875rem;
     font-weight: 600;
     width: fit-content;
