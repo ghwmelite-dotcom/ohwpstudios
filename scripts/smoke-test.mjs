@@ -9,6 +9,8 @@ const checks = [
   { path: '/', mustContain: 'OhWP' },
   { path: '/estimate-project', mustContain: 'estimate' },
   { path: '/api/page-init', contentType: 'application/json' }, // exercises a Pages Function + D1
+  // Guards against the functions/-directory regression class: route must exist and validate.
+  { path: '/api/booking', method: 'POST', body: '{}', expectStatus: 400, contentType: 'application/json' },
 ];
 
 async function fetchWithRetry(url, opts, retries = 1, delayMs = 3000) {
@@ -29,11 +31,15 @@ for (const check of checks) {
   console.log(`CHECK ${url}`);
   try {
     const res = await fetchWithRetry(url, {
+      method: check.method || 'GET',
+      headers: check.body ? { 'Content-Type': 'application/json' } : undefined,
+      body: check.body,
       redirect: 'follow',
       signal: AbortSignal.timeout(10_000),
     });
-    if (res.status !== 200) {
-      console.error(`FAIL ${url} — status ${res.status}`);
+    const wantStatus = check.expectStatus ?? 200;
+    if (res.status !== wantStatus) {
+      console.error(`FAIL ${url} — status ${res.status} (expected ${wantStatus})`);
       failed++;
       continue;
     }

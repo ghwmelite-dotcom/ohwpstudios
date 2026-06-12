@@ -46,3 +46,4 @@ Thumbs.db
 *.backup
 backup*.sql
 claude-code-agents-wizard-v2/
+.superpowers/

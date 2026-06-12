@@ -13,7 +13,7 @@ try {
 
   // Fetch from the internal API (which we know works)
   const [projectsRes, categoriesRes] = await Promise.all([
-    fetch(`${baseUrl}/api/admin/portfolio?status=published&limit=2`),
+    fetch(`${baseUrl}/api/admin/portfolio?status=published&limit=4`),
     fetch(`${baseUrl}/api/admin/portfolio/categories`)
   ]);
 
@@ -191,7 +191,7 @@ try {
     overflow: hidden;
   }
 
-  [data-theme="dark"] .portfolio {
+  :global([data-theme="dark"]) .portfolio {
     background: linear-gradient(180deg,
       var(--color-background) 0%,
       rgba(99, 102, 241, 0.03) 20%,
@@ -279,7 +279,7 @@ try {
 
   .portfolio-image-wrapper {
     position: relative;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
   }
 
@@ -310,7 +310,7 @@ try {
     color: var(--color-primary);
   }
 
-  [data-theme="dark"] .category-badge {
+  :global([data-theme="dark"]) .category-badge {
     background: rgba(0, 0, 0, 0.8);
     color: var(--color-primary-light);
   }
@@ -348,7 +348,7 @@ try {
     font-weight: 500;
   }
 
-  [data-theme="dark"] .tech-badge {
+  :global([data-theme="dark"]) .tech-badge {
     background: rgba(99, 102, 241, 0.15);
     color: var(--color-primary-light);
   }
@@ -505,6 +505,19 @@ try {
     }
     50% {
       transform: scale(1.1);
+    }
+  }
+
+  /* Reduced-motion: suppress hover transforms (transitions already collapse to 0.01ms globally) */
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-item:hover {
+      transform: none;
+    }
+    .portfolio-item:hover .portfolio-image {
+      transform: none;
+    }
+    .portfolio-link:hover svg {
+      transform: none;
     }
   }
 

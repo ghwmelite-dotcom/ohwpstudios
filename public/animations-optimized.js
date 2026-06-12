@@ -405,6 +405,36 @@
   // ============================================
 
   function smartInit() {
+    // Bail out entirely when the OS requests reduced motion.
+    // Elements that animations-optimized.js would otherwise hide/animate
+    // are made immediately visible before we return.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // #page-loader: initPageLoader() is skipped, so dismiss the full-screen
+      // overlay immediately (it only fades + display:none — no class/event work).
+      const loader = document.getElementById('page-loader');
+      if (loader) loader.style.display = 'none';
+      // [data-counter] elements: initCounters() is skipped, so snap each stat
+      // straight to its final value + suffix instead of leaving it at "0".
+      document.querySelectorAll('[data-counter]').forEach(function(el) {
+        const target = parseInt(el.dataset.counter);
+        if (!isNaN(target)) {
+          el.textContent = target + (el.dataset.suffix || '');
+          el.dataset.counted = 'true';
+        }
+      });
+      // [data-text-reveal] elements: revealText() would empty them and rebuild
+      // chars at opacity:0. Since we skip that, the original text stays intact
+      // and visible — no style fix needed.
+      // [data-parallax] elements: no initial hidden state, just transform offset.
+      // Ensure transform is cleared in case a prior run left one.
+      document.querySelectorAll('[data-parallax]').forEach(function(el) {
+        el.style.transform = 'none';
+      });
+      // Gradient-mesh and particle orbs are injected by JS; skipping init means
+      // they are never created, so nothing is left invisible.
+      return; // skip all animation wiring
+    }
+
     // Always initialize core features
     initScrollProgress();
     initPageLoader();

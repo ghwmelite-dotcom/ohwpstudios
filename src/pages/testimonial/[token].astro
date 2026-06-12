@@ -1,0 +1,471 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+const { token } = Astro.params;
+
+// Single-use invite lookup. Unknown tokens and already-used tokens render the
+// IDENTICAL expired state — no token enumeration.
+let invite: { client_name: string } | null = null;
+try {
+  const DB = (Astro.locals as any).runtime?.env?.DB;
+  if (DB && token) {
+    invite = await DB.prepare('SELECT * FROM testimonial_invites WHERE token = ? AND used = 0')
+      .bind(token)
+      .first();
+  }
+} catch (e) {
+  console.error('Testimonial invite lookup failed:', e);
+}
+---
+
+<BaseLayout title="Share Your Experience" description="Leave a testimonial for OhWP Studios." noLoader={true}>
+  <Header />
+  <main class="testimonial-page">
+    <div class="testimonial-wrap">
+      {!invite ? (
+        <div class="testimonial-card expired-card">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <h1>This link has expired or was already used.</h1>
+          <p>If you meant to leave a testimonial, just reply to our email.</p>
+        </div>
+      ) : (
+        <div class="testimonial-card">
+          <div class="card-intro">
+            <h1>Share your experience</h1>
+            <p>Thanks for working with us — a few words go a long way. This takes about two minutes.</p>
+          </div>
+
+          <form id="testimonial-form" data-token={token} novalidate>
+            <div class="form-group">
+              <label for="t-name">Your name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="t-name" name="name" required maxlength="200" value={invite.client_name} autocomplete="name" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="t-role">Your role <span class="optional">(optional)</span></label>
+                <input type="text" id="t-role" name="role" maxlength="100" placeholder="e.g. Founder" autocomplete="organization-title" />
+              </div>
+              <div class="form-group">
+                <label for="t-company">Company <span class="optional">(optional)</span></label>
+                <input type="text" id="t-company" name="company" maxlength="100" placeholder="e.g. Acme Ltd" autocomplete="organization" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="t-quote">Your testimonial <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="t-quote" name="content" required maxlength="600" rows="5"
+                placeholder="What did we build together? What changed for you?"></textarea>
+              <div class="char-counter" id="quote-counter" aria-live="polite">0/600</div>
+            </div>
+
+            <fieldset class="rating-fieldset">
+              <legend>How would you rate the experience?</legend>
+              <div class="stars" id="star-group">
+                <label class="star-option">
+                  <input type="radio" name="rating" value="1" />
+                  <svg class="star-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <span class="sr-only">1 star</span>
+                </label>
+                <label class="star-option">
+                  <input type="radio" name="rating" value="2" />
+                  <svg class="star-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <span class="sr-only">2 stars</span>
+                </label>
+                <label class="star-option">
+                  <input type="radio" name="rating" value="3" />
+                  <svg class="star-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <span class="sr-only">3 stars</span>
+                </label>
+                <label class="star-option">
+                  <input type="radio" name="rating" value="4" />
+                  <svg class="star-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <span class="sr-only">4 stars</span>
+                </label>
+                <label class="star-option">
+                  <input type="radio" name="rating" value="5" checked />
+                  <svg class="star-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                  <span class="sr-only">5 stars</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <label for="t-photo">Photo URL <span class="optional">(optional)</span></label>
+              <input type="url" id="t-photo" name="avatar_url" maxlength="500" placeholder="https://example.com/your-photo.jpg" inputmode="url" />
+            </div>
+
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+
+            <button type="submit" class="btn btn-primary submit-btn" id="submit-btn">Submit testimonial</button>
+          </form>
+
+          <div class="thank-you" id="thank-you" hidden>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h2>Thank you!</h2>
+            <p>Your testimonial has been received. We genuinely appreciate you taking the time — it means a lot to a studio like ours.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .testimonial-page {
+    min-height: 70vh;
+    background: var(--color-bg-alt);
+    padding: 4rem 1rem 5rem;
+  }
+
+  .testimonial-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    padding: 2.5rem 2rem;
+  }
+
+  .expired-card {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .expired-card svg {
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .expired-card h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.75rem;
+  }
+
+  .expired-card p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .card-intro {
+    margin-bottom: 2rem;
+  }
+
+  .card-intro h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+  }
+
+  .card-intro p {
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  label,
+  legend {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .req {
+    color: #ef4444;
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  input[type='text'],
+  input[type='url'],
+  textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 130px;
+    line-height: 1.5;
+  }
+
+  .char-counter {
+    align-self: flex-end;
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rating-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+  }
+
+  .rating-fieldset legend {
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .stars {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .star-option {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    color: var(--color-border);
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+
+  .star-option:hover {
+    transform: scale(1.1);
+  }
+
+  .star-option.filled {
+    color: #f59e0b;
+  }
+
+  .star-option input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .star-option input:focus-visible ~ .star-icon {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .form-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 2px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    margin: 0 0 1.25rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .thank-you {
+    text-align: center;
+    padding: 2rem 0 1rem;
+  }
+
+  .thank-you svg {
+    color: #10b981;
+    margin-bottom: 1.25rem;
+  }
+
+  .thank-you h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin: 0 0 0.75rem;
+  }
+
+  .thank-you p {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 540px) {
+    .testimonial-card {
+      padding: 2rem 1.25rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .star-option,
+    .star-option:hover {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('testimonial-form') as HTMLFormElement | null;
+
+  if (form) {
+    const quote = document.getElementById('t-quote') as HTMLTextAreaElement;
+    const counter = document.getElementById('quote-counter');
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const errorEl = document.getElementById('form-error') as HTMLParagraphElement;
+    const thankYou = document.getElementById('thank-you') as HTMLDivElement;
+    const starOptions = Array.from(form.querySelectorAll<HTMLLabelElement>('.star-option'));
+
+    // Live character counter
+    const updateCounter = () => {
+      if (counter) counter.textContent = `${quote.value.length}/600`;
+    };
+    quote.addEventListener('input', updateCounter);
+    updateCounter();
+
+    // Star fill state — stars up to and including the selected value are filled
+    const paintStars = () => {
+      const checked = form.querySelector<HTMLInputElement>('input[name="rating"]:checked');
+      const value = checked ? Number(checked.value) : 5;
+      starOptions.forEach((option) => {
+        const input = option.querySelector<HTMLInputElement>('input');
+        option.classList.toggle('filled', !!input && Number(input.value) <= value);
+      });
+    };
+    form.addEventListener('change', (e) => {
+      if ((e.target as HTMLElement).matches('input[name="rating"]')) paintStars();
+    });
+    paintStars();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+
+      if (!form.reportValidity()) return;
+
+      const name = (document.getElementById('t-name') as HTMLInputElement).value.trim();
+      const role = (document.getElementById('t-role') as HTMLInputElement).value.trim();
+      const company = (document.getElementById('t-company') as HTMLInputElement).value.trim();
+      const content = quote.value.trim();
+      const avatarUrl = (document.getElementById('t-photo') as HTMLInputElement).value.trim();
+      const ratingInput = form.querySelector<HTMLInputElement>('input[name="rating"]:checked');
+      const rating = ratingInput ? Number(ratingInput.value) : 5;
+
+      if (!name || !content) {
+        errorEl.textContent = 'Please add your name and a short testimonial.';
+        errorEl.hidden = false;
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const response = await fetch('/api/testimonial/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: form.dataset.token,
+            name,
+            role,
+            company,
+            content,
+            rating,
+            avatar_url: avatarUrl,
+          }),
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          form.hidden = true;
+          thankYou.hidden = false;
+          window.ohwpTrack?.('testimonial_submitted');
+        } else {
+          errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+          errorEl.hidden = false;
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit testimonial';
+        }
+      } catch {
+        errorEl.textContent = 'Network error. Please check your connection and try again.';
+        errorEl.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit testimonial';
+      }
+    });
+  }
+</script>
