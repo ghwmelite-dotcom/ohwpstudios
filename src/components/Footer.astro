@@ -2,11 +2,13 @@
 import { SITE_CONFIG } from '@/config';
 import NewsletterSubscribe from '@/components/NewsletterSubscribe.astro';
 import Logo from '@/components/Logo.astro';
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
 
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
+  <div class="kente-divider" aria-hidden="true"></div>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-about">
@@ -82,6 +84,10 @@ const currentYear = new Date().getFullYear();
 
     <div class="footer-bottom">
       <p>&copy; {currentYear} <span id="footer-copyright-name">{SITE_CONFIG.name}</span>. All rights reserved.</p>
+      <p class="footer-powered">
+        <AdinkraIcon symbol="gye-nyame" size={20} class="footer-mark" />
+        <span>Powered by Hodges &amp; Co.</span>
+      </p>
       <div class="footer-legal">
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Service</a>
@@ -93,9 +99,13 @@ const currentYear = new Date().getFullYear();
 <style>
   .footer {
     background: var(--color-bg-alt);
-    border-top: 1px solid var(--color-border);
-    padding: var(--spacing-3xl) 0 var(--spacing-lg);
+    /* Top border replaced by the kente strip divider (first child, flush) */
+    padding: 0 0 var(--spacing-lg);
     margin-top: var(--spacing-3xl);
+  }
+
+  .footer > .container {
+    padding-top: var(--spacing-3xl);
   }
 
   .footer-grid {
@@ -145,7 +155,8 @@ const currentYear = new Date().getFullYear();
 
   .social-links a:hover {
     background: var(--gradient-primary);
-    color: white;
+    /* Ink on gold (white fails contrast on the gold gradient) */
+    color: #161210;
     transform: translateY(-2px);
   }
 
@@ -200,6 +211,19 @@ const currentYear = new Date().getFullYear();
     color: var(--color-text-muted);
     margin: 0;
     font-size: 0.9rem;
+  }
+
+  .footer-powered {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* :global — the svg lives in the AdinkraIcon component's template, so the
+     parent scope hash isn't applied to it */
+  .footer-powered :global(.footer-mark) {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
   }
 
   .footer-legal {

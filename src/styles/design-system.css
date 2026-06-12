@@ -262,13 +262,16 @@ a:hover {
 
 .btn-primary {
   background: var(--gradient-primary);
-  color: white;
+  /* Ink on gold: white text fails AA on the gold gradient (both themes);
+     #161210 (kente ink) passes. Applies to ALL gold-fill buttons site-wide. */
+  color: #161210;
   box-shadow: var(--shadow-lg);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
+  color: #161210;
 }
 
 .btn-secondary {
