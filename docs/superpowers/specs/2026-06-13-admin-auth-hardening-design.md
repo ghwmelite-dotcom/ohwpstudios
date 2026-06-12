@@ -1,0 +1,72 @@
+# Admin Auth Hardening — Design Spec
+
+**Date:** 2026-06-13
+**Status:** Approved by user (design conversation, this session)
+**Scope:** Server-side sessions for the admin surface, middleware guard on `/admin/*` + `/api/admin/*`, PBKDF2 password hashing with transparent migration, centralized CSRF enforcement, removal of the dev credential fallback, XSS repairs on admin pages. Client portal, contract/proposal flows, 2FA, multi-admin UI: out of scope (contract signing verification is next-cycle priority #1).
+
+## Context (audited facts)
+
+- 8 of 24 `/api/admin/*` endpoints have NO auth (blog, bookings, contacts, content, newsletter, portfolio, testimonial-invites, testimonials); the other 16 carry ad-hoc Bearer checks. GET `/api/admin/contacts` leaks all lead PII publicly today.
+- `sessions` table exists since migration 001 (`token, user_id, csrf_token, created_at, expires_at`, FK admin_users) — login INSERTs into it; nothing ever SELECTs it.
+- Tokens: `token-${Date.now()}-${Math.random()...}` in localStorage; page gating is client-side localStorage checks only.
+- Passwords: unsalted SHA-256 (`login.ts:9-16`, same in `change-password.ts`); `admin/admin123` dev fallback at `login.ts:52` and credentials displayed on `login.astro:95-99`.
+- CSRF: `src/utils/csrf.ts` generates cryptographically-sound tokens, stored in sessions at login, returned to client — never validated anywhere.
+- XSS: `contacts.astro:696-711` interpolates full_name/email/phone/company/project_description raw into innerHTML; applications/pm-chats/newsletter/estimates to be audited and fixed in the same pass; dashboard partially uses an `escapeHTML()` helper.
+- No cookies are used anywhere in src/ today. `src/middleware.ts` wraps `/api/*` for Sentry — the guard extends this file.
+- Client portal auth is sound (randomUUID tokens, 30-day expiry, server-side verification) — untouched.
+
+## 1. Session model
+
+- Login success → token = 32 random bytes (`crypto.getRandomValues`) hex-encoded; INSERT into existing `sessions` (token, user_id, csrf_token via existing `generateCSRFToken()`, expires_at = now + 24h).
+- Cookie: `admin_session=<token>; HttpOnly; Secure; SameSite=Lax; Path=/` (set via `Astro.cookies` / Set-Cookie in the login endpoint). No JS access — immune to XSS exfiltration.
+- Sliding renewal: when a valid session has < 12h left, middleware extends expires_at to now + 24h (single UPDATE, fire-and-forget via waitUntil).
+- Logout: new `POST /api/admin/logout` — DELETE session row, clear cookie. Logout buttons on admin pages call it then redirect to login.
+- Login response body keeps `{ success, csrf_token, username }` (no token in body — the cookie carries it). Login rate limiting that exists today stays.
+- Expired/invalid sessions in the table: opportunistic cleanup — login deletes that user's expired rows.
+
+## 2. Middleware guard (extends `src/middleware.ts`)
+
+Route classes (evaluated before the Sentry wrapper so auth failures don't generate noise):
+
+- `/admin/login`, `/admin/reset-password*`, `/api/admin/login`: PUBLIC (unchanged).
+- `/admin/*` (all other pages): require valid session → else 302 redirect to `/admin/login`.
+- `/api/admin/*` (all other endpoints): require valid session → else `401 {"success":false,"error":"Unauthorized"}`.
+- Validation: SELECT s.*, u.username FROM sessions s JOIN admin_users u ON u.id = s.user_id WHERE s.token = ? AND s.expires_at > datetime('now') — prepared statement; attach `locals.adminUser = { id, username, csrfToken }`.
+- **CSRF**: for POST/PUT/PATCH/DELETE on guarded `/api/admin/*`: `X-CSRF-Token` header must equal the session's csrf_token (constant-time compare via existing `verifyCSRFToken` logic adapted) → else `403 {"success":false,"error":"CSRF"}`.
+- DB binding missing (build-time prerender contexts): guard only runs when `locals.runtime?.env?.DB` exists AND the request is a real runtime request; admin pages must be `prerender = false` (verify each — any prerendered admin page must be flipped, otherwise the guard can't protect it).
+- The 16 endpoints with ad-hoc Bearer checks: per-endpoint auth code REMOVED (middleware is the single guard). Endpoints read `locals.adminUser` if they need identity.
+
+## 3. Password hashing — PBKDF2 with transparent migration
+
+- New format: `pbkdf2$100000$<salt-hex-16B>$<hash-hex-32B>` via WebCrypto `deriveBits` (PBKDF2-SHA256, 100k iterations — login-only cost, fits Workers CPU budget).
+- Verification order in login: (a) hash starts with `pbkdf2$` → PBKDF2 verify; (b) legacy 64-hex value → verify as unsalted SHA-256; on success immediately UPDATE to PBKDF2 format (transparent migration, no resets).
+- `change-password.ts` writes the new format and requires the authenticated session (middleware) — its own Bearer check removed like the rest.
+- DELETE the `admin/admin123` dev fallback from `login.ts` and the displayed credentials block from `login.astro`. Local dev: documented one-liner to seed an admin into the local D1 (INSERT with a PBKDF2 hash generated by a tiny script `scripts/hash-password.mjs`).
+
+## 4. Admin page updates
+
+- Remove localStorage gate scripts and `Authorization` headers from all admin pages' fetches (cookie flows automatically on same-origin).
+- New `GET /api/admin/session` (guarded): returns `{ success, username, csrf_token }`. Pages call it on load — replaces the gate (a 401 here means middleware will already have redirected page navigation; for fetch-based SPA-ish flows, on 401 → `window.location = '/admin/login'`).
+- Mutating fetches add `X-CSRF-Token` header (token from the session endpoint; cached in memory per page load — not localStorage).
+- `localStorage.removeItem('admin_token')` cleanup on login page load (cosmetic hygiene for old clients).
+
+## 5. XSS repairs
+
+- Fix raw-innerHTML interpolation of user-controlled data in: `contacts.astro` (the known worst), and audit + fix `applications.astro`, `pm-chats.astro`, `newsletter.astro`, `estimates.astro`, `chat.astro`, plus any others found by a sweep for `innerHTML` + `${` patterns in src/pages/admin/.
+- Pattern: escape every interpolated user field (shared `escapeHTML` — promote dashboard's helper to a small shared module `src/utils/escape-html.ts` or reuse `escapeHtml` from `src/lib/email.ts` — pick one canonical and use everywhere) or rebuild rows via createElement/textContent like bookings.astro.
+- Verification includes injecting probe rows (local D1) and confirming inert rendering.
+
+## 6. Verification
+
+- Smoke test gains: `{ path: '/api/admin/contacts', expectStatus: 401 }` — the wall is permanent.
+- Playwright e2e on preview: login (correct + wrong password), cookie attributes (HttpOnly/Secure/SameSite via response headers), authenticated page loads, direct `/admin/contacts` without cookie → redirect, `/api/admin/bookings` GET without cookie → 401, mutation without CSRF header → 403, with header → 200, logout → subsequent 401, legacy-password migration (seed a legacy-hash user locally, login, confirm rehash), XSS probes inert.
+- Production migration note: on deploy, the existing admin's password still works (legacy verify + rehash); old localStorage tokens are dead; user must log in once. Communicate at merge gate.
+
+## Error handling
+
+- Middleware DB errors during session lookup: fail CLOSED for /admin + /api/admin (503 JSON / redirect) — never fail open.
+- Sentry continues to capture API errors; auth rejections (401/403) are responses, not exceptions — no Sentry noise.
+
+## Out of scope
+
+Client portal changes, contract-signing verification (NEXT CYCLE #1), proposal expiry, 2FA, admin user management, password reset flow overhaul (existing page kept; works against new hash format via change-password path only), admin UI re-skin.
