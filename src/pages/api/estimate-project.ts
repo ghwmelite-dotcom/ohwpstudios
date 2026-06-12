@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import * as Sentry from '@sentry/cloudflare';
+import { sendEmail, emailShell, emailButton, escapeHtml } from '../../lib/email';
 
 export const prerender = false;
 
@@ -99,6 +101,44 @@ export const POST: APIRoute = async ({ request, locals }) => {
         data.website_url || null
       ).run();
       insertedId = result.meta.last_row_id;
+
+      // Fire-and-forget follow-up email — must never delay or fail the response.
+      // Dispatched only after the D1 INSERT succeeded (a throw above skips this).
+      const runtime = (locals as any).runtime;
+      const proposalUrl = `https://ohwpstudios.org/proposal/${shareToken}?utm_source=proposal_email&utm_medium=email&utm_campaign=estimate_followup`;
+      const followUp = async () => {
+        try {
+          const firstName = escapeHtml(data.name.trim().split(/\s+/)[0] || 'there');
+          const costMin = Number(aiAnalysis.estimated_cost_min);
+          const costMax = Number(aiAnalysis.estimated_cost_max);
+          const timelineWeeks = Number(aiAnalysis.estimated_timeline_weeks);
+          const teamSize = Number(aiAnalysis.team_size_needed);
+          const numbersHtml =
+            Number.isFinite(costMin) && Number.isFinite(costMax)
+              ? `<ul>
+                   <li><strong>Estimated cost:</strong> GH₵${Math.round(Number(costMin) * 12).toLocaleString()} – GH₵${Math.round(Number(costMax) * 12).toLocaleString()} ($${Number(costMin).toLocaleString()} – $${Number(costMax).toLocaleString()})</li>
+                   ${Number.isFinite(timelineWeeks) && timelineWeeks > 0 ? `<li><strong>Timeline:</strong> ~${timelineWeeks} weeks</li>` : ''}
+                   ${Number.isFinite(teamSize) && teamSize > 0 ? `<li><strong>Team:</strong> ${teamSize} people</li>` : ''}
+                 </ul>`
+              : `<p>Open your proposal for the full breakdown.</p>`;
+          await sendEmail(runtime?.env ?? {}, {
+            to: data.email,
+            subject: 'Your AI-scoped project proposal is ready',
+            html: emailShell(
+              'Your proposal is ready',
+              `<p>Hi ${firstName},</p>
+               <p>Here’s the summary of your scoped project:</p>
+               ${numbersHtml}
+               ${emailButton(proposalUrl, 'View your full proposal')}
+               <p style="text-align:center;font-size:13px;">Ready to move? <a href="https://ohwpstudios.org/booking?utm_source=proposal_email" style="color:#6366f1;">Book a free consult</a>.</p>`,
+            ),
+          });
+        } catch (e) {
+          Sentry.captureException(e); // no-op when DSN unset
+        }
+      };
+      if (runtime?.ctx?.waitUntil) runtime.ctx.waitUntil(followUp());
+      else await followUp();
     }
 
     return new Response(JSON.stringify({

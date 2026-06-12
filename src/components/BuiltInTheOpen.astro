@@ -1,0 +1,55 @@
+---
+import GitHubProjects from './GitHubProjects.astro';
+import OpenBuildTeaser from './OpenBuildTeaser.astro';
+---
+<section class="built-open" id="open-build">
+  <div class="container">
+    <div class="built-open-header">
+      <span class="built-open-badge">Built in the open</span>
+      <h2>Real code. Live builds. Nothing to hide.</h2>
+      <p>Watch what we ship — from open-source repos to live public builds.</p>
+    </div>
+  </div>
+  <GitHubProjects showHeader={false} />
+  <OpenBuildTeaser />
+</section>
+
+<style>
+  .built-open {
+    padding-top: var(--spacing-2xl);
+  }
+
+  /* Neutralise the top padding that .section adds to the GitHub strip */
+  .built-open :global(.gh-section) {
+    padding-top: 0;
+  }
+
+  .built-open-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--spacing-xl);
+  }
+
+  .built-open-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    border: 1px solid currentColor;
+    border-radius: 9999px;
+    padding: 4px 14px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .built-open-header h2 {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    margin: 0 0 0.5rem;
+  }
+
+  .built-open-header p {
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,635 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export const prerender = false;
+
+const title = 'Testimonials';
+---
+
+<BaseLayout title={title} noLoader={true}>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div class="header-left">
+        <a href="/admin/dashboard" class="back-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Dashboard
+        </a>
+        <h1>Testimonials</h1>
+      </div>
+    </div>
+
+    <!-- Invite a client -->
+    <div class="invite-card">
+      <h2>Invite a client</h2>
+      <p class="invite-description">Send a single-use testimonial link. Submissions land here as Pending until you activate them.</p>
+      <form id="invite-form" class="invite-form" novalidate>
+        <div class="invite-fields">
+          <div class="invite-field">
+            <label for="invite-name">Client name</label>
+            <input type="text" id="invite-name" maxlength="200" required placeholder="e.g. Ama Mensah" autocomplete="off" />
+          </div>
+          <div class="invite-field">
+            <label for="invite-email">Client email</label>
+            <input type="email" id="invite-email" maxlength="200" required placeholder="client@example.com" autocomplete="off" />
+          </div>
+          <button type="submit" class="invite-btn" id="invite-btn">Send invite</button>
+        </div>
+      </form>
+      <p class="invite-error" id="invite-error" role="alert" hidden></p>
+      <div class="invite-result" id="invite-result" hidden>
+        <label for="invite-link">Invite link</label>
+        <div class="invite-link-row">
+          <input type="text" id="invite-link" readonly />
+          <button type="button" class="copy-btn" id="copy-link-btn">Copy</button>
+        </div>
+        <p class="invite-note" id="invite-note"></p>
+      </div>
+    </div>
+
+    <!-- Testimonials Table -->
+    <div class="testimonials-container">
+      <div id="loading-state" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading testimonials...</p>
+      </div>
+
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <h3>No testimonials found</h3>
+        <p>Client submissions will appear here</p>
+      </div>
+
+      <div id="table-wrap" class="table-wrap" style="display: none;">
+        <table class="testimonials-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Company</th>
+              <th>Quote</th>
+              <th>Rating</th>
+              <th>Status</th>
+              <th>Action</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="testimonials-body">
+            <!-- Rows are built with createElement/textContent in the script below -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .admin-container {
+    min-height: 100vh;
+    background: var(--color-background);
+    padding: 2rem;
+  }
+
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .admin-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text);
+  }
+
+  /* Invite card */
+  .invite-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .invite-card h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.375rem;
+  }
+
+  .invite-description {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .invite-fields {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .invite-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .invite-field label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .invite-field input {
+    min-height: 44px;
+    padding: 0.625rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    transition: all 0.3s ease;
+  }
+
+  .invite-field input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .invite-btn {
+    min-height: 44px;
+    padding: 0.625rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--gradient-primary, linear-gradient(135deg, #6366f1, #ec4899));
+    color: white;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .invite-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+  }
+
+  .invite-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .invite-error {
+    margin: 1rem 0 0;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .invite-result {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .invite-result label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .invite-link-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .invite-link-row input {
+    flex: 1;
+    min-height: 44px;
+    padding: 0.625rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-family: monospace;
+  }
+
+  .copy-btn {
+    min-height: 44px;
+    padding: 0.625rem 1.25rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .copy-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .invite-note {
+    margin: 0.625rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Table card */
+  .testimonials-container {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    min-height: 400px;
+  }
+
+  .loading-state,
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .empty-state svg {
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p {
+    color: var(--color-text-secondary);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .testimonials-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .testimonials-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .testimonials-table :global(td) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    vertical-align: middle;
+  }
+
+  .testimonials-table :global(tbody tr:hover) {
+    background: var(--color-background);
+  }
+
+  .testimonials-table :global(.cell-quote) {
+    max-width: 280px;
+    color: var(--color-text-secondary);
+  }
+
+  .testimonials-table :global(.cell-muted) {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .testimonials-table :global(.cell-rating) {
+    color: #f59e0b;
+    white-space: nowrap;
+    letter-spacing: 2px;
+  }
+
+  .testimonials-table :global(.status-badge) {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .testimonials-table :global(.status-badge.live) {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+  }
+
+  .testimonials-table :global(.status-badge.pending) {
+    background: rgba(245, 158, 11, 0.12);
+    color: #b45309;
+  }
+
+  .testimonials-table :global(.toggle-btn) {
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: var(--color-background);
+    color: var(--color-text);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  .testimonials-table :global(.toggle-btn:hover:not(:disabled)) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .testimonials-table :global(.toggle-btn:focus-visible) {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .testimonials-table :global(.toggle-btn:disabled) {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    .admin-container {
+      padding: 1rem;
+    }
+
+    .admin-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .invite-fields {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .invite-field {
+      min-width: 0;
+    }
+  }
+</style>
+
+<script>
+  interface Testimonial {
+    id: number;
+    name: string;
+    role: string | null;
+    company: string | null;
+    content: string;
+    rating: number;
+    is_active: number;
+    created_at: string;
+  }
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+  }
+
+  function textCell(text: string, className?: string, title?: string): HTMLTableCellElement {
+    const td = document.createElement('td');
+    if (className) td.className = className;
+    if (title) td.title = title;
+    td.textContent = text;
+    return td;
+  }
+
+  // All user-supplied fields (name, company, content) come from client submissions
+  // and are attacker-controlled — rendered via textContent only, never innerHTML.
+  function buildRow(t: Testimonial): HTMLTableRowElement {
+    const tr = document.createElement('tr');
+
+    tr.appendChild(textCell(t.name || ''));
+    tr.appendChild(textCell(t.company || '—'));
+
+    const quote = t.content || '';
+    const truncated = quote.length > 60 ? quote.slice(0, 60) + '…' : quote;
+    tr.appendChild(textCell(truncated, 'cell-quote', quote));
+
+    const rating = Math.min(5, Math.max(0, Number(t.rating) || 0));
+    tr.appendChild(textCell('★'.repeat(rating), 'cell-rating', `${rating} of 5`));
+
+    const statusTd = document.createElement('td');
+    const badge = document.createElement('span');
+    badge.className = 'status-badge ' + (t.is_active ? 'live' : 'pending');
+    badge.textContent = t.is_active ? 'Live' : 'Pending';
+    statusTd.appendChild(badge);
+    tr.appendChild(statusTd);
+
+    const actionTd = document.createElement('td');
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'toggle-btn';
+    toggle.textContent = t.is_active ? 'Deactivate' : 'Activate';
+    toggle.setAttribute('aria-label', (t.is_active ? 'Deactivate' : 'Activate') + ' testimonial from ' + (t.name || 'client'));
+    toggle.addEventListener('click', () => toggleActive(t.id, t.is_active ? 0 : 1, toggle));
+    actionTd.appendChild(toggle);
+    tr.appendChild(actionTd);
+
+    tr.appendChild(textCell(formatDate(t.created_at), 'cell-muted'));
+
+    return tr;
+  }
+
+  async function toggleActive(id: number, is_active: 0 | 1, button: HTMLButtonElement) {
+    button.disabled = true;
+
+    try {
+      const response = await fetch('/api/admin/testimonials', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, is_active })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        await loadTestimonials();
+      } else {
+        alert('Failed to update testimonial');
+        button.disabled = false;
+      }
+    } catch (error) {
+      console.error('Error updating testimonial:', error);
+      alert('Failed to update testimonial');
+      button.disabled = false;
+    }
+  }
+
+  async function loadTestimonials() {
+    const loadingState = document.getElementById('loading-state');
+    const emptyState = document.getElementById('empty-state');
+    const tableWrap = document.getElementById('table-wrap');
+    const tbody = document.getElementById('testimonials-body');
+
+    try {
+      const response = await fetch('/api/admin/testimonials');
+      const data = await response.json();
+
+      if (loadingState) loadingState.style.display = 'none';
+
+      if (data.success && data.testimonials.length > 0 && tbody && tableWrap) {
+        tbody.replaceChildren();
+        for (const testimonial of data.testimonials as Testimonial[]) {
+          tbody.appendChild(buildRow(testimonial));
+        }
+        tableWrap.style.display = 'block';
+        if (emptyState) emptyState.style.display = 'none';
+      } else {
+        if (tableWrap) tableWrap.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'flex';
+      }
+    } catch (error) {
+      console.error('Error loading testimonials:', error);
+      if (loadingState) loadingState.style.display = 'none';
+      if (emptyState) emptyState.style.display = 'flex';
+    }
+  }
+
+  function setupInviteForm() {
+    const form = document.getElementById('invite-form') as HTMLFormElement | null;
+    if (!form) return;
+
+    const nameInput = document.getElementById('invite-name') as HTMLInputElement;
+    const emailInput = document.getElementById('invite-email') as HTMLInputElement;
+    const button = document.getElementById('invite-btn') as HTMLButtonElement;
+    const errorEl = document.getElementById('invite-error') as HTMLParagraphElement;
+    const result = document.getElementById('invite-result') as HTMLDivElement;
+    const linkInput = document.getElementById('invite-link') as HTMLInputElement;
+    const note = document.getElementById('invite-note') as HTMLParagraphElement;
+    const copyBtn = document.getElementById('copy-link-btn') as HTMLButtonElement;
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(linkInput.value);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+      } catch {
+        linkInput.select();
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+
+      if (!form.reportValidity()) return;
+
+      button.disabled = true;
+      button.textContent = 'Sending…';
+
+      try {
+        const response = await fetch('/api/admin/testimonial-invites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            client_name: nameInput.value.trim(),
+            email: emailInput.value.trim()
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          linkInput.value = data.link;
+          note.textContent = data.emailed
+            ? 'emailed ✓'
+            : 'email failed — send the link manually';
+          result.hidden = false;
+          form.reset();
+        } else {
+          errorEl.textContent = data.error || 'Failed to create invite';
+          errorEl.hidden = false;
+        }
+      } catch (error) {
+        console.error('Error creating invite:', error);
+        errorEl.textContent = 'Failed to create invite';
+        errorEl.hidden = false;
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Send invite';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupInviteForm();
+    loadTestimonials();
+  });
+</script>
