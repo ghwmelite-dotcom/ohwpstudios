@@ -2,7 +2,7 @@
 // Testimonials Carousel Component
 // World-class testimonials with smooth animations
 
-// Fetch testimonials from database
+// Fetch testimonials from database — no fallback: hide section on error or empty list
 let testimonials: any[] = [];
 try {
   const response = await fetch(Astro.url.origin + '/api/testimonials');
@@ -14,85 +14,29 @@ try {
   console.error('Error fetching testimonials:', error);
 }
 
-// Fallback testimonials if API fails
-if (testimonials.length === 0) {
-  testimonials = [
-    {
-      name: 'Oliver B.',
-      role: 'Marketing Director',
-      company: 'TechSolutions Inc.',
-      content: 'Working with this team has been an absolute game-changer for our business. Their attention to detail and commitment to excellence is unmatched. Our website traffic increased by 300% in just 3 months!',
-      rating: 5,
-      avatar_initials: 'OB',
-      avatar_gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-    },
-    {
-      name: 'Sarah M.',
-      role: 'Founder',
-      company: 'GreenLeaf Organics',
-      content: 'The custom fullstack solution they built for us exceeded all expectations. Our conversion rate jumped 40%, and customer engagement has never been higher. Truly exceptional work!',
-      rating: 5,
-      avatar_initials: 'SM',
-      avatar_gradient: 'linear-gradient(135deg, #0073aa 0%, #00a0d2 100%)'
-    },
-    {
-      name: 'Michael T.',
-      role: 'CEO',
-      company: 'BlueWave Consulting',
-      content: 'We\'ve been partners for over 3 years now, and their consistent quality and innovative solutions keep impressing us. They\'re not just developers - they\'re strategic partners in our growth.',
-      rating: 5,
-      avatar_initials: 'MT',
-      avatar_gradient: 'linear-gradient(135deg, #ec4899 0%, #f59e0b 100%)'
-    },
-    {
-      name: 'Johny T.',
-      role: 'Blogger',
-      company: 'Travel Tales',
-      content: 'As a blogger, I needed a fast, beautiful, and SEO-friendly site. They delivered beyond my wildest dreams! The learning resources they provided were the cherry on top. Highly recommended!',
-      rating: 5,
-      avatar_initials: 'JT',
-      avatar_gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)'
-    },
-    {
-      name: 'Emily R.',
-      role: 'Product Manager',
-      company: 'InnovateTech Solutions',
-      content: 'The team\'s expertise in both design and development is remarkable. They transformed our outdated platform into a modern, user-friendly experience. Our user retention increased by 65% in the first quarter!',
-      rating: 5,
-      avatar_initials: 'ER',
-      avatar_gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)'
-    },
-    {
-      name: 'David K.',
-      role: 'COO',
-      company: 'Global Finance Corp',
-      content: 'Working with this agency has been transformative for our business. Their attention to security, performance, and user experience is unparalleled. They\'re true professionals who deliver on every promise.',
-      rating: 5,
-      avatar_initials: 'DK',
-      avatar_gradient: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)'
-    }
-  ];
-}
+// Compute average rating from real data only
+const avg = testimonials.length
+  ? (testimonials.reduce((s: number, t: any) => s + (t.rating || 5), 0) / testimonials.length).toFixed(1)
+  : null;
 
 // Generate unique gradient ID for each testimonial
 const generateGradientId = (index: number) => `gradient${index + 1}`;
 ---
 
+{testimonials.length > 0 && (
 <section id="testimonials" class="section testimonials-section" data-animate>
   <div class="container">
     <!-- Section Header -->
     <div class="section-header" style="text-align: center; max-width: 700px; margin: 0 auto 4rem;">
       <span class="badge" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--gradient-primary); color: white; border-radius: var(--radius-full); font-weight: 600; font-size: 0.875rem; margin-bottom: 1rem;">
-        Client Success Stories
+        Client Stories
       </span>
       <h2 data-text-reveal class="title-hero testimonials-title">
-        <span class="title-heart">💕</span>
-        <span class="title-gradient">Loved by 400+ Happy Clients</span>
-        <span class="title-heart">💕</span>
+        <span class="title-gradient">What clients say about working with us</span>
         <div class="title-underline"></div>
       </h2>
       <p style="font-size: 1.25rem; margin-top: 1rem;">
-        Don't just take our word for it - hear from businesses we've helped transform
+        Hear directly from businesses we've helped build and grow
       </p>
     </div>
 
@@ -150,23 +94,26 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
       </div>
     </div>
 
-    <!-- Trust Indicators -->
-    <div class="trust-indicators" style="display: flex; justify-content: center; gap: 4rem; margin-top: 4rem; flex-wrap: wrap;">
-      <div class="trust-item" data-animate style="text-align: center;">
-        <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">4.9/5</div>
-        <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Average Rating</div>
+    <!-- Trust Indicators (computed from real data) -->
+    {avg && (
+      <div class="trust-indicators" style="display: flex; justify-content: center; gap: 4rem; margin-top: 4rem; flex-wrap: wrap;">
+        <div class="trust-item" data-animate style="text-align: center;">
+          <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">★ {avg}/5</div>
+          <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Average Rating</div>
+        </div>
+        <div class="trust-item" data-animate style="text-align: center;" aria-hidden="true">
+          <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">·</div>
+          <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;"></div>
+        </div>
+        <div class="trust-item" data-animate style="text-align: center;">
+          <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">{testimonials.length}</div>
+          <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Client Reviews</div>
+        </div>
       </div>
-      <div class="trust-item" data-animate style="text-align: center;">
-        <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">400+</div>
-        <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Happy Clients</div>
-      </div>
-      <div class="trust-item" data-animate style="text-align: center;">
-        <div class="trust-number text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem;">99%</div>
-        <div class="trust-label" style="color: var(--color-text-muted); font-weight: 500;">Would Recommend</div>
-      </div>
-    </div>
+    )}
   </div>
 </section>
+)}
 
 <style>
   .testimonials-section {
