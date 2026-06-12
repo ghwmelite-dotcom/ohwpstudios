@@ -1,0 +1,296 @@
+---
+// ProofBand — compact proof band: one stat row (real numbers only) + client logo strip.
+// Replaces the separate Statistics and ClientLogos sections.
+const db = Astro.locals.runtime?.env?.DB;
+let projectCount = 14; // honest fallback — current published count
+try {
+  if (db) {
+    const row = await db
+      .prepare('SELECT COUNT(*) AS n FROM portfolio_projects WHERE is_published = 1')
+      .first();
+    if (row?.n) projectCount = Number(row.n);
+  }
+} catch { /* keep fallback */ }
+---
+
+<section class="proof-band" aria-label="Track record and clients">
+  <div class="container">
+
+    <!-- Stat row: real numbers only, no counter animations, no JS dependency -->
+    <div class="proof-stats">
+      <div class="proof-stat">
+        <strong>10+</strong>
+        <span>years experience</span>
+      </div>
+      <div class="proof-stat">
+        <strong>{projectCount}+</strong>
+        <span>projects shipped</span>
+      </div>
+      <div class="proof-stat">
+        <strong>100%</strong>
+        <span>fullstack, end to end</span>
+      </div>
+      <div class="proof-stat">
+        <strong>2014</strong>
+        <span>building since</span>
+      </div>
+    </div>
+
+    <!-- Logo carousel — ported from ClientLogos.astro.
+         CSS animation (scroll keyframe) is the sole driver; the global
+         design-system.css `prefers-reduced-motion` rule collapses
+         animation-duration to 0.01ms, stopping it automatically. -->
+    <div class="logos-carousel" aria-label="Client and partner logos">
+      <div class="logos-track" id="proof-logos-track">
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <span>TechCorp</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <span>InnovateLabs</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <span>CloudSync</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+            <span>GreenLeaf</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <span>DesignStudio</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+            <span>DataFlow</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+            <span>MediaHub</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+            <span>SmartSolutions</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+            <span>BrandWorks</span>
+          </div>
+        </div>
+        <div class="logo-item">
+          <div class="logo-placeholder" style="background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);">
+            <span>NextGen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ─── Section shell ────────────────────────────────────────────────────── */
+  .proof-band {
+    padding: var(--spacing-2xl) 0;
+    /* var(--color-bg-alt) resolves to #f9fafb (light) / #1e293b (dark)
+       via the [data-theme="dark"] block in design-system.css — no explicit
+       dark rule needed here. */
+    background: var(--color-bg-alt);
+    overflow: hidden;
+  }
+
+  /* ─── Stat row ─────────────────────────────────────────────────────────── */
+  .proof-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .proof-stat strong {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.375rem;
+    /* gradient text — identical pattern to .stat-value in ClientLogos.astro */
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* Fallback for browsers that don't support background-clip:text */
+    -webkit-text-fill-color: transparent;
+  }
+
+  .proof-stat span {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  /* ─── Carousel ─────────────────────────────────────────────────────────── */
+  .logos-carousel {
+    position: relative;
+    overflow: hidden;
+    padding: var(--spacing-sm) 0;
+  }
+
+  /* Fade masks: use var(--color-bg-alt) so they match the section background
+     in both light and dark themes automatically. */
+  .logos-carousel::before,
+  .logos-carousel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .logos-carousel::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--color-bg-alt) 0%, transparent 100%);
+  }
+
+  .logos-carousel::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--color-bg-alt) 0%, transparent 100%);
+  }
+
+  .logos-track {
+    display: flex;
+    gap: 3rem;
+    /* The scroll keyframe drives the infinite marquee.
+       prefers-reduced-motion in design-system.css sets animation-duration to
+       0.01ms and iteration-count to 1, effectively stopping this. */
+    animation: proof-scroll 40s linear infinite;
+    width: fit-content;
+  }
+
+  .logos-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes proof-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 1.5rem)); }
+  }
+
+  .logo-item {
+    flex-shrink: 0;
+    width: 180px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: default;
+  }
+
+  .logo-placeholder:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  /* ─── Dark mode ─────────────────────────────────────────────────────────
+     The section background and text-muted color are handled by CSS custom
+     properties that resolve correctly under [data-theme="dark"] in
+     design-system.css (--color-bg-alt, --color-text-muted).
+
+     The only element that may need an explicit dark override is logo-placeholder
+     shadow opacity — kept as-is since the colored gradient backgrounds are
+     vibrant enough in both modes.
+
+     Plain scoped `[data-theme="dark"]` rules compile to dead selectors in
+     Astro's scoped CSS. Use :global() for any dark-mode overrides. */
+  :global([data-theme="dark"]) .logo-placeholder {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  :global([data-theme="dark"]) .logo-placeholder:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ─── Responsive ────────────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .proof-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .logo-item {
+      width: 140px;
+      height: 72px;
+    }
+
+    .logo-placeholder {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .proof-stat strong {
+      font-size: 1.625rem;
+    }
+  }
+</style>
+
+<script>
+  // Duplicate logo items for a seamless infinite-scroll loop.
+  // The CSS animation translates by -50% of the track width; doubling the
+  // items makes the seam invisible.
+  // matchMedia guard: if the user prefers reduced motion, skip duplication
+  // entirely — the animation is already collapsed by design-system.css, but
+  // there's no point duplicating DOM nodes for a static list.
+  function initProofCarousel() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const track = document.getElementById('proof-logos-track');
+    if (!track) return;
+
+    // Guard against double-init on astro:page-load
+    if (track.dataset.initialized) return;
+    track.dataset.initialized = 'true';
+
+    const originals = Array.from(track.children);
+    originals.forEach((item) => {
+      const clone = item.cloneNode(true) as HTMLElement;
+      // Mark clones as aria-hidden so screen readers don't repeat them
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProofCarousel);
+  } else {
+    initProofCarousel();
+  }
+
+  document.addEventListener('astro:page-load', initProofCarousel);
+</script>
