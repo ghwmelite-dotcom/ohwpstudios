@@ -5,6 +5,7 @@ const { content } = Astro.props;
 ---
 
 <section id="hero" class="hero-world" data-gradient-mesh>
+  <div class="kente-hero-band" aria-hidden="true"></div>
   <div class="hero-container container">
     <!-- Floating 3D Elements -->
     <div class="floating-elements">
@@ -221,6 +222,18 @@ const { content } = Astro.props;
       hsl(222, 45%, 13%) 50%,
       hsl(222, 43%, 15%) 100%
     );
+  }
+
+  /* Kente strip pinned to the hero's visible top edge. The header is fixed
+     and overlays the section's true top, so anchor just below it — the band
+     reads as a full-bleed weave directly under the site header. Pattern/height
+     come from the global .kente-hero-band utility (motifs.css). */
+  .hero-world > .kente-hero-band {
+    position: absolute;
+    top: var(--header-height, 0px);
+    left: 0;
+    right: 0;
+    z-index: 3;
   }
 
   .hero-container {

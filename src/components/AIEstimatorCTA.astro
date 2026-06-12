@@ -83,7 +83,7 @@
 
       <div class="cta-visual">
         <div class="mockup-container">
-          <div class="mockup-screen">
+          <div class="mockup-screen kente-edge">
             <div class="mockup-header">
               <div class="mockup-dots">
                 <span></span>
@@ -275,15 +275,18 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
-    color: white;
+    /* Shared gold gradient + ink text (the old gold->green gradient failed
+       AA with any single text color; ink on gold passes both themes) */
+    background: var(--gradient-primary);
+    color: #161210;
     border: none;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.35);
   }
 
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    color: #161210;
+    box-shadow: 0 6px 25px rgba(227, 169, 43, 0.45);
   }
 
   .btn-secondary {
