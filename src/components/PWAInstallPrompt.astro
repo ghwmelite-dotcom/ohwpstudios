@@ -104,14 +104,16 @@
 </div>
 
 <style>
-  :root {
+  /* :global — a scoped :root gets the scope hash appended and never matches
+     the <html> element (Astro scoped-style dead-rule bug) */
+  :global(:root) {
     --pwa-primary: #E3A92B;
     --pwa-primary-dark: #B8860B;
-    --pwa-bg: #0f172a;
-    --pwa-surface: #1e293b;
-    --pwa-border: #334155;
-    --pwa-text: #f1f5f9;
-    --pwa-text-muted: #94a3b8;
+    --pwa-bg: #161210;
+    --pwa-surface: #241D17;
+    --pwa-border: #3A2F25;
+    --pwa-text: #FAF3E0;
+    --pwa-text-muted: #C9BCA4;
     --pwa-success: #10b981;
     --pwa-danger: #ef4444;
   }
