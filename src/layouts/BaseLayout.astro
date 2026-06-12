@@ -1,4 +1,5 @@
 ---
+import '@fontsource-variable/fraunces/standard.css';
 import '@/styles/design-system.css';
 import '@/styles/dark-mode-fixes.css';
 import { SITE_CONFIG } from '@/config';
@@ -120,15 +121,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={pageTitle} />
 
-    <!-- Fonts - Optimized with font-display:swap and preload (reduced to 3 weights for performance) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
-
     <!-- Critical Resource Hints -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
     <!-- Performance & SEO -->
     <meta name="theme-color" content="#6366f1" />
