@@ -48,7 +48,7 @@ export function emailShell(title: string, bodyHtml: string): string {
   return `<!DOCTYPE html>
 <html><body style="margin:0;padding:0;background:#f4f4f7;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px;">
-    <div style="background:linear-gradient(90deg,#6366f1,#ec4899);border-radius:12px 12px 0 0;padding:20px 28px;">
+    <div style="background:linear-gradient(90deg,#E3A92B,#F5C969);border-radius:12px 12px 0 0;padding:20px 28px;">
       <span style="color:#ffffff;font-size:18px;font-weight:800;letter-spacing:.3px;">OhWP Studios</span>
     </div>
     <div style="background:#ffffff;border-radius:0 0 12px 12px;padding:28px;color:#111827;font-size:15px;line-height:1.6;">
@@ -57,7 +57,7 @@ export function emailShell(title: string, bodyHtml: string): string {
     </div>
     <p style="text-align:center;color:#9ca3af;font-size:12px;margin-top:16px;">
       OhWP Studios — Powered by Hodges &amp; Co.<br>
-      <a href="https://ohwpstudios.org" style="color:#6366f1;">ohwpstudios.org</a>
+      <a href="https://ohwpstudios.org" style="color:#E3A92B;">ohwpstudios.org</a>
     </p>
   </div>
 </body></html>`;
@@ -65,5 +65,5 @@ export function emailShell(title: string, bodyHtml: string): string {
 
 /** Big-button CTA used inside email bodies. */
 export function emailButton(href: string, label: string): string {
-  return `<p style="text-align:center;margin:24px 0;"><a href="${href}" style="background:linear-gradient(90deg,#6366f1,#ec4899);color:#ffffff;text-decoration:none;font-weight:700;padding:13px 28px;border-radius:9999px;display:inline-block;">${label}</a></p>`;
+  return `<p style="text-align:center;margin:24px 0;"><a href="${href}" style="background:linear-gradient(90deg,#E3A92B,#F5C969);color:#ffffff;text-decoration:none;font-weight:700;padding:13px 28px;border-radius:9999px;display:inline-block;">${label}</a></p>`;
 }

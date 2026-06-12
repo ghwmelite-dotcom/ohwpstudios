@@ -34,12 +34,12 @@ const shouldHide = currentPath.startsWith('/admin') ||
 
   .social-proof-notification {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.98));
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(227, 169, 43, 0.2);
     border-radius: var(--radius-2xl);
     padding: 1.25rem 1.5rem;
     margin-bottom: 1rem;
     box-shadow:
-      0 20px 60px rgba(99, 102, 241, 0.15),
+      0 20px 60px rgba(227, 169, 43, 0.15),
       0 0 0 1px rgba(255, 255, 255, 0.8) inset;
     display: flex;
     align-items: center;
@@ -56,10 +56,10 @@ const shouldHide = currentPath.startsWith('/admin') ||
 
   [data-theme="dark"] .social-proof-notification {
     background: linear-gradient(135deg, rgba(30, 30, 40, 0.95), rgba(40, 40, 50, 0.98));
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(227, 169, 43, 0.3);
     box-shadow:
       0 20px 60px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(99, 102, 241, 0.1) inset;
+      0 0 0 1px rgba(227, 169, 43, 0.1) inset;
   }
 
   .social-proof-notification::before {
@@ -69,7 +69,7 @@ const shouldHide = currentPath.startsWith('/admin') ||
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(180deg, #6366f1, #ec4899);
+    background: linear-gradient(180deg, #E3A92B, #F5C969);
     border-radius: var(--radius-2xl) 0 0 var(--radius-2xl);
   }
 
@@ -77,22 +77,22 @@ const shouldHide = currentPath.startsWith('/admin') ||
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 60%);
+    background: radial-gradient(circle at top right, rgba(227, 169, 43, 0.08), transparent 60%);
     pointer-events: none;
   }
 
   .social-proof-notification:hover {
     transform: translateX(-8px) translateY(-2px);
     box-shadow:
-      0 25px 70px rgba(99, 102, 241, 0.25),
+      0 25px 70px rgba(227, 169, 43, 0.25),
       0 0 0 1px rgba(255, 255, 255, 1) inset;
-    border-color: rgba(99, 102, 241, 0.4);
+    border-color: rgba(227, 169, 43, 0.4);
   }
 
   [data-theme="dark"] .social-proof-notification:hover {
     box-shadow:
-      0 25px 70px rgba(99, 102, 241, 0.3),
-      0 0 0 1px rgba(99, 102, 241, 0.2) inset;
+      0 25px 70px rgba(227, 169, 43, 0.3),
+      0 0 0 1px rgba(227, 169, 43, 0.2) inset;
   }
 
   .social-proof-notification.hide {
@@ -125,7 +125,7 @@ const shouldHide = currentPath.startsWith('/admin') ||
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,15 +135,15 @@ const shouldHide = currentPath.startsWith('/admin') ||
     flex-shrink: 0;
     position: relative;
     box-shadow:
-      0 8px 20px rgba(99, 102, 241, 0.4),
+      0 8px 20px rgba(227, 169, 43, 0.4),
       0 0 0 3px rgba(255, 255, 255, 0.9) inset;
     transition: all 0.3s ease;
   }
 
   [data-theme="dark"] .social-proof-avatar {
     box-shadow:
-      0 8px 20px rgba(99, 102, 241, 0.5),
-      0 0 0 3px rgba(99, 102, 241, 0.2) inset;
+      0 8px 20px rgba(227, 169, 43, 0.5),
+      0 0 0 3px rgba(227, 169, 43, 0.2) inset;
   }
 
   .social-proof-notification:hover .social-proof-avatar {
@@ -202,7 +202,7 @@ const shouldHide = currentPath.startsWith('/admin') ||
   }
 
   .social-proof-time {
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

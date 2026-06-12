@@ -7,8 +7,8 @@
     <defs>
       <path id="circlePath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" />
       <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#818cf8;stop-opacity:1" />
+        <stop offset="0%" style="stop-color:#E3A92B;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#F5C969;stop-opacity:1" />
         <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
       </linearGradient>
     </defs>
@@ -27,8 +27,8 @@
         <circle cx="12" cy="7" r="1.5" fill="currentColor"/>
         <defs>
           <linearGradient id="chatGradient1" x1="2" y1="2" x2="22" y2="12">
-            <stop offset="0%" stop-color="#6366f1"/>
-            <stop offset="100%" stop-color="#ec4899"/>
+            <stop offset="0%" stop-color="#E3A92B"/>
+            <stop offset="100%" stop-color="#F5C969"/>
           </linearGradient>
         </defs>
       </svg>
@@ -75,8 +75,8 @@
             <circle cx="12" cy="7" r="3" fill="white"/>
             <defs>
               <linearGradient id="welcomeGrad" x1="2" y1="2" x2="22" y2="22">
-                <stop offset="0%" stop-color="#667eea"/>
-                <stop offset="100%" stop-color="#f093fb"/>
+                <stop offset="0%" stop-color="#E3A92B"/>
+                <stop offset="100%" stop-color="#F5C969"/>
               </linearGradient>
             </defs>
           </svg>
@@ -211,7 +211,7 @@
     bottom: 50%;
     right: 85px;
     transform: translateY(50%);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     color: white;
     padding: 0.625rem 1.125rem;
     border-radius: 12px;
@@ -232,7 +232,7 @@
     transform: translateY(-50%) rotate(45deg);
     width: 12px;
     height: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   }
 
   .chatbot-toggle:hover ~ .chatbot-label,
@@ -268,7 +268,7 @@
     width: 100%;
     height: 100%;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 50%, #F5C969 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -294,7 +294,7 @@
     position: absolute;
     inset: -2px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background: linear-gradient(135deg, #E3A92B, #1B5E3A, #F5C969);
     filter: blur(12px);
     opacity: 0.7;
     z-index: -1;
@@ -319,7 +319,7 @@
   }
 
   .chatbot-toggle.active .chatbot-toggle-inner {
-    background: linear-gradient(135deg, #f093fb 0%, #764ba2 50%, #667eea 100%);
+    background: linear-gradient(135deg, #F5C969 0%, #1B5E3A 50%, #E3A92B 100%);
   }
 
   .chatbot-badge {
@@ -403,7 +403,7 @@
     width: 44px;
     height: 44px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -418,7 +418,7 @@
     position: absolute;
     inset: -3px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #E3A92B, #1B5E3A);
     filter: blur(8px);
     opacity: 0.4;
     z-index: -1;
@@ -566,7 +566,7 @@
 
   .welcome-form input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #E3A92B;
     background: var(--color-surface);
     box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
   }
@@ -579,7 +579,7 @@
   .start-chat-btn {
     width: 100%;
     padding: 0.875rem 1.25rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     color: white;
     border: none;
     border-radius: 10px;
@@ -695,7 +695,7 @@
     width: 36px;
     height: 36px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -705,8 +705,8 @@
   }
 
   .user-message .message-avatar {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.4);
   }
 
   .message-content {
@@ -732,10 +732,10 @@
 
   /* User message styling - ALWAYS gradient background (RIGHT SIDE) */
   .chatbot-messages .message.user-message .message-content {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+    background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%) !important;
     color: white !important;
     border-bottom-right-radius: 6px !important;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45) !important;
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
   }
 
@@ -754,7 +754,7 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #E3A92B, #1B5E3A);
     animation: typing 1.4s infinite ease-in-out;
   }
 
@@ -818,8 +818,8 @@
   }
 
   .quick-reply:hover {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: #E3A92B;
+    color: #E3A92B;
     transform: translateX(4px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
   }
@@ -855,7 +855,7 @@
 
   .chatbot-input input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #E3A92B;
     background: var(--color-surface);
     box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
   }
@@ -869,7 +869,7 @@
     width: 48px;
     height: 48px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     border: none;
     cursor: pointer;
     display: flex;
@@ -886,7 +886,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+    background: linear-gradient(135deg, #1B5E3A 0%, #F5C969 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -957,8 +957,8 @@
   }
 
   .export-btn:hover {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: #E3A92B;
+    color: #E3A92B;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
   }
@@ -1184,7 +1184,7 @@
       urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">⭐ Free Consultation Available</div>';
     } else {
       mainMessage = `Thanks for your interest in ${sanitizeHTML(projectType)}! Let's schedule a quick call to understand your needs better. 📞`;
-      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">💬 Free Consultation</div>';
+      urgencyBadge = '<div style="display: inline-block; background: linear-gradient(135deg, #E3A92B, #1B5E3A); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.875rem;">💬 Free Consultation</div>';
     }
 
     promptDiv.innerHTML = `
@@ -1203,7 +1203,7 @@
 
         <div style="background: white; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 1px solid rgba(102, 126, 234, 0.15);">
           <div style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text); display: flex; align-items: center; gap: 0.5rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E3A92B" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
               <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
@@ -1217,7 +1217,7 @@
           </ul>
         </div>
 
-        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -1418,7 +1418,7 @@
 
       // Force colors with inline styles
       const contentStyle = type === 'user'
-        ? 'background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%); color: white; border-bottom-right-radius: 6px; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45); border: 1px solid rgba(255, 255, 255, 0.2);'
+        ? 'background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 50%, #F5C969 100%); color: white; border-bottom-right-radius: 6px; box-shadow: 0 4px 20px rgba(227, 169, 43, 0.45); border: 1px solid rgba(255, 255, 255, 0.2);'
         : 'background: white; color: #1f2937; border-bottom-left-radius: 6px; border: 2px solid rgba(102, 126, 234, 0.15); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);';
 
       // Sanitize user/bot message content to prevent XSS

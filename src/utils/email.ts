@@ -78,11 +78,11 @@ export function getContactFormEmailTemplate(data: {
         <style>
           body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
           .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+          .header { background: linear-gradient(135deg, #E3A92B 0%, #F5C969 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
           .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
           .field { margin-bottom: 20px; }
-          .label { font-weight: bold; color: #6366f1; margin-bottom: 5px; display: block; }
-          .value { background: white; padding: 12px; border-radius: 5px; border-left: 3px solid #6366f1; }
+          .label { font-weight: bold; color: #E3A92B; margin-bottom: 5px; display: block; }
+          .value { background: white; padding: 12px; border-radius: 5px; border-left: 3px solid #E3A92B; }
           .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
         </style>
       </head>
@@ -139,9 +139,9 @@ export function getNewsletterEmailTemplate(data: { email: string }) {
         <style>
           body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
           .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+          .header { background: linear-gradient(135deg, #E3A92B 0%, #F5C969 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
           .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; text-align: center; }
-          .email { background: white; padding: 20px; border-radius: 10px; font-size: 18px; color: #6366f1; font-weight: bold; margin: 20px 0; }
+          .email { background: white; padding: 20px; border-radius: 10px; font-size: 18px; color: #E3A92B; font-weight: bold; margin: 20px 0; }
           .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
         </style>
       </head>
@@ -189,14 +189,14 @@ export function getJobApplicationEmailTemplate(data: {
         <style>
           body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
           .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+          .header { background: linear-gradient(135deg, #E3A92B 0%, #F5C969 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
           .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
           .field { margin-bottom: 15px; }
-          .label { font-weight: bold; color: #6366f1; margin-bottom: 5px; display: block; font-size: 12px; text-transform: uppercase; }
-          .value { background: white; padding: 10px; border-radius: 5px; border-left: 3px solid #6366f1; }
+          .label { font-weight: bold; color: #E3A92B; margin-bottom: 5px; display: block; font-size: 12px; text-transform: uppercase; }
+          .value { background: white; padding: 10px; border-radius: 5px; border-left: 3px solid #E3A92B; }
           .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
           .links { margin-top: 20px; }
-          .link-btn { display: inline-block; padding: 10px 20px; background: #6366f1; color: white; text-decoration: none; border-radius: 5px; margin: 5px; }
+          .link-btn { display: inline-block; padding: 10px 20px; background: #E3A92B; color: white; text-decoration: none; border-radius: 5px; margin: 5px; }
           .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
         </style>
       </head>

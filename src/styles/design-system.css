@@ -464,10 +464,10 @@ a:hover {
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(227, 169, 43, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 40px rgba(227, 169, 43, 0.6);
   }
 }
 
@@ -618,10 +618,10 @@ a:hover {
 
 @keyframes text-glow {
   0%, 100% {
-    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    text-shadow: 0 0 10px rgba(227, 169, 43, 0.5);
   }
   50% {
-    text-shadow: 0 0 20px rgba(99, 102, 241, 0.8), 0 0 30px rgba(236, 72, 153, 0.5);
+    text-shadow: 0 0 20px rgba(227, 169, 43, 0.8), 0 0 30px rgba(245, 201, 105, 0.5);
   }
 }
 
