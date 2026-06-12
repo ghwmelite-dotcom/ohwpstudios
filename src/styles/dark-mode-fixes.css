@@ -3,13 +3,13 @@
 
 /* Hero Section Dark Mode */
 [data-theme="dark"] .hero-badge {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(227, 169, 43, 0.2);
+  border-color: rgba(227, 169, 43, 0.4);
   color: #e0e7ff;
 }
 
 [data-theme="dark"] .badge-pulse {
-  background: rgba(99, 102, 241, 0.6);
+  background: rgba(227, 169, 43, 0.6);
 }
 
 [data-theme="dark"] .hero-title {
@@ -35,12 +35,12 @@
 /* Code Mockup Dark Mode */
 [data-theme="dark"] .code-mockup {
   background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(227, 169, 43, 0.3);
 }
 
 [data-theme="dark"] .code-header {
   background: rgba(15, 23, 42, 0.8);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .code-title,
@@ -81,7 +81,7 @@
 /* Tech Badges Dark Mode */
 [data-theme="dark"] .tech-badge {
   background: rgba(30, 41, 59, 0.9);
-  border-color: rgba(99, 102, 241, 0.4);
+  border-color: rgba(227, 169, 43, 0.4);
   color: #e0e7ff;
 }
 
@@ -108,8 +108,8 @@
 
 [data-theme="dark"] .float-badge {
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.3);
-  color: #a5b4fc;
+  border-color: rgba(227, 169, 43, 0.3);
+  color: #F5C969;
 }
 
 /* Statistics Section Dark Mode */
@@ -119,7 +119,7 @@
 
 [data-theme="dark"] .statistic-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .statistic-value {
@@ -133,12 +133,12 @@
 /* Services Section Dark Mode */
 [data-theme="dark"] .service-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .service-card:hover {
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.4);
+  border-color: rgba(227, 169, 43, 0.4);
 }
 
 [data-theme="dark"] .service-title {
@@ -156,7 +156,7 @@
 /* Portfolio Section Dark Mode */
 [data-theme="dark"] .portfolio-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .portfolio-card:hover {
@@ -172,15 +172,15 @@
 }
 
 [data-theme="dark"] .portfolio-tag {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(227, 169, 43, 0.2);
   color: #c7d2fe;
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(227, 169, 43, 0.3);
 }
 
 /* Testimonials Dark Mode */
 [data-theme="dark"] .testimonial-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .testimonial-text {
@@ -202,13 +202,13 @@
 
 [data-theme="dark"] .contact-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .form-input,
 [data-theme="dark"] .form-textarea {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(227, 169, 43, 0.3);
   color: #f1f5f9;
 }
 
@@ -224,7 +224,7 @@
 /* Pricing Calculator Dark Mode */
 [data-theme="dark"] .pricing-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .pricing-card:hover {
@@ -236,7 +236,7 @@
 }
 
 [data-theme="dark"] .pricing-amount {
-  color: #a5b4fc;
+  color: #F5C969;
 }
 
 [data-theme="dark"] .pricing-feature {
@@ -246,7 +246,7 @@
 /* Client Logos Dark Mode */
 [data-theme="dark"] .client-logo-wrapper {
   background: rgba(30, 41, 59, 0.3);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .client-logo {
@@ -261,8 +261,8 @@
 
 /* AI Estimator CTA Dark Mode */
 [data-theme="dark"] .ai-estimator-cta {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(227, 169, 43, 0.1) 0%, rgba(245, 201, 105, 0.1) 100%);
+  border-color: rgba(227, 169, 43, 0.3);
 }
 
 [data-theme="dark"] .cta-title {
@@ -289,12 +289,12 @@
 /* General Card Styles Dark Mode */
 [data-theme="dark"] .card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .card:hover {
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.4);
+  border-color: rgba(227, 169, 43, 0.4);
 }
 
 /* Loading States Dark Mode */
@@ -322,7 +322,7 @@
 [data-theme="dark"] .banner-time {
   color: #cbd5e1;
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(227, 169, 43, 0.3);
 }
 
 /* Status Indicators Dark Mode */
@@ -354,7 +354,7 @@
 
 /* Links Dark Mode */
 [data-theme="dark"] a:not(.btn) {
-  color: #a5b4fc;
+  color: #F5C969;
 }
 
 [data-theme="dark"] a:not(.btn):hover {
@@ -371,7 +371,7 @@
 
 [data-theme="dark"] .quiz-container {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .quiz-header h1 {
@@ -404,19 +404,19 @@
 
 [data-theme="dark"] .option-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
   color: #f1f5f9;
 }
 
 [data-theme="dark"] .option-card:hover {
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.4);
+  border-color: rgba(227, 169, 43, 0.4);
   transform: translateY(-4px);
 }
 
 [data-theme="dark"] .option-card.selected {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: #6366f1;
+  background: rgba(227, 169, 43, 0.2);
+  border-color: #E3A92B;
 }
 
 [data-theme="dark"] .option-card h3 {
@@ -429,7 +429,7 @@
 
 [data-theme="dark"] .lead-form-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .lead-form-card h2 {
@@ -447,7 +447,7 @@
 [data-theme="dark"] .form-group input,
 [data-theme="dark"] .form-group textarea {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(227, 169, 43, 0.3);
   color: #f1f5f9;
 }
 
@@ -458,13 +458,13 @@
 
 [data-theme="dark"] .form-group input:focus,
 [data-theme="dark"] .form-group textarea:focus {
-  border-color: #6366f1;
+  border-color: #E3A92B;
   background: rgba(15, 23, 42, 0.8);
 }
 
 [data-theme="dark"] .recommendation-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .recommendation-card h3 {
@@ -498,19 +498,19 @@
 
 [data-theme="dark"] .filter-group {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .filter-btn {
   background: transparent;
   color: #cbd5e1;
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .filter-btn:hover {
-  background: rgba(99, 102, 241, 0.1);
-  border-color: rgba(99, 102, 241, 0.4);
-  color: #a5b4fc;
+  background: rgba(227, 169, 43, 0.1);
+  border-color: rgba(227, 169, 43, 0.4);
+  color: #F5C969;
 }
 
 [data-theme="dark"] .filter-btn.active {
@@ -537,12 +537,12 @@
 
 [data-theme="dark"] .case-study-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .case-study-card:hover {
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.4);
+  border-color: rgba(227, 169, 43, 0.4);
 }
 
 [data-theme="dark"] .case-study-card h2,
@@ -556,9 +556,9 @@
 }
 
 [data-theme="dark"] .industry-badge {
-  background: rgba(99, 102, 241, 0.2);
-  color: #a5b4fc;
-  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(227, 169, 43, 0.2);
+  color: #F5C969;
+  border-color: rgba(227, 169, 43, 0.3);
 }
 
 [data-theme="dark"] .featured-badge {
@@ -568,12 +568,12 @@
 }
 
 [data-theme="dark"] .client-name {
-  color: #a5b4fc;
+  color: #F5C969;
 }
 
 [data-theme="dark"] .challenge-solution {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .section h4 {
@@ -582,7 +582,7 @@
 
 [data-theme="dark"] .metrics {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .metric-item {
@@ -599,7 +599,7 @@
 
 [data-theme="dark"] .project-info {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .info-label {
@@ -611,18 +611,18 @@
 }
 
 [data-theme="dark"] .tech-stack {
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .tech-tag {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(227, 169, 43, 0.2);
   color: #c7d2fe;
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(227, 169, 43, 0.3);
 }
 
 [data-theme="dark"] .testimonial {
   background: rgba(15, 23, 42, 0.6);
-  border-left-color: #6366f1;
+  border-left-color: #E3A92B;
 }
 
 [data-theme="dark"] .testimonial p {
@@ -640,7 +640,7 @@
 
 [data-theme="dark"] .case-study-image {
   background: rgba(30, 41, 59, 0.8);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .case-study-image img {
@@ -658,7 +658,7 @@
 
 [data-theme="dark"] .thank-you-card {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .thank-you-card h1,
@@ -673,7 +673,7 @@
 
 [data-theme="dark"] .step-card {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .step-card:hover {
@@ -681,7 +681,7 @@
 }
 
 [data-theme="dark"] .cta-section {
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
 }
 
 [data-theme="dark"] .trust-badge {
@@ -691,6 +691,6 @@
 /* Ensure Glass Effect in Dark Mode */
 [data-theme="dark"] .glass {
   background: rgba(30, 41, 59, 0.5);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(227, 169, 43, 0.2);
   backdrop-filter: blur(20px);
 }

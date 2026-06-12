@@ -129,12 +129,12 @@ async function sendAdminNotification(apiKey: string, email: string, source: stri
           <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .header { background: linear-gradient(135deg, #E3A92B 0%, #F5C969 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
             .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; text-align: center; }
-            .email { background: white; padding: 20px; border-radius: 10px; font-size: 18px; color: #6366f1; font-weight: bold; margin: 20px 0; }
+            .email { background: white; padding: 20px; border-radius: 10px; font-size: 18px; color: #E3A92B; font-weight: bold; margin: 20px 0; }
             .source { background: white; padding: 15px; border-radius: 10px; margin: 15px 0; }
             .footer { text-align: center; margin-top: 20px; color: #6b7280; font-size: 14px; }
-            .btn { display: inline-block; padding: 12px 30px; background: #6366f1; color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+            .btn { display: inline-block; padding: 12px 30px; background: #E3A92B; color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; }
           </style>
         </head>
         <body>
@@ -190,7 +190,7 @@ async function sendVerificationEmail(apiKey: string, email: string, token: strin
                   <table role="presentation" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     <!-- Header -->
                     <tr>
-                      <td style="background: linear-gradient(135deg, #6366f1, #8b5cf6); padding: 40px 20px; text-align: center;">
+                      <td style="background: linear-gradient(135deg, #E3A92B, #E3A92B); padding: 40px 20px; text-align: center;">
                         <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 800;">
                           OhWP Studios
                         </h1>
@@ -213,7 +213,7 @@ async function sendVerificationEmail(apiKey: string, email: string, token: strin
                         <!-- CTA Button -->
                         <table role="presentation" style="margin: 0 auto;">
                           <tr>
-                            <td style="border-radius: 12px; background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                            <td style="border-radius: 12px; background: linear-gradient(135deg, #E3A92B, #E3A92B);">
                               <a href="${verificationUrl}" style="display: inline-block; padding: 16px 40px; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 16px;">
                                 Confirm Subscription
                               </a>
@@ -230,7 +230,7 @@ async function sendVerificationEmail(apiKey: string, email: string, token: strin
                           Or copy and paste this link into your browser:
                         </p>
                         <p style="margin: 10px 0 0; word-break: break-all;">
-                          <a href="${verificationUrl}" style="color: #6366f1; text-decoration: none; font-size: 14px;">
+                          <a href="${verificationUrl}" style="color: #E3A92B; text-decoration: none; font-size: 14px;">
                             ${verificationUrl}
                           </a>
                         </p>

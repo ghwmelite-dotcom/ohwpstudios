@@ -194,12 +194,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
                   text-align: center;
                   margin-bottom: 30px;
                   padding-bottom: 20px;
-                  border-bottom: 2px solid #6366f1;
+                  border-bottom: 2px solid #E3A92B;
                 }
                 .logo {
                   font-size: 28px;
                   font-weight: bold;
-                  background: linear-gradient(135deg, #6366f1, #ec4899);
+                  background: linear-gradient(135deg, #E3A92B, #F5C969);
                   -webkit-background-clip: text;
                   -webkit-text-fill-color: transparent;
                   margin-bottom: 10px;
@@ -236,7 +236,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
                 }
                 .btn {
                   display: inline-block;
-                  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+                  background: linear-gradient(135deg, #E3A92B, #E3A92B);
                   color: white;
                   padding: 14px 28px;
                   text-decoration: none;

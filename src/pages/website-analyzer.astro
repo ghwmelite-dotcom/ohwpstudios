@@ -111,7 +111,7 @@ import Footer from '@/components/Footer.astro';
           <!-- Performance Card -->
           <div class="metric-card glass" id="performance-card">
             <div class="metric-header">
-              <div class="metric-icon" style="background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);">
+              <div class="metric-icon" style="background: linear-gradient(135deg, #E3A92B 0%, #F5C969 100%);">
                 ⚡
               </div>
               <h3>Performance</h3>
@@ -161,7 +161,7 @@ import Footer from '@/components/Footer.astro';
           <!-- Mobile Card -->
           <div class="metric-card glass" id="mobile-card">
             <div class="metric-header">
-              <div class="metric-icon" style="background: linear-gradient(135deg, #ec4899 0%, #f59e0b 100%);">
+              <div class="metric-icon" style="background: linear-gradient(135deg, #F5C969 0%, #f59e0b 100%);">
                 📱
               </div>
               <h3>Mobile</h3>
@@ -186,7 +186,7 @@ import Footer from '@/components/Footer.astro';
           <!-- Security Card -->
           <div class="metric-card glass" id="security-card">
             <div class="metric-header">
-              <div class="metric-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">
+              <div class="metric-icon" style="background: linear-gradient(135deg, #E3A92B 0%, #E3A92B 100%);">
                 🔒
               </div>
               <h3>Security</h3>
@@ -282,8 +282,8 @@ import Footer from '@/components/Footer.astro';
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1), transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.1), transparent 50%);
+    background: radial-gradient(circle at 20% 50%, rgba(227, 169, 43, 0.1), transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(245, 201, 105, 0.1), transparent 50%);
     pointer-events: none;
   }
 
@@ -314,7 +314,7 @@ import Footer from '@/components/Footer.astro';
   }
 
   .title-gradient {
-    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #F5C969 50%, #f59e0b 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -337,10 +337,10 @@ import Footer from '@/components/Footer.astro';
     transform: translateX(-50%);
     width: 0;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    background: linear-gradient(90deg, transparent, #E3A92B, #F5C969, #f59e0b, transparent);
     border-radius: 2px;
     animation: underlineExpand 1.5s ease-out forwards 0.5s;
-    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 2px 10px rgba(227, 169, 43, 0.5);
   }
 
   @keyframes underlineExpand {
@@ -379,7 +379,7 @@ import Footer from '@/components/Footer.astro';
   .url-input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(227, 169, 43, 0.1);
   }
 
   .trust-indicators {
@@ -747,7 +747,7 @@ import Footer from '@/components/Footer.astro';
   .form-group input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(227, 169, 43, 0.1);
   }
 
   .form-actions {
@@ -1026,14 +1026,14 @@ import Footer from '@/components/Footer.astro';
       let aiHtml = '';
       if (aiRecs.length) {
         aiHtml = `
-          <div style="margin-bottom:1.75rem; padding:1.5rem; border-radius:16px; background:linear-gradient(135deg, rgba(99,102,241,0.12), rgba(236,72,153,0.07)); border:1px solid rgba(99,102,241,0.28);">
+          <div style="margin-bottom:1.75rem; padding:1.5rem; border-radius:16px; background:linear-gradient(135deg, rgba(227,169,43,0.12), rgba(245,201,105,0.07)); border:1px solid rgba(227,169,43,0.28);">
             <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; margin-bottom:1.1rem;">
-              <span style="font-weight:800; font-size:0.9rem; padding:0.35rem 0.9rem; border-radius:999px; background:linear-gradient(135deg,#6366f1,#ec4899); color:#fff;">✨ AI Action Plan</span>
+              <span style="font-weight:800; font-size:0.9rem; padding:0.35rem 0.9rem; border-radius:999px; background:linear-gradient(135deg,#E3A92B,#F5C969); color:#fff;">✨ AI Action Plan</span>
               <span style="font-size:0.9rem; opacity:0.75;">Prioritized by our AI — start here</span>
             </div>
             ${aiRecs.map((rec: string, i: number) => `
               <div style="display:flex; gap:0.85rem; align-items:flex-start; padding:0.55rem 0;">
-                <span style="flex-shrink:0; width:1.7rem; height:1.7rem; display:flex; align-items:center; justify-content:center; border-radius:50%; background:linear-gradient(135deg,#6366f1,#ec4899); color:#fff; font-weight:800; font-size:0.85rem;">${i + 1}</span>
+                <span style="flex-shrink:0; width:1.7rem; height:1.7rem; display:flex; align-items:center; justify-content:center; border-radius:50%; background:linear-gradient(135deg,#E3A92B,#F5C969); color:#fff; font-weight:800; font-size:0.85rem;">${i + 1}</span>
                 <div style="line-height:1.55;">${rec}</div>
               </div>
             `).join('')}
@@ -1090,8 +1090,8 @@ import Footer from '@/components/Footer.astro';
         descEl.textContent = 'Your website is in great shape!';
       } else if (score >= 70) {
         statusEl.textContent = '✅ Good';
-        statusEl.style.background = 'rgba(99, 102, 241, 0.2)';
-        statusEl.style.color = '#6366f1';
+        statusEl.style.background = 'rgba(227, 169, 43, 0.2)';
+        statusEl.style.color = '#E3A92B';
         descEl.textContent = 'Your website is performing well with room for improvement.';
       } else if (score >= 50) {
         statusEl.textContent = '⚠️ Needs Improvement';
@@ -1132,8 +1132,8 @@ import Footer from '@/components/Footer.astro';
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     defs.innerHTML = `
       <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#ec4899;stop-opacity:1" />
+        <stop offset="0%" style="stop-color:#E3A92B;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#F5C969;stop-opacity:1" />
         <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
       </linearGradient>
     `;

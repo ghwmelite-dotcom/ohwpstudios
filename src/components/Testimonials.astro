@@ -52,8 +52,8 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
                 <path d="M15 18L17 20L15 22M22 18L24 20L22 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <defs>
                   <linearGradient id={generateGradientId(index)} x1="10" y1="10" x2="30" y2="30">
-                    <stop offset="0%" stop-color={testimonial.avatar_gradient?.split(',')[0]?.split('(')[1]?.trim() || '#6366f1'}/>
-                    <stop offset="100%" stop-color={testimonial.avatar_gradient?.split(',')[1]?.split(')')[0]?.trim() || '#ec4899'}/>
+                    <stop offset="0%" stop-color={testimonial.avatar_gradient?.split(',')[0]?.split('(')[1]?.trim() || '#E3A92B'}/>
+                    <stop offset="100%" stop-color={testimonial.avatar_gradient?.split(',')[1]?.split(')')[0]?.trim() || '#F5C969'}/>
                   </linearGradient>
                 </defs>
               </svg>
@@ -265,7 +265,7 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
   }
 
   .title-gradient {
-    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #F5C969 50%, #f59e0b 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -312,10 +312,10 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
     transform: translateX(-50%);
     width: 0;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    background: linear-gradient(90deg, transparent, #E3A92B, #F5C969, #f59e0b, transparent);
     border-radius: 2px;
     animation: underlineExpand 1.5s ease-out forwards 0.5s;
-    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 2px 10px rgba(227, 169, 43, 0.5);
   }
 
   @keyframes underlineExpand {

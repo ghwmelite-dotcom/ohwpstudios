@@ -117,7 +117,7 @@
     background: var(--gradient-primary);
     border-color: transparent;
     color: white;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 16px rgba(227, 169, 43, 0.3);
   }
 
   /* Loading and Empty States */
@@ -132,21 +132,21 @@
   }
 
   .loading-state {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(236, 72, 153, 0.03));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.03), rgba(245, 201, 105, 0.03));
     border-radius: 24px;
-    border: 2px dashed rgba(99, 102, 241, 0.2);
+    border: 2px dashed rgba(227, 169, 43, 0.2);
   }
 
   .spinner {
     width: 60px;
     height: 60px;
     border: 4px solid transparent;
-    border-top-color: #6366f1;
-    border-right-color: #ec4899;
+    border-top-color: #E3A92B;
+    border-right-color: #F5C969;
     border-radius: 50%;
     animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     margin: 0 auto 1.5rem;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.2);
   }
 
   @keyframes spin {
@@ -154,7 +154,7 @@
   }
 
   .loading-state p {
-    color: #6366f1;
+    color: #E3A92B;
     font-size: 1.125rem;
     font-weight: 600;
     margin: 0;
@@ -195,7 +195,7 @@
     position: absolute;
     inset: -2px;
     border-radius: 22px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b, #6366f1);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b, #E3A92B);
     background-size: 300% 300%;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -244,7 +244,7 @@
     inset: 0;
     border-radius: 20px;
     padding: 2px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b);
     background-size: 200% 200%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -265,7 +265,7 @@
 
   .portfolio-link:hover {
     transform: translateY(-16px) scale(1.03) rotateX(2deg);
-    box-shadow: 0 25px 70px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 25px 70px rgba(227, 169, 43, 0.35);
   }
 
   .portfolio-image {
@@ -273,7 +273,7 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   }
 
   /* Animated shimmer effect on image */
@@ -307,7 +307,7 @@
   .portfolio-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(236, 72, 153, 0.95));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.95), rgba(245, 201, 105, 0.95));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -396,13 +396,13 @@
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #6366f1;
+    color: #E3A92B;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     padding: 0.4rem 1rem;
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(227, 169, 43, 0.1);
     border-radius: 20px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(227, 169, 43, 0.2);
   }
 
   .badge-featured {
@@ -451,9 +451,9 @@
     gap: 1rem;
     margin-bottom: 1.5rem;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(236, 72, 153, 0.03));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.03), rgba(245, 201, 105, 0.03));
     border-radius: 16px;
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(227, 169, 43, 0.1);
     position: relative;
     overflow: hidden;
   }
@@ -468,7 +468,7 @@
     height: 200%;
     background: linear-gradient(45deg,
       transparent 30%,
-      rgba(99, 102, 241, 0.05) 50%,
+      rgba(227, 169, 43, 0.05) 50%,
       transparent 70%
     );
     animation: shimmer-metrics 3s linear infinite;
@@ -488,7 +488,7 @@
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(227, 169, 43, 0.05);
   }
 
   /* Ripple effect on metric hover */
@@ -496,7 +496,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(227, 169, 43, 0.1) 0%, transparent 70%);
     transform: scale(0);
     transition: transform 0.6s ease;
   }
@@ -507,14 +507,14 @@
 
   .metric-item:hover {
     transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
-    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 24px rgba(227, 169, 43, 0.25);
+    border-color: rgba(227, 169, 43, 0.3);
   }
 
   .metric-value {
     font-size: 1.5rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -555,7 +555,7 @@
     align-items: center;
     gap: 1.25rem;
     padding-top: 1.25rem;
-    border-top: 2px solid rgba(99, 102, 241, 0.1);
+    border-top: 2px solid rgba(227, 169, 43, 0.1);
     font-size: 0.9rem;
     color: var(--color-text-secondary);
   }
@@ -568,13 +568,13 @@
   }
 
   .portfolio-meta-item svg {
-    color: #6366f1;
+    color: #E3A92B;
   }
 
   .portfolio-cta {
     text-align: center;
     padding: 3rem 2rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.05), rgba(245, 201, 105, 0.05));
     border-radius: 24px;
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -588,7 +588,7 @@
     inset: 0;
     border-radius: 24px;
     padding: 2px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -612,11 +612,11 @@
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #6366f1, #ec4899) !important;
+    background: linear-gradient(135deg, #E3A92B, #F5C969) !important;
     color: white !important;
     border: none;
     border-radius: 50px;
-    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 30px rgba(227, 169, 43, 0.3);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
@@ -626,7 +626,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #ec4899, #6366f1);
+    background: linear-gradient(135deg, #F5C969, #E3A92B);
     opacity: 0;
     transition: opacity 0.4s ease;
   }
@@ -637,7 +637,7 @@
 
   .view-all-btn:hover {
     transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 12px 40px rgba(227, 169, 43, 0.5);
   }
 
   .view-all-btn svg {
@@ -710,7 +710,7 @@
   }
 
   .title-gradient {
-    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #F5C969 50%, #f59e0b 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -751,10 +751,10 @@
     transform: translateX(-50%);
     width: 0;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #6366f1, #ec4899, #f59e0b, transparent);
+    background: linear-gradient(90deg, transparent, #E3A92B, #F5C969, #f59e0b, transparent);
     border-radius: 2px;
     animation: underlineExpand 1.5s ease-out forwards 0.5s;
-    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 2px 10px rgba(227, 169, 43, 0.5);
   }
 
   @keyframes underlineExpand {
@@ -915,7 +915,7 @@
             <div class="portfolio-image">
               ${project.featured_image
                 ? `<img src="${project.featured_image}" alt="${project.title}" loading="lazy" />`
-                : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#6366f1,#ec4899)"></div>'
+                : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#E3A92B,#F5C969)"></div>'
               }
               <div class="portfolio-overlay">
                 <span class="view-project">
