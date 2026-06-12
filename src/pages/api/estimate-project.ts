@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import * as Sentry from '@sentry/cloudflare';
 import { sendEmail, emailShell, emailButton, escapeHtml } from '../../lib/email';
 
 export const prerender = false;
@@ -133,7 +134,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             ),
           });
         } catch (e) {
-          console.error('estimate follow-up email failed:', e);
+          Sentry.captureException(e); // no-op when DSN unset
         }
       };
       if (runtime?.ctx?.waitUntil) runtime.ctx.waitUntil(followUp());
