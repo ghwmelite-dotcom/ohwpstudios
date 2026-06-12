@@ -226,19 +226,6 @@ const shouldHide = currentPath.startsWith('/admin') ||
     to { transform: rotate(360deg); }
   }
 
-  .social-proof-icon {
-    flex-shrink: 0;
-    font-size: 1.75rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    animation: float 3s ease-in-out infinite;
-    position: relative;
-    z-index: 1;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-  }
 
   /* Mobile responsive */
   @media (max-width: 768px) {
@@ -286,7 +273,6 @@ const shouldHide = currentPath.startsWith('/admin') ||
       action: string;
       timeAgo: string;
       initials: string;
-      icon?: string;
     }>;
     private displayedNotifications: Set<number>;
     private notificationInterval: number;
@@ -310,40 +296,40 @@ const shouldHide = currentPath.startsWith('/admin') ||
       };
 
       this.actions = [
-        { text: 'just requested a quote for Website Redesign', icon: '📋' },
-        { text: 'signed up for a consultation', icon: '📅' },
-        { text: 'downloaded the SEO Guide', icon: '📥' },
-        { text: 'just started a new project', icon: '🚀' },
-        { text: 'requested a custom development quote', icon: '💻' },
-        { text: 'booked a discovery call', icon: '📞' },
-        { text: 'just launched their e-commerce store', icon: '🎉' },
-        { text: 'requested a performance audit', icon: '⚡' },
-        { text: 'signed up for mobile app development', icon: '📱' },
-        { text: 'downloaded the pricing guide', icon: '💰' },
-        { text: 'requested a branding package quote', icon: '🎨' },
-        { text: 'just started their digital transformation', icon: '🔄' },
-        { text: 'booked a strategy session', icon: '💡' },
-        { text: 'requested cloud migration services', icon: '☁️' },
-        { text: 'just upgraded to premium support', icon: '⭐' },
-        { text: 'signed up for API development', icon: '🔌' },
-        { text: 'requested SaaS development quote', icon: '💼' },
-        { text: 'just launched their marketplace platform', icon: '🛒' },
-        { text: 'booked a consultation for fintech app', icon: '💳' },
-        { text: 'requested enterprise software quote', icon: '🏢' },
-        { text: 'requested fullstack web development', icon: '🌐' },
-        { text: 'downloaded the startup MVP guide', icon: '📚' },
-        { text: 'requested custom CRM development', icon: '📊' },
-        { text: 'just started their e-learning platform', icon: '🎓' },
-        { text: 'booked a mobile app consultation', icon: '📱' },
-        { text: 'requested fintech application quote', icon: '💰' },
-        { text: 'just launched their logistics platform', icon: '🚚' },
-        { text: 'signed up for digital marketing services', icon: '📈' },
-        { text: 'requested healthcare software quote', icon: '🏥' },
-        { text: 'booked cloud infrastructure consultation', icon: '☁️' },
-        { text: 'just started their education app project', icon: '📚' },
-        { text: 'requested real estate platform development', icon: '🏠' },
-        { text: 'signed up for UX/UI design services', icon: '🎨' },
-        { text: 'downloaded the API integration guide', icon: '🔧' }
+        { text: 'just requested a quote for Website Redesign' },
+        { text: 'signed up for a consultation' },
+        { text: 'downloaded the SEO Guide' },
+        { text: 'just started a new project' },
+        { text: 'requested a custom development quote' },
+        { text: 'booked a discovery call' },
+        { text: 'just launched their e-commerce store' },
+        { text: 'requested a performance audit' },
+        { text: 'signed up for mobile app development' },
+        { text: 'downloaded the pricing guide' },
+        { text: 'requested a branding package quote' },
+        { text: 'just started their digital transformation' },
+        { text: 'booked a strategy session' },
+        { text: 'requested cloud migration services' },
+        { text: 'just upgraded to premium support' },
+        { text: 'signed up for API development' },
+        { text: 'requested SaaS development quote' },
+        { text: 'just launched their marketplace platform' },
+        { text: 'booked a consultation for fintech app' },
+        { text: 'requested enterprise software quote' },
+        { text: 'requested fullstack web development' },
+        { text: 'downloaded the startup MVP guide' },
+        { text: 'requested custom CRM development' },
+        { text: 'just started their e-learning platform' },
+        { text: 'booked a mobile app consultation' },
+        { text: 'requested fintech application quote' },
+        { text: 'just launched their logistics platform' },
+        { text: 'signed up for digital marketing services' },
+        { text: 'requested healthcare software quote' },
+        { text: 'booked cloud infrastructure consultation' },
+        { text: 'just started their education app project' },
+        { text: 'requested real estate platform development' },
+        { text: 'signed up for UX/UI design services' },
+        { text: 'downloaded the API integration guide' }
       ];
 
       this.notifications = []; // Will be generated dynamically
@@ -414,12 +400,11 @@ const shouldHide = currentPath.startsWith('/admin') ||
         location,
         action: actionData.text,
         timeAgo,
-        initials: `${firstName.charAt(0)}${lastInitial}`,
-        icon: actionData.icon
+        initials: `${firstName.charAt(0)}${lastInitial}`
       };
     }
 
-    displayNotification(data: { name: string; location: string; action: string; timeAgo: string; initials: string; icon?: string }) {
+    displayNotification(data: { name: string; location: string; action: string; timeAgo: string; initials: string }) {
       if (!this.container) return;
 
       const el = document.createElement('div');
@@ -439,7 +424,6 @@ const shouldHide = currentPath.startsWith('/admin') ||
             ${data.timeAgo}
           </div>
         </div>
-        ${data.icon ? `<div class="social-proof-icon" style="font-size: 1.5rem;">${data.icon}</div>` : ''}
       `;
 
       this.container.appendChild(el);

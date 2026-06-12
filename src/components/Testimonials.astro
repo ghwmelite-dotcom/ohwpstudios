@@ -71,7 +71,7 @@ const avatarStops = (index: number) => KENTE_AVATAR_STOPS[index % KENTE_AVATAR_S
               </svg>
             </div>
             <div class="stars">
-              {Array(testimonial.rating || 5).fill('⭐').join('')}
+              {Array(testimonial.rating || 5).fill('★').join('')}
             </div>
             <p class="testimonial-text">
               "{testimonial.content}"
@@ -169,6 +169,8 @@ const avatarStops = (index: number) => KENTE_AVATAR_STOPS[index % KENTE_AVATAR_S
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
     letter-spacing: 2px;
+    /* ★ text glyphs (replacing the star emoji) need an explicit gold */
+    color: var(--color-primary);
   }
 
   .testimonial-text {
