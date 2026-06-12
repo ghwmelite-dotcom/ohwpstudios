@@ -64,6 +64,7 @@ const faqSchema = {
 
     <p class="home-faq-cta">
       Ready to scope your project? <a href="/estimate-project">Get an instant AI estimate</a>.
+      More questions? <a href="/contact">Ask us &rarr;</a>
     </p>
   </div>
 </section>
@@ -72,7 +73,14 @@ const faqSchema = {
 
 <style>
   .home-faq {
-    padding: var(--spacing-3xl) 0;
+    /* Match the bumped .section rhythm (7.5rem desktop / 3.5rem <=768px) */
+    padding: 7.5rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .home-faq {
+      padding: 3.5rem 0;
+    }
   }
 
   .home-faq-title {

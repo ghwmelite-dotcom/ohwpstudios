@@ -1,7 +1,7 @@
 ---
 // "From our GitHub" — live strip of top public repos (About + README complete).
 // Server-rendered via the internal /api/github-projects endpoint (edge-cached).
-const { showHeader = true } = Astro.props;
+const { showHeader = true, limit = 3 } = Astro.props;
 let projects: any[] = [];
 try {
   const res = await fetch(`${Astro.url.origin}/api/github-projects`);
@@ -12,6 +12,8 @@ try {
 } catch (e) {
   console.error('GitHub projects fetch failed:', e);
 }
+// Breathing room: cap the homepage strip (the "See all our work" CTA covers the rest)
+projects = projects.slice(0, limit);
 
 // Brand-ish colors for common languages
 const langColors: Record<string, string> = {
