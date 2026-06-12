@@ -409,6 +409,19 @@
     // Elements that animations-optimized.js would otherwise hide/animate
     // are made immediately visible before we return.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // #page-loader: initPageLoader() is skipped, so dismiss the full-screen
+      // overlay immediately (it only fades + display:none — no class/event work).
+      const loader = document.getElementById('page-loader');
+      if (loader) loader.style.display = 'none';
+      // [data-counter] elements: initCounters() is skipped, so snap each stat
+      // straight to its final value + suffix instead of leaving it at "0".
+      document.querySelectorAll('[data-counter]').forEach(function(el) {
+        const target = parseInt(el.dataset.counter);
+        if (!isNaN(target)) {
+          el.textContent = target + (el.dataset.suffix || '');
+          el.dataset.counted = 'true';
+        }
+      });
       // [data-text-reveal] elements: revealText() would empty them and rebuild
       // chars at opacity:0. Since we skip that, the original text stays intact
       // and visible — no style fix needed.
