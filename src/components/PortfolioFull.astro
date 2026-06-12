@@ -1,14 +1,18 @@
 ---
 // This component will load data client-side for filtering functionality
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
 <section id="portfolio" class="section portfolio">
   <div class="container">
     <div class="section-header" data-animate>
+      <!-- Adinkra mark lives outside the h2: the data-text-reveal script
+           flattens the heading to textContent and would destroy an inline SVG -->
+      <span class="title-adinkra adinkra-primary" aria-hidden="true">
+        <AdinkraIcon symbol="sankofa" size={28} />
+      </span>
       <h2 data-text-reveal class="animated-header title-hero">
-        <span class="title-icon">💼</span>
         <span class="title-gradient">Our Work Speaks Volumes</span>
-        <span class="title-icon">💼</span>
         <div class="title-underline"></div>
       </h2>
       <p class="section-description">
@@ -725,23 +729,12 @@
     50% { background-position: 100% 50%; }
   }
 
-  .title-icon {
-    display: inline-block;
-    animation: iconBounce 2s ease-in-out infinite;
-    font-size: 1.8rem;
-    margin: 0 0.5rem;
-  }
-
-  @keyframes iconBounce {
-    0%, 100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    25% {
-      transform: translateY(-10px) rotate(-5deg);
-    }
-    75% {
-      transform: translateY(-5px) rotate(5deg);
-    }
+  .title-adinkra {
+    display: flex;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-bottom: var(--spacing-sm, 0.75rem);
   }
 
   .title-underline {
@@ -800,9 +793,11 @@
 
     const tabs = [
       '<button class="category-tab active" data-category="all">All Projects</button>',
+      // Text-only tabs: category icons in the DB are emoji, which the site's
+      // Adinkra-based visual identity no longer uses for decoration.
       ...categories.map(cat =>
         `<button class="category-tab" data-category="${cat.id}">
-          ${cat.icon || ''} ${cat.name}
+          ${cat.name}
         </button>`
       )
     ];

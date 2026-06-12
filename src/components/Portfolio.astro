@@ -1,14 +1,18 @@
 ---
 // This component will load data client-side for filtering functionality
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
 <section id="portfolio" class="section portfolio">
   <div class="container">
     <div class="section-header" data-animate>
+      <!-- Adinkra mark lives outside the h2: the data-text-reveal script
+           flattens the heading to textContent and would destroy an inline SVG -->
+      <span class="title-adinkra adinkra-primary" aria-hidden="true">
+        <AdinkraIcon symbol="sankofa" size={28} />
+      </span>
       <h2 data-text-reveal class="animated-header title-hero">
-        <span class="title-icon">💼</span>
         <span class="title-gradient">Our Work Speaks Volumes</span>
-        <span class="title-icon">💼</span>
         <div class="title-underline"></div>
       </h2>
       <p class="section-description">
@@ -49,21 +53,21 @@
     <!-- Floating Achievement Badges -->
     <div class="floating-badges">
       <div class="badge badge-1">
-        <div class="badge-icon">🏆</div>
+        <div class="badge-icon"><AdinkraIcon symbol="dwennimmen" size={26} /></div>
         <div class="badge-text">
           <strong>Award Winning</strong>
           <span>Design Excellence</span>
         </div>
       </div>
       <div class="badge badge-2">
-        <div class="badge-icon">⚡</div>
+        <div class="badge-icon"><AdinkraIcon symbol="nkyinkyim" size={26} /></div>
         <div class="badge-text">
           <strong>Lightning Fast</strong>
           <span>Performance</span>
         </div>
       </div>
       <div class="badge badge-3">
-        <div class="badge-icon">💎</div>
+        <div class="badge-icon"><AdinkraIcon symbol="eban" size={26} /></div>
         <div class="badge-text">
           <strong>Premium Quality</strong>
           <span>Guaranteed</span>
@@ -875,7 +879,11 @@
   }
 
   .badge-icon {
-    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
     filter: drop-shadow(0 0 10px rgba(227, 169, 43, 0.3));
     animation: bounce-icon 3s ease-in-out infinite;
   }
@@ -1001,27 +1009,13 @@
     50% { background-position: 100% 50%; }
   }
 
-  .title-icon {
-    display: inline-block;
-    animation: iconBounce 3s ease-in-out infinite;
-    font-size: 2.5rem;
-    margin: 0 0.75rem;
+  .title-adinkra {
+    display: flex;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-bottom: var(--spacing-sm, 0.75rem);
     filter: drop-shadow(0 0 20px rgba(227, 169, 43, 0.4));
-  }
-
-  @keyframes iconBounce {
-    0%, 100% {
-      transform: translateY(0) rotate(0deg) scale(1);
-    }
-    25% {
-      transform: translateY(-15px) rotate(-8deg) scale(1.1);
-    }
-    50% {
-      transform: translateY(-8px) rotate(0deg) scale(1.05);
-    }
-    75% {
-      transform: translateY(-12px) rotate(8deg) scale(1.08);
-    }
   }
 
   .title-underline {
@@ -1103,9 +1097,11 @@
 
     const tabs = [
       '<button class="category-tab active" data-category="all">All Projects</button>',
+      // Text-only tabs: category icons in the DB are emoji, which the site's
+      // Adinkra-based visual identity no longer uses for decoration.
       ...categories.map(cat =>
         `<button class="category-tab" data-category="${cat.id}">
-          ${cat.icon || ''} ${cat.name}
+          ${cat.name}
         </button>`
       )
     ];

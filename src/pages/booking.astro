@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
 <BaseLayout title="Book a Consultation" description="Schedule a free consultation call with our team">
@@ -55,21 +56,21 @@ import Footer from '@/components/Footer.astro';
             <h3>Why Work With Us?</h3>
             <div class="benefits">
               <div class="benefit">
-                <span class="benefit-icon">⚡</span>
+                <span class="benefit-icon adinkra-primary"><AdinkraIcon symbol="nkyinkyim" size={28} /></span>
                 <div>
                   <h4>Lightning Fast</h4>
                   <p>We deliver projects on time with exceptional performance</p>
                 </div>
               </div>
               <div class="benefit">
-                <span class="benefit-icon">🎯</span>
+                <span class="benefit-icon adinkra-primary"><AdinkraIcon symbol="dwennimmen" size={28} /></span>
                 <div>
                   <h4>Results Focused</h4>
                   <p>Every decision is driven by measurable business outcomes</p>
                 </div>
               </div>
               <div class="benefit">
-                <span class="benefit-icon">🤝</span>
+                <span class="benefit-icon adinkra-primary"><AdinkraIcon symbol="funtunfunefu" size={28} /></span>
                 <div>
                   <h4>True Partnership</h4>
                   <p>We're invested in your long-term success</p>
@@ -260,7 +261,10 @@ import Footer from '@/components/Footer.astro';
   }
 
   .benefit-icon {
-    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
     flex-shrink: 0;
   }
 

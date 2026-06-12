@@ -65,10 +65,13 @@ const adinkraFor = (service: { icon?: string; title?: string }): AdinkraSymbol =
 <section id="services" class="section services">
   <div class="container">
     <div class="section-header" data-animate>
+      <!-- Adinkra mark lives outside the h2: the data-text-reveal script
+           flattens the heading to textContent and would destroy an inline SVG -->
+      <span class="title-adinkra adinkra-primary" aria-hidden="true">
+        <AdinkraIcon symbol="ananse" size={28} />
+      </span>
       <h2 data-text-reveal class="animated-header title-hero">
-        <span class="title-sparkle">✨</span>
         <span class="title-gradient">What We Do Best</span>
-        <span class="title-sparkle">✨</span>
         <div class="title-underline"></div>
       </h2>
       <p class="section-description">
@@ -182,30 +185,12 @@ const adinkraFor = (service: { icon?: string; title?: string }): AdinkraSymbol =
     50% { background-position: 100% 50%; }
   }
 
-  .title-sparkle {
-    display: inline-block;
-    animation: sparkleRotate 3s ease-in-out infinite;
-    font-size: 1.5rem;
-    margin: 0 0.5rem;
-  }
-
-  @keyframes sparkleRotate {
-    0%, 100% {
-      transform: rotate(0deg) scale(1);
-      opacity: 1;
-    }
-    25% {
-      transform: rotate(-15deg) scale(1.2);
-      opacity: 0.8;
-    }
-    50% {
-      transform: rotate(15deg) scale(0.9);
-      opacity: 1;
-    }
-    75% {
-      transform: rotate(-10deg) scale(1.1);
-      opacity: 0.9;
-    }
+  .title-adinkra {
+    display: flex;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-bottom: var(--spacing-sm, 0.75rem);
   }
 
   .title-underline {
