@@ -13,7 +13,7 @@ try {
 
   // Fetch from the internal API (which we know works)
   const [projectsRes, categoriesRes] = await Promise.all([
-    fetch(`${baseUrl}/api/admin/portfolio?status=published&limit=4`),
+    fetch(`${baseUrl}/api/admin/portfolio?status=published&limit=3`),
     fetch(`${baseUrl}/api/admin/portfolio/categories`)
   ]);
 
