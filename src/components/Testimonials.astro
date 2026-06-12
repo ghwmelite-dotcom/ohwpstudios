@@ -21,6 +21,18 @@ const avg = testimonials.length
 
 // Generate unique gradient ID for each testimonial
 const generateGradientId = (index: number) => `gradient${index + 1}`;
+
+// Legacy DB rows store cold indigo/violet avatar gradients — override with the
+// kente palette at render time so seed data needs no migration.
+const KENTE_AVATAR_STOPS: [string, string][] = [
+  ['#E3A92B', '#F5C969'], // gold
+  ['#1B5E3A', '#2E7D4F'], // forest green
+  ['#B8860B', '#E3A92B'], // deep gold
+  ['#CE1126', '#E3A92B'], // kente red → gold
+  ['#2E7D4F', '#F5C969'], // green → gold
+  ['#8B6508', '#C98E1B'], // bronze
+];
+const avatarStops = (index: number) => KENTE_AVATAR_STOPS[index % KENTE_AVATAR_STOPS.length];
 ---
 
 {testimonials.length > 0 && (
@@ -52,8 +64,8 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
                 <path d="M15 18L17 20L15 22M22 18L24 20L22 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <defs>
                   <linearGradient id={generateGradientId(index)} x1="10" y1="10" x2="30" y2="30">
-                    <stop offset="0%" stop-color={testimonial.avatar_gradient?.split(',')[0]?.split('(')[1]?.trim() || '#E3A92B'}/>
-                    <stop offset="100%" stop-color={testimonial.avatar_gradient?.split(',')[1]?.split(')')[0]?.trim() || '#F5C969'}/>
+                    <stop offset="0%" stop-color={avatarStops(index)[0]}/>
+                    <stop offset="100%" stop-color={avatarStops(index)[1]}/>
                   </linearGradient>
                 </defs>
               </svg>
@@ -65,7 +77,7 @@ const generateGradientId = (index: number) => `gradient${index + 1}`;
               "{testimonial.content}"
             </p>
             <div class="testimonial-author">
-              <div class="author-avatar" style={`background: ${testimonial.avatar_gradient}`}>
+              <div class="author-avatar" style={`background: linear-gradient(135deg, ${avatarStops(index)[0]} 0%, ${avatarStops(index)[1]} 100%)`}>
                 {testimonial.avatar_initials}
               </div>
               <div class="author-info">
