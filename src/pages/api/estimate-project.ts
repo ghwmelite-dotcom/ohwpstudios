@@ -130,7 +130,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
                <p>Here’s the summary of your scoped project:</p>
                ${numbersHtml}
                ${emailButton(proposalUrl, 'View your full proposal')}
-               <p style="text-align:center;font-size:13px;">Ready to move? <a href="https://ohwpstudios.org/booking?utm_source=proposal_email" style="color:#6366f1;">Book a free consult</a>.</p>`,
+               <p style="text-align:center;font-size:13px;">Ready to move? <a href="https://ohwpstudios.org/booking?utm_source=proposal_email" style="color:#B8860B;">Book a free consult</a>.</p>`,
             ),
           });
         } catch (e) {

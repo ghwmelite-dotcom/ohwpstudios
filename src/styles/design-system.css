@@ -1,39 +1,38 @@
 /* Design System - Modern Agency */
 
 :root {
-  /* Colors - Modern vibrant palette */
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-primary-light: #818cf8;
-  --color-secondary: #ec4899;
-  --color-accent: #f59e0b;
-  --color-highlight: #0073aa;
-  --color-highlight-dark: #005a87;
-  --color-highlight-light: #00a0d2;
+  /* Colors - Kente palette */
+  --color-primary: #B8860B;
+  --color-primary-dark: #8B6508;
+  --color-primary-light: #E3A92B;
+  --color-secondary: #1B5E3A;
+  --color-accent: #CE1126;
+  --color-highlight: #1B5E3A;
+  --color-highlight-dark: #14492D;
+  --color-highlight-light: #2E7D4F;
 
   /* Gradients - Premium Collection */
-  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  --gradient-card: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-  --gradient-highlight: linear-gradient(135deg, #0073aa 0%, #00a0d2 100%);
-  --gradient-mesh: radial-gradient(at 40% 20%, hsla(263, 82%, 65%, 0.3) 0px, transparent 50%),
-                   radial-gradient(at 80% 0%, hsla(343, 79%, 63%, 0.3) 0px, transparent 50%),
-                   radial-gradient(at 0% 50%, hsla(192, 100%, 41%, 0.3) 0px, transparent 50%),
-                   radial-gradient(at 80% 100%, hsla(251, 76%, 60%, 0.3) 0px, transparent 50%),
-                   radial-gradient(at 0% 100%, hsla(28, 87%, 67%, 0.3) 0px, transparent 50%);
-  --gradient-glow: radial-gradient(circle at center, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+  --gradient-primary: linear-gradient(135deg, #B8860B 0%, #E3A92B 100%);
+  --gradient-hero: linear-gradient(135deg, #E3A92B 0%, #C98E1B 50%, #1B5E3A 100%);
+  --gradient-card: linear-gradient(135deg, rgba(227, 169, 43, 0.10) 0%, rgba(27, 94, 58, 0.10) 100%);
+  --gradient-highlight: linear-gradient(135deg, #1B5E3A 0%, #2E7D4F 100%);
+  --gradient-mesh: radial-gradient(at 40% 20%, rgba(227, 169, 43, 0.25) 0px, transparent 50%),
+                   radial-gradient(at 80% 0%, rgba(27, 94, 58, 0.18) 0px, transparent 50%),
+                   radial-gradient(at 0% 50%, rgba(245, 201, 105, 0.15) 0px, transparent 50%),
+                   radial-gradient(at 80% 100%, rgba(206, 17, 38, 0.08) 0px, transparent 50%);
+  --gradient-glow: radial-gradient(circle at center, rgba(227, 169, 43, 0.2) 0%, transparent 70%);
 
-  /* Neutral colors - Light mode */
-  --color-bg: #ffffff;
-  --color-bg-alt: #f9fafb;
-  --color-surface: #ffffff;
-  --color-text: #111827;
-  --color-text-muted: #6b7280;
-  --color-border: #e5e7eb;
+  /* Neutral colors - Light mode (warm cream) */
+  --color-bg: #FAF6EE;
+  --color-bg-alt: #F3EDE0;
+  --color-surface: #FFFFFF;
+  --color-text: #241D17;
+  --color-text-muted: #6B5D4A;
+  --color-border: #E5DCC8;
 
   /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-bg: rgba(255, 253, 247, 0.7);
+  --glass-border: rgba(36, 29, 23, 0.08);
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 
   /* Shadows */
@@ -44,8 +43,8 @@
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Cal Sans', 'Inter', system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
 
   /* Spacing */
   --spacing-xs: 0.5rem;
@@ -80,16 +79,20 @@
 
 /* Dark mode */
 [data-theme="dark"] {
-  --color-bg: #0f172a;
-  --color-bg-alt: #1e293b;
-  --color-surface: #1e293b;
-  --color-text: #f1f5f9;
-  --color-text-muted: #94a3b8;
-  --color-border: #334155;
-
-  --glass-bg: rgba(30, 41, 59, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --color-bg: #161210;
+  --color-bg-alt: #1C1612;
+  --color-surface: #241D17;
+  --color-text: #FAF3E0;
+  --color-text-muted: #C9BCA4;
+  --color-border: #3A2F25;
+  --glass-bg: rgba(36, 29, 23, 0.7);
+  --glass-border: rgba(250, 243, 224, 0.08);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  /* Gold pops on warm dark: primary family brightens */
+  --color-primary: #E3A92B;
+  --color-primary-dark: #B8860B;
+  --color-primary-light: #F5C969;
+  --gradient-primary: linear-gradient(135deg, #E3A92B 0%, #F5C969 100%);
 }
 
 /* Reset & Base Styles */
@@ -211,12 +214,14 @@ a:hover {
 }
 
 .section {
-  padding: var(--spacing-3xl) 0;
+  /* Breathing room: 7.5rem desktop rhythm (was --spacing-3xl = 6rem) */
+  padding: 7.5rem 0;
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: var(--spacing-2xl) 0;
+    /* ~+15% over the previous 3rem (--spacing-2xl) mobile rhythm */
+    padding: 3.5rem 0;
   }
 }
 
@@ -259,13 +264,16 @@ a:hover {
 
 .btn-primary {
   background: var(--gradient-primary);
-  color: white;
+  /* Ink on gold: white text fails AA on the gold gradient (both themes);
+     #161210 (kente ink) passes. Applies to ALL gold-fill buttons site-wide. */
+  color: #161210;
   box-shadow: var(--shadow-lg);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
+  color: #161210;
 }
 
 .btn-secondary {
@@ -461,10 +469,10 @@ a:hover {
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(227, 169, 43, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 40px rgba(227, 169, 43, 0.6);
   }
 }
 
@@ -615,10 +623,10 @@ a:hover {
 
 @keyframes text-glow {
   0%, 100% {
-    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    text-shadow: 0 0 10px rgba(227, 169, 43, 0.5);
   }
   50% {
-    text-shadow: 0 0 20px rgba(99, 102, 241, 0.8), 0 0 30px rgba(236, 72, 153, 0.5);
+    text-shadow: 0 0 20px rgba(227, 169, 43, 0.8), 0 0 30px rgba(245, 201, 105, 0.5);
   }
 }
 
@@ -688,7 +696,7 @@ a:hover {
   }
 
   .section {
-    padding: var(--spacing-2xl) 0;
+    padding: 3.5rem 0;
   }
 }
 

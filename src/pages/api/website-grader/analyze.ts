@@ -531,7 +531,7 @@ async function sendAnalysisEmail(analysis: AnalysisResult, email: string, name: 
   try {
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #667eea;">Your Website Analysis Report</h2>
+        <h2 style="color: #E3A92B;">Your Website Analysis Report</h2>
         <p>Hi ${name || 'there'},</p>
         <p>Thank you for using our Website Grader! Here's your comprehensive analysis for <strong>${analysis.url}</strong>:</p>
 
@@ -554,10 +554,10 @@ async function sendAnalysisEmail(analysis: AnalysisResult, email: string, name: 
           ].map(rec => `<li>${rec}</li>`).join('')}
         </ul>
 
-        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 30px 0;">
+        <div style="background: linear-gradient(135deg, #E3A92B, #1B5E3A); color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 30px 0;">
           <h3 style="margin-top: 0; color: white;">Want Expert Help?</h3>
           <p>Our team can optimize your website to achieve 90+ scores across all categories.</p>
-          <a href="https://ohwpstudios.org/booking" style="display: inline-block; background: white; color: #667eea; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px;">Book Free Consultation</a>
+          <a href="https://ohwpstudios.org/booking" style="display: inline-block; background: white; color: #E3A92B; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px;">Book Free Consultation</a>
         </div>
 
         <p style="color: #6b7280; font-size: 14px;">

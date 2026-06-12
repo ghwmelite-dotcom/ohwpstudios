@@ -1,0 +1,55 @@
+/* Kente Thread motif layer — pure CSS, zero image weight.
+   Strip pattern interprets kente strip-weave: gold-dominant with
+   green/black/red blocks. Decorative only — never carries content.
+   Hex literals are intentional: the strip IS the brand mark and must
+   not shift when admins re-theme via the theme customizer. */
+
+.kente-divider {
+  height: 6px;
+  width: 100%;
+  border: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #E3A92B 0 48px,
+    #1B5E3A 48px 72px,
+    #161210 72px 96px,
+    #CE1126 96px 108px,
+    #E3A92B 108px 156px,
+    #161210 156px 168px
+  );
+}
+
+.kente-hero-band {
+  height: 8px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #E3A92B 0 48px,
+    #1B5E3A 48px 72px,
+    #161210 72px 96px,
+    #CE1126 96px 108px,
+    #E3A92B 108px 156px,
+    #161210 156px 168px
+  );
+}
+
+.kente-edge {
+  position: relative;
+  overflow: hidden;
+}
+.kente-edge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #E3A92B 0 24px,
+    #1B5E3A 24px 36px,
+    #161210 36px 48px,
+    #CE1126 48px 54px,
+    #E3A92B 54px 78px
+  );
+}

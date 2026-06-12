@@ -1,5 +1,9 @@
 ---
+// wght-only variant: 35.8KB latin vs 65.7KB for standard.css — we never set
+// the SOFT/WONK axes, so the lighter file loses nothing we use.
+import '@fontsource-variable/fraunces/wght.css';
 import '@/styles/design-system.css';
+import '@/styles/motifs.css';
 import '@/styles/dark-mode-fixes.css';
 import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
@@ -120,19 +124,11 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content={pageTitle} />
 
-    <!-- Fonts - Optimized with font-display:swap and preload (reduced to 3 weights for performance) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
-
     <!-- Critical Resource Hints -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
     <!-- Performance & SEO -->
-    <meta name="theme-color" content="#6366f1" />
-    <meta name="msapplication-TileColor" content="#6366f1" />
+    <meta name="theme-color" content="#161210" />
+    <meta name="msapplication-TileColor" content="#161210" />
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Meta Robots - Prevent indexing of utility pages -->
@@ -260,7 +256,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
 
     <!-- CRITICAL: Prevent flash of unstyled content (must be inline) -->
     <script is:inline>
-      document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
     </script>
 
     <!-- Analytics: CF Web Analytics beacon (no cookies, no consent needed) -->

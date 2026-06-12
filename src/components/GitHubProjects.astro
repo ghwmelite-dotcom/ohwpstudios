@@ -1,7 +1,7 @@
 ---
 // "From our GitHub" — live strip of top public repos (About + README complete).
 // Server-rendered via the internal /api/github-projects endpoint (edge-cached).
-const { showHeader = true } = Astro.props;
+const { showHeader = true, limit = 3 } = Astro.props;
 let projects: any[] = [];
 try {
   const res = await fetch(`${Astro.url.origin}/api/github-projects`);
@@ -12,6 +12,8 @@ try {
 } catch (e) {
   console.error('GitHub projects fetch failed:', e);
 }
+// Breathing room: cap the homepage strip (the "See all our work" CTA covers the rest)
+projects = projects.slice(0, limit);
 
 // Brand-ish colors for common languages
 const langColors: Record<string, string> = {
@@ -26,7 +28,7 @@ const langColors: Record<string, string> = {
   Go: '#00ADD8',
   Rust: '#dea584',
 };
-const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#8b5cf6';
+const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#E3A92B';
 ---
 
 {projects.length > 0 && (
@@ -126,7 +128,7 @@ const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#8b5cf6
     gap: 0.5rem;
     padding: 0.5rem 1.25rem;
     background: var(--gradient-primary);
-    color: white;
+    color: #161210;
     border-radius: var(--radius-full);
     font-weight: 600;
     font-size: 0.875rem;
@@ -251,20 +253,20 @@ const colorFor = (lang: string | null) => (lang && langColors[lang]) || '#8b5cf6
 
   .gh-link-code:hover {
     background: var(--color-primary);
-    color: white;
+    color: #161210;
     border-color: var(--color-primary);
     transform: translateY(-2px);
   }
 
   .gh-link-demo {
     background: var(--gradient-primary);
-    color: white;
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+    color: #161210;
+    box-shadow: 0 2px 8px rgba(227, 169, 43, 0.25);
   }
 
   .gh-link-demo:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 4px 14px rgba(227, 169, 43, 0.35);
   }
 
   .gh-cta {

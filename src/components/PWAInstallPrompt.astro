@@ -104,14 +104,16 @@
 </div>
 
 <style>
-  :root {
-    --pwa-primary: #6366f1;
-    --pwa-primary-dark: #4f46e5;
-    --pwa-bg: #0f172a;
-    --pwa-surface: #1e293b;
-    --pwa-border: #334155;
-    --pwa-text: #f1f5f9;
-    --pwa-text-muted: #94a3b8;
+  /* :global — a scoped :root gets the scope hash appended and never matches
+     the <html> element (Astro scoped-style dead-rule bug) */
+  :global(:root) {
+    --pwa-primary: #E3A92B;
+    --pwa-primary-dark: #B8860B;
+    --pwa-bg: #161210;
+    --pwa-surface: #241D17;
+    --pwa-border: #3A2F25;
+    --pwa-text: #FAF3E0;
+    --pwa-text-muted: #C9BCA4;
     --pwa-success: #10b981;
     --pwa-danger: #ef4444;
   }
@@ -198,7 +200,7 @@
   .pwa-icon-glow {
     position: absolute;
     inset: -10px;
-    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    background: linear-gradient(135deg, var(--pwa-primary), #F5C969);
     border-radius: 30%;
     filter: blur(20px);
     opacity: 0.5;
@@ -210,7 +212,7 @@
     width: 100%;
     height: 100%;
     border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 40px rgba(227, 169, 43, 0.3);
   }
 
   .pwa-title {
@@ -219,7 +221,7 @@
     color: var(--pwa-text);
     text-align: center;
     margin-bottom: 0.75rem;
-    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    background: linear-gradient(135deg, var(--pwa-primary), #F5C969);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -244,15 +246,15 @@
     display: flex;
     gap: 1rem;
     padding: 1rem;
-    background: rgba(99, 102, 241, 0.05);
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    background: rgba(227, 169, 43, 0.05);
+    border: 1px solid rgba(227, 169, 43, 0.1);
     border-radius: 12px;
     transition: all 0.2s;
   }
 
   .pwa-feature:hover {
-    background: rgba(99, 102, 241, 0.08);
-    border-color: rgba(99, 102, 241, 0.2);
+    background: rgba(227, 169, 43, 0.08);
+    border-color: rgba(227, 169, 43, 0.2);
     transform: translateX(4px);
   }
 
@@ -263,7 +265,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    background: linear-gradient(135deg, var(--pwa-primary), #F5C969);
     border-radius: 10px;
     color: white;
   }
@@ -308,14 +310,14 @@
   }
 
   .pwa-btn-primary {
-    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    background: linear-gradient(135deg, var(--pwa-primary), #F5C969);
     color: white;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.4);
   }
 
   .pwa-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 6px 20px rgba(227, 169, 43, 0.5);
   }
 
   .pwa-btn-primary svg {
@@ -376,7 +378,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--pwa-primary), #818cf8);
+    background: linear-gradient(135deg, var(--pwa-primary), #F5C969);
     border-radius: 10px;
     color: white;
   }

@@ -13,7 +13,7 @@ import Logo from '@/components/Logo.astro';
       <li class="nav-dropdown">
         <a href="/#services" class="dropdown-trigger">
           Services
-          <span class="nav-badge hot">🔥 Hot</span>
+          <span class="nav-badge hot">Hot</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
@@ -53,7 +53,7 @@ import Logo from '@/components/Logo.astro';
       <li class="nav-dropdown">
         <a href="#" class="dropdown-trigger">
           Explore
-          <span class="nav-badge explore">🚀 Discover</span>
+          <span class="nav-badge explore">Discover</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
@@ -63,33 +63,24 @@ import Logo from '@/components/Logo.astro';
             <div class="dropdown-grid">
               <div class="dropdown-col">
                 <h4>Company</h4>
-                <a href="/#portfolio">
-                  Portfolio
-                  <span class="nav-badge premium" style="margin-left: 0.5rem;">✨</span>
-                </a>
-                <a href="/case-studies">
-                  Case Studies
-                  <span class="nav-badge trending" style="margin-left: 0.5rem;">🎯</span>
-                </a>
+                <a href="/#portfolio">Portfolio</a>
+                <a href="/case-studies">Case Studies</a>
                 <a href="/careers">
                   Careers
-                  <span class="nav-badge hiring" style="margin-left: 0.5rem;">💼</span>
+                  <span class="nav-badge hiring" style="margin-left: 0.5rem;">Hiring</span>
                 </a>
               </div>
               <div class="dropdown-col">
                 <h4>Free Tools</h4>
                 <a href="/estimate-project">
                   Scope My Project
-                  <span class="nav-badge premium" style="margin-left: 0.5rem;">✨</span>
+                  <span class="nav-badge premium" style="margin-left: 0.5rem;">AI</span>
                 </a>
                 <a href="/website-analyzer">
                   Website Grader
-                  <span class="nav-badge hot" style="margin-left: 0.5rem;">🚀 Free</span>
+                  <span class="nav-badge hot" style="margin-left: 0.5rem;">Free</span>
                 </a>
-                <a href="/quiz">
-                  Project Quiz
-                  <span class="nav-badge hot" style="margin-left: 0.5rem;">🔥</span>
-                </a>
+                <a href="/quiz">Project Quiz</a>
               </div>
               <div class="dropdown-col">
                 <h4>Insights</h4>
@@ -107,7 +98,7 @@ import Logo from '@/components/Logo.astro';
       <li>
         <a href="/open-build" class="nav-link-with-badge">
           Open Build
-          <span class="nav-badge hot">🔴 Live</span>
+          <span class="nav-badge hot">Live</span>
         </a>
       </li>
     </ul>
@@ -222,7 +213,7 @@ import Logo from '@/components/Logo.astro';
   }
 
   [data-theme="dark"] .nav-links a:hover {
-    color: #818cf8;
+    color: #F5C969;
   }
 
   .nav-links a:hover::after {
@@ -370,9 +361,9 @@ import Logo from '@/components/Logo.astro';
 
   /* Premium Badge - Gold Shimmer */
   .nav-badge.premium {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #f093fb 100%);
+    background: linear-gradient(135deg, #F5C969 0%, #f5576c 50%, #F5C969 100%);
     background-size: 200% 200%;
-    color: white;
+    color: #161210;
     animation: badgeShimmer 3s linear infinite;
     box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
   }
@@ -396,8 +387,8 @@ import Logo from '@/components/Logo.astro';
     min-width: 22px;
     height: 22px;
     padding: 0 6px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
+    background: var(--gradient-primary);
+    color: #161210;
     font-size: 0.7rem;
     font-weight: 700;
     border-radius: 12px;
@@ -491,10 +482,10 @@ import Logo from '@/components/Logo.astro';
     white-space: nowrap;
     border-radius: var(--radius-lg);
     background: var(--gradient-primary);
-    color: white;
+    color: #161210;
     text-decoration: none;
     transition: all var(--transition-base);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 2px 8px rgba(227, 169, 43, 0.25);
     position: relative;
     overflow: hidden;
   }
@@ -516,7 +507,7 @@ import Logo from '@/components/Logo.astro';
 
   .header-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 4px 16px rgba(227, 169, 43, 0.35);
   }
 
   .header-cta:active {
@@ -760,9 +751,9 @@ import Logo from '@/components/Logo.astro';
 
   .theme-toggle:hover {
     background: var(--color-primary);
-    color: white;
+    color: #161210;
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(227, 169, 43, 0.3);
   }
 
   .theme-toggle:active {
@@ -961,8 +952,8 @@ import Logo from '@/components/Logo.astro';
     const themeToggle = document.getElementById('theme-toggle');
     const html = document.documentElement;
 
-    // Check for saved theme preference or default to light mode
-    const currentTheme = localStorage.getItem('theme') || 'light';
+    // Check for saved theme preference or default to dark mode
+    const currentTheme = localStorage.getItem('theme') || 'dark';
     html.setAttribute('data-theme', currentTheme);
 
     if (themeToggle) {

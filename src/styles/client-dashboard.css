@@ -35,7 +35,7 @@ body:has(.dashboard-page) #social-proof-container {
 .orb-1 {
   width: 500px;
   height: 500px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   top: -10%;
   left: -10%;
   animation-delay: 0s;
@@ -44,7 +44,7 @@ body:has(.dashboard-page) #social-proof-container {
 .orb-2 {
   width: 400px;
   height: 400px;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #F5C969 0%, #f5576c 100%);
   bottom: -10%;
   right: -10%;
   animation-delay: 10s;
@@ -105,7 +105,7 @@ body:has(.dashboard-page) #social-proof-container {
 }
 
 .welcome-section h1 span {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -136,7 +136,7 @@ body:has(.dashboard-page) #social-proof-container {
   width: 50px;
   height: 50px;
   border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #667eea;
+  border-top-color: #E3A92B;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 1.5rem;
@@ -175,11 +175,11 @@ body:has(.dashboard-page) #social-proof-container {
 
 .project-card {
   background: linear-gradient(135deg,
-    rgba(99, 102, 241, 0.1) 0%,
-    rgba(139, 92, 246, 0.05) 100%
+    rgba(227, 169, 43, 0.1) 0%,
+    rgba(227, 169, 43, 0.05) 100%
   );
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(227, 169, 43, 0.3);
   border-radius: 24px;
   padding: 2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -188,7 +188,7 @@ body:has(.dashboard-page) #social-proof-container {
   overflow: hidden;
   box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(99, 102, 241, 0.1),
+    0 0 0 1px rgba(227, 169, 43, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -200,9 +200,9 @@ body:has(.dashboard-page) #social-proof-container {
   right: 0;
   height: 4px;
   background: linear-gradient(90deg,
-    #667eea 0%,
-    #764ba2 50%,
-    #f093fb 100%
+    #E3A92B 0%,
+    #1B5E3A 50%,
+    #F5C969 100%
   );
   transform: scaleX(0);
   transform-origin: left;
@@ -214,8 +214,8 @@ body:has(.dashboard-page) #social-proof-container {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg,
-    rgba(99, 102, 241, 0.15) 0%,
-    rgba(139, 92, 246, 0.1) 100%
+    rgba(227, 169, 43, 0.15) 0%,
+    rgba(227, 169, 43, 0.1) 100%
   );
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -225,10 +225,10 @@ body:has(.dashboard-page) #social-proof-container {
 .project-card:hover {
   transform: translateY(-12px) scale(1.02);
   box-shadow:
-    0 24px 80px rgba(99, 102, 241, 0.25),
-    0 0 0 1px rgba(99, 102, 241, 0.4),
+    0 24px 80px rgba(227, 169, 43, 0.25),
+    0 0 0 1px rgba(227, 169, 43, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border-color: rgba(99, 102, 241, 0.6);
+  border-color: rgba(227, 169, 43, 0.6);
 }
 
 .project-card:hover::before {
@@ -263,13 +263,13 @@ body:has(.dashboard-page) #social-proof-container {
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.375rem 0.75rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.4));
+  background: linear-gradient(135deg, rgba(227, 169, 43, 0.4), rgba(227, 169, 43, 0.4));
   color: #e0e7ff !important;
   border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border: 1px solid rgba(99, 102, 241, 0.5);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(227, 169, 43, 0.5);
+  box-shadow: 0 2px 8px rgba(227, 169, 43, 0.2);
   position: relative;
   z-index: 1;
 }
@@ -392,7 +392,7 @@ body:has(.dashboard-page) #social-proof-container {
 .progress-bar {
   height: 10px;
   background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(227, 169, 43, 0.2);
   border-radius: 50px;
   overflow: hidden;
   position: relative;
@@ -401,9 +401,9 @@ body:has(.dashboard-page) #social-proof-container {
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg,
-    #667eea 0%,
-    #764ba2 50%,
-    #f093fb 100%
+    #E3A92B 0%,
+    #1B5E3A 50%,
+    #F5C969 100%
   );
   border-radius: 50px;
   transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -450,15 +450,15 @@ body:has(.dashboard-page) #social-proof-container {
 
 .guide-card {
   background: linear-gradient(135deg,
-    rgba(99, 102, 241, 0.15) 0%,
-    rgba(139, 92, 246, 0.1) 100%
+    rgba(227, 169, 43, 0.15) 0%,
+    rgba(227, 169, 43, 0.1) 100%
   );
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(227, 169, 43, 0.3);
   border-radius: 24px;
   padding: 2rem;
   box-shadow:
-    0 8px 32px rgba(99, 102, 241, 0.2),
+    0 8px 32px rgba(227, 169, 43, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -478,7 +478,7 @@ body:has(.dashboard-page) #social-proof-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   border-radius: 16px;
   color: white;
   box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
@@ -531,7 +531,7 @@ body:has(.dashboard-page) #social-proof-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   color: white;
   border-radius: 50%;
   font-weight: 700;
@@ -572,7 +572,7 @@ body:has(.dashboard-page) #social-proof-container {
 
 .example-q {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(227, 169, 43, 0.3);
   color: rgba(255, 255, 255, 0.9);
   padding: 0.75rem 1rem;
   border-radius: 12px;
@@ -583,8 +583,8 @@ body:has(.dashboard-page) #social-proof-container {
 }
 
 .example-q:hover {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(227, 169, 43, 0.2);
+  border-color: rgba(227, 169, 43, 0.5);
   color: white;
   transform: translateX(4px);
 }

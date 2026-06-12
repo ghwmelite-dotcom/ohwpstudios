@@ -1,14 +1,18 @@
 ---
 // This component will load data client-side for filtering functionality
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
 <section id="portfolio" class="section portfolio">
   <div class="container">
     <div class="section-header" data-animate>
+      <!-- Adinkra mark lives outside the h2: the data-text-reveal script
+           flattens the heading to textContent and would destroy an inline SVG -->
+      <span class="title-adinkra adinkra-primary" aria-hidden="true">
+        <AdinkraIcon symbol="sankofa" size={28} />
+      </span>
       <h2 data-text-reveal class="animated-header title-hero">
-        <span class="title-icon">💼</span>
         <span class="title-gradient">Our Work Speaks Volumes</span>
-        <span class="title-icon">💼</span>
         <div class="title-underline"></div>
       </h2>
       <p class="section-description">
@@ -49,21 +53,21 @@
     <!-- Floating Achievement Badges -->
     <div class="floating-badges">
       <div class="badge badge-1">
-        <div class="badge-icon">🏆</div>
+        <div class="badge-icon"><AdinkraIcon symbol="dwennimmen" size={26} /></div>
         <div class="badge-text">
           <strong>Award Winning</strong>
           <span>Design Excellence</span>
         </div>
       </div>
       <div class="badge badge-2">
-        <div class="badge-icon">⚡</div>
+        <div class="badge-icon"><AdinkraIcon symbol="nkyinkyim" size={26} /></div>
         <div class="badge-text">
           <strong>Lightning Fast</strong>
           <span>Performance</span>
         </div>
       </div>
       <div class="badge badge-3">
-        <div class="badge-icon">💎</div>
+        <div class="badge-icon"><AdinkraIcon symbol="eban" size={26} /></div>
         <div class="badge-text">
           <strong>Premium Quality</strong>
           <span>Guaranteed</span>
@@ -77,8 +81,8 @@
   .portfolio {
     background: linear-gradient(180deg,
       #ffffff 0%,
-      rgba(99, 102, 241, 0.02) 20%,
-      rgba(236, 72, 153, 0.02) 50%,
+      rgba(227, 169, 43, 0.02) 20%,
+      rgba(245, 201, 105, 0.02) 50%,
       rgba(245, 158, 11, 0.02) 80%,
       #ffffff 100%
     );
@@ -101,7 +105,7 @@
   .portfolio::before {
     width: 500px;
     height: 500px;
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     top: -200px;
     right: -150px;
     animation-delay: 0s;
@@ -110,7 +114,7 @@
   .portfolio::after {
     width: 600px;
     height: 600px;
-    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    background: linear-gradient(135deg, #f59e0b, #F5C969);
     bottom: -250px;
     left: -200px;
     animation-delay: 10s;
@@ -146,7 +150,7 @@
     inset: 0;
     border-radius: 30px;
     padding: 2px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -161,7 +165,7 @@
     top: -15px;
     right: -15px;
     font-size: 2rem;
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -236,8 +240,8 @@
   .category-tab.active {
     background: var(--gradient-primary);
     border-color: transparent;
-    color: white;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    color: #161210;
+    box-shadow: 0 4px 16px rgba(227, 169, 43, 0.3);
   }
 
   /* Loading and Empty States */
@@ -252,21 +256,21 @@
   }
 
   .loading-state {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(236, 72, 153, 0.03));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.03), rgba(245, 201, 105, 0.03));
     border-radius: 24px;
-    border: 2px dashed rgba(99, 102, 241, 0.2);
+    border: 2px dashed rgba(227, 169, 43, 0.2);
   }
 
   .spinner {
     width: 60px;
     height: 60px;
     border: 4px solid transparent;
-    border-top-color: #6366f1;
-    border-right-color: #ec4899;
+    border-top-color: #E3A92B;
+    border-right-color: #F5C969;
     border-radius: 50%;
     animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     margin: 0 auto 1.5rem;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.2);
   }
 
   @keyframes spin {
@@ -274,7 +278,7 @@
   }
 
   .loading-state p {
-    color: #6366f1;
+    color: #E3A92B;
     font-size: 1.125rem;
     font-weight: 600;
     margin: 0;
@@ -318,13 +322,13 @@
   }
 
   .portfolio-grid::before {
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     top: 10%;
     left: -50px;
   }
 
   .portfolio-grid::after {
-    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    background: linear-gradient(135deg, #f59e0b, #F5C969);
     bottom: 10%;
     right: -50px;
     animation-delay: 4s;
@@ -362,7 +366,7 @@
     position: absolute;
     inset: -2px;
     border-radius: 22px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b, #6366f1);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b, #E3A92B);
     background-size: 300% 300%;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -411,7 +415,7 @@
     inset: 0;
     border-radius: 20px;
     padding: 2px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b);
     background-size: 200% 200%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -432,7 +436,7 @@
 
   .portfolio-link:hover {
     transform: translateY(-16px) scale(1.03) rotateX(2deg);
-    box-shadow: 0 25px 70px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 25px 70px rgba(227, 169, 43, 0.35);
   }
 
   .portfolio-image {
@@ -440,7 +444,7 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
   }
 
   /* Animated shimmer effect on image */
@@ -474,7 +478,7 @@
   .portfolio-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(236, 72, 153, 0.95));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.95), rgba(245, 201, 105, 0.95));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -507,7 +511,7 @@
   }
 
   .view-project {
-    color: white;
+    color: #161210;
     font-weight: 700;
     font-size: 1.1rem;
     display: flex;
@@ -563,13 +567,13 @@
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #6366f1;
+    color: #E3A92B;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     padding: 0.4rem 1rem;
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(227, 169, 43, 0.1);
     border-radius: 20px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(227, 169, 43, 0.2);
   }
 
   .badge-featured {
@@ -589,7 +593,7 @@
     font-size: 1.75rem;
     font-weight: 800;
     margin-bottom: 0.75rem;
-    background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+    background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-muted) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -618,9 +622,9 @@
     gap: 1rem;
     margin-bottom: 1.5rem;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(236, 72, 153, 0.03));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.03), rgba(245, 201, 105, 0.03));
     border-radius: 16px;
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(227, 169, 43, 0.1);
     position: relative;
     overflow: hidden;
   }
@@ -635,7 +639,7 @@
     height: 200%;
     background: linear-gradient(45deg,
       transparent 30%,
-      rgba(99, 102, 241, 0.05) 50%,
+      rgba(227, 169, 43, 0.05) 50%,
       transparent 70%
     );
     animation: shimmer-metrics 3s linear infinite;
@@ -655,7 +659,7 @@
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(227, 169, 43, 0.05);
   }
 
   /* Ripple effect on metric hover */
@@ -663,7 +667,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle at center, rgba(227, 169, 43, 0.1) 0%, transparent 70%);
     transform: scale(0);
     transition: transform 0.6s ease;
   }
@@ -674,14 +678,14 @@
 
   .metric-item:hover {
     transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
-    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 24px rgba(227, 169, 43, 0.25);
+    border-color: rgba(227, 169, 43, 0.3);
   }
 
   .metric-value {
     font-size: 1.5rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -722,7 +726,7 @@
     align-items: center;
     gap: 1.25rem;
     padding-top: 1.25rem;
-    border-top: 2px solid rgba(99, 102, 241, 0.1);
+    border-top: 2px solid rgba(227, 169, 43, 0.1);
     font-size: 0.9rem;
     color: var(--color-text-secondary);
   }
@@ -735,13 +739,13 @@
   }
 
   .portfolio-meta-item svg {
-    color: #6366f1;
+    color: #E3A92B;
   }
 
   .portfolio-cta {
     text-align: center;
     padding: 3rem 2rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+    background: linear-gradient(135deg, rgba(227, 169, 43, 0.05), rgba(245, 201, 105, 0.05));
     border-radius: 24px;
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -755,7 +759,7 @@
     inset: 0;
     border-radius: 24px;
     padding: 2px;
-    background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+    background: linear-gradient(135deg, #E3A92B, #F5C969, #f59e0b);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -766,7 +770,7 @@
     font-size: 1.75rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, #1f2937, #4b5563);
+    background: linear-gradient(135deg, var(--color-text), var(--color-text-muted));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -779,11 +783,11 @@
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #6366f1, #ec4899) !important;
-    color: white !important;
+    background: linear-gradient(135deg, #E3A92B, #F5C969) !important;
+    color: #161210 !important;
     border: none;
     border-radius: 50px;
-    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 30px rgba(227, 169, 43, 0.3);
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
@@ -793,7 +797,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #ec4899, #6366f1);
+    background: linear-gradient(135deg, #F5C969, #E3A92B);
     opacity: 0;
     transition: opacity 0.4s ease;
   }
@@ -804,7 +808,7 @@
 
   .view-all-btn:hover {
     transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 12px 40px rgba(227, 169, 43, 0.5);
   }
 
   .view-all-btn svg {
@@ -842,7 +846,7 @@
     );
     backdrop-filter: blur(20px);
     border-radius: 20px;
-    border: 2px solid rgba(99, 102, 241, 0.2);
+    border: 2px solid rgba(227, 169, 43, 0.2);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     animation: float-badge 6s ease-in-out infinite;
   }
@@ -875,8 +879,12 @@
   }
 
   .badge-icon {
-    font-size: 2rem;
-    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(227, 169, 43, 0.3));
     animation: bounce-icon 3s ease-in-out infinite;
   }
 
@@ -894,7 +902,7 @@
   .badge-text strong {
     font-size: 0.95rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #6366f1, #ec4899);
+    background: linear-gradient(135deg, #E3A92B, #F5C969);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -966,7 +974,7 @@
   }
 
   .title-gradient {
-    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #F5C969 50%, #f59e0b 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -975,7 +983,7 @@
     display: inline-block;
     font-weight: 900;
     letter-spacing: -0.02em;
-    text-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+    text-shadow: 0 0 40px rgba(227, 169, 43, 0.3);
     position: relative;
   }
 
@@ -986,7 +994,7 @@
     left: 0;
     top: 0;
     z-index: -1;
-    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+    background: linear-gradient(135deg, #E3A92B 0%, #F5C969 50%, #f59e0b 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1001,27 +1009,13 @@
     50% { background-position: 100% 50%; }
   }
 
-  .title-icon {
-    display: inline-block;
-    animation: iconBounce 3s ease-in-out infinite;
-    font-size: 2.5rem;
-    margin: 0 0.75rem;
-    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.4));
-  }
-
-  @keyframes iconBounce {
-    0%, 100% {
-      transform: translateY(0) rotate(0deg) scale(1);
-    }
-    25% {
-      transform: translateY(-15px) rotate(-8deg) scale(1.1);
-    }
-    50% {
-      transform: translateY(-8px) rotate(0deg) scale(1.05);
-    }
-    75% {
-      transform: translateY(-12px) rotate(8deg) scale(1.08);
-    }
+  .title-adinkra {
+    display: flex;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-bottom: var(--spacing-sm, 0.75rem);
+    filter: drop-shadow(0 0 20px rgba(227, 169, 43, 0.4));
   }
 
   .title-underline {
@@ -1033,14 +1027,14 @@
     height: 5px;
     background: linear-gradient(90deg,
       transparent,
-      rgba(99, 102, 241, 0.8),
-      rgba(236, 72, 153, 0.8),
+      rgba(227, 169, 43, 0.8),
+      rgba(245, 201, 105, 0.8),
       rgba(245, 158, 11, 0.8),
       transparent
     );
     border-radius: 3px;
     animation: underlineExpand 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.5s;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 4px 20px rgba(227, 169, 43, 0.6);
   }
 
   /* Pulsing glow effect on underline */
@@ -1103,9 +1097,11 @@
 
     const tabs = [
       '<button class="category-tab active" data-category="all">All Projects</button>',
+      // Text-only tabs: category icons in the DB are emoji, which the site's
+      // Adinkra-based visual identity no longer uses for decoration.
       ...categories.map(cat =>
         `<button class="category-tab" data-category="${cat.id}">
-          ${cat.icon || ''} ${cat.name}
+          ${cat.name}
         </button>`
       )
     ];
@@ -1233,7 +1229,7 @@
             <div class="portfolio-image">
               ${project.featured_image
                 ? `<img src="${project.featured_image}" alt="${project.title}" width="800" height="450" loading="${loadingAttr}" decoding="${decodingAttr}" ${fetchPriorityAttr} />`
-                : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#6366f1,#ec4899)"></div>'
+                : '<div style="width:100%;height:100%;background:linear-gradient(135deg,#E3A92B,#F5C969)"></div>'
               }
               <div class="portfolio-overlay">
                 <span class="view-project">

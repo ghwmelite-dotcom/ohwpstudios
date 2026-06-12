@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   await db.prepare(
     `INSERT INTO testimonials (name, role, company, content, rating, avatar_url, avatar_initials, avatar_gradient, is_active)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)`
-  ).bind(name, role, company, content, stars, avatar_url || null, initials, 'linear-gradient(135deg, #6366f1, #ec4899)').run();
+  ).bind(name, role, company, content, stars, avatar_url || null, initials, 'linear-gradient(135deg, #E3A92B, #F5C969)').run();
 
   return json({ success: true }, 200);
 };
