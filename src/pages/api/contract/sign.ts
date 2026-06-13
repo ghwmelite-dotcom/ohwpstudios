@@ -19,6 +19,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
   if (!token || !code || !signer_name?.trim() || !signature_data) {
     return json({ success: false, error: 'Missing required fields' }, 400);
   }
+  if (signature_data.length > 500000) {
+    return json({ success: false, error: 'Signature data too large' }, 413);
+  }
 
   const contract = await db.prepare('SELECT * FROM contracts WHERE share_token = ?').bind(token).first<Record<string, unknown>>();
   if (!contract) return json({ success: false, error: 'This contract link is invalid or has expired.' }, 404);
@@ -41,8 +44,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json({ success: false, error: left > 0 ? `Incorrect code. ${left} attempt(s) left.` : 'Too many attempts. Please request a new code.' }, 400);
   }
 
-  // code OK → consume it and record the signature
-  await db.prepare("UPDATE contract_verifications SET consumed_at = datetime('now') WHERE id = ?").bind(v.id).run();
+  // code OK → consume it atomically (guards the double-sign race) and record the signature
+  const consumed = await db.prepare("UPDATE contract_verifications SET consumed_at = datetime('now') WHERE id = ? AND consumed_at IS NULL").bind(v.id).run();
+  if (!consumed.meta || consumed.meta.changes !== 1) {
+    return json({ success: false, error: 'This code was just used. Please request a new one if needed.' }, 409);
+  }
 
   const clientIP = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
   const userAgent = request.headers.get('user-agent') || 'unknown';

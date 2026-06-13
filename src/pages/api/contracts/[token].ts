@@ -2,14 +2,15 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-// GET: Fetch public contract details (no auth required)
+// GET: Fetch contract details by unguessable share token (token-gated, no
+// numeric-id enumeration). A purely-numeric or unknown token → 404 (no oracle).
 export const GET: APIRoute = async ({ params, locals }) => {
   try {
-    const { id } = params;
+    const { token } = params;
 
-    if (!id) {
-      return new Response(JSON.stringify({ error: 'Contract ID is required' }), {
-        status: 400,
+    if (!token || /^\d+$/.test(token)) {
+      return new Response(JSON.stringify({ error: 'Contract not found' }), {
+        status: 404,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -23,10 +24,10 @@ export const GET: APIRoute = async ({ params, locals }) => {
       });
     }
 
-    // Fetch contract
+    // Fetch contract by share token
     const contract = await db
-      .prepare('SELECT * FROM contracts WHERE id = ?')
-      .bind(id)
+      .prepare('SELECT * FROM contracts WHERE share_token = ?')
+      .bind(token)
       .first();
 
     if (!contract) {

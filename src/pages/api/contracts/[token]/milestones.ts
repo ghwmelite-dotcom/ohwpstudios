@@ -2,14 +2,15 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-// GET: Fetch milestones for a contract (public - no auth required)
+// GET: Fetch milestones for a contract by unguessable share token (token-gated).
+// A purely-numeric or unknown token → 404 (no numeric-id enumeration/oracle).
 export const GET: APIRoute = async ({ params, locals }) => {
   try {
-    const { id } = params;
+    const { token } = params;
 
-    if (!id) {
-      return new Response(JSON.stringify({ error: 'Contract ID is required' }), {
-        status: 400,
+    if (!token || /^\d+$/.test(token)) {
+      return new Response(JSON.stringify({ error: 'Contract not found' }), {
+        status: 404,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -23,11 +24,11 @@ export const GET: APIRoute = async ({ params, locals }) => {
       });
     }
 
-    // Verify contract exists
+    // Resolve token → contract id
     const contract = await db
-      .prepare('SELECT id FROM contracts WHERE id = ?')
-      .bind(id)
-      .first();
+      .prepare('SELECT id FROM contracts WHERE share_token = ?')
+      .bind(token)
+      .first<{ id: number }>();
 
     if (!contract) {
       return new Response(JSON.stringify({ error: 'Contract not found' }), {
@@ -36,10 +37,10 @@ export const GET: APIRoute = async ({ params, locals }) => {
       });
     }
 
-    // Fetch milestones
+    // Fetch milestones by the resolved numeric id
     const result = await db
       .prepare('SELECT * FROM contract_milestones WHERE contract_id = ? ORDER BY created_at ASC')
-      .bind(id)
+      .bind(contract.id)
       .all();
 
     return new Response(JSON.stringify(result.results || []), {
