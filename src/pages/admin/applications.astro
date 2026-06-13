@@ -1,4 +1,5 @@
 ---
+export const prerender = false; // SSR so the middleware auth guard runs
 // Admin Applications Management Page
 ---
 
@@ -424,24 +425,31 @@
   </div>
 
   <script>
+    import { escapeHtml } from '@/utils/escape-html';
+
+    // Only allow http(s) URLs; neutralizes javascript:/data: schemes.
+    function safeUrl(u) {
+      const s = String(u ?? '').trim();
+      return /^https?:\/\//i.test(s) ? s : '#';
+    }
+
     let allApplications = [];
     let currentFilter = 'all';
     let searchQuery = '';
 
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
+    }
+
     // Load applications on page load
     async function loadApplications() {
       try {
-        const token = localStorage.getItem('admin_token');
-        if (!token) {
-          window.location.href = '/admin/login';
-          return;
-        }
-
-        const response = await fetch('/api/admin/applications', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/applications');
 
         const data = await response.json();
 
@@ -552,11 +560,11 @@
             <div class="application-card">
               <div class="application-header">
                 <div class="applicant-info">
-                  <h3>${app.full_name}</h3>
+                  <h3>${escapeHtml(app.full_name)}</h3>
                   <div class="applicant-meta">
-                    <span>📧 ${app.email}</span>
-                    <span>📱 ${app.phone}</span>
-                    <span>📍 ${app.location}</span>
+                    <span>📧 ${escapeHtml(app.email)}</span>
+                    <span>📱 ${escapeHtml(app.phone)}</span>
+                    <span>📍 ${escapeHtml(app.location)}</span>
                     <span>📅 ${new Date(app.created_at).toLocaleDateString()}</span>
                   </div>
                 </div>
@@ -566,40 +574,40 @@
               <div class="application-details">
                 <div class="detail-item">
                   <span class="detail-label">Position</span>
-                  <span class="detail-value">${app.position}</span>
+                  <span class="detail-value">${escapeHtml(app.position)}</span>
                 </div>
                 <div class="detail-item">
                   <span class="detail-label">Experience</span>
-                  <span class="detail-value">${app.experience_level}</span>
+                  <span class="detail-value">${escapeHtml(app.experience_level)}</span>
                 </div>
                 <div class="detail-item">
                   <span class="detail-label">Availability</span>
-                  <span class="detail-value">${app.availability}</span>
+                  <span class="detail-value">${escapeHtml(app.availability)}</span>
                 </div>
                 ${app.salary_expectation ? `
                 <div class="detail-item">
                   <span class="detail-label">Salary Expectation</span>
-                  <span class="detail-value">${app.salary_expectation}</span>
+                  <span class="detail-value">${escapeHtml(app.salary_expectation)}</span>
                 </div>
                 ` : ''}
               </div>
 
               <div class="detail-item" style="margin-bottom: 1rem;">
                 <span class="detail-label">Skills</span>
-                <span class="detail-value">${app.skills}</span>
+                <span class="detail-value">${escapeHtml(app.skills)}</span>
               </div>
 
               ${app.portfolio_url || app.linkedin_url || app.github_url ? `
               <div class="links">
-                ${app.portfolio_url ? `<a href="${app.portfolio_url}" target="_blank" class="link-btn">🌐 Portfolio</a>` : ''}
-                ${app.linkedin_url ? `<a href="${app.linkedin_url}" target="_blank" class="link-btn">💼 LinkedIn</a>` : ''}
-                ${app.github_url ? `<a href="${app.github_url}" target="_blank" class="link-btn">💻 GitHub</a>` : ''}
+                ${safeUrl(app.portfolio_url) !== '#' ? `<a href="${escapeHtml(safeUrl(app.portfolio_url))}" target="_blank" rel="noopener noreferrer" class="link-btn">🌐 Portfolio</a>` : ''}
+                ${safeUrl(app.linkedin_url) !== '#' ? `<a href="${escapeHtml(safeUrl(app.linkedin_url))}" target="_blank" rel="noopener noreferrer" class="link-btn">💼 LinkedIn</a>` : ''}
+                ${safeUrl(app.github_url) !== '#' ? `<a href="${escapeHtml(safeUrl(app.github_url))}" target="_blank" rel="noopener noreferrer" class="link-btn">💻 GitHub</a>` : ''}
               </div>
               ` : ''}
 
               <div class="cover-letter">
                 <h4>Cover Letter</h4>
-                <p class="cover-letter-text">${app.cover_letter}</p>
+                <p class="cover-letter-text">${escapeHtml(app.cover_letter)}</p>
               </div>
 
               <div class="application-actions">
@@ -618,11 +626,10 @@
     // Update application status
     async function updateStatus(id, status) {
       try {
-        const token = localStorage.getItem('admin_token');
         const response = await fetch('/api/admin/applications', {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'X-CSRF-Token': CSRF,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ id, status })
@@ -653,11 +660,10 @@
       }
 
       try {
-        const token = localStorage.getItem('admin_token');
         const response = await fetch(`/api/admin/applications?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           }
         });
 
@@ -697,7 +703,10 @@
     window.deleteApplication = deleteApplication;
 
     // Load on page load
-    loadApplications();
+    (async () => {
+      if (!(await initAdminSession())) return;
+      loadApplications();
+    })();
   </script>
 </body>
 </html>

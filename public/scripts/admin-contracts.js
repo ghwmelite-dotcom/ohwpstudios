@@ -2,7 +2,7 @@
 
 class ContractsAdmin {
   constructor() {
-    this.token = localStorage.getItem('admin_token');
+    this.csrf = '';
     this.currentTab = 'contracts';
     this.currentFilter = 'all';
     this.contracts = [];
@@ -10,20 +10,29 @@ class ContractsAdmin {
     this.currentContract = null;
     this.milestones = [];
 
-    if (!this.token) {
-      window.location.href = '/admin/login';
-      return;
-    }
-
     this.init();
   }
 
   init() {
+    // Wire up the UI immediately so it is responsive before the session
+    // bootstrap resolves. Data-loading happens in start() after initSession().
     this.setupTabs();
     this.setupFilters();
     this.setupButtons();
     this.setupMilestoneModals();
     this.setupLogout();
+  }
+
+  async initSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    this.csrf = data.csrf_token;
+    return true;
+  }
+
+  async start() {
+    if (!(await this.initSession())) return;
     this.loadContracts();
     this.loadTemplates();
   }
@@ -98,7 +107,8 @@ class ContractsAdmin {
   }
 
   setupLogout() {
-    document.getElementById('logout-btn')?.addEventListener('click', () => {
+    document.getElementById('logout-btn')?.addEventListener('click', async () => {
+      await fetch('/api/admin/logout', { method: 'POST', headers: { 'X-CSRF-Token': this.csrf } });
       localStorage.removeItem('admin_token');
       window.location.href = '/admin/login';
     });
@@ -109,11 +119,7 @@ class ContractsAdmin {
     container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading contracts...</p></div>';
 
     try {
-      const response = await fetch('/api/admin/contracts', {
-        headers: {
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
+      const response = await fetch('/api/admin/contracts');
 
       if (!response.ok) throw new Error('Failed to load contracts');
 
@@ -130,11 +136,7 @@ class ContractsAdmin {
     container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading templates...</p></div>';
 
     try {
-      const response = await fetch('/api/admin/contract-templates?active=true', {
-        headers: {
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
+      const response = await fetch('/api/admin/contract-templates?active=true');
 
       if (!response.ok) throw new Error('Failed to load templates');
 
@@ -151,11 +153,7 @@ class ContractsAdmin {
     select.innerHTML = '<option value="">Loading templates...</option>';
 
     try {
-      const response = await fetch('/api/admin/contract-templates?active=true', {
-        headers: {
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
+      const response = await fetch('/api/admin/contract-templates?active=true');
 
       if (!response.ok) throw new Error('Failed to load templates');
 
@@ -415,7 +413,7 @@ class ContractsAdmin {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.token}`
+          'X-CSRF-Token': this.csrf
         },
         body: JSON.stringify(data)
       });
@@ -449,7 +447,7 @@ class ContractsAdmin {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.token}`
+          'X-CSRF-Token': this.csrf
         },
         body: JSON.stringify({
           contract_id: id,
@@ -477,7 +475,7 @@ class ContractsAdmin {
       const response = await fetch(`/api/admin/contracts?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${this.token}`
+          'X-CSRF-Token': this.csrf
         }
       });
 
@@ -545,11 +543,7 @@ class ContractsAdmin {
     container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading milestones...</p></div>';
 
     try {
-      const response = await fetch(`/api/admin/contract-milestones?contract_id=${contractId}`, {
-        headers: {
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
+      const response = await fetch(`/api/admin/contract-milestones?contract_id=${contractId}`);
 
       if (!response.ok) throw new Error('Failed to load milestones');
 
@@ -715,7 +709,7 @@ class ContractsAdmin {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.token}`
+          'X-CSRF-Token': this.csrf
         },
         body: JSON.stringify(data)
       });
@@ -741,7 +735,7 @@ class ContractsAdmin {
       const response = await fetch(`/api/admin/contract-milestones?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${this.token}`
+          'X-CSRF-Token': this.csrf
         }
       });
 
@@ -760,7 +754,8 @@ class ContractsAdmin {
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => new ContractsAdmin());
+  document.addEventListener('DOMContentLoaded', () => { const app = new ContractsAdmin(); app.start(); });
 } else {
-  new ContractsAdmin();
+  const app = new ContractsAdmin();
+  app.start();
 }

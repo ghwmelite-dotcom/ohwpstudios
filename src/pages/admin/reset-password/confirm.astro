@@ -449,6 +449,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     const strengthText = document.getElementById('strength-text') as HTMLSpanElement;
     const toggleButtons = document.querySelectorAll('.toggle-password');
 
+    // Pre-fill the reset token from the emailed link (?token=...) so the user
+    // doesn't have to copy it by hand.
+    const tokenInput = document.getElementById('token') as HTMLInputElement | null;
+    const urlToken = new URLSearchParams(window.location.search).get('token');
+    if (tokenInput && urlToken) {
+      tokenInput.value = urlToken;
+    }
+
     // Password visibility toggles
     toggleButtons.forEach(button => {
       button.addEventListener('click', () => {

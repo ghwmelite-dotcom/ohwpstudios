@@ -90,22 +90,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           <div class="form-status" id="login-status"></div>
         </form>
 
-        <div class="login-footer">
-          <div class="divider">
-            <span>Default Credentials</span>
-          </div>
-          <div class="credentials-info">
-            <code>admin / admin123</code>
-          </div>
-          <div class="warning-badge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/>
-              <line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-            <span>Change the default password after first login</span>
-          </div>
-        </div>
       </div>
 
       <div class="back-to-site">
@@ -134,10 +118,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   .login-background {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg,
-      #E3A92B 0%,
-      #1B5E3A 50%,
-      #F5C969 100%
+    background: linear-gradient(150deg,
+      #161210 0%,
+      #241D17 45%,
+      #1B2E22 100%
     );
     z-index: 0;
   }
@@ -209,20 +193,17 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     }
   }
 
+  /* Warm cocoa card — the site is dark by default, so card text resolves to
+     cream; a dark card keeps every label readable and lets gold accents pop. */
   .login-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(36, 29, 23, 0.92);
     backdrop-filter: blur(20px);
     border-radius: 24px;
     padding: 3rem;
     box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-
-  :global(.dark) .login-card {
-    background: rgba(17, 24, 39, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+      0 20px 60px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(227, 169, 43, 0.12) inset;
+    border: 1px solid rgba(227, 169, 43, 0.18);
   }
 
   .login-header {
@@ -240,7 +221,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     color: white;
     margin-bottom: 1.5rem;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(227, 169, 43, 0.35);
   }
 
   .login-header h1 {
@@ -356,7 +337,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   .forgot-password:hover {
     text-decoration: underline;
-    color: #5558d9;
+    color: #F5C969;
   }
 
   .btn-full {
@@ -408,57 +389,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
     border: 2px solid rgba(239, 68, 68, 0.3);
-  }
-
-  .login-footer {
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .divider {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .divider span {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .credentials-info {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .credentials-info code {
-    background: var(--color-bg-alt);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    color: var(--color-primary);
-    border: 1px solid var(--color-border);
-  }
-
-  .warning-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1rem;
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    border-radius: 10px;
-    color: #f59e0b;
-    font-size: 0.85rem;
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .warning-badge svg {
-    flex-shrink: 0;
   }
 
   .back-to-site {
@@ -531,6 +461,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 <script>
   function initLogin() {
+    // Sessions now live in an HttpOnly cookie; purge any legacy token.
+    localStorage.removeItem('admin_token');
+
     const form = document.getElementById('login-form') as HTMLFormElement;
     const status = document.getElementById('login-status') as HTMLDivElement;
     const togglePassword = document.getElementById('toggle-password');
@@ -586,9 +519,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         if (response.ok && result.success) {
           status.className = 'form-status success';
           status.textContent = '✓ Login successful! Redirecting to dashboard...';
-
-          // Store auth token
-          localStorage.setItem('admin_token', result.token);
 
           // Redirect to admin dashboard
           setTimeout(() => {

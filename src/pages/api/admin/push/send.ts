@@ -3,25 +3,6 @@ import { getCORSHeaders, handleCORSPreflight } from '@/utils/cors';
 
 export const prerender = false;
 
-// Helper function to verify admin session
-async function verifyAdminSession(token: string, DB: any): Promise<boolean> {
-  if (!token || !DB) return false;
-
-  try {
-    const session = await DB.prepare(
-      `SELECT s.*, u.username
-       FROM sessions s
-       JOIN admin_users u ON s.user_id = u.id
-       WHERE s.token = ? AND s.expires_at > datetime('now')`
-    ).bind(token).first();
-
-    return !!session;
-  } catch (error) {
-    console.error('Session verification error:', error);
-    return false;
-  }
-}
-
 // Helper function to send push notification using Web Push API
 async function sendPushNotification(
   subscription: { endpoint: string; p256dh_key: string; auth_key: string },
@@ -53,9 +34,6 @@ async function sendPushNotification(
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const authHeader = request.headers.get('Authorization');
-    const token = authHeader?.replace('Bearer ', '');
-
     const DB = (locals as any).runtime?.env?.DB;
 
     if (!DB) {
@@ -66,18 +44,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
         }),
         {
           status: 503,
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
-    }
-
-    // Verify admin authentication
-    const isAdmin = await verifyAdminSession(token || '', DB);
-    if (!isAdmin) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        {
-          status: 401,
           headers: { 'Content-Type': 'application/json' }
         }
       );

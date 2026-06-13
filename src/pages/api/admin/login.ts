@@ -1,21 +1,29 @@
 import type { APIRoute } from 'astro';
+import {
+  verifyPassword,
+  hashPassword,
+  generateSessionToken,
+  SESSION_COOKIE,
+  SESSION_HOURS,
+} from '@/lib/admin-auth';
 import { generateCSRFToken } from '@/utils/csrf';
 import { rateLimitMiddleware, getClientIdentifier, RATE_LIMITS, clearRateLimit } from '@/utils/rate-limit';
 import { getCORSHeaders } from '@/utils/cors';
 
 export const prerender = false;
 
-// Simple password hashing function (matches the one in functions/api/admin)
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hash));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hashHex;
+// Fixed dummy hash (password "x", discarded result): equalizes timing between
+// unknown-user and wrong-password so usernames can't be enumerated.
+const DUMMY_HASH = 'pbkdf2$100000$00000000000000000000000000000000$0000000000000000000000000000000000000000000000000000000000000000';
+
+function json(body: Record<string, unknown>, status: number): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request, locals, cookies }) => {
   try {
     // Apply rate limiting based on IP address
     const clientIP = getClientIdentifier(request);
@@ -28,127 +36,81 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const username = body.username;
     const password = body.password;
 
-    console.log('Login attempt:', username);
-
     if (!username || !password) {
-      return new Response(
-        JSON.stringify({ error: 'Username and password are required' }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
+      return json({ success: false, error: 'Username and password are required' }, 400);
     }
 
-    // Check if we have database access (runtime.env.DB from Cloudflare)
-    const DB = (locals as any).runtime?.env?.DB;
-
-    if (!DB) {
-      // ONLY allow dev fallback in development mode
-      if (import.meta.env.DEV) {
-        // Dev mode fallback - use hardcoded credentials
-        if (username === 'admin' && password === 'admin123') {
-          const token = `token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-          const csrfToken = generateCSRFToken();
-          console.log('✅ Login successful (dev mode)');
-
-          return new Response(
-            JSON.stringify({
-              success: true,
-              token: token,
-              csrfToken: csrfToken,
-              user: { username: 'admin', email: 'admin@yoursite.com' },
-            }),
-            {
-              status: 200,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          );
-        }
-      }
-
-      // In production or if dev credentials don't match, return service unavailable
-      return new Response(
-        JSON.stringify({ error: 'Database service unavailable' }),
-        { status: 503, headers: { 'Content-Type': 'application/json' } }
-      );
-    } else {
-      // Production mode - check database
-      const user = await DB.prepare('SELECT * FROM admin_users WHERE username = ?')
-        .bind(username)
-        .first();
-
-      if (user) {
-        // Hash the provided password and compare
-        const passwordHash = await hashPassword(password);
-
-        if (user.password_hash === passwordHash) {
-          // Update last login
-          await DB.prepare('UPDATE admin_users SET last_login = datetime(\'now\') WHERE id = ?')
-            .bind(user.id)
-            .run();
-
-          // Generate token and CSRF token
-          const token = `token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-          const csrfToken = generateCSRFToken();
-
-          // Create session in database (expires in 7 days)
-          await DB.prepare(
-            'INSERT INTO sessions (user_id, token, csrf_token, created_at, expires_at) VALUES (?, ?, ?, datetime(\'now\'), datetime(\'now\', \'+7 days\'))'
-          ).bind(user.id, token, csrfToken).run();
-
-          console.log('✅ Login successful, session created with CSRF protection');
-
-          // Clear rate limit after successful login
-          clearRateLimit(clientIP);
-
-          return new Response(
-            JSON.stringify({
-              success: true,
-              token: token,
-              csrfToken: csrfToken,
-              user: { username: user.username, email: user.email },
-            }),
-            {
-              status: 200,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
-          );
-        }
-      }
+    // Database access (runtime.env.DB from Cloudflare)
+    const db = (locals as { runtime?: { env?: { DB?: D1Database } } }).runtime?.env?.DB;
+    if (!db) {
+      return json({ success: false, error: 'Database service unavailable' }, 503);
     }
 
-    console.log('❌ Invalid credentials');
+    const user = await db
+      .prepare('SELECT id, username, password_hash FROM admin_users WHERE username = ?')
+      .bind(username)
+      .first<{ id: number; username: string; password_hash: string }>();
+    // Identical message + status for unknown user and wrong password — never
+    // reveal which one failed. Run a discarded PBKDF2 verify first so the
+    // unknown-user path takes the same wall-clock time as the wrong-password
+    // path (prevents username enumeration via timing).
+    if (!user) {
+      await verifyPassword(password, DUMMY_HASH);
+      return json({ success: false, error: 'Invalid credentials' }, 401);
+    }
 
-    return new Response(
-      JSON.stringify({ error: 'Invalid username or password' }),
-      {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    );
+    const { valid, needsRehash } = await verifyPassword(password, String(user.password_hash));
+    if (!valid) {
+      return json({ success: false, error: 'Invalid credentials' }, 401);
+    }
+
+    // Transparent migration: re-hash legacy unsalted SHA-256 hashes to PBKDF2
+    // now that we hold the plaintext.
+    if (needsRehash) {
+      const newHash = await hashPassword(password);
+      await db
+        .prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?')
+        .bind(newHash, user.id)
+        .run();
+    }
+
+    // Prune this user's expired sessions before issuing a new one.
+    await db
+      .prepare("DELETE FROM sessions WHERE user_id = ? AND expires_at <= datetime('now')")
+      .bind(user.id)
+      .run();
+
+    const token = generateSessionToken();
+    const csrfToken = generateCSRFToken();
+    await db
+      .prepare(
+        "INSERT INTO sessions (token, user_id, csrf_token, created_at, expires_at) VALUES (?, ?, ?, datetime('now'), datetime('now', ?))"
+      )
+      .bind(token, user.id, csrfToken, `+${SESSION_HOURS} hours`)
+      .run();
+    await db
+      .prepare("UPDATE admin_users SET last_login = datetime('now') WHERE id = ?")
+      .bind(user.id)
+      .run();
+
+    // Clear rate limit after successful login
+    clearRateLimit(clientIP);
+
+    // Session lives in an HttpOnly cookie only — never in the response body.
+    // `secure: true` is safe in local dev: modern browsers treat localhost as
+    // a trustworthy origin and accept Secure cookies over http there.
+    cookies.set(SESSION_COOKIE, token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: SESSION_HOURS * 3600,
+    });
+
+    return json({ success: true, username: user.username, csrf_token: csrfToken }, 200);
   } catch (error) {
     console.error('Login error:', error);
-    return new Response(
-      JSON.stringify({
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : String(error)
-      }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    );
+    return json({ success: false, error: 'Internal server error' }, 500);
   }
 };
 
@@ -161,4 +123,3 @@ export const OPTIONS: APIRoute = async ({ request }) => {
     })
   });
 };
-

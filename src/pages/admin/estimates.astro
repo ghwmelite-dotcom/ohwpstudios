@@ -675,6 +675,17 @@ export const prerender = false;
   </div>
 
   <script>
+    import { escapeHtml } from '@/utils/escape-html';
+
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
+    }
+
     let allEstimates = [];
     let currentEstimate = null;
 
@@ -735,9 +746,9 @@ export const prerender = false;
         <tr>
           <td>${formatDate(estimate.created_at)}</td>
           <td>
-            <div style="font-weight: 600;">${estimate.name}</div>
-            <div style="font-size: 0.875rem; color: var(--color-text-muted);">${estimate.email}</div>
-            ${estimate.company ? `<div style="font-size: 0.8125rem; color: var(--color-text-muted);">${estimate.company}</div>` : ''}
+            <div style="font-weight: 600;">${escapeHtml(estimate.name)}</div>
+            <div style="font-size: 0.875rem; color: var(--color-text-muted);">${escapeHtml(estimate.email)}</div>
+            ${estimate.company ? `<div style="font-size: 0.8125rem; color: var(--color-text-muted);">${escapeHtml(estimate.company)}</div>` : ''}
           </td>
           <td>${formatProjectType(estimate.project_type)}</td>
           <td>${formatBudget(estimate.budget_range)}</td>
@@ -801,16 +812,16 @@ export const prerender = false;
           <h3>Contact Information</h3>
           <div class="detail-grid">
             <div class="detail-label">Name:</div>
-            <div class="detail-value">${currentEstimate.name}</div>
+            <div class="detail-value">${escapeHtml(currentEstimate.name)}</div>
             <div class="detail-label">Email:</div>
-            <div class="detail-value"><a href="mailto:${currentEstimate.email}">${currentEstimate.email}</a></div>
+            <div class="detail-value"><a href="mailto:${escapeHtml(currentEstimate.email)}">${escapeHtml(currentEstimate.email)}</a></div>
             ${currentEstimate.company ? `
             <div class="detail-label">Company:</div>
-            <div class="detail-value">${currentEstimate.company}</div>
+            <div class="detail-value">${escapeHtml(currentEstimate.company)}</div>
             ` : ''}
             ${currentEstimate.phone ? `
             <div class="detail-label">Phone:</div>
-            <div class="detail-value"><a href="tel:${currentEstimate.phone}">${currentEstimate.phone}</a></div>
+            <div class="detail-value"><a href="tel:${escapeHtml(currentEstimate.phone)}">${escapeHtml(currentEstimate.phone)}</a></div>
             ` : ''}
           </div>
         </div>
@@ -821,7 +832,7 @@ export const prerender = false;
             <div class="detail-label">Project Type:</div>
             <div class="detail-value">${formatProjectType(currentEstimate.project_type)}</div>
             <div class="detail-label">Timeline:</div>
-            <div class="detail-value">${currentEstimate.timeline_preference}</div>
+            <div class="detail-value">${escapeHtml(currentEstimate.timeline_preference)}</div>
             <div class="detail-label">Budget Range:</div>
             <div class="detail-value">${formatBudget(currentEstimate.budget_range)}</div>
             <div class="detail-label">Submitted:</div>
@@ -829,7 +840,7 @@ export const prerender = false;
           </div>
           <div style="margin-top: 1rem;">
             <div class="detail-label">Project Description:</div>
-            <div class="description-box">${currentEstimate.project_description.replace(/\n/g, '<br>')}</div>
+            <div class="description-box">${escapeHtml(currentEstimate.project_description).replace(/\n/g, '<br>')}</div>
           </div>
         </div>
 
@@ -847,20 +858,20 @@ export const prerender = false;
             <div class="detail-label">Risk Level:</div>
             <div class="detail-value"><span class="risk-badge risk-${currentEstimate.risk_level || 'medium'}">${(currentEstimate.risk_level || 'medium').toUpperCase()}</span></div>
             <div class="detail-label">Complexity:</div>
-            <div class="detail-value">${analysis?.complexity_assessment || 'N/A'}</div>
+            <div class="detail-value">${escapeHtml(analysis?.complexity_assessment || 'N/A')}</div>
           </div>
           ${techStack && techStack.length > 0 ? `
           <div style="margin-top: 1rem;">
             <div class="detail-label">Technology Stack:</div>
             <div class="tech-stack">
-              ${techStack.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
+              ${techStack.map(tech => `<span class="tech-badge">${escapeHtml(tech)}</span>`).join('')}
             </div>
           </div>
           ` : ''}
           ${analysis?.summary ? `
           <div style="margin-top: 1rem;">
             <div class="detail-label">AI Analysis Summary:</div>
-            <div class="description-box">${analysis.summary.replace(/\n/g, '<br>')}</div>
+            <div class="description-box">${escapeHtml(analysis.summary).replace(/\n/g, '<br>')}</div>
           </div>
           ` : ''}
         </div>
@@ -898,7 +909,7 @@ export const prerender = false;
       try {
         const response = await fetch('/api/admin/estimates', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
           body: JSON.stringify({
             id: currentEstimate.id,
             status: status
@@ -929,7 +940,7 @@ export const prerender = false;
       try {
         const response = await fetch('/api/admin/estimates', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
           body: JSON.stringify({
             id: currentEstimate.id,
             admin_notes: notes
@@ -962,7 +973,10 @@ export const prerender = false;
     });
 
     // Load estimates on page load
-    loadEstimates();
+    (async () => {
+      if (!(await initAdminSession())) return;
+      loadEstimates();
+    })();
   </script>
 </body>
 </html>

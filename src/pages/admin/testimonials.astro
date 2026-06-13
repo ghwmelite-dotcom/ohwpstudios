@@ -445,6 +445,15 @@ const title = 'Testimonials';
 </style>
 
 <script>
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   interface Testimonial {
     id: number;
     name: string;
@@ -513,7 +522,7 @@ const title = 'Testimonials';
     try {
       const response = await fetch('/api/admin/testimonials', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
         body: JSON.stringify({ id, is_active })
       });
 
@@ -597,7 +606,7 @@ const title = 'Testimonials';
       try {
         const response = await fetch('/api/admin/testimonial-invites', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
           body: JSON.stringify({
             client_name: nameInput.value.trim(),
             email: emailInput.value.trim()
@@ -628,7 +637,8 @@ const title = 'Testimonials';
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!(await initAdminSession())) return;
     setupInviteForm();
     loadTestimonials();
   });
