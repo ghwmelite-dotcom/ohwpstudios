@@ -12,6 +12,10 @@ import { getCORSHeaders } from '@/utils/cors';
 
 export const prerender = false;
 
+// Fixed dummy hash (password "x", discarded result): equalizes timing between
+// unknown-user and wrong-password so usernames can't be enumerated.
+const DUMMY_HASH = 'pbkdf2$100000$00000000000000000000000000000000$0000000000000000000000000000000000000000000000000000000000000000';
+
 function json(body: Record<string, unknown>, status: number): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -47,8 +51,11 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
       .bind(username)
       .first<{ id: number; username: string; password_hash: string }>();
     // Identical message + status for unknown user and wrong password — never
-    // reveal which one failed.
+    // reveal which one failed. Run a discarded PBKDF2 verify first so the
+    // unknown-user path takes the same wall-clock time as the wrong-password
+    // path (prevents username enumeration via timing).
     if (!user) {
+      await verifyPassword(password, DUMMY_HASH);
       return json({ success: false, error: 'Invalid credentials' }, 401);
     }
 
