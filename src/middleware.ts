@@ -25,7 +25,12 @@ interface CloudflareRuntime {
 
 // Exclusions run FIRST in isGuardedAdminPath — the login endpoint must never
 // self-deadlock behind the session it is trying to create.
-const PUBLIC_ADMIN_PATHS = ['/admin/login', '/admin/reset-password', '/api/admin/login'];
+const PUBLIC_ADMIN_PATHS = [
+  '/admin/login',
+  '/admin/reset-password',
+  '/api/admin/login',
+  '/api/admin/reset-password',
+];
 const MUTATING = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 function isGuardedAdminPath(pathname: string): boolean {
