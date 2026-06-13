@@ -1019,10 +1019,13 @@ const { id } = Astro.params;
   </div>
 
   <script define:vars={{ projectId: id }}>
-    // Check admin authentication
-    const adminToken = localStorage.getItem('admin_token');
-    if (!adminToken) {
-      window.location.href = '/admin/login';
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
     }
 
     let currentProject = null;
@@ -1038,11 +1041,7 @@ const { id } = Astro.params;
     // Fetch project details
     async function loadProject() {
       try {
-        const response = await fetch(`/api/admin/client-projects?id=${projectId}`, {
-          headers: {
-            'Authorization': `Bearer ${adminToken}`
-          }
-        });
+        const response = await fetch(`/api/admin/client-projects?id=${projectId}`);
         const data = await response.json();
 
         if (data.success && data.projects.length > 0) {
@@ -1127,11 +1126,7 @@ const { id } = Astro.params;
     // Load milestones
     async function loadMilestones() {
       try {
-        const response = await fetch(`/api/admin/milestones?project_id=${projectId}`, {
-          headers: {
-            'Authorization': `Bearer ${adminToken}`
-          }
-        });
+        const response = await fetch(`/api/admin/milestones?project_id=${projectId}`);
         const data = await response.json();
 
         if (data.success) {
@@ -1278,7 +1273,7 @@ const { id } = Astro.params;
         const response = await fetch(`/api/admin/milestones?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${adminToken}`
+            'X-CSRF-Token': CSRF
           }
         });
 
@@ -1355,7 +1350,7 @@ const { id } = Astro.params;
           method: editingMilestoneId ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${adminToken}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -1379,9 +1374,7 @@ const { id } = Astro.params;
     // Load updates
     async function loadUpdates() {
       try {
-        const response = await fetch(`/api/admin/project-updates?project_id=${projectId}`, {
-          headers: { 'Authorization': `Bearer ${adminToken}` }
-        });
+        const response = await fetch(`/api/admin/project-updates?project_id=${projectId}`);
         const data = await response.json();
 
         if (data.success) {
@@ -1461,7 +1454,7 @@ const { id } = Astro.params;
       try {
         const response = await fetch(`/api/admin/project-updates?id=${id}`, {
           method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${adminToken}` }
+          headers: { 'X-CSRF-Token': CSRF }
         });
         const data = await response.json();
 
@@ -1481,9 +1474,7 @@ const { id } = Astro.params;
     // Load files
     async function loadFiles() {
       try {
-        const response = await fetch(`/api/admin/project-files?project_id=${projectId}`, {
-          headers: { 'Authorization': `Bearer ${adminToken}` }
-        });
+        const response = await fetch(`/api/admin/project-files?project_id=${projectId}`);
         const data = await response.json();
 
         if (data.success) {
@@ -1583,7 +1574,7 @@ const { id } = Astro.params;
       try {
         const response = await fetch(`/api/admin/project-files?id=${id}`, {
           method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${adminToken}` }
+          headers: { 'X-CSRF-Token': CSRF }
         });
         const data = await response.json();
 
@@ -1646,7 +1637,7 @@ const { id } = Astro.params;
           method: editingUpdateId ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${adminToken}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -1709,7 +1700,7 @@ const { id } = Astro.params;
           method: editingFileId ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${adminToken}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -1771,8 +1762,11 @@ const { id } = Astro.params;
     }
 
     // Initialize
-    loadProject();
-    loadMilestones();
+    (async () => {
+      if (!(await initAdminSession())) return;
+      loadProject();
+      loadMilestones();
+    })();
   </script>
 </body>
 </html>

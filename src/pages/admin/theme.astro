@@ -509,6 +509,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   let fontPresets: any[] = [];
   let currentSettings: any = {};
 
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   // Load theme settings
   async function loadThemeSettings() {
     try {
@@ -676,21 +685,11 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         font_body: (document.getElementById('fontBody') as HTMLSelectElement).value
       };
 
-      const token = localStorage.getItem('admin_token');
-
-      if (!token) {
-        alert('You are not logged in. Please log in again.');
-        window.location.href = '/admin/login';
-        return;
-      }
-
-      console.log('Saving theme with token:', token.substring(0, 10) + '...');
-
       const response = await fetch('/api/theme', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'X-CSRF-Token': CSRF
         },
         body: JSON.stringify({ settings })
       });
@@ -719,7 +718,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   // Event listeners
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!(await initAdminSession())) return;
     loadThemeSettings();
 
     // Color input synchronization

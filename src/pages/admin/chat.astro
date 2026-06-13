@@ -1212,69 +1212,82 @@ export const prerender = false;
 
   <script>
     // State
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
+    }
+
     let conversations: any[] = [];
     let activeConversation: any = null;
     let currentFilter = 'all';
     let pollingInterval: any = null;
 
-    // Load conversations on page load
-    loadConversations();
-    loadCannedResponses();
+    (async () => {
+      if (!(await initAdminSession())) return;
 
-    // Set up polling
-    pollingInterval = setInterval(() => {
-      if (activeConversation) {
-        loadMessages(activeConversation.id, true);
-      }
+      // Load conversations on page load
       loadConversations();
-    }, 5000);
+      loadCannedResponses();
 
-    // Search functionality
-    const searchInput = document.getElementById('search-conversations') as HTMLInputElement;
-    searchInput?.addEventListener('input', (e) => {
-      renderConversations();
-    });
+      // Set up polling
+      pollingInterval = setInterval(() => {
+        if (activeConversation) {
+          loadMessages(activeConversation.id, true);
+        }
+        loadConversations();
+      }, 5000);
 
-    // Filter tabs
-    document.querySelectorAll('.filter-tab').forEach(tab => {
-      tab.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-        target.classList.add('active');
-        currentFilter = target.dataset.status || 'all';
+      // Search functionality
+      const searchInput = document.getElementById('search-conversations') as HTMLInputElement;
+      searchInput?.addEventListener('input', (e) => {
         renderConversations();
       });
-    });
 
-    // Message form
-    document.getElementById('message-form')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!activeConversation) return;
-
-      const input = document.getElementById('message-input') as HTMLInputElement;
-      const message = input.value.trim();
-      if (!message) return;
-
-      try {
-        const response = await fetch('/api/chat/messages', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            conversation_id: activeConversation.id,
-            message: message,
-            sender_type: 'operator',
-            sender_name: 'Support Team'
-          })
+      // Filter tabs
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          const target = e.target as HTMLElement;
+          document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          target.classList.add('active');
+          currentFilter = target.dataset.status || 'all';
+          renderConversations();
         });
+      });
 
-        if (response.ok) {
-          input.value = '';
-          await loadMessages(activeConversation.id);
+      // Message form
+      document.getElementById('message-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!activeConversation) return;
+
+        const input = document.getElementById('message-input') as HTMLInputElement;
+        const message = input.value.trim();
+        if (!message) return;
+
+        try {
+          const response = await fetch('/api/chat/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
+            body: JSON.stringify({
+              conversation_id: activeConversation.id,
+              message: message,
+              sender_type: 'operator',
+              sender_name: 'Support Team'
+            })
+          });
+
+          if (response.ok) {
+            input.value = '';
+            await loadMessages(activeConversation.id);
+          }
+        } catch (error) {
+          console.error('Error sending message:', error);
         }
-      } catch (error) {
-        console.error('Error sending message:', error);
-      }
-    });
+      });
+    })();
 
     // Load conversations
     async function loadConversations() {

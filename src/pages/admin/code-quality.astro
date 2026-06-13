@@ -652,14 +652,18 @@ export const prerender = false;
     let allMetrics = [];
     let editingMetricId = null;
 
-    // Check authentication
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      window.location.href = '/admin/login';
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
     }
 
     // Load data on page load
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!(await initAdminSession())) return;
       loadProjects();
       loadMetrics();
 
@@ -669,11 +673,7 @@ export const prerender = false;
 
     async function loadProjects() {
       try {
-        const response = await fetch('/api/admin/client-projects', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/client-projects');
 
         const data = await response.json();
 
@@ -706,11 +706,7 @@ export const prerender = false;
 
     async function loadMetrics() {
       try {
-        const response = await fetch('/api/admin/code-quality', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/code-quality');
 
         const data = await response.json();
 
@@ -927,7 +923,7 @@ export const prerender = false;
           method: isEdit ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -956,7 +952,7 @@ export const prerender = false;
         const response = await fetch(`/api/admin/code-quality?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           }
         });
 

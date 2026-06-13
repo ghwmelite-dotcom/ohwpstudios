@@ -234,6 +234,15 @@ const title = 'Bookings';
 </style>
 
 <script>
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   const STATUSES = ['new', 'pending', 'confirmed', 'completed', 'cancelled'];
   const STATUS_LABELS: Record<string, string> = {
     new: 'New',
@@ -320,7 +329,7 @@ const title = 'Bookings';
     try {
       const response = await fetch('/api/admin/bookings', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
         body: JSON.stringify({ id, status })
       });
 
@@ -369,5 +378,8 @@ const title = 'Bookings';
     }
   }
 
-  document.addEventListener('DOMContentLoaded', loadBookings);
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!(await initAdminSession())) return;
+    loadBookings();
+  });
 </script>

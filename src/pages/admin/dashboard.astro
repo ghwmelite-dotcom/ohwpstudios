@@ -1887,10 +1887,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       .replace(/'/g, '&#039;');
   };
 
-  // Check authentication
-  const token = localStorage.getItem('admin_token');
-  if (!token) {
-    window.location.href = '/admin/login';
+  // Check authentication via cookie session
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
   }
 
   // Navigation
@@ -1948,7 +1952,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   });
 
   // Logout
-  document.getElementById('logout-btn')?.addEventListener('click', () => {
+  document.getElementById('logout-btn')?.addEventListener('click', async () => {
+    await fetch('/api/admin/logout', { method: 'POST', headers: { 'X-CSRF-Token': CSRF } });
     localStorage.removeItem('admin_token');
     window.location.href = '/admin/login';
   });
@@ -2040,7 +2045,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            'X-CSRF-Token': CSRF,
           },
           body: JSON.stringify({
             currentPassword,
@@ -2129,7 +2134,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   // Save changes (Hero, Site Settings, Footer)
   document.getElementById('save-btn')?.addEventListener('click', async () => {
     const statusMessage = document.getElementById('status-message');
-    const token = localStorage.getItem('admin_token');
 
     // Collect all form data
     const content: Record<string, string> = {};
@@ -2149,7 +2153,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify({ content }),
       });
@@ -2286,7 +2290,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify({ id: id ? parseInt(id) : undefined, title, description, icon, display_order }),
       });
@@ -2324,7 +2328,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const response = await fetch(`/api/admin/services?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
 
@@ -2450,7 +2454,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify({
           id: id ? parseInt(id) : undefined,
@@ -2496,7 +2500,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const response = await fetch(`/api/admin/portfolio?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
 
@@ -2518,7 +2522,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     try {
       const response = await fetch('/api/admin/blog?all=true', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
       const data = await response.json();
@@ -2660,7 +2664,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify(postData),
       });
@@ -2682,7 +2686,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     try {
       const response = await fetch('/api/admin/blog?all=true', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
       const data = await response.json();
@@ -2702,7 +2706,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const response = await fetch(`/api/admin/blog?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
 
@@ -2750,7 +2754,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify({ hero_badge, hero_title, hero_description, story_title, story_content }),
       });
@@ -2877,7 +2881,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify({ id: id ? parseInt(id) : undefined, name, role, bio, image_url, display_order }),
       });
@@ -2915,7 +2919,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const response = await fetch(`/api/admin/team?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
 
@@ -3040,7 +3044,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
         body: JSON.stringify({ id: id ? parseInt(id) : undefined, title, description, icon, display_order }),
       });
@@ -3078,7 +3082,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const response = await fetch(`/api/admin/values?id=${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
         },
       });
 
@@ -3108,5 +3112,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   // Initialize
-  loadContent();
+  (async () => {
+    if (!(await initAdminSession())) return;
+    loadContent();
+  })();
 </script>

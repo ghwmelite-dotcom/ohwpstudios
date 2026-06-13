@@ -675,6 +675,15 @@ export const prerender = false;
   </div>
 
   <script>
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
+    }
+
     let allEstimates = [];
     let currentEstimate = null;
 
@@ -898,7 +907,7 @@ export const prerender = false;
       try {
         const response = await fetch('/api/admin/estimates', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
           body: JSON.stringify({
             id: currentEstimate.id,
             status: status
@@ -929,7 +938,7 @@ export const prerender = false;
       try {
         const response = await fetch('/api/admin/estimates', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
           body: JSON.stringify({
             id: currentEstimate.id,
             admin_notes: notes
@@ -962,7 +971,10 @@ export const prerender = false;
     });
 
     // Load estimates on page load
-    loadEstimates();
+    (async () => {
+      if (!(await initAdminSession())) return;
+      loadEstimates();
+    })();
   </script>
 </body>
 </html>
