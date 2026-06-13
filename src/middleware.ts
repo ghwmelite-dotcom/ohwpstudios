@@ -7,8 +7,38 @@ import {
   getDefaultIsolationScope,
   type Scope,
 } from '@sentry/core';
+import { SESSION_COOKIE, SESSION_HOURS, timingSafeEqual } from './lib/admin-auth';
 
 type WorkersExecutionContext = import('@cloudflare/workers-types').ExecutionContext;
+
+// Astro's Cloudflare adapter puts the Workers runtime on locals, but does not
+// export that shape — type it structurally (same approach as the Sentry cast
+// below).
+interface CloudflareRuntime {
+  ctx?: WorkersExecutionContext;
+  env?: { DB?: D1Database };
+}
+
+// ---------------------------------------------------------------------------
+// Admin session guard
+// ---------------------------------------------------------------------------
+
+// Exclusions run FIRST in isGuardedAdminPath — the login endpoint must never
+// self-deadlock behind the session it is trying to create.
+const PUBLIC_ADMIN_PATHS = ['/admin/login', '/admin/reset-password', '/api/admin/login'];
+const MUTATING = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
+
+function isGuardedAdminPath(pathname: string): boolean {
+  if (PUBLIC_ADMIN_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'))) return false;
+  return pathname === '/admin' || pathname.startsWith('/admin/') || pathname.startsWith('/api/admin/');
+}
+
+interface SessionRow {
+  userId: number;
+  csrfToken: string | null;
+  expiresAt: string;
+  username: string;
+}
 
 // Statically inlined at build time, so changing it requires a rebuild. When
 // unset (local dev), the entire Sentry path below is dead code and tree-shakes
@@ -82,7 +112,15 @@ if (SENTRY_DSN) {
 }
 
 /**
- * Captures unhandled exceptions from API routes into Sentry.
+ * Two responsibilities, in order:
+ *
+ * 1. Admin session guard + central CSRF: every /admin/* page and /api/admin/*
+ *    endpoint (minus PUBLIC_ADMIN_PATHS) requires a valid, unexpired session
+ *    cookie backed by the sessions table; mutating admin API requests must
+ *    also carry the per-session X-CSRF-Token header. On success the admin
+ *    identity lands on locals.adminUser for downstream handlers.
+ *
+ * 2. Captures unhandled exceptions from API routes into Sentry.
  * - Only wraps /api/* (page rendering stays untouched).
  * - No-ops entirely when PUBLIC_SENTRY_DSN is unset (local dev).
  * - PII: request bodies, cookies, headers, and query strings are stripped in
@@ -93,14 +131,94 @@ if (SENTRY_DSN) {
  * captureException, so error response behavior is unchanged, and it tolerates
  * an undefined execution context (e.g. during prerendering).
  */
-export const onRequest = defineMiddleware((context, next) => {
-  if (!SENTRY_DSN || !context.url.pathname.startsWith('/api/')) {
-    return next();
+export const onRequest = defineMiddleware(async (context, next) => {
+  const pathname = context.url.pathname;
+  // Astro's Cloudflare adapter exposes the Workers runtime (env + execution
+  // context) here. The adapter does not export this shape, so type it
+  // structurally.
+  const runtime = (context.locals as { runtime?: CloudflareRuntime }).runtime;
+
+  // -------------------------------------------------------------------------
+  // Admin session guard — runs BEFORE the Sentry wrapper. Auth rejections are
+  // plain responses (401/403/redirect/503), never exceptions, so they have no
+  // business inside Sentry's request handler. Requests that pass the guard
+  // fall through to the Sentry branch below unchanged.
+  // -------------------------------------------------------------------------
+  if (isGuardedAdminPath(pathname)) {
+    const isApi = pathname.startsWith('/api/');
+    const deny = (): Response =>
+      isApi
+        ? new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        : context.redirect('/admin/login', 302);
+    // fail CLOSED — no DB binding (or a DB error) means no way to verify the
+    // session; never fail open by calling next().
+    const failClosed = (): Response =>
+      isApi
+        ? new Response(JSON.stringify({ success: false, error: 'Service unavailable' }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        : context.redirect('/admin/login', 302);
+
+    const db = runtime?.env?.DB;
+    if (!db) return failClosed();
+
+    const token = context.cookies.get(SESSION_COOKIE)?.value;
+    if (!token) return deny();
+
+    let session: SessionRow | null;
+    try {
+      session = await db
+        .prepare(
+          "SELECT s.user_id AS userId, s.csrf_token AS csrfToken, s.expires_at AS expiresAt, u.username FROM sessions s JOIN admin_users u ON u.id = s.user_id WHERE s.token = ? AND s.expires_at > datetime('now')"
+        )
+        .bind(token)
+        .first<SessionRow>();
+    } catch {
+      return failClosed();
+    }
+    if (!session) return deny();
+
+    // Central CSRF check for mutating admin API requests — rejects before any
+    // endpoint code runs. The token travels in a header, which a cross-site
+    // form post cannot set.
+    if (isApi && MUTATING.has(context.request.method)) {
+      const header = context.request.headers.get('X-CSRF-Token') ?? '';
+      if (!session.csrfToken || !timingSafeEqual(header, String(session.csrfToken))) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'CSRF token missing or invalid' }),
+          { status: 403, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
+    context.locals.adminUser = {
+      id: Number(session.userId),
+      username: String(session.username),
+      csrfToken: String(session.csrfToken),
+    };
+
+    // Sliding renewal when less than half the window remains. Best-effort and
+    // off the critical path: failures are swallowed and the response is not
+    // blocked (waitUntil keeps the isolate alive until the UPDATE settles).
+    const msLeft =
+      new Date(String(session.expiresAt).replace(' ', 'T') + 'Z').getTime() - Date.now();
+    if (Number.isFinite(msLeft) && msLeft < (SESSION_HOURS / 2) * 3600 * 1000) {
+      const renew = db
+        .prepare("UPDATE sessions SET expires_at = datetime('now', ?) WHERE token = ?")
+        .bind(`+${SESSION_HOURS} hours`, token)
+        .run()
+        .catch(() => {});
+      runtime?.ctx?.waitUntil?.(renew);
+    }
   }
 
-  // Astro's Cloudflare adapter exposes the Workers execution context here.
-  // The adapter does not export this shape, so type it structurally.
-  const runtime = (context.locals as { runtime?: { ctx?: WorkersExecutionContext } }).runtime;
+  if (!SENTRY_DSN || !pathname.startsWith('/api/')) {
+    return next();
+  }
 
   return Sentry.wrapRequestHandler(
     {
