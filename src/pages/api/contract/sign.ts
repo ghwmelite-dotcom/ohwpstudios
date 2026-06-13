@@ -1,202 +1,73 @@
 import type { APIRoute } from 'astro';
+import * as Sentry from '@sentry/cloudflare';
+import { hashCode, timingSafeEqual, MAX_ATTEMPTS } from '../../../lib/contract-verify';
+import { sendEmail, emailShell, escapeHtml, ADMIN_EMAIL } from '../../../lib/email';
 
 export const prerender = false;
 
-// GET: Fetch contract for client to view/sign (no authentication required, uses contract token)
-export const GET: APIRoute = async ({ locals, url }) => {
-  try {
-    const contractId = url.searchParams.get('id');
-    const token = url.searchParams.get('token');
+const json = (b: object, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { 'Content-Type': 'application/json' } });
 
-    if (!contractId) {
-      return new Response(JSON.stringify({ error: 'Contract ID is required' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const db = locals.runtime?.env?.DB;
-
-    if (!db) {
-      return new Response(JSON.stringify({ error: 'Database not available' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Fetch contract
-    const contract = await db
-      .prepare('SELECT * FROM contracts WHERE id = ?')
-      .bind(contractId)
-      .first();
-
-    if (!contract) {
-      return new Response(JSON.stringify({ error: 'Contract not found' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Update viewed_at if not already viewed
-    if (!contract.viewed_at) {
-      await db
-        .prepare('UPDATE contracts SET viewed_at = datetime("now"), status = ? WHERE id = ?')
-        .bind(contract.status === 'sent' ? 'viewed' : contract.status, contractId)
-        .run();
-
-      // Create history entry
-      await db
-        .prepare(`
-          INSERT INTO contract_history (contract_id, action, performed_by, created_at)
-          VALUES (?, 'viewed', ?, datetime('now'))
-        `)
-        .bind(contractId, contract.client_email)
-        .run();
-    }
-
-    // Return contract data (exclude sensitive fields if needed)
-    return new Response(
-      JSON.stringify({
-        id: contract.id,
-        contract_number: contract.contract_number,
-        title: contract.title,
-        description: contract.description,
-        content: contract.content,
-        total_amount: contract.total_amount,
-        currency: contract.currency,
-        payment_terms: contract.payment_terms,
-        start_date: contract.start_date,
-        end_date: contract.end_date,
-        delivery_date: contract.delivery_date,
-        status: contract.status,
-        client_name: contract.client_name,
-        client_company: contract.client_company
-      }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
-  } catch (error) {
-    console.error('Error fetching contract:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-};
-
-// POST: Submit contract signature
+// POST: verify the email code, then record the signature. Identity = the
+// contract's on-file client_email (signer cannot choose where the code went).
 export const POST: APIRoute = async ({ request, locals }) => {
-  try {
-    const data = await request.json();
-    const { contract_id, signature_data, signer_name, signer_email } = data;
+  const db = locals.runtime?.env?.DB;
+  if (!db) return json({ success: false, error: 'Service unavailable' }, 503);
 
-    if (!contract_id || !signature_data || !signer_name || !signer_email) {
-      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const db = locals.runtime?.env?.DB;
-
-    if (!db) {
-      return new Response(JSON.stringify({ error: 'Database not available' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Verify contract exists and is not already signed
-    const contract = await db
-      .prepare('SELECT * FROM contracts WHERE id = ?')
-      .bind(contract_id)
-      .first();
-
-    if (!contract) {
-      return new Response(JSON.stringify({ error: 'Contract not found' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    if (contract.status === 'signed' || contract.status === 'completed') {
-      return new Response(JSON.stringify({ error: 'Contract is already signed' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Get client IP and user agent
-    const clientIP = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
-    const userAgent = request.headers.get('user-agent') || 'unknown';
-
-    // Update contract with signature
-    await db
-      .prepare(`
-        UPDATE contracts
-        SET signature_data = ?,
-            signed_at = datetime('now'),
-            signed_ip = ?,
-            signed_user_agent = ?,
-            status = 'signed',
-            updated_at = datetime('now')
-        WHERE id = ?
-      `)
-      .bind(signature_data, clientIP, userAgent, contract_id)
-      .run();
-
-    // Create signature record
-    await db
-      .prepare(`
-        INSERT INTO contract_signatures (
-          contract_id,
-          signer_name,
-          signer_email,
-          signer_role,
-          signature_data,
-          signed_at,
-          ip_address,
-          user_agent
-        ) VALUES (?, ?, ?, 'client', ?, datetime('now'), ?, ?)
-      `)
-      .bind(contract_id, signer_name, signer_email, signature_data, clientIP, userAgent)
-      .run();
-
-    // Create history entry
-    await db
-      .prepare(`
-        INSERT INTO contract_history (
-          contract_id,
-          action,
-          performed_by,
-          changes,
-          created_at
-        ) VALUES (?, 'signed', ?, ?, datetime('now'))
-      `)
-      .bind(contract_id, signer_email, JSON.stringify({ ip: clientIP }))
-      .run();
-
-    // TODO: Send notification email to admin about signed contract
-    // TODO: Send confirmation email to client with copy of signed contract
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Contract signed successfully',
-        contract_number: contract.contract_number
-      }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
-  } catch (error) {
-    console.error('Error signing contract:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
+  let data: { token?: string; code?: string; signer_name?: string; signature_data?: string };
+  try { data = await request.json(); } catch { return json({ success: false, error: 'Invalid request' }, 400); }
+  const { token, code, signer_name, signature_data } = data;
+  if (!token || !code || !signer_name?.trim() || !signature_data) {
+    return json({ success: false, error: 'Missing required fields' }, 400);
   }
+
+  const contract = await db.prepare('SELECT * FROM contracts WHERE share_token = ?').bind(token).first<Record<string, unknown>>();
+  if (!contract) return json({ success: false, error: 'This contract link is invalid or has expired.' }, 404);
+  if (contract.status === 'signed' || contract.status === 'completed') {
+    return json({ success: false, error: 'This contract has already been signed.' }, 400);
+  }
+
+  const v = await db.prepare("SELECT id, code_hash, attempts FROM contract_verifications WHERE contract_id = ? AND consumed_at IS NULL AND expires_at > datetime('now') ORDER BY created_at DESC LIMIT 1").bind(contract.id).first<{ id: number; code_hash: string; attempts: number }>();
+  if (!v) return json({ success: false, error: 'No valid code found. Please request a new code.' }, 400);
+
+  if (v.attempts >= MAX_ATTEMPTS) {
+    await db.prepare("UPDATE contract_verifications SET consumed_at = datetime('now') WHERE id = ?").bind(v.id).run();
+    return json({ success: false, error: 'Too many attempts. Please request a new code.' }, 429);
+  }
+
+  const submittedHash = await hashCode(String(code).trim());
+  if (!timingSafeEqual(submittedHash, v.code_hash)) {
+    await db.prepare('UPDATE contract_verifications SET attempts = attempts + 1 WHERE id = ?').bind(v.id).run();
+    const left = MAX_ATTEMPTS - (v.attempts + 1);
+    return json({ success: false, error: left > 0 ? `Incorrect code. ${left} attempt(s) left.` : 'Too many attempts. Please request a new code.' }, 400);
+  }
+
+  // code OK → consume it and record the signature
+  await db.prepare("UPDATE contract_verifications SET consumed_at = datetime('now') WHERE id = ?").bind(v.id).run();
+
+  const clientIP = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
+  const userAgent = request.headers.get('user-agent') || 'unknown';
+  const verifiedEmail = String(contract.client_email);
+  const cid = contract.id as number;
+
+  await db.prepare("UPDATE contracts SET signature_data = ?, signed_at = datetime('now'), signed_ip = ?, signed_user_agent = ?, status = 'signed', updated_at = datetime('now') WHERE id = ?")
+    .bind(signature_data, clientIP, userAgent, cid).run();
+  await db.prepare("INSERT INTO contract_signatures (contract_id, signer_name, signer_email, signer_role, signature_data, signed_at, ip_address, user_agent, notes) VALUES (?, ?, ?, 'client', ?, datetime('now'), ?, ?, 'email OTP verified')")
+    .bind(cid, signer_name.trim(), verifiedEmail, signature_data, clientIP, userAgent).run();
+  await db.prepare("INSERT INTO contract_history (contract_id, action, performed_by, changes, created_at) VALUES (?, 'signed', ?, ?, datetime('now'))")
+    .bind(cid, verifiedEmail, JSON.stringify({ ip: clientIP, otp_verified: true })).run();
+
+  try {
+    await sendEmail(locals.runtime?.env ?? {}, {
+      to: ADMIN_EMAIL,
+      subject: `Contract signed: ${contract.contract_number}`,
+      html: emailShell('A contract was signed', `<p><strong>${escapeHtml(signer_name.trim())}</strong> (${escapeHtml(verifiedEmail)}) signed <strong>${escapeHtml(String(contract.contract_number))}</strong> — ${escapeHtml(String(contract.title))}.</p>`),
+    });
+    await sendEmail(locals.runtime?.env ?? {}, {
+      to: verifiedEmail,
+      subject: `You signed ${contract.contract_number}`,
+      html: emailShell('Thanks — your contract is signed', `<p>Hi ${escapeHtml(signer_name.trim().split(/\s+/)[0])}, we've recorded your signature on <strong>${escapeHtml(String(contract.contract_number))}</strong>. We'll be in touch with next steps.</p>`),
+    });
+  } catch (e) { Sentry.captureException(e); }
+
+  return json({ success: true, message: 'Contract signed successfully', contract_number: contract.contract_number });
 };
