@@ -13,6 +13,9 @@ const checks = [
   { path: '/api/booking', method: 'POST', body: '{}', expectStatus: 400, contentType: 'application/json' },
   // The admin wall must exist forever: unauthenticated admin API = 401, not a PII leak.
   { path: '/api/admin/contacts', expectStatus: 401, contentType: 'application/json' },
+  // Contracts are token-only: a guessed numeric URL must NOT expose a contract.
+  { path: '/contract/1', mustContain: 'This contract link is invalid' },
+  { path: '/api/contracts/1', expectStatus: 404, contentType: 'application/json' },
 ];
 
 async function fetchWithRetry(url, opts, retries = 1, delayMs = 3000) {
