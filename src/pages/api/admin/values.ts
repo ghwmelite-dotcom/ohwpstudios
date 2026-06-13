@@ -1,4 +1,10 @@
-// Core Values CRUD API endpoint
+import type { APIRoute } from 'astro';
+
+export const prerender = false;
+
+// Core Values CRUD API endpoint.
+// Auth + CSRF are enforced centrally by src/middleware.ts; no checks here.
+
 interface CoreValue {
   id?: number;
   title: string;
@@ -9,14 +15,15 @@ interface CoreValue {
 }
 
 // GET - Fetch all core values
-export async function onRequestGet({ env }: { env: any }) {
+export const GET: APIRoute = async ({ locals }) => {
   try {
-    if (!env?.DB) {
+    const db = (locals as any).runtime?.env?.DB;
+    if (!db) {
       return new Response(
         JSON.stringify({
           success: true,
           values: [],
-          message: 'Database not available (development mode)'
+          message: 'Database not available (development mode)',
         }),
         {
           status: 200,
@@ -28,9 +35,9 @@ export async function onRequestGet({ env }: { env: any }) {
       );
     }
 
-    const result = await env.DB.prepare(
-      'SELECT * FROM core_values WHERE is_active = 1 ORDER BY display_order ASC'
-    ).all();
+    const result = await db
+      .prepare('SELECT * FROM core_values WHERE is_active = 1 ORDER BY display_order ASC')
+      .all();
 
     return new Response(
       JSON.stringify({
@@ -51,7 +58,7 @@ export async function onRequestGet({ env }: { env: any }) {
       JSON.stringify({
         success: false,
         error: 'Failed to fetch core values',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       }),
       {
         status: 500,
@@ -62,26 +69,12 @@ export async function onRequestGet({ env }: { env: any }) {
       }
     );
   }
-}
+};
 
 // POST - Create or Update core value
-export async function onRequestPost({ request, env }: { request: Request; env: any }) {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        {
-          status: 401,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      );
-    }
-
-    const body = await request.json() as CoreValue;
+    const body = (await request.json()) as CoreValue;
     const { id, title, description, icon, display_order = 0 } = body;
 
     if (!title || !description || !icon) {
@@ -97,11 +90,12 @@ export async function onRequestPost({ request, env }: { request: Request; env: a
       );
     }
 
-    if (!env?.DB) {
+    const db = (locals as any).runtime?.env?.DB;
+    if (!db) {
       return new Response(
         JSON.stringify({
           success: true,
-          message: 'Core value saved (development mode - database not available)'
+          message: 'Core value saved (development mode - database not available)',
         }),
         {
           status: 200,
@@ -115,14 +109,20 @@ export async function onRequestPost({ request, env }: { request: Request; env: a
 
     if (id) {
       // Update existing core value
-      await env.DB.prepare(
-        'UPDATE core_values SET title = ?, description = ?, icon = ?, display_order = ?, updated_at = datetime("now") WHERE id = ?'
-      ).bind(title, description, icon, display_order, id).run();
+      await db
+        .prepare(
+          'UPDATE core_values SET title = ?, description = ?, icon = ?, display_order = ?, updated_at = datetime("now") WHERE id = ?'
+        )
+        .bind(title, description, icon, display_order, id)
+        .run();
     } else {
       // Create new core value
-      await env.DB.prepare(
-        'INSERT INTO core_values (title, description, icon, display_order) VALUES (?, ?, ?, ?)'
-      ).bind(title, description, icon, display_order).run();
+      await db
+        .prepare(
+          'INSERT INTO core_values (title, description, icon, display_order) VALUES (?, ?, ?, ?)'
+        )
+        .bind(title, description, icon, display_order)
+        .run();
     }
 
     return new Response(
@@ -144,7 +144,7 @@ export async function onRequestPost({ request, env }: { request: Request; env: a
       JSON.stringify({
         success: false,
         error: 'Failed to save core value',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       }),
       {
         status: 500,
@@ -155,46 +155,30 @@ export async function onRequestPost({ request, env }: { request: Request; env: a
       }
     );
   }
-}
+};
 
 // DELETE - Soft delete core value
-export async function onRequestDelete({ request, env }: { request: Request; env: any }) {
+export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        {
-          status: 401,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      );
-    }
-
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
 
     if (!id) {
-      return new Response(
-        JSON.stringify({ error: 'Core value ID is required' }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      );
+      return new Response(JSON.stringify({ error: 'Core value ID is required' }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
     }
 
-    if (!env?.DB) {
+    const db = (locals as any).runtime?.env?.DB;
+    if (!db) {
       return new Response(
         JSON.stringify({
           success: true,
-          message: 'Core value deleted (development mode - database not available)'
+          message: 'Core value deleted (development mode - database not available)',
         }),
         {
           status: 200,
@@ -207,9 +191,10 @@ export async function onRequestDelete({ request, env }: { request: Request; env:
     }
 
     // Soft delete - set is_active to 0
-    await env.DB.prepare(
-      'UPDATE core_values SET is_active = 0, updated_at = datetime("now") WHERE id = ?'
-    ).bind(id).run();
+    await db
+      .prepare('UPDATE core_values SET is_active = 0, updated_at = datetime("now") WHERE id = ?')
+      .bind(id)
+      .run();
 
     return new Response(
       JSON.stringify({
@@ -230,7 +215,7 @@ export async function onRequestDelete({ request, env }: { request: Request; env:
       JSON.stringify({
         success: false,
         error: 'Failed to delete core value',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       }),
       {
         status: 500,
@@ -241,16 +226,4 @@ export async function onRequestDelete({ request, env }: { request: Request; env:
       }
     );
   }
-}
-
-// Handle OPTIONS request for CORS
-export function onRequestOptions() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-  });
-}
+};
