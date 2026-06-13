@@ -17,15 +17,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const db = locals.runtime?.env?.DB;
     const AI = locals.runtime?.env?.AI;
 
-    if (!db) {
-      return new Response(JSON.stringify({ success: false, error: 'Database not available' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
     const data = await request.json();
-    const { message, conversation_id, conversation_history } = data;
+    const { message, conversation_history } = data;
 
     if (!message) {
       return new Response(JSON.stringify({
@@ -52,57 +45,46 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return friendly('That message is quite long! Could you shorten it a little so I can help more accurately?');
     }
 
-    // Get Kodie's response using Workers AI
+    // Parse conversation_id: a real integer row id, or null (widget sends a 'chat-...' string → null).
+    let conversationId = Number.isInteger(data.conversation_id) ? data.conversation_id : null;
+
+    // Visitor identity (capped) + request metadata
+    const visitorName = String(data.userName || data.visitor_name || 'Visitor').slice(0, 120);
+    const visitorEmail = String(data.userEmail || data.visitor_email || '').slice(0, 200);
+    const ip = getClientIdentifier(request);
+    const ua = request.headers.get('user-agent') || 'unknown';
+
+    // Get Kodie's response using Workers AI (the AI binding is what matters for answering)
     const kodieResponse = await getKodieResponse(message, conversation_history || [], AI);
 
-    // If Kodie decides to escalate, update conversation status
-    if (kodieResponse.escalate && conversation_id) {
-      await db.prepare(`
-        UPDATE chat_conversations
-        SET status = 'pending', priority = 'high'
-        WHERE id = ?
-      `).bind(conversation_id).run();
-    }
+    // Persist the conversation + messages. ALL DB work is non-fatal: the bot must
+    // always answer, so a missing DB or any persistence error never blocks the reply.
+    if (db) {
+      try {
+        if (conversationId === null) {
+          const created = await db.prepare(
+            "INSERT INTO chat_conversations (visitor_name, visitor_email, visitor_ip, visitor_user_agent, status, source, started_at, last_message_at, total_messages, visitor_messages, operator_messages) VALUES (?, ?, ?, ?, 'active', 'chatbot', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, 0, 0)"
+          ).bind(visitorName, visitorEmail || null, ip, ua).run();
+          conversationId = Number(created.meta.last_row_id);
+        }
 
-    // Save Kodie's response to database if conversation_id is provided
-    if (conversation_id) {
-      await db.prepare(`
-        INSERT INTO chat_messages (
-          conversation_id, message_text, message_type, sender_type, sender_name, sent_at
-        ) VALUES (?, ?, 'text', 'operator', 'Kodie', CURRENT_TIMESTAMP)
-      `).bind(
-        conversation_id,
-        kodieResponse.message
-      ).run();
+        await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'visitor', ?, CURRENT_TIMESTAMP)").bind(conversationId, message, visitorName).run();
+        await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'operator', 'Kodie', CURRENT_TIMESTAMP)").bind(conversationId, kodieResponse.message).run();
+        await db.prepare("UPDATE chat_conversations SET total_messages = total_messages + 2, visitor_messages = visitor_messages + 1, operator_messages = operator_messages + 1, last_message_at = CURRENT_TIMESTAMP WHERE id = ?").bind(conversationId).run();
 
-      // Update conversation counts
-      await db.prepare(`
-        UPDATE chat_conversations
-        SET total_messages = total_messages + 1, operator_messages = operator_messages + 1, last_message_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `).bind(conversation_id).run();
-
-      // If escalating, add a system message
-      if (kodieResponse.escalate) {
-        await db.prepare(`
-          INSERT INTO chat_messages (
-            conversation_id, message_text, message_type, sender_type, sender_name, sent_at
-          ) VALUES (?, ?, 'text', 'system', 'System', CURRENT_TIMESTAMP)
-        `).bind(
-          conversation_id,
-          '🔔 This conversation has been escalated to our support team. A human agent will be with you shortly!'
-        ).run();
-
-        await db.prepare(`
-          UPDATE chat_conversations
-          SET total_messages = total_messages + 1
-          WHERE id = ?
-        `).bind(conversation_id).run();
+        if (kodieResponse.escalate) {
+          await db.prepare("UPDATE chat_conversations SET status = 'pending', priority = 'high' WHERE id = ?").bind(conversationId).run();
+          await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'system', 'System', CURRENT_TIMESTAMP)").bind(conversationId, '🔔 This conversation has been escalated to our support team. A human agent will be with you shortly!').run();
+          await db.prepare("UPDATE chat_conversations SET total_messages = total_messages + 1 WHERE id = ?").bind(conversationId).run();
+        }
+      } catch (e) {
+        console.error('chat persistence failed (non-fatal):', e);
       }
     }
 
     return new Response(JSON.stringify({
       success: true,
+      conversation_id: conversationId,
       response: kodieResponse
     }), {
       status: 200,
