@@ -272,6 +272,16 @@ const title = 'Portfolio Projects';
 </style>
 
 <script>
+  import { escapeHtml } from '@/utils/escape-html';
+
+  // Only allow http(s)/relative image paths; neutralizes javascript:/data: schemes.
+  function safeUrl(u: unknown): string {
+    const s = String(u ?? '').trim();
+    if (/^https?:\/\//i.test(s)) return s;
+    if (/^\//.test(s)) return s; // admin-set relative image path
+    return '';
+  }
+
   let CSRF = '';
   async function initAdminSession() {
     const res = await fetch('/api/admin/session');
@@ -353,20 +363,20 @@ const title = 'Portfolio Projects';
       const category = categories.find(c => c.id === project.category_id);
       return `
         <div class="project-card">
-          ${project.featured_image ? `<img src="${project.featured_image}" alt="${project.title}" class="project-image" />` : '<div class="project-image"></div>'}
+          ${project.featured_image && safeUrl(project.featured_image) ? `<img src="${escapeHtml(safeUrl(project.featured_image))}" alt="${escapeHtml(project.title)}" class="project-image" />` : '<div class="project-image"></div>'}
           <div class="project-content">
             <div class="project-header">
               <div>
-                <div class="project-title">${project.title}</div>
-                ${project.subtitle ? `<div class="project-subtitle">${project.subtitle}</div>` : ''}
+                <div class="project-title">${escapeHtml(project.title)}</div>
+                ${project.subtitle ? `<div class="project-subtitle">${escapeHtml(project.subtitle)}</div>` : ''}
               </div>
             </div>
             <div class="project-badges">
-              ${category ? `<span class="badge badge-category">${category.name}</span>` : ''}
+              ${category ? `<span class="badge badge-category">${escapeHtml(category.name)}</span>` : ''}
               ${project.is_featured ? '<span class="badge badge-featured">Featured</span>' : ''}
               ${!project.is_published ? '<span class="badge badge-draft">Draft</span>' : ''}
             </div>
-            ${project.description ? `<div class="project-description">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</div>` : ''}
+            ${project.description ? `<div class="project-description">${escapeHtml(project.description.substring(0, 120))}${project.description.length > 120 ? '...' : ''}</div>` : ''}
             <div class="project-actions">
               <button class="btn-edit" onclick="editProject(${project.id})">Edit</button>
               <button class="btn-delete" onclick="deleteProject(${project.id})">Delete</button>

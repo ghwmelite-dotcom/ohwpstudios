@@ -427,6 +427,12 @@ export const prerender = false; // SSR so the middleware auth guard runs
   <script>
     import { escapeHtml } from '@/utils/escape-html';
 
+    // Only allow http(s) URLs; neutralizes javascript:/data: schemes.
+    function safeUrl(u) {
+      const s = String(u ?? '').trim();
+      return /^https?:\/\//i.test(s) ? s : '#';
+    }
+
     let allApplications = [];
     let currentFilter = 'all';
     let searchQuery = '';
@@ -593,9 +599,9 @@ export const prerender = false; // SSR so the middleware auth guard runs
 
               ${app.portfolio_url || app.linkedin_url || app.github_url ? `
               <div class="links">
-                ${app.portfolio_url ? `<a href="${escapeHtml(app.portfolio_url)}" target="_blank" class="link-btn">🌐 Portfolio</a>` : ''}
-                ${app.linkedin_url ? `<a href="${escapeHtml(app.linkedin_url)}" target="_blank" class="link-btn">💼 LinkedIn</a>` : ''}
-                ${app.github_url ? `<a href="${escapeHtml(app.github_url)}" target="_blank" class="link-btn">💻 GitHub</a>` : ''}
+                ${safeUrl(app.portfolio_url) !== '#' ? `<a href="${escapeHtml(safeUrl(app.portfolio_url))}" target="_blank" rel="noopener noreferrer" class="link-btn">🌐 Portfolio</a>` : ''}
+                ${safeUrl(app.linkedin_url) !== '#' ? `<a href="${escapeHtml(safeUrl(app.linkedin_url))}" target="_blank" rel="noopener noreferrer" class="link-btn">💼 LinkedIn</a>` : ''}
+                ${safeUrl(app.github_url) !== '#' ? `<a href="${escapeHtml(safeUrl(app.github_url))}" target="_blank" rel="noopener noreferrer" class="link-btn">💻 GitHub</a>` : ''}
               </div>
               ` : ''}
 

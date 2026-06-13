@@ -1348,10 +1348,10 @@ export const prerender = false;
           </div>
           <div class="conversation-content">
             <div class="conversation-header">
-              <div class="conversation-name">${conv.visitor_name || 'Unknown Visitor'}</div>
+              <div class="conversation-name">${escapeHtml(conv.visitor_name || 'Unknown Visitor')}</div>
               <div class="conversation-time-badge">${formatTime(conv.last_message_at)}</div>
             </div>
-            <div class="conversation-preview">${conv.last_message || 'No messages yet'}</div>
+            <div class="conversation-preview">${escapeHtml(conv.last_message || 'No messages yet')}</div>
             <div class="conversation-meta">
               <span class="conversation-status status-${conv.status}">${conv.status}</span>
               ${conv.unread_count > 0 ? `<span class="unread-badge">${conv.unread_count}</span>` : ''}
@@ -1442,7 +1442,7 @@ export const prerender = false;
           const container = document.getElementById('canned-responses');
           if (container) {
             container.innerHTML = data.responses.slice(0, 6).map((resp: any) =>
-              `<button class="canned-btn" data-message="${escapeHtml(resp.message)}">${resp.title}</button>`
+              `<button class="canned-btn" data-message="${escapeHtml(resp.message)}">${escapeHtml(resp.title)}</button>`
             ).join('');
 
             // Add click handlers
