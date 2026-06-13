@@ -273,6 +273,15 @@ const title = 'Push Notifications';
 <script>
   let statsData: any = null;
 
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   // Character counter
   const messageTextarea = document.getElementById('notification-message') as HTMLTextAreaElement;
   const charCount = document.getElementById('char-count');
@@ -285,18 +294,8 @@ const title = 'Push Notifications';
 
   // Load data on page load
   async function loadData() {
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      window.location.href = '/admin/login';
-      return;
-    }
-
     try {
-      const response = await fetch('/api/admin/push/subscriptions', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await fetch('/api/admin/push/subscriptions');
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -424,12 +423,6 @@ const title = 'Push Notifications';
   const testBtn = document.getElementById('test-btn') as HTMLButtonElement;
 
   async function sendNotification(isTest: boolean = false) {
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      window.location.href = '/admin/login';
-      return;
-    }
-
     const formData = new FormData(sendForm);
     const payload = {
       title: formData.get('title'),
@@ -446,7 +439,7 @@ const title = 'Push Notifications';
       const response = await fetch('/api/admin/push/send', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': CSRF,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
@@ -500,6 +493,9 @@ const title = 'Push Notifications';
   });
 
   // Load data on page load
-  loadData();
+  (async () => {
+    if (!(await initAdminSession())) return;
+    loadData();
+  })();
 </script>
 </BaseLayout>

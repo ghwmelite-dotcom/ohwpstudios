@@ -429,20 +429,19 @@ export const prerender = false; // SSR so the middleware auth guard runs
     let currentFilter = 'all';
     let searchQuery = '';
 
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
+    }
+
     // Load applications on page load
     async function loadApplications() {
       try {
-        const token = localStorage.getItem('admin_token');
-        if (!token) {
-          window.location.href = '/admin/login';
-          return;
-        }
-
-        const response = await fetch('/api/admin/applications', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/applications');
 
         const data = await response.json();
 
@@ -619,11 +618,10 @@ export const prerender = false; // SSR so the middleware auth guard runs
     // Update application status
     async function updateStatus(id, status) {
       try {
-        const token = localStorage.getItem('admin_token');
         const response = await fetch('/api/admin/applications', {
           method: 'PUT',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'X-CSRF-Token': CSRF,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ id, status })
@@ -654,11 +652,10 @@ export const prerender = false; // SSR so the middleware auth guard runs
       }
 
       try {
-        const token = localStorage.getItem('admin_token');
         const response = await fetch(`/api/admin/applications?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           }
         });
 
@@ -698,7 +695,10 @@ export const prerender = false; // SSR so the middleware auth guard runs
     window.deleteApplication = deleteApplication;
 
     // Load on page load
-    loadApplications();
+    (async () => {
+      if (!(await initAdminSession())) return;
+      loadApplications();
+    })();
   </script>
 </body>
 </html>

@@ -92,6 +92,15 @@ const title = 'Newsletter Subscribers';
 </style>
 
 <script>
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   let currentFilters = { status: 'all' };
 
   async function loadSubscribers() {
@@ -151,7 +160,7 @@ const title = 'Newsletter Subscribers';
   (window as any).deleteSubscriber = async (id: number) => {
     if (!confirm('Delete this subscriber?')) return;
     try {
-      await fetch(`/api/admin/newsletter?id=${id}`, { method: 'DELETE' });
+      await fetch(`/api/admin/newsletter?id=${id}`, { method: 'DELETE', headers: { 'X-CSRF-Token': CSRF } });
       loadSubscribers();
     } catch (error) {
       console.error('Error deleting subscriber:', error);
@@ -182,5 +191,8 @@ const title = 'Newsletter Subscribers';
     }
   });
 
-  loadSubscribers();
+  (async () => {
+    if (!(await initAdminSession())) return;
+    loadSubscribers();
+  })();
 </script>

@@ -607,6 +607,15 @@ const title = 'Contact Submissions';
 </style>
 
 <script>
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   let currentPage = 0;
   let currentFilters = {
     status: '',
@@ -786,7 +795,7 @@ const title = 'Contact Submissions';
     try {
       const response = await fetch('/api/admin/contacts', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
         body: JSON.stringify({ id, status })
       });
 
@@ -808,7 +817,8 @@ const title = 'Contact Submissions';
 
     try {
       const response = await fetch(`/api/admin/contacts?id=${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: { 'X-CSRF-Token': CSRF }
       });
 
       const data = await response.json();
@@ -825,7 +835,8 @@ const title = 'Contact Submissions';
   };
 
   // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!(await initAdminSession())) return;
     loadSubmissions();
 
     // Filters
