@@ -3,16 +3,37 @@ export const prerender = false;
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const { id } = Astro.params;
+const { token } = Astro.params;
+const db = Astro.locals.runtime?.env?.DB;
 
-if (!id) {
-  return Astro.redirect('/404');
+// Resolve token → contract SSR. A purely-numeric param or an unknown token both
+// resolve to the same "invalid link" state — no data, no existence oracle.
+let contract: any = null;
+if (token && db && !/^\d+$/.test(token)) {
+  contract = await db.prepare('SELECT id FROM contracts WHERE share_token = ?').bind(token).first();
 }
+const moved = !contract;
 ---
 
 <BaseLayout title="Contract Payments" description="View and pay for your contract milestones">
   <div class="payments-page">
     <div class="container">
+      {moved ? (
+        <div class="error-state">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <h2>This contract link is invalid</h2>
+          <p>
+            This contract link is invalid, has expired, or has moved. For your security,
+            contracts are now accessed through a private link sent directly to you.
+            Please <a href="/contact">get in touch</a> and we'll send you a fresh link.
+          </p>
+        </div>
+      ) : (
+      <div>
       <div class="payments-header" id="payments-header" style="display: none;">
         <div class="header-content">
           <div class="contract-logo">
@@ -81,6 +102,8 @@ if (!id) {
           </div>
         </div>
       </div>
+      </div>
+      )}
     </div>
   </div>
 
@@ -398,7 +421,7 @@ if (!id) {
     }
   </style>
 
-  <script is:inline define:vars={{ contractId: id }}>
+  <script is:inline define:vars={{ token }}>
     // Import sanitization utilities
     const sanitizeHTML = (html) => {
       if (!html) return '';
@@ -427,7 +450,7 @@ if (!id) {
 
     class ContractPayments {
       constructor() {
-        this.contractId = contractId;
+        this.token = token;
         this.contract = null;
         this.milestones = [];
         this.init();
@@ -440,7 +463,7 @@ if (!id) {
 
       async loadContract() {
         try {
-          const response = await fetch(`/api/contracts/${this.contractId}`);
+          const response = await fetch(`/api/contracts/${this.token}`);
 
           if (!response.ok) {
             throw new Error('Contract not found');
@@ -456,7 +479,7 @@ if (!id) {
 
       async loadMilestones() {
         try {
-          const response = await fetch(`/api/contracts/${this.contractId}/milestones`);
+          const response = await fetch(`/api/contracts/${this.token}/milestones`);
 
           if (!response.ok) {
             throw new Error('Failed to load milestones');

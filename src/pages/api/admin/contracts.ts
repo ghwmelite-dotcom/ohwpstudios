@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { generateShareToken } from '../../../lib/contract-verify';
 
 export const prerender = false;
 
@@ -88,11 +89,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const count = (countResult?.count as number || 0) + 1;
     const contractNumber = `CON-${year}-${String(count).padStart(3, '0')}`;
 
+    // Generate unguessable share token for the secure signing link
+    const shareToken = generateShareToken();
+
     // Insert contract
     const result = await db
       .prepare(`
         INSERT INTO contracts (
           contract_number,
+          share_token,
           template_id,
           client_name,
           client_email,
@@ -113,10 +118,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
           created_by,
           created_at,
           updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
       `)
       .bind(
         contractNumber,
+        shareToken,
         data.template_id || null,
         data.client_name,
         data.client_email,

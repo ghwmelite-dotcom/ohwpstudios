@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { generateShareToken } from '../../../../lib/contract-verify';
+import { sendEmail, emailShell, emailButton, escapeHtml } from '../../../../lib/email';
 
 export const prerender = false;
 
@@ -44,6 +46,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
+    // Ensure a share token exists (older contracts may predate token-at-creation)
+    let token = contract.share_token as string | null;
+    if (!token) {
+      token = generateShareToken();
+      await db.prepare('UPDATE contracts SET share_token = ? WHERE id = ?').bind(token, contract_id).run();
+    }
+
     // Update contract status to 'sent'
     await db
       .prepare(`
@@ -70,44 +79,32 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .bind(contract_id, 'admin', JSON.stringify({ message }))
       .run();
 
-    // Generate contract signing URL
-    const siteUrl = locals.runtime.env.SITE_URL || 'https://ohwpstudios.org';
-    const contractUrl = `${siteUrl}/contract/${contract_id}`;
+    // Build the secure signing URL from the share token
+    const siteUrl = (locals.runtime?.env?.SITE_URL as string) || 'https://ohwpstudios.org';
+    const contractUrl = `${siteUrl}/contract/${token}`;
 
-    // TODO: Send email to client with contract link
-    // For now, we'll just return the URL
-    // In production, integrate with Resend or similar email service:
-    /*
-    const resendApiKey = locals.runtime.env.RESEND_API_KEY;
-    if (resendApiKey) {
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'contracts@ohwpstudios.org',
-          to: contract.client_email,
-          subject: `Contract Ready for Review: ${contract.title}`,
-          html: `
-            <h1>Your Contract is Ready</h1>
-            <p>Dear ${contract.client_name},</p>
-            <p>${message || 'Please review and sign the contract using the link below:'}</p>
-            <p><a href="${contractUrl}">View and Sign Contract</a></p>
-            <p>Contract Number: ${contract.contract_number}</p>
-            <p>Best regards,<br>OHWP Studios Team</p>
-          `
-        })
+    // Email the client their secure signing link (non-fatal if it fails)
+    try {
+      await sendEmail(locals.runtime?.env ?? {}, {
+        to: String(contract.client_email),
+        subject: `Your contract from OhWP Studios — ${contract.title}`,
+        html: emailShell(
+          'Your contract is ready',
+          `<p>Hi ${escapeHtml(String(contract.client_name).split(/\s+/)[0] || 'there')},</p>
+           <p>${escapeHtml(message || 'Your contract is ready to review and sign.')}</p>
+           <p>Contract <strong>${escapeHtml(String(contract.contract_number))}</strong>. When you click below you'll be asked for a quick verification code we email you, then you can sign.</p>
+           ${emailButton(contractUrl, 'Review & sign your contract')}`,
+        ),
       });
+    } catch (e) {
+      console.error('contract send email failed:', e);
     }
-    */
 
     return new Response(
       JSON.stringify({
         success: true,
         contract_url: contractUrl,
-        message: 'Contract sent successfully'
+        message: 'Contract sent'
       }),
       {
         status: 200,
