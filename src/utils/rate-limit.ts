@@ -29,6 +29,11 @@ export const RATE_LIMITS = {
     maxAttempts: 3,           // 3 attempts
     windowMs: 60 * 60 * 1000, // per hour
     blockDurationMs: 60 * 60 * 1000 // block for 1 hour
+  },
+  CHAT: {
+    maxAttempts: 20,
+    windowMs: 60 * 1000,
+    blockDurationMs: 2 * 60 * 1000
   }
 };
 

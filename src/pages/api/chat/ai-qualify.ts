@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { checkRateLimit, getClientIdentifier, RATE_LIMITS } from '../../../utils/rate-limit';
 
 /**
  * AI Lead Qualification System
@@ -48,8 +49,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Analyze conversation with AI
-    const qualification = await analyzeConversation(conversation_history, GEMINI_API_KEY);
+    // Rate-limit: if exceeded, fall back to rule-based analysis (no Gemini call)
+    const rl = await checkRateLimit('chat-qualify:' + getClientIdentifier(request), RATE_LIMITS.CHAT);
+
+    // Analyze conversation with AI (or rule-based if rate-limited)
+    const qualification = rl.allowed
+      ? await analyzeConversation(conversation_history, GEMINI_API_KEY)
+      : ruleBasedAnalysis(conversation_history);
 
     // Save qualification result to database
     if (qualification.isQualified) {
@@ -113,8 +119,6 @@ async function analyzeConversation(history: any[], apiKey?: string): Promise<Qua
     return ruleBasedAnalysis(history);
   }
 
-  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
   // Build conversation transcript
   const transcript = history.map((msg: any) =>
     `${msg.sender_type === 'visitor' ? 'User' : 'Assistant'}: ${msg.message}`
@@ -161,11 +165,14 @@ Respond ONLY with valid JSON, no additional text.`;
     }
   };
 
-  const response = await fetch(GEMINI_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
+  const response = await fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+      body: JSON.stringify(payload),
+    }
+  );
 
   if (!response.ok) {
     console.error('Gemini API error in qualification');
