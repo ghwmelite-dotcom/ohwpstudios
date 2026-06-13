@@ -116,10 +116,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
         .bind(title, description, icon, display_order, id)
         .run();
     } else {
-      // Create new service
+      // Create new service. Set timestamps explicitly: the production `services`
+      // table has created_at/updated_at as NOT NULL without a DEFAULT (schema
+      // drift from migration 001), so omitting them 500s.
       await db
         .prepare(
-          'INSERT INTO services (title, description, icon, display_order) VALUES (?, ?, ?, ?)'
+          'INSERT INTO services (title, description, icon, display_order, created_at, updated_at) VALUES (?, ?, ?, ?, datetime("now"), datetime("now"))'
         )
         .bind(title, description, icon, display_order)
         .run();
