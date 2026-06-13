@@ -118,10 +118,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   .login-background {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg,
-      #E3A92B 0%,
-      #1B5E3A 50%,
-      #F5C969 100%
+    background: linear-gradient(150deg,
+      #161210 0%,
+      #241D17 45%,
+      #1B2E22 100%
     );
     z-index: 0;
   }
@@ -193,20 +193,17 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     }
   }
 
+  /* Warm cocoa card — the site is dark by default, so card text resolves to
+     cream; a dark card keeps every label readable and lets gold accents pop. */
   .login-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(36, 29, 23, 0.92);
     backdrop-filter: blur(20px);
     border-radius: 24px;
     padding: 3rem;
     box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-
-  :global(.dark) .login-card {
-    background: rgba(17, 24, 39, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+      0 20px 60px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(227, 169, 43, 0.12) inset;
+    border: 1px solid rgba(227, 169, 43, 0.18);
   }
 
   .login-header {
@@ -224,7 +221,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     background: linear-gradient(135deg, #E3A92B 0%, #1B5E3A 100%);
     color: white;
     margin-bottom: 1.5rem;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(227, 169, 43, 0.35);
   }
 
   .login-header h1 {
@@ -340,7 +337,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   .forgot-password:hover {
     text-decoration: underline;
-    color: #5558d9;
+    color: #F5C969;
   }
 
   .btn-full {
