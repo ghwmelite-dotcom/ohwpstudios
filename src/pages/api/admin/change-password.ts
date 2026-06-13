@@ -1,31 +1,11 @@
 import type { APIRoute } from 'astro';
-import { getCORSHeaders, handleCORSPreflight } from '@/utils/cors';
+import { handleCORSPreflight } from '@/utils/cors';
+import { hashPassword, verifyPassword, SESSION_COOKIE } from '../../../lib/admin-auth';
 
 export const prerender = false;
 
-// Simple password hashing function (matches the one in functions/api/admin)
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hash));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hashHex;
-}
-
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
   try {
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-    }
-
     const body = await request.json();
     const currentPassword = body.currentPassword;
     const newPassword = body.newPassword;
@@ -50,39 +30,33 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Check if we have database access (runtime.env.DB from Cloudflare)
-    const DB = (locals as any).runtime?.env?.DB;
-
+    const DB = locals.runtime?.env?.DB;
     if (!DB) {
-      // Dev mode fallback - just validate current password and show success
-      // In dev, the default password is 'admin123'
-      if (currentPassword !== 'admin123') {
-        return new Response(
-          JSON.stringify({ error: 'Current password is incorrect' }),
-          {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' },
-          }
-        );
-      }
-
-      console.log('✅ Password would be changed to:', newPassword);
-      console.log('⚠️  Note: In dev mode, password changes are not persisted');
-
+      // No DB means no way to verify or persist anything — fail closed.
       return new Response(
-        JSON.stringify({
-          success: true,
-          message: 'Password updated successfully (dev mode - not persisted)',
-        }),
+        JSON.stringify({ error: 'Service unavailable' }),
         {
-          status: 200,
+          status: 503,
           headers: { 'Content-Type': 'application/json' },
         }
       );
     }
 
-    // Production mode - update database
-    const user = await DB.prepare('SELECT * FROM admin_users WHERE id = 1').first();
+    // Identity comes from the session-backed middleware guard, never the request.
+    const adminUser = locals.adminUser;
+    if (!adminUser) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const user = await DB.prepare('SELECT id, password_hash FROM admin_users WHERE id = ?')
+      .bind(adminUser.id)
+      .first();
 
     if (!user) {
       return new Response(
@@ -94,9 +68,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Verify current password
-    const currentPasswordHash = await hashPassword(currentPassword);
-    if (user.password_hash !== currentPasswordHash) {
+    // Verify current password (supports legacy and pbkdf2 formats)
+    const { valid } = await verifyPassword(currentPassword, String(user.password_hash));
+    if (!valid) {
       return new Response(
         JSON.stringify({ error: 'Current password is incorrect' }),
         {
@@ -106,10 +80,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Hash and update new password
+    // Hash with salted PBKDF2 and persist
     const newPasswordHash = await hashPassword(newPassword);
-    await DB.prepare('UPDATE admin_users SET password_hash = ? WHERE id = 1')
-      .bind(newPasswordHash)
+    await DB.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?')
+      .bind(newPasswordHash, adminUser.id)
+      .run();
+
+    // Invalidate every OTHER session for this user — a password change must
+    // log out anyone else holding a session, but keep the current one alive.
+    const currentToken = cookies.get(SESSION_COOKIE)?.value ?? '';
+    await DB.prepare('DELETE FROM sessions WHERE user_id = ? AND token != ?')
+      .bind(adminUser.id, currentToken)
       .run();
 
     return new Response(
@@ -128,7 +109,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       JSON.stringify({
         success: false,
         error: 'Failed to update password',
-        details: error instanceof Error ? error.message : 'Unknown error',
       }),
       {
         status: 500,

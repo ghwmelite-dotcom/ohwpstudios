@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 // GET - Fetch all client projects with client info
-export const GET: APIRoute = async ({ request, locals }) => {
+export const GET: APIRoute = async ({ locals }) => {
   try {
     const db = locals.runtime?.env?.DB;
 
@@ -11,28 +11,6 @@ export const GET: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -78,28 +56,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -167,28 +123,6 @@ export const PUT: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -263,28 +197,6 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
