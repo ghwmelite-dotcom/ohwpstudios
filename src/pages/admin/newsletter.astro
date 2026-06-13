@@ -92,6 +92,8 @@ const title = 'Newsletter Subscribers';
 </style>
 
 <script>
+  import { escapeHtml } from '@/utils/escape-html';
+
   let CSRF = '';
   async function initAdminSession() {
     const res = await fetch('/api/admin/session');
@@ -137,11 +139,11 @@ const title = 'Newsletter Subscribers';
     list.innerHTML = subscribers.map(sub => `
       <div class="subscriber-card">
         <div class="subscriber-header">
-          <div class="subscriber-email">${sub.email}</div>
+          <div class="subscriber-email">${escapeHtml(sub.email)}</div>
           <span class="badge badge-${sub.status}">${sub.status}</span>
         </div>
         <div class="subscriber-info">
-          <div class="info-item"><span class="info-label">Source:</span> ${sub.source || 'N/A'}</div>
+          <div class="info-item"><span class="info-label">Source:</span> ${escapeHtml(sub.source || 'N/A')}</div>
           <div class="info-item"><span class="info-label">Subscribed:</span> ${new Date(sub.subscribed_at).toLocaleString()}</div>
           ${sub.confirmed_at ? `<div class="info-item"><span class="info-label">Confirmed:</span> ${new Date(sub.confirmed_at).toLocaleString()}</div>` : ''}
         </div>

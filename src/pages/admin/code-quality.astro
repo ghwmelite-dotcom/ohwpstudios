@@ -647,6 +647,8 @@ export const prerender = false;
   </div>
 
   <script>
+    import { escapeHtml } from '@/utils/escape-html';
+
     // Global state
     let allProjects = [];
     let allMetrics = [];
@@ -798,8 +800,8 @@ export const prerender = false;
 
         return `
           <div class="project-card">
-            <div class="project-name">${metric.project_name || 'Unknown Project'}</div>
-            <div class="project-client">${metric.company_name || 'No Client'}</div>
+            <div class="project-name">${escapeHtml(metric.project_name || 'Unknown Project')}</div>
+            <div class="project-client">${escapeHtml(metric.company_name || 'No Client')}</div>
 
             <div class="health-score-mini">
               <div class="score-circle ${scoreClass}">${healthScore}</div>
