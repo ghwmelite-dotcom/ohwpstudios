@@ -2,18 +2,8 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-// Verify admin token
-async function verifyAdminToken(db: any, token: string) {
-  const user = await db
-    .prepare('SELECT * FROM users WHERE token = ? AND token_expires_at > datetime("now")')
-    .bind(token)
-    .first();
-
-  return user;
-}
-
 // GET - Fetch conversation details with messages
-export const GET: APIRoute = async ({ request, locals, params }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
     const db = locals.runtime?.env?.DB;
 
@@ -21,25 +11,6 @@ export const GET: APIRoute = async ({ request, locals, params }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const user = await verifyAdminToken(db, token);
-
-    if (!user) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -110,25 +81,6 @@ export const PUT: APIRoute = async ({ request, locals, params }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const user = await verifyAdminToken(db, token);
-
-    if (!user) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 

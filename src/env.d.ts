@@ -13,6 +13,18 @@ interface Env {
   AI?: any;
 }
 
+// Astro middleware/route locals. Merges with astro/client's App.Locals.
+declare namespace App {
+  interface Locals {
+    /** Set by the admin session guard in src/middleware.ts for authenticated /admin + /api/admin requests. */
+    adminUser?: {
+      id: number;
+      username: string;
+      csrfToken: string;
+    };
+  }
+}
+
 interface Window {
   gtag?: (...args: unknown[]) => void;
   dataLayer?: unknown[];

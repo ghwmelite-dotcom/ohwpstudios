@@ -558,6 +558,15 @@ const title = 'Contact Submission Details';
 </style>
 
 <script define:vars={{ submissionId: id }}>
+  let CSRF = '';
+  async function initAdminSession() {
+    const res = await fetch('/api/admin/session');
+    if (!res.ok) { window.location.href = '/admin/login'; return false; }
+    const data = await res.json();
+    CSRF = data.csrf_token;
+    return true;
+  }
+
   let currentSubmission = null;
 
   async function loadSubmission() {
@@ -729,7 +738,8 @@ const title = 'Contact Submission Details';
   }
 
   // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!(await initAdminSession())) return;
     loadSubmission();
 
     // Save button
@@ -742,7 +752,7 @@ const title = 'Contact Submission Details';
       try {
         const response = await fetch('/api/admin/contacts', {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
           body: JSON.stringify({
             id: submissionId,
             status,
@@ -781,7 +791,8 @@ const title = 'Contact Submission Details';
 
       try {
         const response = await fetch(`/api/admin/contacts?id=${submissionId}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: { 'X-CSRF-Token': CSRF }
         });
 
         const data = await response.json();

@@ -629,14 +629,18 @@ export const prerender = false;
   </div>
 
   <script>
-    // Check authentication
-    const adminToken = localStorage.getItem('admin_token');
-    if (!adminToken) {
-      window.location.href = '/admin/login';
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
     }
 
     // Logout
-    document.getElementById('logout-btn').addEventListener('click', () => {
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await fetch('/api/admin/logout', { method: 'POST', headers: { 'X-CSRF-Token': CSRF } });
       localStorage.removeItem('admin_token');
       localStorage.removeItem('admin_user');
       window.location.href = '/admin/login';
@@ -649,11 +653,7 @@ export const prerender = false;
 
       try {
         const params = new URLSearchParams(filters);
-        const response = await fetch(`/api/admin/pm-chats?${params}`, {
-          headers: {
-            'Authorization': `Bearer ${adminToken}`
-          }
-        });
+        const response = await fetch(`/api/admin/pm-chats?${params}`);
 
         const data = await response.json();
 
@@ -773,11 +773,7 @@ export const prerender = false;
       modalBody.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading messages...</p></div>';
 
       try {
-        const response = await fetch(`/api/admin/pm-chats/${conversationId}`, {
-          headers: {
-            'Authorization': `Bearer ${adminToken}`
-          }
-        });
+        const response = await fetch(`/api/admin/pm-chats/${conversationId}`);
 
         const data = await response.json();
 
@@ -864,7 +860,10 @@ export const prerender = false;
     }
 
     // Initial load
-    loadConversations();
+    (async () => {
+      if (!(await initAdminSession())) return;
+      loadConversations();
+    })();
   </script>
 </body>
 </html>

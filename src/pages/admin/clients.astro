@@ -1097,14 +1097,19 @@ export const prerender = false;
     let editingUserId = null;
     let editingProjectId = null;
 
-    // Check authentication
-    const token = localStorage.getItem('admin_token');
-    if (!token) {
-      window.location.href = '/admin/login';
+    // Check authentication via cookie session
+    let CSRF = '';
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
     }
 
     // Load data on page load
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!(await initAdminSession())) return;
       loadShowcaseClients();
       loadUsers();
       loadProjects();
@@ -1155,11 +1160,7 @@ export const prerender = false;
     // ==================== CLIENT SHOWCASE FUNCTIONS ====================
     async function loadShowcaseClients() {
       try {
-        const response = await fetch('/api/admin/clients', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/clients');
 
         const data = await response.json();
 
@@ -1313,7 +1314,7 @@ export const prerender = false;
           method: isEdit ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -1342,7 +1343,7 @@ export const prerender = false;
         const response = await fetch(`/api/admin/clients?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           }
         });
 
@@ -1363,11 +1364,7 @@ export const prerender = false;
     // ==================== CLIENT USERS FUNCTIONS ====================
     async function loadUsers() {
       try {
-        const response = await fetch('/api/admin/client-users', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/client-users');
 
         const data = await response.json();
 
@@ -1563,7 +1560,7 @@ export const prerender = false;
           method: isEdit ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -1592,7 +1589,7 @@ export const prerender = false;
         const response = await fetch(`/api/admin/client-users?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           }
         });
 
@@ -1614,11 +1611,7 @@ export const prerender = false;
     // ==================== CLIENT PROJECTS FUNCTIONS ====================
     async function loadProjects() {
       try {
-        const response = await fetch('/api/admin/client-projects', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch('/api/admin/client-projects');
 
         const data = await response.json();
 
@@ -1812,7 +1805,7 @@ export const prerender = false;
           method: isEdit ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           },
           body: JSON.stringify(formData)
         });
@@ -1841,7 +1834,7 @@ export const prerender = false;
         const response = await fetch(`/api/admin/client-projects?id=${id}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${token}`
+            'X-CSRF-Token': CSRF
           }
         });
 

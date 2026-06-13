@@ -2,16 +2,6 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-// Verify admin token
-async function verifyAdminToken(db: any, token: string) {
-  const admin = await db
-    .prepare('SELECT * FROM admins WHERE token = ? AND token_expires_at > datetime("now")')
-    .bind(token)
-    .first();
-
-  return admin;
-}
-
 // Generate realistic mock data for a project
 function generateMockMetrics(projectId: number, daysAgo: number = 0) {
   const baseDate = new Date();
@@ -123,25 +113,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
-    const admin = await verifyAdminToken(db, token);
-
-    if (!admin) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid or expired token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
