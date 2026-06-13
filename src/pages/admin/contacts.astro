@@ -607,6 +607,8 @@ const title = 'Contact Submissions';
 </style>
 
 <script>
+  import { escapeHtml } from '@/utils/escape-html';
+
   let CSRF = '';
   async function initAdminSession() {
     const res = await fetch('/api/admin/session');
@@ -702,11 +704,11 @@ const title = 'Contact Submissions';
       <div class="submission-card" data-id="${submission.id}">
         <div class="submission-header">
           <div class="submission-info">
-            <div class="submission-name">${submission.full_name}</div>
+            <div class="submission-name">${escapeHtml(submission.full_name)}</div>
             <div class="submission-meta">
-              <span>${submission.email}</span>
-              ${submission.phone ? `<span>${submission.phone}</span>` : ''}
-              ${submission.company ? `<span>${submission.company}</span>` : ''}
+              <span>${escapeHtml(submission.email)}</span>
+              ${submission.phone ? `<span>${escapeHtml(submission.phone)}</span>` : ''}
+              ${submission.company ? `<span>${escapeHtml(submission.company)}</span>` : ''}
               <span>${formatDate(submission.created_at)}</span>
             </div>
           </div>
@@ -717,7 +719,7 @@ const title = 'Contact Submissions';
         </div>
         <div class="submission-content">
           <div class="submission-service">${formatServiceType(submission.service_type)}</div>
-          <div class="submission-description">${submission.project_description}</div>
+          <div class="submission-description">${escapeHtml(submission.project_description)}</div>
         </div>
         <div class="submission-actions">
           <button class="btn-action" onclick="viewSubmission(${submission.id})">
