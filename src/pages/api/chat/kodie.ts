@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { checkRateLimit, getClientIdentifier, RATE_LIMITS } from '../../../utils/rate-limit';
 
 // Kodie - AI Chat Assistant powered by Cloudflare Workers AI (free)
 // Handles initial customer inquiries and escalates to human agents when needed
@@ -34,6 +35,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
+    }
+
+    const friendly = (text: string) =>
+      new Response(JSON.stringify({ success: true, response: { message: text, escalate: false, confidence: 1 } }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+    // rate limit — keep the widget UX intact with a friendly reply, not an error
+    const rl = await checkRateLimit('chat-kodie:' + getClientIdentifier(request), RATE_LIMITS.CHAT);
+    if (!rl.allowed) {
+      return friendly("You're sending messages quickly — give me a few seconds to keep up, then try again. 🙂");
+    }
+
+    // message-length cap
+    if (typeof message === 'string' && message.length > 2000) {
+      return friendly('That message is quite long! Could you shorten it a little so I can help more accurately?');
     }
 
     // Get Kodie's response using Workers AI
