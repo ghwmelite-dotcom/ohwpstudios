@@ -11,6 +11,8 @@ const checks = [
   { path: '/api/page-init', contentType: 'application/json' }, // exercises a Pages Function + D1
   // Guards against the functions/-directory regression class: route must exist and validate.
   { path: '/api/booking', method: 'POST', body: '{}', expectStatus: 400, contentType: 'application/json' },
+  // The admin wall must exist forever: unauthenticated admin API = 401, not a PII leak.
+  { path: '/api/admin/contacts', expectStatus: 401, contentType: 'application/json' },
 ];
 
 async function fetchWithRetry(url, opts, retries = 1, delayMs = 3000) {
