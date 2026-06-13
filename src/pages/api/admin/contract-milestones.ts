@@ -3,36 +3,13 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 // GET: Fetch milestones for a contract
-export const GET: APIRoute = async ({ request, locals, url }) => {
+export const GET: APIRoute = async ({ locals, url }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(JSON.stringify({ error: 'Database not available' }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Verify admin token
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
-        status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -68,34 +45,11 @@ export const GET: APIRoute = async ({ request, locals, url }) => {
 // POST: Create new milestone
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(JSON.stringify({ error: 'Database not available' }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Verify admin token
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
-        status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -163,34 +117,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
 // PUT: Update milestone
 export const PUT: APIRoute = async ({ request, locals }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(JSON.stringify({ error: 'Database not available' }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Verify admin token
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
-        status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -247,36 +178,13 @@ export const PUT: APIRoute = async ({ request, locals }) => {
 };
 
 // DELETE: Delete milestone
-export const DELETE: APIRoute = async ({ request, locals, url }) => {
+export const DELETE: APIRoute = async ({ locals, url }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(JSON.stringify({ error: 'Database not available' }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Verify admin token
-    const session = await db
-      .prepare('SELECT * FROM sessions WHERE token = ? AND expires_at > datetime("now")')
-      .bind(token)
-      .first();
-
-    if (!session) {
-      return new Response(JSON.stringify({ error: 'Invalid or expired session' }), {
-        status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
     }

@@ -3,36 +3,14 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 // GET - Fetch all job applications
-export const GET: APIRoute = async ({ request, locals }) => {
+export const GET: APIRoute = async ({ locals }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Verify token
-    const adminResult = await db.prepare(
-      'SELECT * FROM admins WHERE token = ?'
-    ).bind(token).first();
-
-    if (!adminResult) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -70,34 +48,12 @@ export const GET: APIRoute = async ({ request, locals }) => {
 // PUT - Update application status
 export const PUT: APIRoute = async ({ request, locals }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Verify token
-    const adminResult = await db.prepare(
-      'SELECT * FROM admins WHERE token = ?'
-    ).bind(token).first();
-
-    if (!adminResult) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -155,34 +111,12 @@ export const PUT: APIRoute = async ({ request, locals }) => {
 // DELETE - Delete application
 export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
-    // Check authentication
-    const authHeader = request.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const token = authHeader.substring(7);
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Verify token
-    const adminResult = await db.prepare(
-      'SELECT * FROM admins WHERE token = ?'
-    ).bind(token).first();
-
-    if (!adminResult) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid token' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
