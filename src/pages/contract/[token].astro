@@ -1,0 +1,661 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SignaturePad from '@/components/SignaturePad.astro';
+
+const { token } = Astro.params;
+const db = Astro.locals.runtime?.env?.DB;
+
+// A purely-numeric param or an unknown token both resolve to the same "invalid
+// link" state — no contract is rendered, no existence oracle.
+let contract: any = null;
+if (token && db && !/^\d+$/.test(token)) {
+  contract = await db.prepare('SELECT * FROM contracts WHERE share_token = ?').bind(token).first();
+  if (contract && !contract.viewed_at) {
+    await db.prepare("UPDATE contracts SET viewed_at = datetime('now'), status = ? WHERE id = ?")
+      .bind(contract.status === 'sent' ? 'viewed' : contract.status, contract.id).run();
+    await db.prepare("INSERT INTO contract_history (contract_id, action, performed_by, created_at) VALUES (?, 'viewed', ?, datetime('now'))")
+      .bind(contract.id, contract.client_email).run();
+  }
+}
+const moved = !contract;
+// Minimal data passed to the client script (never includes signature_data/ip).
+const contractView = contract ? {
+  contract_number: contract.contract_number,
+  title: contract.title,
+  content: contract.content,
+  status: contract.status,
+  client_name: contract.client_name,
+} : null;
+---
+
+<BaseLayout title="Sign Contract" description="Review and sign your contract">
+  <div class="contract-signing-page">
+    <div class="container">
+      {moved ? (
+        <div class="error-state">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <h2>This contract link is invalid</h2>
+          <p>
+            This contract link is invalid, has expired, or has moved. For your security,
+            contracts are now accessed through a private, single-use link sent directly to you.
+          </p>
+          <p>
+            If you believe you reached this page in error, please <a href="/contact">get in touch</a>
+            and we'll send you a fresh link.
+          </p>
+        </div>
+      ) : (
+        <div>
+          <div class="contract-header" id="contract-header">
+            <div class="contract-header-content">
+              <div class="contract-logo">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+                  <rect width="100" height="100" rx="20" fill="url(#logo-gradient)"/>
+                  <path d="M30 50L45 65L70 35" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <defs>
+                    <linearGradient id="logo-gradient" x1="0" y1="0" x2="100" y2="100">
+                      <stop offset="0%" stop-color="#E3A92B"/>
+                      <stop offset="100%" stop-color="#F5C969"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div>
+                <h1 class="contract-title" id="contract-title">{contractView?.title}</h1>
+                <p class="contract-number" id="contract-number">Contract #{contractView?.contract_number}</p>
+              </div>
+            </div>
+            <div class={`contract-status-badge ${contractView?.status}`} id="status-badge">{contractView?.status}</div>
+          </div>
+
+          <div class="contract-content" id="contract-content">
+            <div class="contract-document glass">
+              <div id="contract-body"></div>
+            </div>
+
+            <div class="contract-signing-section" id="signing-section">
+              <div class="glass" style="padding: 2rem; border-radius: var(--radius-xl);">
+                <h2 class="section-title">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                  </svg>
+                  Sign Contract
+                </h2>
+
+                <form id="signature-form">
+                  <div class="form-group">
+                    <label for="signer-name">Full Name *</label>
+                    <input
+                      type="text"
+                      id="signer-name"
+                      name="signer_name"
+                      class="form-input"
+                      required
+                      autocomplete="name"
+                    />
+                  </div>
+
+                  <SignaturePad />
+
+                  <div class="form-group">
+                    <label class="checkbox-label">
+                      <input type="checkbox" id="agree-terms" required />
+                      <span>I have read and agree to the terms and conditions outlined in this contract</span>
+                    </label>
+                  </div>
+
+                  <!-- Phase 1: request an email verification code -->
+                  <div class="otp-request" id="otp-request">
+                    <p class="otp-hint">
+                      To confirm your identity, we'll email a 6-digit verification code to the
+                      email address on file for this contract.
+                    </p>
+                    <div class="form-actions">
+                      <button type="button" class="btn btn-secondary btn-lg" id="request-code-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                          <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Email me a verification code
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Phase 2: enter the code + sign -->
+                  <div class="otp-verify" id="otp-verify" style="display: none;">
+                    <div class="form-group">
+                      <label for="verification-code">Verification Code *</label>
+                      <input
+                        type="text"
+                        id="verification-code"
+                        name="verification_code"
+                        class="form-input otp-input"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        placeholder="000000"
+                      />
+                      <p class="otp-helper" id="otp-helper">We sent a code to the email on file for this contract.</p>
+                    </div>
+
+                    <div class="form-actions">
+                      <button type="submit" class="btn btn-primary btn-lg" id="submit-signature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Sign Contract
+                      </button>
+                    </div>
+                    <button type="button" class="btn-link" id="resend-code-btn">Resend code</button>
+                  </div>
+
+                  <p class="form-error" id="form-error" role="alert" aria-live="polite" style="display: none;"></p>
+                </form>
+              </div>
+            </div>
+
+            <div class="contract-signed-state" id="signed-state" style="display: none;">
+              <div class="glass" style="padding: 3rem; text-align: center; border-radius: var(--radius-xl);">
+                <div class="success-icon">
+                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="8 12 11 15 16 9"/>
+                  </svg>
+                </div>
+                <h2>Contract Signed Successfully!</h2>
+                <p class="success-message">
+                  Thank you for signing the contract. You will receive a confirmation email with a copy shortly.
+                </p>
+                <p class="contract-ref">Contract Reference: <strong id="signed-contract-number"></strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <style>
+    .contract-signing-page {
+      min-height: 100vh;
+      padding: 6rem 0 4rem;
+      background: var(--gradient-background);
+    }
+
+    .contract-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(20px);
+    }
+
+    .contract-header-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .contract-logo {
+      flex-shrink: 0;
+    }
+
+    .contract-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .contract-number {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin: 0.25rem 0 0;
+    }
+
+    .contract-status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .contract-status-badge.draft {
+      background: rgba(156, 163, 175, 0.1);
+      color: #6b7280;
+    }
+
+    .contract-status-badge.sent {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+
+    .contract-status-badge.viewed {
+      background: rgba(227, 169, 43, 0.1);
+      color: #E3A92B;
+    }
+
+    .contract-status-badge.signed {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+
+    .loading-state,
+    .error-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--glass-border);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-state svg {
+      color: var(--color-danger);
+    }
+
+    .error-state h2 {
+      color: var(--color-text);
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .error-state p {
+      color: var(--color-text-muted);
+      max-width: 400px;
+    }
+
+    .contract-document {
+      padding: 3rem;
+      margin-bottom: 2rem;
+      border-radius: var(--radius-xl);
+    }
+
+    .contract-document :global(h1) {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .contract-document :global(h2) {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .contract-document :global(p) {
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .contract-document :global(ul),
+    .contract-document :global(ol) {
+      color: var(--color-text);
+      line-height: 1.8;
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contract-document :global(.contract-section) {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title svg {
+      color: var(--color-primary);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(227, 169, 43, 0.1);
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      margin-top: 0.25rem;
+      cursor: pointer;
+    }
+
+    .form-actions {
+      margin-top: 2rem;
+    }
+
+    .form-actions .btn {
+      width: 100%;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: rgba(227, 169, 43, 0.1);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .otp-hint,
+    .otp-helper {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin: 0.5rem 0 0;
+    }
+
+    .otp-input {
+      letter-spacing: 0.4em;
+      font-size: 1.5rem;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .btn-link {
+      display: inline-block;
+      margin-top: 1rem;
+      background: none;
+      border: none;
+      color: var(--color-primary);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    .btn-link:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .form-error {
+      margin-top: 1.25rem;
+      padding: 0.875rem 1rem;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: var(--radius-md);
+      color: #ef4444;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .error-state a {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      color: #10b981;
+    }
+
+    .success-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .success-message {
+      color: var(--color-text-muted);
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+    }
+
+    .contract-ref {
+      color: var(--color-text);
+      font-size: 0.875rem;
+    }
+
+    .contract-ref strong {
+      color: var(--color-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .contract-signing-page {
+        padding: 4rem 0 2rem;
+      }
+
+      .contract-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contract-document {
+        padding: 2rem 1.5rem;
+      }
+
+      .contract-title {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+
+  <script define:vars={{ token, contractView }}>
+    // Sanitization utilities
+    const sanitizeHTML = (html) => {
+      if (!html) return '';
+      let safe = String(html);
+      safe = safe.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      safe = safe.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
+      safe = safe.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
+      safe = safe.replace(/javascript:/gi, '');
+      safe = safe.replace(/data:text\/html/gi, '');
+      safe = safe.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+      safe = safe.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+      safe = safe.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+      return safe;
+    };
+
+    // Only run when there is a contract to show (the invalid/moved state has no UI to wire up).
+    if (contractView) {
+      const $ = (id) => document.getElementById(id);
+
+      function showError(msg) {
+        const el = $('form-error');
+        if (!el) return;
+        el.textContent = msg;
+        el.style.display = msg ? 'block' : 'none';
+      }
+
+      function showSignedState() {
+        $('signing-section').style.display = 'none';
+        $('signed-state').style.display = 'block';
+        $('signed-contract-number').textContent = contractView.contract_number;
+        const badge = $('status-badge');
+        if (badge) { badge.textContent = 'signed'; badge.className = 'contract-status-badge signed'; }
+      }
+
+      function renderContract() {
+        // Body content is rendered client-side after sanitization.
+        $('contract-body').innerHTML = sanitizeHTML(contractView.content);
+
+        if (contractView.client_name) {
+          $('signer-name').value = contractView.client_name;
+        }
+
+        if (contractView.status === 'signed' || contractView.status === 'completed') {
+          showSignedState();
+        }
+      }
+
+      // --- Phase 1: request an emailed verification code ---
+      async function requestCode(triggerBtn) {
+        showError('');
+        const btn = triggerBtn;
+        const original = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span>Sending…</span>';
+        try {
+          const res = await fetch('/api/contract/request-code', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token }),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) {
+            throw new Error(data.error || 'Could not send a code. Please try again.');
+          }
+          // Reveal the code-entry phase.
+          $('otp-request').style.display = 'none';
+          $('otp-verify').style.display = 'block';
+          $('verification-code').focus();
+        } catch (err) {
+          showError(err.message || 'Could not send a code. Please try again.');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = original;
+        }
+      }
+
+      // --- Phase 2: collect code + signature, then sign ---
+      async function handleSignature(e) {
+        e.preventDefault();
+        showError('');
+
+        const signaturePad = window.signaturePad;
+        if (!signaturePad || signaturePad.isEmpty()) {
+          showError('Please provide your signature before signing.');
+          return;
+        }
+
+        const signerName = $('signer-name').value.trim();
+        if (!signerName) {
+          showError('Please enter your full name.');
+          return;
+        }
+
+        const code = $('verification-code').value.trim();
+        if (!/^\d{6}$/.test(code)) {
+          showError('Please enter the 6-digit code we emailed you.');
+          return;
+        }
+
+        if (!$('agree-terms').checked) {
+          showError('Please agree to the terms and conditions to continue.');
+          return;
+        }
+
+        const submitBtn = $('submit-signature');
+        const original = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Signing…</span>';
+
+        try {
+          const res = await fetch('/api/contract/sign', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token,
+              code,
+              signer_name: signerName,
+              signature_data: signaturePad.toDataURL(),
+            }),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.success) {
+            throw new Error(data.error || 'Failed to sign contract. Please try again.');
+          }
+          showSignedState();
+        } catch (err) {
+          showError(err.message || 'Failed to sign contract. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = original;
+        }
+      }
+
+      renderContract();
+
+      $('request-code-btn')?.addEventListener('click', (e) => requestCode(e.currentTarget));
+      $('resend-code-btn')?.addEventListener('click', (e) => requestCode(e.currentTarget));
+      $('signature-form')?.addEventListener('submit', handleSignature);
+    }
+  </script>
+</BaseLayout>
