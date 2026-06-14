@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { checkRateLimit, getClientIdentifier, RATE_LIMITS } from '../../../utils/rate-limit';
+import { buildSystemPrompt } from '../../../lib/kodie-knowledge';
 
 // Kodie - AI Chat Assistant powered by Cloudflare Workers AI (free)
 // Handles initial customer inquiries and escalates to human agents when needed
@@ -16,15 +18,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const db = locals.runtime?.env?.DB;
     const AI = locals.runtime?.env?.AI;
 
-    if (!db) {
-      return new Response(JSON.stringify({ success: false, error: 'Database not available' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
     const data = await request.json();
-    const { message, conversation_id, conversation_history } = data;
+    const { message, conversation_history } = data;
 
     if (!message) {
       return new Response(JSON.stringify({
@@ -36,57 +31,61 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Get Kodie's response using Workers AI
-    const kodieResponse = await getKodieResponse(message, conversation_history || [], AI);
+    const friendly = (text: string) =>
+      new Response(JSON.stringify({ success: true, response: { message: text, escalate: false, confidence: 1 } }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } });
 
-    // If Kodie decides to escalate, update conversation status
-    if (kodieResponse.escalate && conversation_id) {
-      await db.prepare(`
-        UPDATE chat_conversations
-        SET status = 'pending', priority = 'high'
-        WHERE id = ?
-      `).bind(conversation_id).run();
+    // rate limit — keep the widget UX intact with a friendly reply, not an error
+    const rl = await checkRateLimit('chat-kodie:' + getClientIdentifier(request), RATE_LIMITS.CHAT);
+    if (!rl.allowed) {
+      return friendly("You're sending messages quickly — give me a few seconds to keep up, then try again. 🙂");
     }
 
-    // Save Kodie's response to database if conversation_id is provided
-    if (conversation_id) {
-      await db.prepare(`
-        INSERT INTO chat_messages (
-          conversation_id, message_text, message_type, sender_type, sender_name, sent_at
-        ) VALUES (?, ?, 'text', 'operator', 'Kodie', CURRENT_TIMESTAMP)
-      `).bind(
-        conversation_id,
-        kodieResponse.message
-      ).run();
+    // message-length cap
+    if (typeof message === 'string' && message.length > 2000) {
+      return friendly('That message is quite long! Could you shorten it a little so I can help more accurately?');
+    }
 
-      // Update conversation counts
-      await db.prepare(`
-        UPDATE chat_conversations
-        SET total_messages = total_messages + 1, operator_messages = operator_messages + 1, last_message_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `).bind(conversation_id).run();
+    // Parse conversation_id: a real integer row id, or null (widget sends a 'chat-...' string → null).
+    let conversationId = Number.isInteger(data.conversation_id) ? data.conversation_id : null;
 
-      // If escalating, add a system message
-      if (kodieResponse.escalate) {
-        await db.prepare(`
-          INSERT INTO chat_messages (
-            conversation_id, message_text, message_type, sender_type, sender_name, sent_at
-          ) VALUES (?, ?, 'text', 'system', 'System', CURRENT_TIMESTAMP)
-        `).bind(
-          conversation_id,
-          '🔔 This conversation has been escalated to our support team. A human agent will be with you shortly!'
-        ).run();
+    // Visitor identity (capped) + request metadata
+    const visitorName = String(data.userName || data.visitor_name || 'Visitor').slice(0, 120);
+    const visitorEmail = String(data.userEmail || data.visitor_email || '').slice(0, 200);
+    const ip = getClientIdentifier(request);
+    const ua = request.headers.get('user-agent') || 'unknown';
 
-        await db.prepare(`
-          UPDATE chat_conversations
-          SET total_messages = total_messages + 1
-          WHERE id = ?
-        `).bind(conversation_id).run();
+    // Get Kodie's response using Workers AI (the AI binding is what matters for answering)
+    const kodieResponse = await getKodieResponse(message, conversation_history || [], AI);
+
+    // Persist the conversation + messages. ALL DB work is non-fatal: the bot must
+    // always answer, so a missing DB or any persistence error never blocks the reply.
+    if (db) {
+      try {
+        if (conversationId === null) {
+          const created = await db.prepare(
+            "INSERT INTO chat_conversations (visitor_name, visitor_email, visitor_ip, visitor_user_agent, status, source, started_at, last_message_at, total_messages, visitor_messages, operator_messages) VALUES (?, ?, ?, ?, 'active', 'chatbot', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, 0, 0)"
+          ).bind(visitorName, visitorEmail || null, ip, ua).run();
+          conversationId = Number(created.meta.last_row_id);
+        }
+
+        await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'visitor', ?, CURRENT_TIMESTAMP)").bind(conversationId, message, visitorName).run();
+        await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'operator', 'Kodie', CURRENT_TIMESTAMP)").bind(conversationId, kodieResponse.message).run();
+        await db.prepare("UPDATE chat_conversations SET total_messages = total_messages + 2, visitor_messages = visitor_messages + 1, operator_messages = operator_messages + 1, last_message_at = CURRENT_TIMESTAMP WHERE id = ?").bind(conversationId).run();
+
+        if (kodieResponse.escalate) {
+          await db.prepare("UPDATE chat_conversations SET status = 'pending', priority = 'high' WHERE id = ?").bind(conversationId).run();
+          await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'system', 'System', CURRENT_TIMESTAMP)").bind(conversationId, '🔔 This conversation has been escalated to our support team. A human agent will be with you shortly!').run();
+          await db.prepare("UPDATE chat_conversations SET total_messages = total_messages + 1 WHERE id = ?").bind(conversationId).run();
+        }
+      } catch (e) {
+        console.error('chat persistence failed (non-fatal):', e);
       }
     }
 
     return new Response(JSON.stringify({
       success: true,
+      conversation_id: conversationId,
       response: kodieResponse
     }), {
       status: 200,
@@ -110,40 +109,8 @@ const KODIE_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 
 // Generate an intelligent response via Workers AI
 async function callWorkersAI(message: string, history: any[], ai: any): Promise<KodieResponse> {
-  // System prompt to guide Kodie's behavior
-  const systemPrompt = `You are Kodie, a helpful and friendly AI assistant for OhWP Studios, a software development agency specializing in:
-- Web Development (React, Vue, Next.js, Node.js, etc.)
-- Mobile App Development (iOS, Android, React Native, Flutter)
-- UI/UX Design
-- E-Commerce Solutions
-- SEO & Digital Marketing
-- AI/ML Integration
-- Custom Software Development
-
-Your personality:
-- Friendly, professional, and enthusiastic
-- Technical but able to explain complex concepts simply
-- Proactive in offering solutions
-- Honest when you don't know something
-
-Guidelines:
-1. Answer technical questions about fullstack development, SEO, web development, AI, security, performance, and related topics
-2. Provide information about OhWP Studios services and pricing
-3. Be conversational and helpful
-4. If the question is too complex or requires human expertise, suggest connecting with a specialist (but still try to help first)
-5. Keep responses concise but informative (2-4 paragraphs max)
-6. Use occasional emojis to be friendly
-7. Provide actionable advice when possible
-
-Pricing info (always quote prices in Ghana Cedis first, with the USD equivalent in brackets):
-- Basic websites: GH₵60,000 - GH₵180,000 ($5,000 - $15,000)
-- Custom web apps: GH₵180,000 - GH₵600,000+ ($15,000 - $50,000+)
-- Mobile apps: GH₵300,000 - GH₵1,200,000+ ($25,000 - $100,000+)
-- Design projects: GH₵36,000 - GH₵240,000 ($3,000 - $20,000)
-
-Contact: ohwpstudios@gmail.com | +233505982361
-
-Now respond to the user's message helpfully and professionally.`;
+  // System prompt built from the single-source knowledge module
+  const systemPrompt = buildSystemPrompt();
 
   const messages = [
     { role: 'system', content: systemPrompt },

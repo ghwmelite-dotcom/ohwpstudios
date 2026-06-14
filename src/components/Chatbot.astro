@@ -1102,6 +1102,8 @@ import AdinkraIcon from './AdinkraIcon.astro';
   let userInfo = { name: '', email: '' };
   let chatStarted = false;
   let conversationId: string | null = null;
+  // Real DB conversation row id (integer) returned by /api/chat/kodie. Null until the first reply.
+  let serverConversationId: number | null = null;
   let lastQualificationCheck = 0;
   let currentQualification: any = null;
   let preferredCurrency: 'USD' | 'GHS' = 'USD'; // Default to USD
@@ -1122,7 +1124,7 @@ import AdinkraIcon from './AdinkraIcon.astro';
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          conversation_id: conversationId,
+          conversation_id: serverConversationId,
           conversation_history: conversationHistory,
           user_email: userInfo.email,
           user_name: userInfo.name
@@ -1337,6 +1339,7 @@ import AdinkraIcon from './AdinkraIcon.astro';
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message,
+            conversation_id: serverConversationId, // null on first call → kodie creates a row
             conversation_history: chatHistory.slice(0, -1), // Don't include current message
             userName: userInfo.name,
             userEmail: userInfo.email || 'Not provided',
@@ -1344,6 +1347,9 @@ import AdinkraIcon from './AdinkraIcon.astro';
         });
 
         const data = await response.json();
+
+        // Capture the real DB conversation id so all later turns + qualification tie to one row
+        if (data.conversation_id) serverConversationId = data.conversation_id;
 
         // Extract the AI response message
         const aiMessage = data.response?.message || data.response;
