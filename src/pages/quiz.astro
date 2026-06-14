@@ -4,6 +4,7 @@ export const prerender = true;
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import QuizIcon from '@/components/QuizIcon.astro';
 ---
 
 <BaseLayout
@@ -61,22 +62,22 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="startup" data-next="2">
-                <div class="option-icon">🚀</div>
+                <div class="option-icon"><QuizIcon id="zap" /></div>
                 <h3>Launch a Startup</h3>
                 <p>Build an MVP or launch a new product</p>
               </button>
               <button class="option-card" data-value="grow" data-next="2">
-                <div class="option-icon">📈</div>
+                <div class="option-icon"><QuizIcon id="trending-up" /></div>
                 <h3>Grow Existing Business</h3>
                 <p>Scale operations or add new features</p>
               </button>
               <button class="option-card" data-value="transform" data-next="2">
-                <div class="option-icon">⚡</div>
+                <div class="option-icon"><QuizIcon id="refresh" /></div>
                 <h3>Digital Transformation</h3>
                 <p>Modernize legacy systems</p>
               </button>
               <button class="option-card" data-value="automate" data-next="2">
-                <div class="option-icon">🤖</div>
+                <div class="option-icon"><QuizIcon id="cpu" /></div>
                 <h3>Automate Processes</h3>
                 <p>Improve efficiency and reduce costs</p>
               </button>
@@ -97,22 +98,22 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="web" data-next="3">
-                <div class="option-icon">🌐</div>
+                <div class="option-icon"><QuizIcon id="globe" /></div>
                 <h3>Web Application</h3>
                 <p>Browser-based solution for all devices</p>
               </button>
               <button class="option-card" data-value="mobile" data-next="3">
-                <div class="option-icon">📱</div>
+                <div class="option-icon"><QuizIcon id="smartphone" /></div>
                 <h3>Mobile App</h3>
                 <p>iOS and/or Android native apps</p>
               </button>
               <button class="option-card" data-value="both" data-next="3">
-                <div class="option-icon">💻</div>
+                <div class="option-icon"><QuizIcon id="monitor" /></div>
                 <h3>Web + Mobile</h3>
                 <p>Complete cross-platform solution</p>
               </button>
               <button class="option-card" data-value="enterprise" data-next="3">
-                <div class="option-icon">🏢</div>
+                <div class="option-icon"><QuizIcon id="layers" /></div>
                 <h3>Enterprise Software</h3>
                 <p>Complex business management system</p>
               </button>
@@ -134,22 +135,22 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="consumers" data-next="4">
-                <div class="option-icon">👥</div>
+                <div class="option-icon"><QuizIcon id="users" /></div>
                 <h3>General Consumers</h3>
                 <p>B2C marketplace or consumer app</p>
               </button>
               <button class="option-card" data-value="businesses" data-next="4">
-                <div class="option-icon">🏢</div>
+                <div class="option-icon"><QuizIcon id="briefcase" /></div>
                 <h3>Businesses</h3>
                 <p>B2B platform or SaaS solution</p>
               </button>
               <button class="option-card" data-value="internal" data-next="4">
-                <div class="option-icon">👔</div>
+                <div class="option-icon"><QuizIcon id="user" /></div>
                 <h3>Internal Team</h3>
                 <p>Employee tools or management system</p>
               </button>
               <button class="option-card" data-value="both-audiences" data-next="4">
-                <div class="option-icon">🌍</div>
+                <div class="option-icon"><QuizIcon id="globe" /></div>
                 <h3>Multiple Audiences</h3>
                 <p>Platform serving various user types</p>
               </button>
@@ -170,22 +171,22 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="urgent" data-next="5">
-                <div class="option-icon">⚡</div>
+                <div class="option-icon"><QuizIcon id="zap" /></div>
                 <h3>ASAP (1-2 months)</h3>
                 <p>Need to launch quickly</p>
               </button>
               <button class="option-card" data-value="fast" data-next="5">
-                <div class="option-icon">🚀</div>
+                <div class="option-icon"><QuizIcon id="trending-up" /></div>
                 <h3>Soon (3-4 months)</h3>
                 <p>Standard project timeline</p>
               </button>
               <button class="option-card" data-value="normal" data-next="5">
-                <div class="option-icon">📅</div>
+                <div class="option-icon"><QuizIcon id="calendar" /></div>
                 <h3>Flexible (5-6 months)</h3>
                 <p>Quality over speed</p>
               </button>
               <button class="option-card" data-value="long" data-next="5">
-                <div class="option-icon">🎯</div>
+                <div class="option-icon"><QuizIcon id="target" /></div>
                 <h3>Long-term (6+ months)</h3>
                 <p>Complex, phased approach</p>
               </button>
@@ -206,22 +207,22 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="users" data-next="6">
-                <div class="option-icon">👤</div>
+                <div class="option-icon"><QuizIcon id="user" /></div>
                 <h3>User Management</h3>
                 <p>Authentication, profiles, permissions</p>
               </button>
               <button class="option-card" data-value="payments" data-next="6">
-                <div class="option-icon">💳</div>
+                <div class="option-icon"><QuizIcon id="credit-card" /></div>
                 <h3>Payments & Billing</h3>
                 <p>E-commerce, subscriptions, invoicing</p>
               </button>
               <button class="option-card" data-value="data" data-next="6">
-                <div class="option-icon">📊</div>
+                <div class="option-icon"><QuizIcon id="bar-chart" /></div>
                 <h3>Data & Analytics</h3>
                 <p>Dashboards, reports, insights</p>
               </button>
               <button class="option-card" data-value="integration" data-next="6">
-                <div class="option-icon">🔗</div>
+                <div class="option-icon"><QuizIcon id="link" /></div>
                 <h3>Integrations</h3>
                 <p>Third-party APIs and services</p>
               </button>
@@ -242,24 +243,24 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="starter" data-next="7">
-                <div class="option-icon">💰</div>
-                <h3>$10k - $25k</h3>
-                <p>MVP or simple application</p>
+                <div class="option-icon"><QuizIcon id="credit-card" /></div>
+                <h3>GH₵120,000 – GH₵300,000</h3>
+                <p>$10k – $25k · MVP or simple app</p>
               </button>
               <button class="option-card" data-value="growth" data-next="7">
-                <div class="option-icon">💎</div>
-                <h3>$25k - $50k</h3>
-                <p>Full-featured product</p>
+                <div class="option-icon"><QuizIcon id="trending-up" /></div>
+                <h3>GH₵300,000 – GH₵600,000</h3>
+                <p>$25k – $50k · full-featured product</p>
               </button>
               <button class="option-card" data-value="scale" data-next="7">
-                <div class="option-icon">🏆</div>
-                <h3>$50k - $100k</h3>
-                <p>Enterprise-grade solution</p>
+                <div class="option-icon"><QuizIcon id="layers" /></div>
+                <h3>GH₵600,000 – GH₵1,200,000</h3>
+                <p>$50k – $100k · enterprise-grade</p>
               </button>
               <button class="option-card" data-value="enterprise" data-next="7">
-                <div class="option-icon">👑</div>
-                <h3>$100k+</h3>
-                <p>Complex, large-scale platform</p>
+                <div class="option-icon"><QuizIcon id="award" /></div>
+                <h3>GH₵1,200,000+</h3>
+                <p>$100k+ · large-scale platform</p>
               </button>
             </div>
           </div>
@@ -277,22 +278,22 @@ import Footer from '@/components/Footer.astro';
             </div>
             <div class="options-grid">
               <button class="option-card" data-value="hands-off" data-next="results">
-                <div class="option-icon">🎯</div>
+                <div class="option-icon"><QuizIcon id="target" /></div>
                 <h3>Hands-Off</h3>
                 <p>You provide vision, we handle everything</p>
               </button>
               <button class="option-card" data-value="collaborative" data-next="results">
-                <div class="option-icon">🤝</div>
+                <div class="option-icon"><QuizIcon id="users" /></div>
                 <h3>Collaborative</h3>
                 <p>Regular check-ins and feedback</p>
               </button>
               <button class="option-card" data-value="involved" data-next="results">
-                <div class="option-icon">👨‍💻</div>
+                <div class="option-icon"><QuizIcon id="code" /></div>
                 <h3>Very Involved</h3>
                 <p>Daily communication and decisions</p>
               </button>
               <button class="option-card" data-value="partnership" data-next="results">
-                <div class="option-icon">🚀</div>
+                <div class="option-icon"><QuizIcon id="award" /></div>
                 <h3>True Partnership</h3>
                 <p>Work alongside our team</p>
               </button>
@@ -340,7 +341,7 @@ import Footer from '@/components/Footer.astro';
               <div class="results-preview" id="resultsPreview">
                 <h3>Based on your answers, we recommend:</h3>
                 <div class="recommendation-card glass">
-                  <div class="recommendation-icon" id="recommendationIcon">🚀</div>
+                  <div class="recommendation-icon" id="recommendationIcon"></div>
                   <h4 id="recommendationTitle">Loading...</h4>
                   <p id="recommendationDescription">Please wait...</p>
                 </div>
@@ -537,6 +538,11 @@ import Footer from '@/components/Footer.astro';
     margin-bottom: 0.5rem;
   }
 
+  .option-icon { color: var(--color-primary); }
+  .option-icon svg { width: 40px; height: 40px; }
+  .recommendation-icon { color: var(--color-primary); display: flex; justify-content: center; }
+  .recommendation-icon svg { width: 56px; height: 56px; }
+
   .option-card h3 {
     font-size: 1.25rem;
     font-weight: 700;
@@ -712,6 +718,8 @@ import Footer from '@/components/Footer.astro';
 </style>
 
 <script>
+  import { recommendSolution } from '@/lib/quiz-recommendation';
+
   let currentQuestion = 1;
   const totalQuestions = 7;
   const answers: Record<string, string> = {};
@@ -744,53 +752,23 @@ import Footer from '@/components/Footer.astro';
     }
   }
 
+  const REC_ICONS: Record<string, string> = {
+    zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
+    smartphone: '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>',
+    monitor: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline>',
+    refresh: '<polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>',
+    cpu: '<rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line>',
+  };
+
   function generateRecommendation() {
     const iconEl = document.getElementById('recommendationIcon');
     const titleEl = document.getElementById('recommendationTitle');
     const descEl = document.getElementById('recommendationDescription');
-
-    let recommendation = {
-      icon: '🚀',
-      title: 'Custom Software Development',
-      description: 'Based on your needs, we recommend a custom-built solution tailored specifically for your business goals.'
-    };
-
-    // Simple recommendation logic based on answers
-    if (answers.platform === 'mobile') {
-      recommendation = {
-        icon: '📱',
-        title: 'Mobile App Development',
-        description: 'We\'ll build you a stunning native or cross-platform mobile app that your users will love.'
-      };
-    } else if (answers.platform === 'both') {
-      recommendation = {
-        icon: '💻',
-        title: 'Full-Stack Web & Mobile Solution',
-        description: 'A complete platform with web application and mobile apps for maximum reach and engagement.'
-      };
-    } else if (answers.goal === 'startup') {
-      recommendation = {
-        icon: '🚀',
-        title: 'MVP Development',
-        description: 'We\'ll help you launch fast with a Minimum Viable Product to validate your idea and attract investors.'
-      };
-    } else if (answers.goal === 'transform') {
-      recommendation = {
-        icon: '⚡',
-        title: 'Digital Transformation',
-        description: 'Modernize your systems with cutting-edge technology and streamlined processes.'
-      };
-    } else if (answers.platform === 'enterprise') {
-      recommendation = {
-        icon: '🏢',
-        title: 'Enterprise Software Development',
-        description: 'A robust, scalable enterprise solution designed to grow with your business.'
-      };
-    }
-
-    if (iconEl) iconEl.textContent = recommendation.icon;
-    if (titleEl) titleEl.textContent = recommendation.title;
-    if (descEl) descEl.textContent = recommendation.description;
+    const rec = recommendSolution(answers);
+    if (iconEl) iconEl.innerHTML = `<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${REC_ICONS[rec.iconId] || REC_ICONS.cpu}</svg>`;
+    if (titleEl) titleEl.textContent = rec.title;
+    if (descEl) descEl.textContent = rec.description;
   }
 
   // Option click handlers
