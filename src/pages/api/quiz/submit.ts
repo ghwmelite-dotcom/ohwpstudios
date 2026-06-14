@@ -39,6 +39,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
+    if (!email.includes('@') || email.length < 3) {
+      return new Response(JSON.stringify({ error: 'Please enter a valid email address' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const db = locals.runtime?.env?.DB;
     if (!db) {
       return new Response(JSON.stringify({ error: 'Database not available' }), {
