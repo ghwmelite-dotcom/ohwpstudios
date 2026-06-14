@@ -1,0 +1,141 @@
+---
+// src/pages/admin/quiz-leads.astro
+import BaseLayout from '@/layouts/BaseLayout.astro';
+export const prerender = false;
+const title = 'Quiz Leads';
+---
+<BaseLayout title={title} noLoader={true}>
+  <div class="admin-container">
+    <div class="admin-header">
+      <div class="header-left">
+        <a href="/admin/dashboard" class="back-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Dashboard
+        </a>
+        <h1>Quiz Leads</h1>
+      </div>
+      <button id="export-csv" class="btn-export">Export CSV</button>
+    </div>
+
+    <div id="loading-state" class="state">Loading…</div>
+    <div id="empty-state" class="state" style="display:none;">No quiz leads yet.</div>
+    <div class="table-wrap" id="table-wrap" style="display:none;">
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>Date</th><th>Name</th><th>Email</th><th>Company</th>
+            <th>Goal</th><th>Platform</th><th>Budget</th><th>Timeline</th><th>Contacted</th>
+          </tr>
+        </thead>
+        <tbody id="leads-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <style>
+    .admin-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .admin-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+    .header-left { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .back-link { display:inline-flex; align-items:center; gap:.4rem; color:var(--color-text-muted); text-decoration:none; }
+    .back-link:hover { color:var(--color-primary); }
+    h1 { margin:0; font-size:1.6rem; }
+    .btn-export { min-height:44px; padding:.6rem 1.1rem; border-radius:var(--radius-lg); background:var(--gradient-primary); color:#fff; font-weight:700; border:none; cursor:pointer; }
+    .state { padding:2rem; text-align:center; color:var(--color-text-muted); }
+    .table-wrap { overflow-x:auto; border:1px solid var(--color-border); border-radius:var(--radius-xl); }
+    .leads-table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    .leads-table th, .leads-table td { padding:.7rem .85rem; text-align:left; border-bottom:1px solid var(--color-border); white-space:nowrap; }
+    .leads-table th { background:var(--color-bg-alt); font-weight:700; }
+    .mark-btn { min-height:36px; padding:.35rem .7rem; border-radius:var(--radius-md); border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text); cursor:pointer; font-weight:600; }
+    .mark-btn.is-done { background:rgba(16,185,129,.12); color:#10b981; border-color:rgba(16,185,129,.3); }
+  </style>
+
+  <script>
+    import { escapeHtml } from '@/utils/escape-html';
+
+    let CSRF = '';
+    let leads: any[] = [];
+
+    async function initAdminSession() {
+      const res = await fetch('/api/admin/session');
+      if (!res.ok) { window.location.href = '/admin/login'; return false; }
+      const data = await res.json();
+      CSRF = data.csrf_token;
+      return true;
+    }
+
+    function fmtDate(s: string) {
+      if (!s) return '';
+      const d = new Date(s.replace(' ', 'T') + 'Z');
+      return isNaN(d.getTime()) ? s : d.toLocaleDateString();
+    }
+
+    function render() {
+      const body = document.getElementById('leads-body');
+      const loading = document.getElementById('loading-state');
+      const empty = document.getElementById('empty-state');
+      const wrap = document.getElementById('table-wrap');
+      if (loading) loading.style.display = 'none';
+      if (!leads.length) { if (empty) empty.style.display = 'block'; return; }
+      if (wrap) wrap.style.display = 'block';
+      if (!body) return;
+      body.innerHTML = leads.map((l) => `
+        <tr>
+          <td>${escapeHtml(fmtDate(l.created_at))}</td>
+          <td>${escapeHtml(l.name || '')}</td>
+          <td><a href="mailto:${escapeHtml(l.email || '')}">${escapeHtml(l.email || '')}</a></td>
+          <td>${escapeHtml(l.company || '')}</td>
+          <td>${escapeHtml(l.goal || '')}</td>
+          <td>${escapeHtml(l.platform || '')}</td>
+          <td>${escapeHtml(l.budget || '')}</td>
+          <td>${escapeHtml(l.timeline || '')}</td>
+          <td><button class="mark-btn ${l.contacted ? 'is-done' : ''}" data-id="${l.id}" data-contacted="${l.contacted ? 1 : 0}">${l.contacted ? '✓ Contacted' : 'Mark contacted'}</button></td>
+        </tr>`).join('');
+
+      body.querySelectorAll('.mark-btn').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          const el = e.currentTarget as HTMLElement;
+          const id = Number(el.dataset.id);
+          const next = el.dataset.contacted === '1' ? 0 : 1;
+          const res = await fetch('/api/admin/quiz-leads', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': CSRF },
+            body: JSON.stringify({ id, contacted: next === 1 }),
+          });
+          if (res.ok) {
+            const lead = leads.find((x) => x.id === id);
+            if (lead) lead.contacted = next;
+            render();
+          } else {
+            alert('Could not update. Please reload and try again.');
+          }
+        });
+      });
+    }
+
+    function exportCsv() {
+      const cols = ['created_at','name','email','company','goal','platform','audience','timeline','features','budget','involvement','contacted'];
+      const head = cols.join(',');
+      const rows = leads.map((l) => cols.map((c) => `"${String(l[c] ?? '').replace(/"/g, '""')}"`).join(','));
+      const blob = new Blob([[head, ...rows].join('\n')], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'quiz-leads.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    async function load() {
+      if (!(await initAdminSession())) return;
+      const res = await fetch('/api/admin/quiz-leads');
+      if (!res.ok) { window.location.href = '/admin/login'; return; }
+      const data = await res.json();
+      leads = data.leads || [];
+      render();
+      document.getElementById('export-csv')?.addEventListener('click', exportCsv);
+    }
+
+    load();
+  </script>
+</BaseLayout>
