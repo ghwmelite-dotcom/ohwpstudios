@@ -34,7 +34,12 @@ export const RATE_LIMITS = {
     maxAttempts: 20,
     windowMs: 60 * 1000,
     blockDurationMs: 2 * 60 * 1000
-  }
+  },
+  QUIZ: {
+    maxAttempts: 5,                 // 5 submissions
+    windowMs: 60 * 1000,            // per minute
+    blockDurationMs: 5 * 60 * 1000, // soft-block 5 minutes
+  },
 };
 
 /**
