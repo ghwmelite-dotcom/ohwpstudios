@@ -1,0 +1,314 @@
+[
+  {
+    "controls": [
+      {
+        "fits": true,
+        "height": 80,
+        "inside": true,
+        "selector": ".chatbot-quote-button"
+      },
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": "#chatbot-message"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#chatbot-form button"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-whatsapp"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-telegram"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-email"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-copy"
+      }
+    ],
+    "messageHeight": 67,
+    "panelInside": true,
+    "viewport": [
+      320,
+      568
+    ]
+  },
+  {
+    "controls": [
+      {
+        "fits": true,
+        "height": 64,
+        "inside": true,
+        "selector": ".chatbot-quote-button"
+      },
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": "#chatbot-message"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#chatbot-form button"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-whatsapp"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-telegram"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-email"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-copy"
+      }
+    ],
+    "messageHeight": 182,
+    "panelInside": true,
+    "viewport": [
+      375,
+      667
+    ]
+  },
+  {
+    "controls": [
+      {
+        "fits": true,
+        "height": 64,
+        "inside": true,
+        "selector": ".chatbot-quote-button"
+      },
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": "#chatbot-message"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#chatbot-form button"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-whatsapp"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-telegram"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-email"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-copy"
+      }
+    ],
+    "messageHeight": 285,
+    "panelInside": true,
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "controls": [
+      {
+        "fits": true,
+        "height": 64,
+        "inside": true,
+        "selector": ".chatbot-quote-button"
+      },
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": "#chatbot-message"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#chatbot-form button"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-whatsapp"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-telegram"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-email"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-copy"
+      }
+    ],
+    "messageHeight": 285,
+    "panelInside": true,
+    "viewport": [
+      430,
+      932
+    ]
+  },
+  {
+    "controls": [
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": ".chatbot-quote-button"
+      },
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": "#chatbot-message"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#chatbot-form button"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-whatsapp"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-telegram"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-email"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-copy"
+      }
+    ],
+    "messageHeight": 73,
+    "panelInside": true,
+    "viewport": [
+      667,
+      375
+    ]
+  },
+  {
+    "controls": [
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": ".chatbot-quote-button"
+      },
+      {
+        "fits": true,
+        "height": 56,
+        "inside": true,
+        "selector": "#chatbot-message"
+      },
+      {
+        "fits": true,
+        "height": 49,
+        "inside": true,
+        "selector": "#chatbot-form button"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-whatsapp"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-telegram"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-email"
+      },
+      {
+        "fits": true,
+        "height": 48,
+        "inside": true,
+        "selector": "#export-copy"
+      }
+    ],
+    "messageHeight": 42,
+    "panelInside": true,
+    "viewport": [
+      390,
+      400
+    ]
+  }
+]

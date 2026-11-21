@@ -1,0 +1,56 @@
+[
+  {
+    "controlsFit": true,
+    "launcherHidden": false,
+    "panelFits": true,
+    "viewport": [
+      320,
+      568
+    ]
+  },
+  {
+    "controlsFit": true,
+    "launcherHidden": false,
+    "panelFits": true,
+    "viewport": [
+      375,
+      667
+    ]
+  },
+  {
+    "controlsFit": true,
+    "launcherHidden": false,
+    "panelFits": true,
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "controlsFit": true,
+    "launcherHidden": false,
+    "panelFits": true,
+    "viewport": [
+      430,
+      932
+    ]
+  },
+  {
+    "controlsFit": true,
+    "launcherHidden": true,
+    "panelFits": true,
+    "viewport": [
+      667,
+      375
+    ]
+  },
+  {
+    "controlsFit": true,
+    "launcherHidden": true,
+    "panelFits": true,
+    "viewport": [
+      390,
+      400
+    ]
+  }
+]

@@ -1,0 +1,73 @@
+[
+  {
+    "path": "/api/admin/session",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/admin/content",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/client/projects",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/client/project/1",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/chat/conversations",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/chat/conversations/",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/chat/messages?conversation_id=1",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/chat/canned-responses",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/estimate-project",
+    "status": 400,
+    "expected": 400
+  },
+  {
+    "path": "/api/chat/kodie",
+    "status": 400,
+    "expected": 400
+  },
+  {
+    "path": "/api/chat/ai-qualify",
+    "status": 403,
+    "expected": 403
+  },
+  {
+    "path": "/api/client/pm-chat",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/client/logout",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/admin/dashboard",
+    "status": 302,
+    "expected": 302,
+    "redirect": "/admin/login"
+  }
+]
