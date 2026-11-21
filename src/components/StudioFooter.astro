@@ -3,13 +3,13 @@ import BrandLogo from './BrandLogo.astro';
 import BrandMark from './BrandMark.astro';
 import NewsletterSubscribe from './NewsletterSubscribe.astro';
 import { SITE_CONFIG } from '@/config';
-import { telegramQuoteLink } from '@/lib/quote-policy';
+import { telegramQuoteLink, TELEGRAM_HANDLE } from '@/lib/quote-policy';
 import TelegramIcon from './TelegramIcon.astro';
 const groups = [
   {title:'The studio',links:[['About','/about'],['Portfolio','/portfolio'],['Case studies','/case-studies'],['Clients','/clients'],['Careers','/careers']]},
   {title:'Tools & guidance',links:[['Project estimator','/estimate-project'],['Project discovery quiz','/quiz'],['Website grader','/website-analyzer'],['Website audit','/website-audit']]},
   {title:'Explore',links:[['Services & solutions','/sitemap-pages'],['Blog & insights','/blog'],['Open Build','/open-build']]},
-  {title:'Let’s work together',links:[['Telegram · @oh84dev',telegramQuoteLink()],['Contact','/contact'],['Book a consultation','/booking'],['Client portal','/client/login'],['Email us',`mailto:${SITE_CONFIG.email}`]]},
+  {title:'Let’s work together',links:[['Telegram · '+TELEGRAM_HANDLE,telegramQuoteLink()],['Contact','/contact'],['Book a consultation','/booking'],['Client portal','/client/login'],['Email us',`mailto:${SITE_CONFIG.email}`]]},
 ];
 const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFIG.social.linkedin],['Instagram',SITE_CONFIG.social.instagram],['GitHub',SITE_CONFIG.social.github]];
 ---
@@ -18,7 +18,7 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
   <div class="wrap">
     <div class="signature-invitation">
       <div><p class="footer-kicker">A good idea deserves a great beginning.</p><h2>Let’s build<br />what’s next.</h2></div>
-      <div class="signature-reach"><a class="signature-contact" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><span class="signature-arrow" aria-hidden="true"><TelegramIcon size={52} /></span><span>Talk on Telegram<small>@oh84dev</small></span></a><a class="signature-form-link" href="/contact">Tell us your idea via the contact form <span aria-hidden="true">↗</span></a></div>
+      <div class="signature-reach"><a class="signature-contact" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><span class="signature-arrow" aria-hidden="true"><TelegramIcon size={52} /></span><span>Talk on Telegram<small>{TELEGRAM_HANDLE}</small></span></a><a class="signature-form-link" href="/contact">Tell us your idea via the contact form <span aria-hidden="true">↗</span></a></div>
     </div>
     <div class="signature-newsletter"><NewsletterSubscribe variant="signature" title="Notes from the studio." description="New builds, practical insights, and the thinking behind the work." /></div>
     <nav class="signature-directory" aria-label="Footer navigation">{groups.map(group=><div><h3>{group.title}</h3>{group.links.map(([label,href])=><a href={href}>{label}</a>)}</div>)}</nav>

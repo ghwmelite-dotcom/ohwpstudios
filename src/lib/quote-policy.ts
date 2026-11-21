@@ -1,6 +1,7 @@
 import { SITE_CONFIG } from '../config';
 
 export const TELEGRAM_URL = SITE_CONFIG.social.telegram;
+export const TELEGRAM_HANDLE = `@${new URL(TELEGRAM_URL).pathname.slice(1)}`;
 export const QUOTE_MESSAGE = 'Every project is scoped individually. Contact Hodges & Co. Studios on Telegram so we can review your requirements and provide a tailored estimate.';
 
 export function telegramQuoteLink(briefUrl?: string): string {
@@ -9,7 +10,8 @@ export function telegramQuoteLink(briefUrl?: string): string {
     ? `Hello Hodges & Co. Studios. Please review my project brief and help me with a tailored estimate: ${briefUrl}`
     : 'Hello Hodges & Co. Studios. I would like to discuss a project and get a tailored estimate.';
   link.searchParams.set('text', text);
-  return link.href;
+  // Keep Telegram's documented valueless channel-DM flag when adding a draft.
+  return link.href.replace(/([?&])direct=(?=&|$)/, '$1direct');
 }
 
 /** Defence in depth: generated text and historical scopes cannot publish prices. */

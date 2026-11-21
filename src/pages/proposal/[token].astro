@@ -139,7 +139,11 @@ const client = row.company || row.name || 'Your Project';
 
           <section class="prop-cta-card no-print">
             <h3>Ready to move?</h3>
-            <p>Send us this brief on Telegram. We’ll analyse the scope and provide an actual estimate.</p>
+            <p>Copy this brief link, then paste it into our private Telegram conversation. We’ll analyse the scope and provide an actual estimate.</p>
+            <label for="brief-share-url">Your project brief link</label>
+            <input id="brief-share-url" type="url" value={Astro.url.href} readonly />
+            <button class="prop-btn prop-btn-ghost" id="copy-brief-link" type="button">Copy brief link</button>
+            <p id="brief-copy-status" role="status" aria-live="polite"></p>
             <a class="prop-btn prop-btn-primary" href={telegramContact} target="_blank" rel="noopener noreferrer">Discuss on Telegram</a>
             <button class="prop-btn prop-btn-ghost" onclick="window.print()" type="button">Save as PDF</button>
           </section>
@@ -153,6 +157,21 @@ const client = row.company || row.name || 'Your Project';
   </main>
 
 </BaseLayout>
+
+<script>
+  document.querySelector('#copy-brief-link')?.addEventListener('click', async () => {
+    const input = document.querySelector<HTMLInputElement>('#brief-share-url');
+    const status = document.querySelector<HTMLElement>('#brief-copy-status');
+    if (!input || !status) return;
+    try {
+      await navigator.clipboard.writeText(input.value);
+      status.textContent = 'Brief link copied. Paste it into your Telegram message.';
+    } catch {
+      input.focus(); input.select();
+      status.textContent = 'Select and copy the brief link above, then paste it into Telegram.';
+    }
+  });
+</script>
 
 <style>
   .prop { padding: calc(var(--header-height) + 2.5rem) 0 4rem; }

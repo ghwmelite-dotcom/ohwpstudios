@@ -15,10 +15,13 @@ test('public scopes redact historical/generated prices while retaining useful te
   expect(quoteSafeText('Indicative delivery: 8 weeks.')).toBe('Indicative delivery: 8 weeks.');
 });
 
-test('Telegram handoff targets the confirmed studio account and includes a draft brief link', () => {
+test('Telegram handoff opens the studio channel direct messages and retains the draft brief link', () => {
   const brief = 'https://ohwpstudios.org/proposal/abc123';
   const url = new URL(telegramQuoteLink(brief));
-  expect(url.origin + url.pathname).toBe('https://t.me/oh84dev');
+  expect(url.origin + url.pathname).toBe('https://t.me/HodgesCoStudios');
+  expect(url.searchParams.has('direct')).toBe(true);
+  expect(telegramQuoteLink(brief)).toContain('?direct&');
+  expect(new URL(telegramQuoteLink()).searchParams.has('direct')).toBe(true);
   expect(url.searchParams.get('text')).toContain(brief);
   expect(url.pathname).not.toContain('share');
 });
@@ -30,6 +33,6 @@ test('pricing questions never call AI or return fabricated ranges', async () => 
   expect(response.status).toBe(200);
   const data = await response.json();
   expect(calls).toBe(0);
-  expect(data.response.message).toContain('https://t.me/oh84dev');
+  expect(data.response.message).toContain('https://t.me/HodgesCoStudios?direct');
   expect(data.response.message).not.toMatch(/\$\d|GH₵\d|GHS\s*\d/);
 });

@@ -49,6 +49,7 @@ describe('project estimator persistence contract', () => {
     expect(result.estimated_cost_min).toBeUndefined();
     expect(result.estimated_cost_max).toBeUndefined();
     expect(result.pricing).toBe('review_required');
-    expect(new URL(result.telegram_url).pathname).toBe('/oh84dev');
+    expect(new URL(result.telegram_url).pathname).toBe('/HodgesCoStudios');
+    expect(new URL(result.telegram_url).searchParams.has('direct')).toBe(true);
   });
 });
