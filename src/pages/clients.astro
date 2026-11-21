@@ -1,20 +1,4 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import Clients from '@/components/Clients.astro';
-import { SITE_CONFIG } from '@/config';
-
-export const prerender = false;
+import InteriorLayout from '@/layouts/InteriorLayout.astro';
 ---
-
-<BaseLayout
-  title={`Our Clients - ${SITE_CONFIG.name}`}
-  description="Trusted by industry leaders across various sectors. Discover the companies we've partnered with to deliver exceptional digital solutions that drive growth and innovation."
->
-  <Header />
-  <main>
-    <Clients />
-  </main>
-  <Footer />
-</BaseLayout>
+<InteriorLayout title="Working together — OhWP Studios" description="A thoughtful partnership from first idea through build, review, and handover. Work with OhWP Studios on your next software project."><main id="main"><section class="interior-mast"><div class="wrap"><p class="eyebrow">Working together</p><h1>A partner in the idea.<br /><em>Care in the execution.</em></h1><p class="lede">Whether you’re an independent founder, a growing organisation, or a team modernising its work, we start by understanding what matters to you.</p><div class="mast-foot"><span>Clear scope / Shared progress / Considered delivery</span><a href="/contact">Start a conversation ↗</a></div></div></section><section class="wrap section-space principle-grid"><article><span class="index">01 / Understand</span><h3>Your context comes first.</h3><p>People, workflows, budget, and the outcome you need. We agree a practical scope before building.</p></article><article><span class="index">02 / Collaborate</span><h3>See the work take shape.</h3><p>Working previews and clear decisions throughout. Commission the build, or take part with guided support.</p></article><article><span class="index">03 / Own</span><h3>Leave with clarity.</h3><p>Agree the handover, documentation, ownership, and support you need as part of the project.</p></article></section><section class="interior-band"><div class="wrap"><h2>Get to know<br />the way we build.</h2><a class="button" href="/portfolio">Explore the work ↗</a></div></section></main></InteriorLayout>

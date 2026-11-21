@@ -1,19 +1,19 @@
 ---
 export const prerender = true;
 
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
-<BaseLayout
+<BaseLayout legacy noindex
   title="Thank You! | OHWP Studios"
   description="Thank you for completing our project discovery quiz. We'll be in touch shortly with your personalized recommendations."
 >
-  <Header />
 
-  <main class="thank-you-page">
+
+  <main id="main" class="thank-you-page">
     <section class="thank-you-section">
       <div class="container">
         <div class="thank-you-card glass">
@@ -62,29 +62,12 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
             </div>
           </div>
 
-          <div class="social-proof">
-            <p>Join 100+ businesses who trust OHWP Studios</p>
-            <div class="trust-badges">
-              <div class="trust-badge">
-                <span class="badge-icon star adinkra-primary">★</span>
-                <span>5.0 Rating</span>
-              </div>
-              <div class="trust-badge">
-                <span class="badge-icon adinkra-primary"><AdinkraIcon symbol="dwennimmen" size={22} /></span>
-                <span>50+ Projects</span>
-              </div>
-              <div class="trust-badge">
-                <span class="badge-icon adinkra-primary"><AdinkraIcon symbol="sankofa" size={22} /></span>
-                <span>10+ Years</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <Footer />
+
 </BaseLayout>
 
 <style>

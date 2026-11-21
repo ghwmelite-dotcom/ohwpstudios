@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
-<BaseLayout title="Book a Consultation" description="Schedule a free consultation call with our team">
-  <Header />
-  <main class="booking-page">
+<BaseLayout legacy title="Book a Consultation" description="Schedule a free consultation call with our team">
+
+  <main id="main" class="booking-page">
     <div class="container">
       <div class="booking-header" data-animate>
         <h1>Book Your Free Consultation</h1>
@@ -92,7 +92,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
                   id="booking-name"
                   name="name"
                   required
-                  placeholder="John Doe"
+                  autocomplete="name"
                 />
               </div>
 
@@ -103,7 +103,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
                   id="booking-email"
                   name="email"
                   required
-                  placeholder="john@example.com"
+                  autocomplete="email"
                 />
               </div>
 
@@ -113,7 +113,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
                   type="tel"
                   id="booking-phone"
                   name="phone"
-                  placeholder="+1 (555) 123-4567"
+                  autocomplete="tel"
                 />
               </div>
 
@@ -174,7 +174,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
       </div>
     </div>
   </main>
-  <Footer />
+
 </BaseLayout>
 
 <style>

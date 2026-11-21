@@ -116,7 +116,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           const numbersHtml =
             Number.isFinite(costMin) && Number.isFinite(costMax)
               ? `<ul>
-                   <li><strong>Estimated cost:</strong> GH₵${Math.round(Number(costMin) * 12).toLocaleString()} – GH₵${Math.round(Number(costMax) * 12).toLocaleString()} ($${Number(costMin).toLocaleString()} – $${Number(costMax).toLocaleString()})</li>
+                   <li><strong>Estimated cost:</strong> $${Number(costMin).toLocaleString()} – $${Number(costMax).toLocaleString()} USD. A GHS quote is agreed separately after scope review.</li>
                    ${Number.isFinite(timelineWeeks) && timelineWeeks > 0 ? `<li><strong>Timeline:</strong> ~${timelineWeeks} weeks</li>` : ''}
                    ${Number.isFinite(teamSize) && teamSize > 0 ? `<li><strong>Team:</strong> ${teamSize} people</li>` : ''}
                  </ul>`
@@ -144,7 +144,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return new Response(JSON.stringify({
       success: true,
       id: insertedId,
-      share_token: shareToken,
+      share_token: insertedId ? shareToken : undefined,
       ...aiAnalysis
     }), {
       status: 200,

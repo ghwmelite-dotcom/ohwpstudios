@@ -1,16 +1,16 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 
 const title = 'Unsubscribe from Newsletter';
 const description = 'Manage your newsletter subscription preferences';
 ---
 
-<BaseLayout title={title} description={description}>
-  <Header />
+<BaseLayout legacy noindex title={title} description={description}>
 
-  <main class="unsubscribe-page">
+
+  <main id="main" class="unsubscribe-page">
     <div class="container">
       <div class="unsubscribe-card">
         <div class="unsubscribe-icon">
@@ -76,7 +76,7 @@ const description = 'Manage your newsletter subscription preferences';
     </div>
   </main>
 
-  <Footer />
+
 </BaseLayout>
 
 <style>

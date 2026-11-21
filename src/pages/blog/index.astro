@@ -2,9 +2,9 @@
 // Mark as server-rendered (not prerendered)
 export const prerender = false;
 
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 
 // Fetch blog posts directly from database
 let posts = [];
@@ -75,13 +75,13 @@ function getPostCategory(post) {
 const featuredPost = posts.length > 0 ? posts[0] : null;
 ---
 
-<BaseLayout
+<BaseLayout legacy
   title="Blog | OHWP Studios - Insights on Web & Mobile Development"
   description="Guides on web development, mobile apps, software engineering, and tech trends — expert insights from OhWP Studios for developers and businesses."
 >
-  <Header />
 
-  <main class="blog-page">
+
+  <main id="main" class="blog-page">
     <!-- Hero Section with Search -->
     <section class="blog-hero">
       <div class="container">
@@ -247,7 +247,7 @@ const featuredPost = posts.length > 0 ? posts[0] : null;
     </section>
   </main>
 
-  <Footer />
+
 </BaseLayout>
 
 <style>

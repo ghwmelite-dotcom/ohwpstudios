@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 
 const HUB = 'https://open-build.ohwpstudios.org';
 const REPO = 'https://github.com/ghwmelite-dotcom/open-build';
@@ -30,9 +30,9 @@ const builds = [
 ];
 ---
 
-<BaseLayout title="Open Build | Real problems, built live — OhWP Studios" description="Open Build by OhWP Studios: the community names a real Ghanaian problem, we build it live with Claude Code, then you vote on what's built next.">
-  <Header />
-  <main class="ob">
+<BaseLayout legacy title="Open Build | Real problems, built live — OhWP Studios" description="Open Build by OhWP Studios: the community names a real Ghanaian problem, we build it live with Claude Code, then you vote on what's built next.">
+
+  <main id="main" class="ob">
     <!-- ===== Hero ===== -->
     <section class="ob-hero">
       <div class="ob-grid-bg" aria-hidden="true"></div>
@@ -147,7 +147,7 @@ const builds = [
       </div>
     </section>
   </main>
-  <Footer />
+
 </BaseLayout>
 
 <style>

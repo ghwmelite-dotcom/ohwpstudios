@@ -1,9 +1,9 @@
 ---
 export const prerender = false;
 
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 
 const { token } = Astro.params;
 
@@ -22,9 +22,9 @@ try {
 }
 ---
 
-<BaseLayout title="Share Your Experience" description="Leave a testimonial for OhWP Studios." noLoader={true}>
-  <Header />
-  <main class="testimonial-page">
+<BaseLayout legacy noindex title="Share Your Experience" description="Leave a testimonial for OhWP Studios." noLoader={true}>
+
+  <main id="main" class="testimonial-page">
     <div class="testimonial-wrap">
       {!invite ? (
         <div class="testimonial-card expired-card">
@@ -120,7 +120,7 @@ try {
       )}
     </div>
   </main>
-  <Footer />
+
 </BaseLayout>
 
 <style>

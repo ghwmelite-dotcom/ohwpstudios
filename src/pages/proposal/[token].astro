@@ -1,12 +1,12 @@
 ---
 export const prerender = false;
 
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 
 const { token } = Astro.params;
-const RATE = 12; // 1 USD ≈ 12 GH₵
+
 
 let row: any = null;
 try {
@@ -29,7 +29,6 @@ try { a = typeof row.ai_analysis === 'string' ? JSON.parse(row.ai_analysis) : (r
 
 const typeLabel: Record<string, string> = { web: 'Web', mobile: 'Mobile', both: 'Web & Mobile', other: 'Software' };
 const fmtUSD = (n: number) => `$${Number(n || 0).toLocaleString()}`;
-const fmtGHS = (n: number) => `GH₵${Math.round(Number(n || 0) * RATE).toLocaleString()}`;
 const costMin = a.estimated_cost_min || 0;
 const costMax = a.estimated_cost_max || 0;
 const riskClass = ['low', 'medium', 'high'].includes(a.risk_level) ? a.risk_level : 'medium';
@@ -37,9 +36,9 @@ const created = row.created_at ? new Date(row.created_at).toLocaleDateString('en
 const client = row.company || row.name || 'Your Project';
 ---
 
-<BaseLayout title={`Project Proposal — ${client} | OhWP Studios`} description="Your AI-scoped project proposal from OhWP Studios.">
-  <Header />
-  <main class="prop">
+<BaseLayout legacy noindex title={`Project Proposal — ${client} | OhWP Studios`} description="Your AI-scoped project proposal from OhWP Studios.">
+
+  <main id="main" class="prop">
     <div class="container prop-wrap">
       <!-- Header -->
       <header class="prop-head">
@@ -48,15 +47,15 @@ const client = row.company || row.name || 'Your Project';
           <span class="prop-type">{typeLabel[row.project_type] || 'Software'}</span>
         </div>
         <h1 class="prop-title">Scope &amp; estimate for <span class="prop-accent">{client}</span></h1>
-        <p class="prop-date">Prepared {created} · AI-scoped, refined on a discovery call</p>
+        <p class="prop-date">Prepared {created} · Automated planning scope, subject to review</p>
       </header>
 
       <!-- Headline numbers -->
       <section class="prop-stats">
         <div class="prop-stat prop-stat-hero">
           <span class="prop-stat-label">Estimated investment</span>
-          <span class="prop-stat-value">{fmtGHS(costMin)} – {fmtGHS(costMax)}</span>
-          <span class="prop-stat-sub">{fmtUSD(costMin)} – {fmtUSD(costMax)}</span>
+          <span class="prop-stat-value">{fmtUSD(costMin)} – {fmtUSD(costMax)} USD</span>
+          <span class="prop-stat-sub">A GHS quote is agreed separately after scope review.</span>
         </div>
         <div class="prop-stat">
           <span class="prop-stat-label">Timeline</span>
@@ -153,7 +152,7 @@ const client = row.company || row.name || 'Your Project';
       </p>
     </div>
   </main>
-  <Footer />
+
 </BaseLayout>
 
 <style>

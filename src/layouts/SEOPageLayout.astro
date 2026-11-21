@@ -1,7 +1,7 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from './InteriorLayout.astro';
+
+
 
 export interface Props {
   title: string;
@@ -11,7 +11,7 @@ export interface Props {
   heroTitle: string;
   heroSubtitle: string;
   canonicalUrl?: string;
-  schema?: any;
+  schema?: Record<string, unknown>;
 }
 
 const {
@@ -77,7 +77,7 @@ const breadcrumbSchema = {
 };
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout legacy title={title} description={description}>
   <Fragment slot="head">
     <meta name="keywords" content={keywords}>
     {/* BaseLayout already emits a canonical from the request URL; only override when an explicit one is passed */}
@@ -86,7 +86,7 @@ const breadcrumbSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
   </Fragment>
 
-  <Header />
+
 
   <!-- SEO Hero Section -->
   <section class="seo-hero">
@@ -104,7 +104,7 @@ const breadcrumbSchema = {
   </section>
 
   <!-- Main Content Slot -->
-  <main>
+  <main id="main">
     <slot />
   </main>
 
@@ -119,7 +119,7 @@ const breadcrumbSchema = {
     </div>
   </section>
 
-  <Footer />
+
 </BaseLayout>
 
 <style>

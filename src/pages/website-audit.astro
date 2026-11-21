@@ -1,12 +1,12 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 ---
 
-<BaseLayout title="Free Website Audit - OhWP Studios" description="Get a comprehensive analysis of your website's performance, SEO, accessibility, and security.">
-  <Header />
-  <main class="audit-page">
+<BaseLayout legacy title="Free Website Audit - OhWP Studios" description="Get a comprehensive analysis of your website's performance, SEO, accessibility, and security.">
+
+  <main id="main" class="audit-page">
     <!-- Hero Section -->
     <section class="audit-hero">
       <div class="container">
@@ -168,7 +168,7 @@ import Footer from '@/components/Footer.astro';
       </div>
     </section>
   </main>
-  <Footer />
+
 </BaseLayout>
 
 <style>

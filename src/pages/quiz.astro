@@ -1,19 +1,19 @@
 ---
 export const prerender = true;
 
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 import QuizIcon from '@/components/QuizIcon.astro';
 ---
 
-<BaseLayout
+<BaseLayout legacy
   title="Project Discovery Quiz | Find Your Perfect Solution - OHWP Studios"
   description="Take our interactive quiz to discover the best software solution for your business needs. Get personalized recommendations and a free consultation."
 >
-  <Header />
 
-  <main class="quiz-page">
+
+  <main id="main" class="quiz-page">
     <!-- Hero Section -->
     <section class="quiz-hero">
       <div class="container">
@@ -363,7 +363,7 @@ import QuizIcon from '@/components/QuizIcon.astro';
     </section>
   </main>
 
-  <Footer />
+
 </BaseLayout>
 
 <style>

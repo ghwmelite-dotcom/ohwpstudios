@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import BaseLayout from '@/layouts/InteriorLayout.astro';
+
+
 import AdinkraIcon from '@/components/AdinkraIcon.astro';
 ---
 
-<BaseLayout title="Free Website Analyzer | Get Instant Performance Insights" description="Analyze your website's performance, SEO, mobile-friendliness, and security for free. Get actionable insights in seconds.">
-  <Header />
-  <main>
+<BaseLayout legacy title="Free Website Analyzer | Get Instant Performance Insights" description="Analyze your website's performance, SEO, mobile-friendliness, and security for free. Get actionable insights in seconds.">
+
+  <main id="main">
     <section class="analyzer-hero">
       <div class="container">
         <div class="hero-content">
@@ -265,7 +265,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
       </div>
     </section>
   </main>
-  <Footer />
+
 </BaseLayout>
 
 <style>

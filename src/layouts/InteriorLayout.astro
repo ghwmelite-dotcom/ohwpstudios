@@ -1,0 +1,10 @@
+---
+import StudioLayout from './StudioLayout.astro';
+import '@/styles/interior.css';
+interface Props { title: string; description?: string; legacy?: boolean; noindex?: boolean; image?: string; article?: { publishedTime?: string; modifiedTime?: string; author?: string; section?: string; tags?: string[] } }
+const { title, description, legacy = false, noindex, image, article } = Astro.props;
+---
+<StudioLayout interior title={title} description={description} noindex={noindex} image={image} article={article}>
+  <slot name="head" slot="head" />
+  <div class:list={['studio-interior', { 'legacy-interior': legacy }]}><slot /></div>
+</StudioLayout>
