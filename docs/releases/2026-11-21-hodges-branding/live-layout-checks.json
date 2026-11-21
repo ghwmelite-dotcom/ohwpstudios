@@ -1,0 +1,122 @@
+[
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/",
+    "width": 390
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/about/",
+    "width": 390
+  },
+  {
+    "chat": true,
+    "contactForm": true,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/contact/",
+    "width": 390
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": true,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/estimate-project/",
+    "width": 390
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/",
+    "width": 768
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/about/",
+    "width": 768
+  },
+  {
+    "chat": true,
+    "contactForm": true,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/contact/",
+    "width": 768
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": true,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/estimate-project/",
+    "width": 768
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/",
+    "width": 1440
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/about/",
+    "width": 1440
+  },
+  {
+    "chat": true,
+    "contactForm": true,
+    "estimator": false,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/contact/",
+    "width": 1440
+  },
+  {
+    "chat": true,
+    "contactForm": false,
+    "estimator": true,
+    "footer": 1,
+    "logos": 2,
+    "overflow": false,
+    "path": "/estimate-project/",
+    "width": 1440
+  }
+]
