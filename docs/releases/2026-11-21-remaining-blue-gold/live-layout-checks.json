@@ -1,0 +1,128 @@
+[
+  {
+    "brand": 2,
+    "h1": "Ideas,made real.",
+    "overflow": false,
+    "path": "/portfolio",
+    "width": 390
+  },
+  {
+    "brand": 2,
+    "h1": "Custom Web Application Development",
+    "overflow": false,
+    "path": "/services/custom-web-application-development/",
+    "width": 390
+  },
+  {
+    "brand": 2,
+    "h1": "Services & Solutions",
+    "overflow": false,
+    "path": "/sitemap-pages/",
+    "width": 390
+  },
+  {
+    "brand": 1,
+    "h1": "Client Portal",
+    "overflow": false,
+    "path": "/client/login/",
+    "width": 390
+  },
+  {
+    "brand": 2,
+    "h1": "Good ideas deservesomeone who can build.",
+    "overflow": false,
+    "path": "/about/",
+    "width": 390
+  },
+  {
+    "brand": 2,
+    "h1": "A little clarity.A confident next step.",
+    "overflow": false,
+    "path": "/estimate-project/",
+    "width": 390
+  },
+  {
+    "brand": 2,
+    "h1": "Ideas,made real.",
+    "overflow": false,
+    "path": "/portfolio",
+    "width": 768
+  },
+  {
+    "brand": 2,
+    "h1": "Custom Web Application Development",
+    "overflow": false,
+    "path": "/services/custom-web-application-development/",
+    "width": 768
+  },
+  {
+    "brand": 2,
+    "h1": "Services & Solutions",
+    "overflow": false,
+    "path": "/sitemap-pages/",
+    "width": 768
+  },
+  {
+    "brand": 1,
+    "h1": "Client Portal",
+    "overflow": false,
+    "path": "/client/login/",
+    "width": 768
+  },
+  {
+    "brand": 2,
+    "h1": "Good ideas deservesomeone who can build.",
+    "overflow": false,
+    "path": "/about/",
+    "width": 768
+  },
+  {
+    "brand": 2,
+    "h1": "A little clarity.A confident next step.",
+    "overflow": false,
+    "path": "/estimate-project/",
+    "width": 768
+  },
+  {
+    "brand": 2,
+    "h1": "Ideas,made real.",
+    "overflow": false,
+    "path": "/portfolio",
+    "width": 1440
+  },
+  {
+    "brand": 2,
+    "h1": "Custom Web Application Development",
+    "overflow": false,
+    "path": "/services/custom-web-application-development/",
+    "width": 1440
+  },
+  {
+    "brand": 2,
+    "h1": "Services & Solutions",
+    "overflow": false,
+    "path": "/sitemap-pages/",
+    "width": 1440
+  },
+  {
+    "brand": 1,
+    "h1": "Client Portal",
+    "overflow": false,
+    "path": "/client/login/",
+    "width": 1440
+  },
+  {
+    "brand": 2,
+    "h1": "Good ideas deservesomeone who can build.",
+    "overflow": false,
+    "path": "/about/",
+    "width": 1440
+  },
+  {
+    "brand": 2,
+    "h1": "A little clarity.A confident next step.",
+    "overflow": false,
+    "path": "/estimate-project/",
+    "width": 1440
+  }
+]

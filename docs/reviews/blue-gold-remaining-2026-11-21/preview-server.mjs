@@ -22,4 +22,3 @@ createServer(async(req,res)=>{try{
  if(headers.location?.startsWith(upstream))headers.location=headers.location.replace(upstream,'http://127.0.0.1:8810');
  res.writeHead(response.status,headers);res.end(Buffer.from(await response.arrayBuffer()));
 }catch(error){res.writeHead(502);res.end('Local preview unavailable.');}}).listen(8810,'127.0.0.1',()=>console.log('Read-only design preview: http://127.0.0.1:8810'));
-
