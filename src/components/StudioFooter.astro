@@ -1,5 +1,6 @@
 ---
-import AdinkraIcon from './AdinkraIcon.astro';
+import BrandLogo from './BrandLogo.astro';
+import BrandMark from './BrandMark.astro';
 import NewsletterSubscribe from './NewsletterSubscribe.astro';
 import { SITE_CONFIG } from '@/config';
 const groups = [
@@ -11,7 +12,7 @@ const groups = [
 const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFIG.social.linkedin],['Instagram',SITE_CONFIG.social.instagram],['GitHub',SITE_CONFIG.social.github]];
 ---
 <footer class="signature-footer" aria-label="Studio footer">
-  <div class="footer-engraving" aria-hidden="true"><AdinkraIcon symbol="nkyinkyim" size={280}/></div>
+  <div class="footer-engraving" aria-hidden="true"><BrandMark size={280}/></div>
   <div class="wrap">
     <div class="signature-invitation">
       <div><p class="footer-kicker">A good idea deserves a great beginning.</p><h2>Let’s build<br />what’s next.</h2></div>
@@ -19,8 +20,8 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
     </div>
     <div class="signature-newsletter"><NewsletterSubscribe variant="signature" title="Notes from the studio." description="New builds, practical insights, and the thinking behind the work." /></div>
     <nav class="signature-directory" aria-label="Footer navigation">{groups.map(group=><div><h3>{group.title}</h3>{group.links.map(([label,href])=><a href={href}>{label}</a>)}</div>)}</nav>
-    <div class="signature-colophon"><a class="signature-wordmark" href="/" aria-label="OhWP Studios home"><AdinkraIcon symbol="nkyinkyim" size={30}/><strong>OhWP</strong><span>Studios</span></a><p>Thoughtfully made in Accra.<br />Built to work everywhere.</p><div class="signature-socials" aria-label="Social links">{socials.map(([label,href])=><a href={href} target="_blank" rel="noopener noreferrer">{label}<span aria-hidden="true">↗</span></a>)}</div></div>
-    <div class="signature-legal"><span>© {new Date().getUTCFullYear()} OhWP Studios. A Hodges &amp; Co. studio.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div></div>
+    <div class="signature-colophon"><a class="signature-wordmark" href="/" aria-label="Hodges &amp; Co. Studios home"><BrandLogo /></a><p>Thoughtfully made in Accra.<br />Built to work everywhere.</p><div class="signature-socials" aria-label="Social links">{socials.map(([label,href])=><a href={href} target="_blank" rel="noopener noreferrer">{label}<span aria-hidden="true">↗</span></a>)}</div></div>
+    <div class="signature-legal"><span>© {new Date().getUTCFullYear()} {SITE_CONFIG.name}. A studio of Hodges &amp; Co. Limited.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div></div>
   </div>
 </footer>
 <style>

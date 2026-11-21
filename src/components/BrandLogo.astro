@@ -1,0 +1,13 @@
+---
+import BrandMark from './BrandMark.astro';
+interface Props { compact?:boolean; size?:'sm'|'md'|'lg' }
+const {compact=false,size='md'}=Astro.props;
+---
+<span class:list={['brand-lockup',`brand-lockup-${size}`,{'brand-lockup-compact':compact}]} aria-label="Hodges & Co. Studios"><BrandMark size={48}/>{!compact && <span class="brand-type"><span class="brand-name">Hodges <span class="brand-ampersand">&amp;</span> Co.</span><span class="brand-descriptor">Studios</span></span>}</span>
+<style>
+  .brand-lockup{--brand-metal:#e7c997;display:inline-flex;align-items:center;gap:12px;white-space:nowrap;color:inherit;line-height:1;vertical-align:middle}
+  .brand-lockup :global(.studio-brand-mark){width:46px;height:46px;color:var(--brand-metal);flex-shrink:0}
+  .brand-type{display:flex;flex-direction:column;gap:7px}.brand-name{font-family:var(--font-display,'Georgia',serif);font-size:27px;font-weight:500;letter-spacing:-.055em}.brand-ampersand{font-style:italic;font-weight:400}.brand-descriptor{font-family:var(--font-body,system-ui,sans-serif);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.38em;padding-left:2px}
+  .brand-lockup-sm .brand-name{font-size:22px}.brand-lockup-sm :global(.studio-brand-mark){width:36px;height:36px}.brand-lockup-lg .brand-name{font-size:34px}.brand-lockup-lg :global(.studio-brand-mark){width:58px;height:58px}
+  @media(max-width:640px){.brand-lockup{gap:8px}.brand-lockup :global(.studio-brand-mark){width:30px;height:30px}.brand-name{font-size:20px}.brand-type{gap:5px}.brand-descriptor{font-size:8px;letter-spacing:.3em}.brand-lockup-lg .brand-name{font-size:29px}.brand-lockup-lg :global(.studio-brand-mark){width:46px;height:46px}}
+</style>

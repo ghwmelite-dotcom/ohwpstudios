@@ -1,0 +1,9 @@
+---
+interface Props { size?:number; class?:string }
+const {size=48,class:className=''}=Astro.props;
+---
+<svg class:list={['studio-brand-mark',className]} width={size} height={size} viewBox="0 0 72 72" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16 16v40M34 16v40M16 36h25" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"/>
+  <path d="M60 21c-3-4-7-6-12-6-12 0-21 9-21 21s9 21 21 21c5 0 9-2 12-6" stroke="currentColor" stroke-width="3.5" stroke-linecap="square"/>
+  <path d="m60 32 4 4-4 4-4-4 4-4Z" fill="currentColor"/>
+</svg>

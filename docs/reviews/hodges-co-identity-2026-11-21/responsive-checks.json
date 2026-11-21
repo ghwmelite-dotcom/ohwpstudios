@@ -1,0 +1,182 @@
+[
+  {
+    "width": 360,
+    "route": "/",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 360,
+    "route": "/about",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 360,
+    "route": "/contact",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 360,
+    "route": "/estimate-project",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "/",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "/about",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "/contact",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "route": "/estimate-project",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "route": "/",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "route": "/about",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "route": "/contact",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 768,
+    "route": "/estimate-project",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1024,
+    "route": "/",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1024,
+    "route": "/about",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1024,
+    "route": "/contact",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1024,
+    "route": "/estimate-project",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "/",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "/about",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "/contact",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "route": "/estimate-project",
+    "brand": 2,
+    "estimator": "/estimate-project",
+    "footer": 1,
+    "newsletter": 1,
+    "overflow": false
+  }
+]

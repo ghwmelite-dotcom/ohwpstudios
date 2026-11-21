@@ -6,7 +6,9 @@
 const base = (process.argv[2] || 'https://ohwpstudios.org').replace(/\/$/, '');
 
 const checks = [
-  { path: '/', mustContain: 'OhWP' },
+  { path: '/', mustContain: 'Hodges &amp; Co.' },
+  { path: '/about', mustContain: 'Hodges &amp; Co.' },
+  { path: '/contact', mustContain: 'contact-form' },
   { path: '/estimate-project', mustContain: 'estimate' },
   { path: '/api/page-init', contentType: 'application/json' }, // exercises a Pages Function + D1
   // Guards against the functions/-directory regression class: route must exist and validate.

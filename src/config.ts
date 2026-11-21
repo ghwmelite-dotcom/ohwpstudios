@@ -1,9 +1,9 @@
 export const SITE_CONFIG = {
-  name: "OhWP Studios",
+  name: "Hodges & Co. Studios",
   tagline: "Crafting Digital Excellence",
   description: "We create stunning, high-performance websites and digital experiences that drive results for forward-thinking businesses.",
   url: "https://ohwpstudios.org",
-  author: "OhWP Studios",
+  author: "Hodges & Co. Studios",
   email: "ohwpstudios@gmail.com",
   phone: "", // Publish a business number only after verification.
   social: {

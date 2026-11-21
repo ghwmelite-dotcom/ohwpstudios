@@ -22,7 +22,7 @@ export async function downloadEstimatePDF(data:EstimatePDF,client:string):Promis
     y+=8;
   }
   const money=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
-  paragraph('OhWP Studios | Project scope',22);paragraph(client);paragraph(`Prepared ${new Date().toLocaleDateString('en-GB')}`);
+  paragraph('Hodges & Co. Studios | Project scope',22);paragraph(client);paragraph(`Prepared ${new Date().toLocaleDateString('en-GB')}`);
   paragraph('Initial planning estimate. Subject to scope review and an agreed proposal.');
   paragraph(`Investment: ${money.format(data.estimated_cost_min)} - ${money.format(data.estimated_cost_max)} USD`,15);
   paragraph(`Timeline: ${data.estimated_timeline_weeks} weeks`);
@@ -32,5 +32,5 @@ export async function downloadEstimatePDF(data:EstimatePDF,client:string):Promis
   paragraph('Potential technology',16);paragraph((data.technology_stack||[]).join(', '));
   if(data.next_steps?.length){paragraph('Next steps',16);data.next_steps.forEach((step,index)=>paragraph(`${index+1}. ${step}`));}
   paragraph('ohwpstudios.org | ohwpstudios@gmail.com');
-  doc.save(`OhWP_Project_Scope_${new Date().toISOString().slice(0,10)}.pdf`);
+  doc.save(`Hodges_Co_Project_Scope_${new Date().toISOString().slice(0,10)}.pdf`);
 }

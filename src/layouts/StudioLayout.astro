@@ -3,15 +3,18 @@ import '@fontsource-variable/fraunces/wght.css';
 import '@/styles/studio.css';
 import '@/styles/premium.css';
 import '@/styles/studio-features.css';
+import '@/styles/atelier-brand.css';
 import StudioNavigation from '@/components/StudioNavigation.astro';
 import StudioFooter from '@/components/StudioFooter.astro';
 import Chatbot from '@/components/Chatbot.astro';
 import SiteAnalytics from '@/components/SiteAnalytics.astro';
 import ConsentBanner from '@/components/ConsentBanner.astro';
-import AdinkraIcon from '@/components/AdinkraIcon.astro';
+import BrandLogo from '@/components/BrandLogo.astro';
 import { SITE_CONFIG } from '@/config';
 interface Props { title?: string; description?: string; home?: boolean; interior?: boolean; noindex?: boolean; image?: string; article?: { publishedTime?: string; modifiedTime?: string; author?: string; section?: string; tags?: string[] } }
 const { title = 'OhWP Studios — From idea to working software', description = 'Custom software, AI automation, trading systems, and hands-on guidance with Codex and Claude Code. Built for you, or built together. Accra, Ghana.', home = false, interior = false, noindex = false, image = '/og-image.jpg', article } = Astro.props;
+const displayTitle = title.replace(/ohwp studios/gi, SITE_CONFIG.name);
+const displayDescription = description.replace(/ohwp studios/gi, SITE_CONFIG.name);
 const isPreview = import.meta.env.DEV || Astro.url.hostname !== 'ohwpstudios.org';
 const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
 ---
@@ -19,13 +22,13 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
 <html lang="en">
   <head>
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title><meta name="description" content={description} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#1B5E3A" />
+    <title>{displayTitle}</title><meta name="description" content={displayDescription} />
+    <link rel="icon" href="/brand/hodges-co-studios-mark.svg" type="image/svg+xml" /><link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#090d21" />
     <link rel="manifest" href="/manifest.json" />
     <script is:inline>try { document.documentElement.dataset.theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; } catch {}</script>
     {(isPreview || noindex) && <meta name="robots" content="noindex, nofollow" />}
-    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    <meta property="og:title" content={displayTitle} /><meta property="og:description" content={displayDescription} />
     <meta property="og:type" content={article ? 'article' : 'website'} /><meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(image, SITE_CONFIG.url).href} />
     {article?.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
@@ -39,7 +42,7 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
   <body id="top" class:list={{ 'premium-home': home, 'premium-interior': interior }}>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="header-shell"><header class="studio-header wrap">
-      <a class="wordmark" href="/" aria-label="OhWP Studios home"><AdinkraIcon symbol="nkyinkyim" size={32} />OhWP<span>Studios</span></a>
+      <a class="brand-home" href="/" aria-label="Hodges &amp; Co. Studios home"><BrandLogo /></a>
       <StudioNavigation />
       <a class="button button-small" href="/estimate-project">Scope my project <span aria-hidden="true">↗</span></a>
     </header></div>
