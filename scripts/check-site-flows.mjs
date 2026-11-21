@@ -1,9 +1,13 @@
 /** Real HTTP/D1 checks. Refuses public hosts: writes synthetic local data only. */
 import assert from 'node:assert/strict';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 const base = process.argv[2] || 'http://localhost:8831';
 if (!['localhost', '127.0.0.1'].includes(new URL(base).hostname)) throw new Error('Local sandbox only');
 const output = process.argv[3] || '.wrangler/e2e-results.json';
+const credentialFile = process.env.E2E_CREDENTIALS_FILE || process.argv[4];
+if (!credentialFile) throw new Error('Provide the isolated sandbox credentials file as argument 4 or E2E_CREDENTIALS_FILE');
+const credentials = JSON.parse(readFileSync(credentialFile, 'utf8'));
+if (typeof credentials.adminPassword !== 'string' || typeof credentials.clientPassword !== 'string' || credentials.adminPassword.length < 32 || credentials.clientPassword.length < 32) throw new Error('Regenerate sandbox credentials with prepare-e2e.ts');
 const results = [];
 async function check(name, fn) {
   try { await fn(); results.push({ name, passed: true }); console.log(`PASS ${name}`); }
@@ -24,7 +28,7 @@ await check('Anonymous admin, client and chat operator APIs reject access', asyn
 await check('Admin invalid login and real PBKDF2 login with HttpOnly secure cookie', async () => {
   const bad = await api('/api/admin/login', { body: { username: 'e2e-admin', password: 'wrong' } });
   assert.equal(bad.status, 401);
-  const response = await api('/api/admin/login', { body: { username: 'e2e-admin', password: 'Local-E2E-Only-2026!' } });
+  const response = await api('/api/admin/login', { body: { username: 'e2e-admin', password: credentials.adminPassword } });
   assert.equal(response.status, 200);
   const header = response.headers.get('set-cookie');
   assert.match(header, /HttpOnly/i); assert.match(header, /Secure/i); assert.match(header, /SameSite=Lax/i);
@@ -38,7 +42,7 @@ await check('Admin writes and operator replies require valid CSRF', async () => 
   assert.equal((await api('/api/admin/content', { cookie, csrf: 'wrong', body: {} })).status, 403);
 });
 await check('Client login and tenant-isolated projects and details', async () => {
-  const response = await api('/api/client/login', { body: { email: 'client@example.test', password: 'Local-E2E-Only-2026!' } });
+  const response = await api('/api/client/login', { body: { email: 'client@example.test', password: credentials.adminPassword } });
   assert.equal(response.status, 200); token = (await response.json()).token; assert.ok(token);
   const list = await (await api('/api/client/projects', { token })).json();
   assert.equal(list.projects.length, 1); assert.equal(list.projects[0].id, 1);

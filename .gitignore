@@ -41,6 +41,8 @@ Thumbs.db
 # Wrangler
 .wrangler/
 .dev.vars
+**/settings.local.json
+**/credentials.json
 
 # Backups
 *.backup

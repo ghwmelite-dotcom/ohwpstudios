@@ -2,6 +2,7 @@
 import { Database } from 'bun:sqlite';
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, cpSync } from 'node:fs';
 import { join } from 'node:path';
+import { randomUUID } from 'node:crypto';
 import { hashPassword } from '../src/lib/admin-auth';
 
 const root = process.cwd();
@@ -23,8 +24,10 @@ for (const name of ['schema.sql', ...readdirSync('migrations').sort().map(n => `
     catch (error) { skipped.push(`${name}: ${String(error)}`); }
   }
 }
-const adminHash = await hashPassword('Local-E2E-Only-2026!');
-const clientHash = new Bun.CryptoHasher('sha256').update('Local-E2E-Only-2026!').digest('hex');
+const credentials = { adminPassword: randomUUID() + randomUUID(), clientPassword: randomUUID() + randomUUID() };
+writeFileSync(join(target, 'credentials.json'), JSON.stringify(credentials), { mode: 0o600 });
+const adminHash = await hashPassword(credentials.adminPassword);
+const clientHash = new Bun.CryptoHasher('sha256').update(credentials.clientPassword).digest('hex');
 const seed = `
 INSERT INTO admin_users(username,password_hash,email,created_at) VALUES ('e2e-admin','${adminHash}','admin@example.test',datetime('now'));
 INSERT INTO client_users(email,password_hash,company_name,contact_name) VALUES

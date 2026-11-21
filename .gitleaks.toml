@@ -1,0 +1,28 @@
+title = "Hodges Studios secret scanning"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Public Cloudflare Web Analytics identifiers in historical setup guides"
+condition = "AND"
+paths = ['''docs/superpowers/plans/2026-06-(13-kodie-chatbot-hardening|14-quiz-wiring)\.md$''']
+regexTarget = "secret"
+regexes = ['''^[a-fA-F0-9]{32}$''']
+
+[[rules.allowlists]]
+description = "Legacy password digest in a migration, not a plaintext password"
+condition = "AND"
+paths = ['''migrations/005_hash_default_password\.sql$''']
+regexTarget = "secret"
+regexes = ['''^[a-fA-F0-9]{64}$''']
+
+[[rules]]
+id = "literal-password-in-code"
+description = "Reusable literal password in application or test code"
+regex = '''(?i)(?:password\s*:\s*|hashPassword\()\s*['"]([^'"\r\n]{12,})['"]'''
+secretGroup = 1
+keywords = ["password", "hashPassword"]

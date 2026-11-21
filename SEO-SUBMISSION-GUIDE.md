@@ -143,16 +143,16 @@ Before submitting to search engines, ensure:
 
 1. **Generate API Key**
    - Create a random string (32+ characters)
-   - Example: `a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6`
+   - Example: `YOUR_INDEXNOW_KEY`
 
 2. **Create Key File**
-   - Save the key as a text file: `a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6.txt`
+   - Save the key as a text file: `YOUR_INDEXNOW_KEY.txt`
    - File contents: Just the key itself
    - Upload to `/public/` directory
 
 3. **Submit URL to IndexNow**
    ```bash
-   curl "https://api.indexnow.org/indexnow?url=https://ohwpstudios.org/&key=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
+   curl "https://api.indexnow.org/indexnow?url=https://ohwpstudios.org/&key=YOUR_INDEXNOW_KEY"
    ```
 
 4. **Automate (Optional)**
