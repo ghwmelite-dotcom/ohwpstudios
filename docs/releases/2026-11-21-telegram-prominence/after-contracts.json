@@ -1,0 +1,76 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "forms": [
+      "93e2affa39b46a21108a416e06c63f501f824da6bd7a51c1c1367c111f944a05",
+      "1101902bfe3d99992085d0e8800090ae2b0f81a37b4f1a882e1f82f19fd90835",
+      "e25f550bf9b711ce1c556504ff1737dbc340e304da319f1ee6097245fa305780",
+      "5fb13856789035b2d7cba2539b058de79e2b802bf40710b9a15d1395032541f3"
+    ],
+    "telegram": 5,
+    "headers": {
+      "content-security-policy": null,
+      "x-content-type-options": null,
+      "referrer-policy": null,
+      "permissions-policy": null,
+      "strict-transport-security": null,
+      "x-frame-options": null
+    }
+  },
+  {
+    "path": "/contact",
+    "status": 200,
+    "forms": [
+      "6b3a4a1b4598e1b407ddbd3736ed7d0342604e47370511884ecafdadc4237659",
+      "1101902bfe3d99992085d0e8800090ae2b0f81a37b4f1a882e1f82f19fd90835",
+      "e25f550bf9b711ce1c556504ff1737dbc340e304da319f1ee6097245fa305780",
+      "5fb13856789035b2d7cba2539b058de79e2b802bf40710b9a15d1395032541f3"
+    ],
+    "telegram": 4,
+    "headers": {
+      "content-security-policy": null,
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "permissions-policy": null,
+      "strict-transport-security": null,
+      "x-frame-options": null
+    }
+  },
+  {
+    "path": "/services/custom-web-application-development",
+    "status": 200,
+    "forms": [
+      "1101902bfe3d99992085d0e8800090ae2b0f81a37b4f1a882e1f82f19fd90835",
+      "e25f550bf9b711ce1c556504ff1737dbc340e304da319f1ee6097245fa305780",
+      "5fb13856789035b2d7cba2539b058de79e2b802bf40710b9a15d1395032541f3"
+    ],
+    "telegram": 5,
+    "headers": {
+      "content-security-policy": null,
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "permissions-policy": null,
+      "strict-transport-security": null,
+      "x-frame-options": null
+    }
+  },
+  {
+    "path": "/sitemap-pages",
+    "status": 200,
+    "forms": [
+      "1101902bfe3d99992085d0e8800090ae2b0f81a37b4f1a882e1f82f19fd90835",
+      "e25f550bf9b711ce1c556504ff1737dbc340e304da319f1ee6097245fa305780",
+      "5fb13856789035b2d7cba2539b058de79e2b802bf40710b9a15d1395032541f3"
+    ],
+    "telegram": 5,
+    "headers": {
+      "content-security-policy": null,
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "permissions-policy": null,
+      "strict-transport-security": null,
+      "x-frame-options": null
+    }
+  }
+]
