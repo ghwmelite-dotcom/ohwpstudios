@@ -1,10 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#E3A92B;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#F5C969;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <rect width="96" height="96" rx="14.399999999999999" fill="url(#grad)"/>
-  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="33.599999999999994" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="central">WP</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none"><title>Hodges &amp; Co. Studios</title><rect width="72" height="72" rx="16" fill="#090d21"/><g stroke="#e7c997" stroke-width="3.5" stroke-linecap="square"><path d="M16 16v40M34 16v40M16 36h25"/><path d="M60 21c-3-4-7-6-12-6-12 0-21 9-21 21s9 21 21 21c5 0 9-2 12-6"/></g><path d="m60 32 4 4-4 4-4-4 4-4Z" fill="#e7c997"/></svg>

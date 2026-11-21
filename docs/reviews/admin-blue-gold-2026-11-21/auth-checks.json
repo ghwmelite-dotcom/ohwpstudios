@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Anonymous admin API",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "name": "Local synthetic session",
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "name": "Missing CSRF rejected before handler",
+    "status": 403,
+    "expected": 403
+  }
+]

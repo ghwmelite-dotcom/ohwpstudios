@@ -1,0 +1,107 @@
+[
+  {
+    "file": "src/pages/admin/applications.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/bookings.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/chat.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/clients.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/code-quality.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/contacts.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/contracts.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/dashboard.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/estimates.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/login.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/newsletter.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/pm-chats.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/portfolio.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/push-notifications.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/quiz-leads.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/reset-password.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/testimonials.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/theme.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/contacts/[id].astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/project/[id].astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  },
+  {
+    "file": "src/pages/admin/reset-password/confirm.astro",
+    "missing_ids": [],
+    "scripts_unchanged": true
+  }
+]

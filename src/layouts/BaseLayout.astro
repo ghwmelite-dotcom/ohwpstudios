@@ -6,6 +6,8 @@ import '@/styles/design-system.css';
 import '@/styles/motifs.css';
 import '@/styles/dark-mode-fixes.css';
 import '@/styles/client-atelier.css';
+import '@/styles/admin-atelier.css';
+import AdminBrandbar from '@/components/AdminBrandbar.astro';
 import BrandLogo from '@/components/BrandLogo.astro';
 import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
@@ -54,6 +56,7 @@ const imageUrl = new URL(image, Astro.url).href;
 // Determine if this is a utility/noindex page
 const currentPath = Astro.url.pathname;
 const isClientPortal = currentPath.startsWith('/client/');
+const isAdmin = currentPath.startsWith('/admin/');
 const isBrandedWorkspace = isClientPortal || currentPath.startsWith('/contract');
 const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
   currentPath.includes('/newsletter/verify') ||
@@ -83,7 +86,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="icon" type="image/svg+xml" href={isClientPortal ? '/brand/hodges-co-studios-mark.svg' : '/favicon.svg'} id="favicon-link" />
+    <link rel="icon" type="image/svg+xml" href={(isClientPortal || isAdmin) ? '/brand/hodges-co-studios-mark.svg' : '/favicon.svg'} id="favicon-link" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->
@@ -242,6 +245,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
     <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png" />
     <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128x128.png" />
@@ -252,7 +256,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
 
     <!-- Apple Web App -->
-    <meta name="apple-mobile-web-app-title" content="OhWP Studios" />
+    <meta name="apple-mobile-web-app-title" content={SITE_CONFIG.name} />
 
     <!-- Microsoft Tiles -->
     <meta name="msapplication-config" content="/browserconfig.xml" />
@@ -421,9 +425,10 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
       loadPageData();
     </script>
   </head>
-  <body class:list={{'client-atelier':isBrandedWorkspace}}>
+  <body class:list={{'client-atelier':isBrandedWorkspace,'admin-atelier':isAdmin}}>
+    {isAdmin && <AdminBrandbar/>}
     {isBrandedWorkspace && <header class="portal-brandbar"><a href="/" aria-label="Hodges & Co. Studios home"><BrandLogo /></a><span>{isClientPortal ? 'Client workspace' : 'Project agreements'}</span><a class="portal-support" href="/contact">Contact the studio</a></header>}
-    {!noLoader && <LoadingScreen studio={isBrandedWorkspace}/>}
+    {!noLoader && <LoadingScreen studio={isBrandedWorkspace || isAdmin}/>}
     <slot />
     <Chatbot />
     <PWAInstallPrompt />

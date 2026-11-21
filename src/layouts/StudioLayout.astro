@@ -26,6 +26,7 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
     <link rel="icon" href="/brand/hodges-co-studios-mark.svg" type="image/svg+xml" /><link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#090d21" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
     <script is:inline>try { document.documentElement.dataset.theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; } catch {}</script>
     {(isPreview || noindex) && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={displayTitle} /><meta property="og:description" content={displayDescription} />

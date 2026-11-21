@@ -1,11 +1,14 @@
 ---
+import "@fontsource-variable/fraunces/wght.css";
+import "@/styles/admin-atelier.css";
+import AdminBrandbar from "@/components/AdminBrandbar.astro";
 export const prerender = false;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="/brand/hodges-co-studios-mark.svg" type="image/svg+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PM Chat Monitoring - Admin Portal</title>
   <style>
@@ -466,7 +469,7 @@ export const prerender = false;
     }
   </style>
 </head>
-<body>
+<body class="admin-atelier"><AdminBrandbar/>
   <div class="admin-container">
     <!-- Sidebar -->
     <aside class="sidebar">

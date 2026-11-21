@@ -1,0 +1,42 @@
+[
+  {
+    "active": "section-services",
+    "forms": 5,
+    "heading": "Services"
+  },
+  {
+    "active": "section-portfolio",
+    "forms": 7,
+    "heading": "Portfolio"
+  },
+  {
+    "active": "section-blog",
+    "forms": 11,
+    "heading": "Blog Posts"
+  },
+  {
+    "active": "section-about",
+    "forms": 16,
+    "heading": "About Page"
+  },
+  {
+    "active": "section-site-settings",
+    "forms": 6,
+    "heading": "Site Settings"
+  },
+  {
+    "active": "section-footer",
+    "forms": 5,
+    "heading": "Footer & Social"
+  },
+  {
+    "active": "section-account",
+    "forms": 3,
+    "heading": "Account Settings"
+  },
+  {
+    "active": "section-hero",
+    "forms": 8,
+    "heading": "Hero Section"
+  }
+]

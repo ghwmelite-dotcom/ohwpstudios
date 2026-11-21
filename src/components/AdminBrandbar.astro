@@ -1,0 +1,17 @@
+---
+import BrandLogo from './BrandLogo.astro';
+const path=Astro.url.pathname.replace(/\/$/,'');
+const auth=path==='/admin/login'||path.startsWith('/admin/reset-password');
+const links=[['Content dashboard','/admin/dashboard'],['Clients & projects','/admin/clients'],['Contacts','/admin/contacts'],['Bookings','/admin/bookings'],['Project estimates','/admin/estimates'],['Portfolio','/admin/portfolio'],['Contracts','/admin/contracts'],['Live conversations','/admin/chat'],['Project conversations','/admin/pm-chats'],['Code quality','/admin/code-quality'],['Applications','/admin/applications'],['Quiz leads','/admin/quiz-leads'],['Testimonials','/admin/testimonials'],['Newsletter','/admin/newsletter'],['Push notifications','/admin/push-notifications'],['Theme settings','/admin/theme']];
+---
+<header class="admin-brandbar">
+  <a class="admin-brand-home" href="/" aria-label="Hodges & Co. Studios home"><BrandLogo size="sm"/></a>
+  <span class="admin-workspace-label">Studio office</span>
+  {!auth && <details class="admin-page-picker"><summary>Workspace pages <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><nav aria-label="Admin workspace pages">{links.map(([label,href])=><a href={href} aria-current={path===href?'page':undefined}>{label}</a>)}</nav></details>}
+  <a class="admin-view-site" href="/">View website <span aria-hidden="true">↗</span></a>
+</header>
+<script>
+  const picker=document.querySelector<HTMLDetailsElement>('.admin-page-picker');
+  document.addEventListener('click',event=>{if(picker && event.target instanceof Node && !picker.contains(event.target)) picker.open=false;});
+  picker?.addEventListener('keydown',event=>{if(event.key==='Escape'){picker.open=false;picker.querySelector('summary')?.focus();}});
+</script>

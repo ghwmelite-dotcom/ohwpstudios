@@ -1,0 +1,443 @@
+[
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/dashboard",
+    "title": "Admin Dashboard | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contacts",
+    "title": "Contact Submissions | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/bookings",
+    "title": "Bookings | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/quiz-leads",
+    "title": "Quiz Leads | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/testimonials",
+    "title": "Testimonials | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/newsletter",
+    "title": "Newsletter Subscribers | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/portfolio",
+    "title": "Portfolio Projects | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/clients",
+    "title": "Manage Clients - Admin Portal",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/estimates",
+    "title": "Project Estimates - Admin Portal",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/pm-chats",
+    "title": "PM Chat Monitoring - Admin Portal",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/applications",
+    "title": "Job Applications - Admin",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/code-quality",
+    "title": "Code Quality Metrics - Admin Portal",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/push-notifications",
+    "title": "Push Notifications | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contracts",
+    "title": "Contract Management | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/theme",
+    "title": "Theme Customization | Admin | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/chat",
+    "title": "Live Chat - Hodges & Co. Admin",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contacts/9001",
+    "title": "Contact Submission Details | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/project/9001",
+    "title": "Project Details - Admin Portal",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/login/",
+    "title": "Admin Login | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/reset-password/",
+    "title": "Reset Password | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/reset-password/confirm/",
+    "title": "Confirm Password Reset | Hodges & Co. Studios",
+    "width": 390
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/dashboard",
+    "title": "Admin Dashboard | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contacts",
+    "title": "Contact Submissions | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/bookings",
+    "title": "Bookings | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/quiz-leads",
+    "title": "Quiz Leads | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/testimonials",
+    "title": "Testimonials | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/newsletter",
+    "title": "Newsletter Subscribers | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/portfolio",
+    "title": "Portfolio Projects | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/clients",
+    "title": "Manage Clients - Admin Portal",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/estimates",
+    "title": "Project Estimates - Admin Portal",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/pm-chats",
+    "title": "PM Chat Monitoring - Admin Portal",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/applications",
+    "title": "Job Applications - Admin",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/code-quality",
+    "title": "Code Quality Metrics - Admin Portal",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/push-notifications",
+    "title": "Push Notifications | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contracts",
+    "title": "Contract Management | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/theme",
+    "title": "Theme Customization | Admin | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/chat",
+    "title": "Live Chat - Hodges & Co. Admin",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contacts/9001",
+    "title": "Contact Submission Details | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/project/9001",
+    "title": "Project Details - Admin Portal",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/login/",
+    "title": "Admin Login | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/reset-password/",
+    "title": "Reset Password | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/reset-password/confirm/",
+    "title": "Confirm Password Reset | Hodges & Co. Studios",
+    "width": 768
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/dashboard",
+    "title": "Admin Dashboard | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contacts",
+    "title": "Contact Submissions | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/bookings",
+    "title": "Bookings | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/quiz-leads",
+    "title": "Quiz Leads | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/testimonials",
+    "title": "Testimonials | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/newsletter",
+    "title": "Newsletter Subscribers | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/portfolio",
+    "title": "Portfolio Projects | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/clients",
+    "title": "Manage Clients - Admin Portal",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/estimates",
+    "title": "Project Estimates - Admin Portal",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/pm-chats",
+    "title": "PM Chat Monitoring - Admin Portal",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/applications",
+    "title": "Job Applications - Admin",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/code-quality",
+    "title": "Code Quality Metrics - Admin Portal",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/push-notifications",
+    "title": "Push Notifications | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contracts",
+    "title": "Contract Management | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/theme",
+    "title": "Theme Customization | Admin | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/chat",
+    "title": "Live Chat - Hodges & Co. Admin",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/contacts/9001",
+    "title": "Contact Submission Details | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/project/9001",
+    "title": "Project Details - Admin Portal",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/login/",
+    "title": "Admin Login | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/reset-password/",
+    "title": "Reset Password | Hodges & Co. Studios",
+    "width": 1440
+  },
+  {
+    "brand": true,
+    "overflow": false,
+    "path": "/admin/reset-password/confirm/",
+    "title": "Confirm Password Reset | Hodges & Co. Studios",
+    "width": 1440
+  }
+]
