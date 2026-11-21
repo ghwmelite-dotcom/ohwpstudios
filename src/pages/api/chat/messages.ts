@@ -92,7 +92,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const { conversation_id, message, sender_type, sender_id, sender_name } = data;
 
     // Validate required fields
-    if (!conversation_id || !message || !sender_type) {
+    if (!Number.isSafeInteger(Number(conversation_id)) || Number(conversation_id) <= 0 || typeof message !== 'string' || !message.trim() || message.length > 4000 || !['visitor', 'operator'].includes(sender_type)) {
       return new Response(JSON.stringify({
         success: false,
         error: 'Conversation ID, message, and sender type are required'

@@ -489,6 +489,7 @@ const { projectId } = Astro.props;
   const quickActionBtns = document.querySelectorAll('.quick-action-btn');
 
   let conversationId = null;
+  let loadingHistory = false;
 
   // Format time
   function formatTime(date) {
@@ -516,6 +517,10 @@ const { projectId } = Astro.props;
 
   // Load chat history
   async function loadChatHistory() {
+    if (loadingHistory) return;
+    loadingHistory = true;
+    sendBtn.disabled = true;
+    chatInput.disabled = true;
     try {
       const token = localStorage.getItem('client_token');
       if (!token) return;
@@ -536,6 +541,7 @@ const { projectId } = Astro.props;
         const typingInd = chatMessages.querySelector('.typing-indicator');
         chatMessages.innerHTML = '';
         chatMessages.appendChild(welcomeMsg);
+        chatMessages.appendChild(typingInd);
 
         // Add historical messages
         data.messages.forEach(msg => {
@@ -544,11 +550,14 @@ const { projectId } = Astro.props;
           }
         });
 
-        chatMessages.appendChild(typingInd);
         scrollToBottom();
       }
     } catch (error) {
       console.error('Error loading chat history:', error);
+    } finally {
+      loadingHistory = false;
+      sendBtn.disabled = false;
+      chatInput.disabled = false;
     }
   }
 
@@ -587,6 +596,7 @@ const { projectId } = Astro.props;
 
   // Send message
   async function sendMessage(message) {
+    if (loadingHistory || sendBtn.disabled) return;
     if (!message.trim()) return;
 
     // Add user message
@@ -665,4 +675,11 @@ const { projectId } = Astro.props;
       sendMessage(message);
     });
   });
+  // Dashboard examples open the correct private assistant with a draft question.
+  const draftQuestion = new URLSearchParams(window.location.search).get('pmQuestion');
+  if (draftQuestion) {
+    chatButton.click();
+    chatInput.value = draftQuestion.slice(0, 4000);
+    chatInput.focus();
+  }
 </script>

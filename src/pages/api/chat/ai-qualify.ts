@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { hasChatAccess } from '../../../lib/chat-access';
+export const prerender = false;
 import { checkRateLimit, getClientIdentifier, RATE_LIMITS } from '../../../utils/rate-limit';
 
 /**
@@ -23,7 +25,7 @@ interface QualificationResult {
   };
 }
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request, locals, cookies }) => {
   try {
     const db = locals.runtime?.env?.DB;
     const GEMINI_API_KEY = locals.runtime?.env?.GEMINI_API_KEY;
@@ -39,7 +41,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const data = await request.json();
     const { conversation_id, conversation_history, user_email, user_name } = data;
 
-    if (!conversation_history || conversation_history.length === 0) {
+    if (!await hasChatAccess(db, cookies, conversation_id)) {
+      return new Response(JSON.stringify({ success: false, error: 'Conversation access denied' }), { status: 403 });
+    }
+    if (!Array.isArray(conversation_history) || conversation_history.length === 0) {
       return new Response(JSON.stringify({
         success: false,
         error: 'Conversation history is required'
@@ -56,6 +61,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const qualification = rl.allowed
       ? await analyzeConversation(conversation_history, GEMINI_API_KEY)
       : ruleBasedAnalysis(conversation_history);
+
+    delete qualification.estimate;
 
     // Save qualification result to database
     if (qualification.isQualified) {
@@ -189,15 +196,8 @@ Respond ONLY with valid JSON, no additional text.`;
 
     const qualification = JSON.parse(jsonMatch[0]);
 
-    // Add estimate if budget is mentioned
-    if (qualification.budget && qualification.budget !== 'Not specified') {
-      qualification.estimate = generateEstimate(
-        qualification.projectType,
-        qualification.budget,
-        qualification.requirements
-      );
-    }
-
+    // Qualification captures interest; only the studio provides a quote.
+    delete qualification.estimate;
     return qualification;
   } catch (error) {
     console.error('Error parsing AI qualification response:', error);
@@ -267,83 +267,6 @@ function ruleBasedAnalysis(history: any[]): QualificationResult {
   result.confidence = result.isQualified ? 0.7 : 0.5;
 
   return result;
-}
-
-function generateEstimate(projectType: string, budgetStr: string, requirements: string[]): any {
-  // Base estimates in USD (reduced by 30% for competitive pricing)
-  const estimatesUSD: Record<string, any> = {
-    'Website Development': {
-      range: '$3,500 - $17,500',
-      rangeGHS: 'GH₵42,000 - GH₵210,000',
-      breakdown: [
-        'Design & UX: $1,400 - $5,600',
-        'Development: $2,100 - $8,400',
-        'Content & SEO: $350 - $2,100',
-        'Testing & Launch: $350 - $1,400'
-      ],
-      breakdownGHS: [
-        'Design & UX: GH₵16,800 - GH₵67,200',
-        'Development: GH₵25,200 - GH₵100,800',
-        'Content & SEO: GH₵4,200 - GH₵25,200',
-        'Testing & Launch: GH₵4,200 - GH₵16,800'
-      ]
-    },
-    'Mobile App': {
-      range: '$17,500 - $70,000+',
-      rangeGHS: 'GH₵210,000 - GH₵840,000+',
-      breakdown: [
-        'iOS Development: $10,500 - $35,000',
-        'Android Development: $10,500 - $35,000',
-        'Backend API: $7,000 - $21,000',
-        'Design & UX: $3,500 - $10,500'
-      ],
-      breakdownGHS: [
-        'iOS Development: GH₵126,000 - GH₵420,000',
-        'Android Development: GH₵126,000 - GH₵420,000',
-        'Backend API: GH₵84,000 - GH₵252,000',
-        'Design & UX: GH₵42,000 - GH₵126,000'
-      ]
-    },
-    'E-Commerce': {
-      range: '$7,000 - $35,000+',
-      rangeGHS: 'GH₵84,000 - GH₵420,000+',
-      breakdown: [
-        'Platform Setup: $2,100 - $7,000',
-        'Custom Features: $3,500 - $17,500',
-        'Payment Integration: $1,400 - $5,600',
-        'SEO & Marketing: $1,400 - $4,900'
-      ],
-      breakdownGHS: [
-        'Platform Setup: GH₵25,200 - GH₵84,000',
-        'Custom Features: GH₵42,000 - GH₵210,000',
-        'Payment Integration: GH₵16,800 - GH₵67,200',
-        'SEO & Marketing: GH₵16,800 - GH₵58,800'
-      ]
-    },
-    'SEO Services': {
-      range: '$1,050 - $3,500/month',
-      rangeGHS: 'GH₵12,600 - GH₵42,000/month',
-      breakdown: [
-        'Technical SEO Audit: $1,050',
-        'Monthly Optimization: $700 - $2,100',
-        'Content Strategy: $350 - $1,050',
-        'Link Building: $350 - $700'
-      ],
-      breakdownGHS: [
-        'Technical SEO Audit: GH₵12,600',
-        'Monthly Optimization: GH₵8,400 - GH₵25,200',
-        'Content Strategy: GH₵4,200 - GH₵12,600',
-        'Link Building: GH₵4,200 - GH₵8,400'
-      ]
-    }
-  };
-
-  return estimatesUSD[projectType] || {
-    range: 'Custom quote needed',
-    rangeGHS: 'Custom quote needed',
-    breakdown: ['Contact us for detailed estimate based on your specific requirements'],
-    breakdownGHS: ['Contact us for detailed estimate based on your specific requirements']
-  };
 }
 
 async function sendHotLeadNotification(lead: any, resendApiKey: string) {

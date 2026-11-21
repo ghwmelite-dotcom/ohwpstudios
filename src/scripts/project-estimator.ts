@@ -1,7 +1,8 @@
 export {};
 import { downloadEstimatePDF } from './estimate-pdf';
+import { telegramQuoteLink } from '../lib/quote-policy';
 interface Estimate {
-  estimated_cost_min: number; estimated_cost_max: number; estimated_timeline_weeks: number;
+  estimated_timeline_weeks: number; pricing?: string;
   technology_stack?: string[]; summary?: string; ai_analysis?: { summary?: string };
   next_steps?: string[]; recommendations?: string[]; share_token?: string; message?: string;
   team_size_needed?: number; risk_level?: string;
@@ -34,8 +35,6 @@ document.querySelectorAll('[data-back]').forEach(button => button.addEventListen
 function setText(selector: string, value: string) { const element = document.querySelector(selector); if (element) element.textContent = value; }
 function renderEstimate(data: Estimate) {
   currentEstimate=data;
-  const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-  setText('#result-cost', `${money.format(data.estimated_cost_min)}–${money.format(data.estimated_cost_max)}`);
   setText('#result-timeline', `${data.estimated_timeline_weeks} weeks`);
   setText('#result-team', data.team_size_needed ? `${data.team_size_needed} people` : 'To be scoped');
   setText('#result-risk', data.risk_level || 'To be reviewed');
@@ -50,6 +49,7 @@ function renderEstimate(data: Estimate) {
     const url = new URL(`/proposal/${data.share_token}`, location.origin).href;
     const input = document.querySelector<HTMLInputElement>('#proposal-url'); if (input) input.value = url;
     const link = document.querySelector<HTMLAnchorElement>('#open-proposal'); if (link) link.href = url;
+    const telegram = document.querySelector<HTMLAnchorElement>('#telegram-quote'); if (telegram) telegram.href = telegramQuoteLink(url);
   }
 }
 form?.addEventListener('submit', async event => {
@@ -64,7 +64,7 @@ form?.addEventListener('submit', async event => {
   try {
     const response = await fetch('/api/estimate-project', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), signal: AbortSignal.timeout(60000) });
     const estimate: Estimate = await response.json();
-    if (!response.ok || !Number.isFinite(estimate.estimated_cost_min) || !Number.isFinite(estimate.estimated_cost_max) || !Number.isFinite(estimate.estimated_timeline_weeks)) throw new Error('Invalid estimate');
+    if (!response.ok || estimate.pricing !== 'review_required' || !Number.isFinite(estimate.estimated_timeline_weeks)) throw new Error('Invalid estimate');
     window.ohwpTrack?.('estimator_completed', { project_type:String(data.project_type || ''),budget_range:String(data.budget_range || '') });
     renderEstimate(estimate); results.hidden = false; document.querySelector<HTMLElement>('#result-title')?.focus();
   } catch {
@@ -87,6 +87,6 @@ document.querySelector('#print-estimate')?.addEventListener('click', () => windo
 document.querySelector('#copy-proposal')?.addEventListener('click', async () => {
   const input = document.querySelector<HTMLInputElement>('#proposal-url');
   if (!input || !status) return;
-  try { await navigator.clipboard.writeText(input.value); status.dataset.error = 'false'; status.textContent = 'Proposal link copied.'; }
+  try { await navigator.clipboard.writeText(input.value); status.dataset.error = 'false'; status.textContent = 'Project brief link copied.'; }
   catch { input.focus(); input.select(); status.textContent = 'Select and copy the proposal link above.'; }
 });

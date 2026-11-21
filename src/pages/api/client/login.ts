@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const { email, password } = await request.json();
 
-    if (!email || !password) {
+    if (typeof email !== 'string' || typeof password !== 'string' || !email.trim() || !password || email.length > 254 || password.length > 1024) {
       return new Response(
         JSON.stringify({ success: false, error: 'Email and password are required' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }

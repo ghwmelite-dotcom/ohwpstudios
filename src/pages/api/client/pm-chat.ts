@@ -1,12 +1,19 @@
 import type { APIRoute } from 'astro';
-import Anthropic from '@anthropic-ai/sdk';
 
 export const prerender = false;
+
+interface PMEnvironment {
+  DB?: D1Database;
+  AI?: { run(model: string, input: { messages: { role: string; content: string }[]; max_tokens: number }): Promise<unknown> };
+}
+function environment(locals: App.Locals): PMEnvironment {
+  return (locals as { runtime?: { env?: PMEnvironment } }).runtime?.env || {};
+}
 
 // Verify client token
 async function verifyClientToken(db: any, token: string) {
   const user = await db
-    .prepare('SELECT * FROM client_users WHERE token = ? AND token_expires_at > datetime("now") AND status = "active"')
+    .prepare('SELECT * FROM client_users WHERE token = ? AND datetime(token_expires_at) > datetime("now") AND status = "active"')
     .bind(token)
     .first();
 
@@ -59,13 +66,13 @@ async function getProjectContext(db: any, projectId: number) {
 
   // Get recent updates (last 10)
   const updates = await db
-    .prepare('SELECT * FROM project_updates WHERE project_id = ? ORDER BY created_at DESC LIMIT 10')
+    .prepare('SELECT * FROM project_updates WHERE project_id = ? ORDER BY created_at DESC, id DESC LIMIT 10')
     .bind(projectId)
     .all();
 
   // Get recent files (last 10)
   const files = await db
-    .prepare('SELECT * FROM project_files WHERE project_id = ? ORDER BY uploaded_at DESC LIMIT 10')
+    .prepare('SELECT * FROM project_files WHERE project_id = ? AND is_visible_to_client = 1 ORDER BY uploaded_at DESC LIMIT 10')
     .bind(projectId)
     .all();
 
@@ -175,7 +182,7 @@ Remember: You're here to inform and assist, creating confidence in the project's
 // GET endpoint - Fetch conversation history
 export const GET: APIRoute = async ({ request, locals, url }) => {
   try {
-    const db = locals.runtime?.env?.DB;
+    const db = environment(locals).DB;
 
     if (!db) {
       return new Response(
@@ -230,7 +237,7 @@ export const GET: APIRoute = async ({ request, locals, url }) => {
 
     // Fetch messages (last 50)
     const messages = await db
-      .prepare('SELECT * FROM pm_chat_messages WHERE conversation_id = ? ORDER BY created_at ASC LIMIT 50')
+      .prepare('SELECT * FROM (SELECT * FROM pm_chat_messages WHERE conversation_id = ? ORDER BY created_at DESC, id DESC LIMIT 50) ORDER BY created_at ASC, id ASC')
       .bind(conversation.id)
       .all();
 
@@ -257,19 +264,12 @@ export const GET: APIRoute = async ({ request, locals, url }) => {
 // POST endpoint - Send message and get AI response
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const db = locals.runtime?.env?.DB;
-    const anthropicApiKey = locals.runtime?.env?.ANTHROPIC_API_KEY;
+    const db = environment(locals).DB;
+    const AI = environment(locals).AI;
 
     if (!db) {
       return new Response(
         JSON.stringify({ success: false, error: 'Database not available' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    if (!anthropicApiKey) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'AI service not configured' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -293,29 +293,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    const body = await request.json();
-    const { projectId, message } = body;
+    const body = await request.json() as { projectId: number | string; message: string };
+    const projectId = Number(body.projectId);
+    const { message } = body;
 
-    if (!projectId || !message) {
+    if (!Number.isSafeInteger(projectId) || projectId <= 0 || typeof message !== 'string' || !message.trim() || message.length > 4000) {
       return new Response(
         JSON.stringify({ success: false, error: 'Project ID and message are required' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Rate limiting check (max 10 messages per minute)
-    const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
-    const conversation = await getOrCreateConversation(db, projectId, user.id);
-
-    const recentMessages = await db
-      .prepare('SELECT COUNT(*) as count FROM pm_chat_messages WHERE conversation_id = ? AND created_at > ? AND role = "user"')
-      .bind(conversation.id, oneMinuteAgo)
-      .first();
-
-    if (recentMessages && recentMessages.count >= 10) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Rate limit exceeded. Please wait a moment before sending more messages.' }),
-        { status: 429, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
@@ -332,6 +317,29 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    if (!AI) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'AI service not configured' }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Rate limiting check (max 10 messages per minute)
+    const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
+    const conversation = await getOrCreateConversation(db, projectId, user.id);
+
+    const recentMessages = await db
+      .prepare('SELECT COUNT(*) as count FROM pm_chat_messages WHERE conversation_id = ? AND datetime(created_at) > datetime(?) AND role = "user"')
+      .bind(conversation.id, oneMinuteAgo)
+      .first();
+
+    if (recentMessages && Number(recentMessages.count) >= 10) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Rate limit exceeded. Please wait a moment before sending more messages.' }),
+        { status: 429, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Get project context
     const context = await getProjectContext(db, projectId);
     const systemPrompt = buildSystemPrompt(context);
@@ -344,11 +352,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Get conversation history (last 10 messages for context)
     const historyMessages = await db
-      .prepare('SELECT role, content FROM pm_chat_messages WHERE conversation_id = ? ORDER BY created_at DESC LIMIT 10')
+      .prepare('SELECT role, content FROM pm_chat_messages WHERE conversation_id = ? ORDER BY created_at DESC, id DESC LIMIT 10')
       .bind(conversation.id)
       .all();
 
-    // Build conversation history for Claude (in reverse order)
+    // Build conversation history for Workers AI (in reverse order)
     const conversationHistory = (historyMessages.results || [])
       .reverse()
       .filter((m: any) => m.role !== 'system')
@@ -357,32 +365,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
         content: m.content
       }));
 
-    // Call Claude API
-    const anthropic = new Anthropic({
-      apiKey: anthropicApiKey,
-    });
-
+    // Use the site's existing Cloudflare Workers AI binding exclusively.
     const startTime = Date.now();
-
-    const response = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
+    const model = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
+    const result = await AI.run(model, {
+      messages: [{ role: 'system', content: systemPrompt }, ...conversationHistory],
       max_tokens: 1024,
-      system: systemPrompt,
-      messages: conversationHistory.length > 0 ? conversationHistory : [
-        { role: 'user', content: message }
-      ]
-    });
-
+    }) as { response?: string; usage?: { prompt_tokens?: number; completion_tokens?: number } };
+    const aiMessage = result.response?.trim() || '';
+    const inputTokens = result.usage?.prompt_tokens || 0;
+    const outputTokens = result.usage?.completion_tokens || 0;
+    if (!aiMessage) throw new Error('Empty AI response');
     const responseTime = Date.now() - startTime;
-    const aiMessage = response.content[0].type === 'text' ? response.content[0].text : '';
 
     // Save AI response with metadata
     const metadata = JSON.stringify({
-      model: response.model,
-      tokens_input: response.usage.input_tokens,
-      tokens_output: response.usage.output_tokens,
+      model,
+      tokens_input: inputTokens,
+      tokens_output: outputTokens,
       response_time_ms: responseTime,
-      stop_reason: response.stop_reason
+      stop_reason: null
     });
 
     await db
@@ -403,7 +405,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         conversationId: conversation.id,
         metadata: {
           response_time_ms: responseTime,
-          tokens_used: response.usage.input_tokens + response.usage.output_tokens
+          tokens_used: inputTokens + outputTokens
         }
       }),
       {
@@ -414,14 +416,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
   } catch (error: any) {
     console.error('Error processing chat message:', error);
 
-    // Handle specific Anthropic API errors
+    // Keep provider failures generic; never expose upstream details
     let errorMessage = 'Failed to process message';
     if (error.status === 401) {
       errorMessage = 'AI service authentication failed';
     } else if (error.status === 429) {
       errorMessage = 'AI service rate limit reached. Please try again in a moment.';
-    } else if (error.message) {
-      errorMessage = error.message;
     }
 
     return new Response(

@@ -97,8 +97,8 @@ const BUILD_VERSION = '20250109-v4';
             <div class="guide-step">
               <span class="step-number">1</span>
               <div class="step-content">
-                <h4>Find Kodie - Your AI Assistant</h4>
-                <p>Click the blue-and-gold chat button in the bottom-right corner of your screen</p>
+                <h4>Open your project assistant</h4>
+                <p>Open a project, then choose the PM chat button for private project support.</p>
               </div>
             </div>
 
@@ -106,7 +106,7 @@ const BUILD_VERSION = '20250109-v4';
               <span class="step-number">2</span>
               <div class="step-content">
                 <h4>Start the Conversation</h4>
-                <p>As a logged-in client, Kodie has full context about your projects and can answer specific questions about your work</p>
+                <p>Your project assistant can answer using the selected project’s progress, milestones, updates and files.</p>
               </div>
             </div>
 
@@ -120,11 +120,13 @@ const BUILD_VERSION = '20250109-v4';
 
             <div class="guide-examples">
               <h4>Try asking:</h4>
+              <label for="guide-project">Choose your project</label>
+              <select id="guide-project" aria-label="Project for assistant"><option value="">Choose a project</option></select>
               <div class="example-questions">
-                <button class="example-q" onclick="openPMChatWithQuestion(this.textContent)">"What's the current status of my project?"</button>
-                <button class="example-q" onclick="openPMChatWithQuestion(this.textContent)">"When is the next milestone?"</button>
-                <button class="example-q" onclick="openPMChatWithQuestion(this.textContent)">"Can you explain this feature?"</button>
-                <button class="example-q" onclick="openPMChatWithQuestion(this.textContent)">"Upload a file to my project"</button>
+                <button class="example-q">"What's the current status of my project?"</button>
+                <button class="example-q">"When is the next milestone?"</button>
+                <button class="example-q">"Can you explain this feature?"</button>
+                <button class="example-q">"Upload a file to my project"</button>
               </div>
             </div>
           </div>
@@ -136,6 +138,7 @@ const BUILD_VERSION = '20250109-v4';
 
 
 <script>
+  import { logoutClient } from '@/lib/client-logout';
   // XSS Protection Utilities
   const sanitizeHTML = (html) => {
     if (!html) return '';
@@ -185,11 +188,7 @@ const BUILD_VERSION = '20250109-v4';
   // Logout functionality
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('client_token');
-      localStorage.removeItem('client_user');
-      window.location.href = '/client/login';
-    });
+    logoutBtn.addEventListener('click', logoutClient);
   }
 
   // Fetch projects
@@ -216,6 +215,11 @@ const BUILD_VERSION = '20250109-v4';
       if (loadingState) loadingState.style.display = 'none';
 
       if (result.success && result.projects.length > 0) {
+        const projectSelect = document.querySelector<HTMLSelectElement>('#guide-project');
+        if (projectSelect) {
+          result.projects.forEach((project: { id: number; project_name: string }) => projectSelect.add(new Option(project.project_name, String(project.id))));
+          if (result.projects.length === 1) projectSelect.value = String(result.projects[0].id);
+        }
         if (projectsGrid) {
           projectsGrid.style.display = 'grid';
           projectsGrid.innerHTML = sanitizeHTML(result.projects.map(project => `
@@ -280,39 +284,12 @@ const BUILD_VERSION = '20250109-v4';
   // Load projects on page load
   loadProjects();
 
-  // Function to open chatbot with a pre-filled question
-  function openPMChatWithQuestion(question) {
-    // Find the Kodie chatbot toggle button
-    const chatButton = document.getElementById('chatbot-toggle');
-
-    if (chatButton) {
-      // Check if chat is already open
-      const chatContainer = document.getElementById('chatbot-container');
-      const isOpen = chatContainer && chatContainer.classList.contains('active');
-
-      // Open the chat if it's not already open
-      if (!isOpen) {
-        chatButton.click();
-      }
-
-      // Wait for chat to open, then try to fill the input
-      setTimeout(() => {
-        const chatInput = document.getElementById('chatbot-message');
-
-        if (chatInput) {
-          chatInput.value = question.replace(/"/g, '');
-          chatInput.focus();
-
-          // Optionally trigger a visual cue
-          chatInput.style.background = 'rgba(227, 169, 43, 0.1)';
-          setTimeout(() => {
-            chatInput.style.background = '';
-          }, 1000);
-        }
-      }, 500);
-    }
-  }
-
-  // Make function globally accessible
-  window.openPMChatWithQuestion = openPMChatWithQuestion;
+  document.querySelectorAll<HTMLButtonElement>('.example-q').forEach(button => {
+    button.addEventListener('click', () => {
+      const project = document.querySelector<HTMLSelectElement>('#guide-project');
+      if (!project?.value) { project?.focus(); return; }
+      const question = (button.textContent || '').replace(/"/g, '').trim();
+      window.location.href = `/client/project/${encodeURIComponent(project.value)}?pmQuestion=${encodeURIComponent(question)}`;
+    });
+  });
 </script>

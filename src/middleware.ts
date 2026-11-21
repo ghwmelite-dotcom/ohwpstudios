@@ -8,6 +8,7 @@ import {
   type Scope,
 } from '@sentry/core';
 import { SESSION_COOKIE, SESSION_HOURS, timingSafeEqual } from './lib/admin-auth';
+import { hasChatAccess } from './lib/chat-access';
 
 type WorkersExecutionContext = import('@cloudflare/workers-types').ExecutionContext;
 
@@ -137,11 +138,35 @@ if (SENTRY_DSN) {
  * an undefined execution context (e.g. during prerendering).
  */
 export const onRequest = defineMiddleware(async (context, next) => {
-  const pathname = context.url.pathname;
+  const pathname = context.url.pathname.replace(/\/+$/, '') || '/';
   // Astro's Cloudflare adapter exposes the Workers runtime (env + execution
   // context) here. The adapter does not export this shape, so type it
   // structurally.
   const runtime = (context.locals as { runtime?: CloudflareRuntime }).runtime;
+
+  // Chat operators use the same verified admin session and CSRF guard as CMS APIs.
+  // Visitors may access only their own conversation, and may never impersonate operators.
+  let chatAdmin = false;
+  if (pathname.startsWith('/api/chat/')) {
+    const method = context.request.method;
+    if (pathname === '/api/chat/conversations' && method !== 'POST') chatAdmin = true;
+    if (pathname === '/api/chat/canned-responses') chatAdmin = true;
+    if (pathname === '/api/chat/messages') {
+      let conversationId = Number(context.url.searchParams.get('conversation_id'));
+      if (method === 'POST') {
+        try {
+          const body = await context.request.clone().json() as { conversation_id?: number; sender_type?: string };
+          conversationId = Number(body.conversation_id);
+          chatAdmin = body.sender_type !== 'visitor';
+        } catch { return new Response('Invalid JSON', { status: 400 }); }
+      } else if (method !== 'GET') chatAdmin = true;
+      if (!chatAdmin) {
+        try {
+          chatAdmin = !runtime?.env?.DB || !await hasChatAccess(runtime.env.DB, context.cookies, conversationId);
+        } catch { return new Response('Service unavailable', { status: 503 }); }
+      }
+    }
+  }
 
   // -------------------------------------------------------------------------
   // Admin session guard — runs BEFORE the Sentry wrapper. Auth rejections are
@@ -149,7 +174,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // business inside Sentry's request handler. Requests that pass the guard
   // fall through to the Sentry branch below unchanged.
   // -------------------------------------------------------------------------
-  if (isGuardedAdminPath(pathname)) {
+  if (isGuardedAdminPath(pathname) || chatAdmin) {
     const isApi = pathname.startsWith('/api/');
     const deny = (): Response =>
       isApi

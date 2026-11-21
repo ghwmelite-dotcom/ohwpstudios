@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
+import { grantChatAccess } from '../../../lib/chat-access';
 
 // POST: Start a new conversation
-export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
+export const POST: APIRoute = async ({ request, locals, clientAddress, cookies }) => {
   try {
     const db = locals.runtime?.env?.DB;
     if (!db) {
@@ -43,7 +44,8 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
       userAgent
     ).run();
 
-    const conversationId = conversationResult.meta.last_row_id;
+    const conversationId = Number(conversationResult.meta.last_row_id);
+    await grantChatAccess(db, cookies, conversationId);
 
     // Add initial message if provided
     if (initial_message) {

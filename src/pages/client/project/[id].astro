@@ -428,16 +428,6 @@ const { id } = Astro.params;
     window.location.href = '/client/login';
   }
 
-  // Logout functionality
-  const logoutBtn = document.getElementById('logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('client_token');
-      localStorage.removeItem('client_user');
-      window.location.href = '/client/login';
-    });
-  }
-
   // Tab functionality
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
@@ -1103,4 +1093,9 @@ const { id } = Astro.params;
 
   // Load project on page load
   loadProjectDetails();
+</script>
+
+<script>
+  import { logoutClient } from '@/lib/client-logout';
+  document.getElementById('logout-btn')?.addEventListener('click', logoutClient);
 </script>

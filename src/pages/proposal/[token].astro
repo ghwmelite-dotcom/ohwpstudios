@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import BaseLayout from '@/layouts/InteriorLayout.astro';
+import { publicProjectScope, telegramQuoteLink } from '@/lib/quote-policy';
 
 
 
@@ -27,35 +28,34 @@ if (!row) {
 let a: any = {};
 try { a = typeof row.ai_analysis === 'string' ? JSON.parse(row.ai_analysis) : (row.ai_analysis || {}); } catch {}
 
+a = publicProjectScope(a);
+const telegramContact = telegramQuoteLink(Astro.url.href);
 const typeLabel: Record<string, string> = { web: 'Web', mobile: 'Mobile', both: 'Web & Mobile', other: 'Software' };
-const fmtUSD = (n: number) => `$${Number(n || 0).toLocaleString()}`;
-const costMin = a.estimated_cost_min || 0;
-const costMax = a.estimated_cost_max || 0;
 const riskClass = ['low', 'medium', 'high'].includes(a.risk_level) ? a.risk_level : 'medium';
 const created = row.created_at ? new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 const client = row.company || row.name || 'Your Project';
 ---
 
-<BaseLayout legacy noindex title={`Project Proposal — ${client} | OhWP Studios`} description="Your AI-scoped project proposal from OhWP Studios.">
+<BaseLayout legacy noindex title={`Project Proposal — ${client} | Hodges & Co. Studios`} description="Your AI-scoped project proposal from Hodges & Co. Studios.">
 
   <main id="main" class="prop">
     <div class="container prop-wrap">
       <!-- Header -->
       <header class="prop-head">
         <div class="prop-head-row">
-          <span class="prop-kicker">OhWP Studios · Project Proposal</span>
+          <span class="prop-kicker">Hodges & Co. Studios · Project Proposal</span>
           <span class="prop-type">{typeLabel[row.project_type] || 'Software'}</span>
         </div>
-        <h1 class="prop-title">Scope &amp; estimate for <span class="prop-accent">{client}</span></h1>
+        <h1 class="prop-title">Project brief for <span class="prop-accent">{client}</span></h1>
         <p class="prop-date">Prepared {created} · Automated planning scope, subject to review</p>
       </header>
 
       <!-- Headline numbers -->
       <section class="prop-stats">
         <div class="prop-stat prop-stat-hero">
-          <span class="prop-stat-label">Estimated investment</span>
-          <span class="prop-stat-value">{fmtUSD(costMin)} – {fmtUSD(costMax)} USD</span>
-          <span class="prop-stat-sub">A GHS quote is agreed separately after scope review.</span>
+          <span class="prop-stat-label">Pricing</span>
+          <span class="prop-stat-value">After review</span>
+          <span class="prop-stat-sub">Discuss the requirements with us on Telegram for your tailored estimate.</span>
         </div>
         <div class="prop-stat">
           <span class="prop-stat-label">Timeline</span>
@@ -139,16 +139,15 @@ const client = row.company || row.name || 'Your Project';
 
           <section class="prop-cta-card no-print">
             <h3>Ready to move?</h3>
-            <p>Let's turn this scope into a plan on a free 30-minute call.</p>
-            <a class="prop-btn prop-btn-primary" href="/booking">Book a free consult</a>
+            <p>Send us this brief on Telegram. We’ll analyse the scope and provide an actual estimate.</p>
+            <a class="prop-btn prop-btn-primary" href={telegramContact} target="_blank" rel="noopener noreferrer">Discuss on Telegram</a>
             <button class="prop-btn prop-btn-ghost" onclick="window.print()" type="button">Save as PDF</button>
           </section>
         </aside>
       </div>
 
       <p class="prop-disclaimer">
-        This is an AI-generated scope to start the conversation — figures are indicative ranges, not a fixed quote.
-        We finalise scope, price, and timeline together on a discovery call.
+        This project brief starts the conversation. We confirm requirements, price and timeline after reviewing the work with you on Telegram. No automatic price is assigned.
       </p>
     </div>
   </main>

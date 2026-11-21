@@ -5,7 +5,7 @@ export const prerender = false;
 // Verify client token
 async function verifyClientToken(db: any, token: string) {
   const user = await db
-    .prepare('SELECT * FROM client_users WHERE token = ? AND token_expires_at > datetime("now") AND status = "active"')
+    .prepare('SELECT * FROM client_users WHERE token = ? AND datetime(token_expires_at) > datetime("now") AND status = "active"')
     .bind(token)
     .first();
 
@@ -52,6 +52,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
         JSON.stringify({ success: false, error: 'Project ID, file name, and file URL are required' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    let safeUrl: URL;
+    try { safeUrl = new URL(file_url); } catch {
+      return Response.json({ success: false, error: 'Enter a valid HTTPS or HTTP file URL' }, { status: 400 });
+    }
+    if (!['https:', 'http:'].includes(safeUrl.protocol) || safeUrl.username || safeUrl.password ||
+        typeof file_name !== 'string' || file_name.length > 255) {
+      return Response.json({ success: false, error: 'Enter a valid file name and HTTPS or HTTP file URL' }, { status: 400 });
     }
 
     // Verify the project belongs to this client

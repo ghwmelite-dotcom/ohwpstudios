@@ -7,6 +7,7 @@ export const SITE_CONFIG = {
   email: "ohwpstudios@gmail.com",
   phone: "", // Publish a business number only after verification.
   social: {
+    telegram: "https://t.me/oh84dev",
     twitter: "https://twitter.com/ohwpstudios",
     linkedin: "https://linkedin.com/company/ohwpstudios",
     github: "https://github.com/ghwmelite-dotcom",

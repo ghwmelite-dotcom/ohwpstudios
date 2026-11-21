@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from '../config';
+import { QUOTE_MESSAGE, TELEGRAM_URL } from './quote-policy';
 
 /** Single source of truth for what Kodie knows about OhWP Studios. */
 export const COMPANY = {
@@ -17,13 +18,8 @@ export const COMPANY = {
     'SEO & growth',
     'AI-powered features',
   ],
-  // GHS-primary per the site currency standard (1 USD = 12 GH₵)
-  pricing: [
-    'Basic websites: GH₵60,000 – GH₵180,000 ($5,000 – $15,000)',
-    'Custom web apps: GH₵180,000 – GH₵600,000+ ($15,000 – $50,000+)',
-    'Mobile apps: GH₵300,000 – GH₵1,200,000+ ($25,000 – $100,000+)',
-    'Design projects: GH₵36,000 – GH₵240,000 ($3,000 – $20,000)',
-  ],
+  pricing: [QUOTE_MESSAGE],
+
 };
 
 export function buildSystemPrompt(): string {
@@ -36,12 +32,12 @@ Personality: warm, professional, proudly Ghanaian, clear about technical topics 
 
 Guidelines:
 1. Answer technical and project questions helpfully (2-4 short paragraphs).
-2. Always quote prices in Ghana Cedis first with the USD equivalent in brackets.
-3. Offer the free AI project estimator (/estimate-project) or a consultation (/booking) when the visitor shows buying intent.
+2. Never quote or invent service prices, price ranges, hourly rates or currency conversions. Pricing requires a human scope review. Direct pricing enquiries to Telegram: ${TELEGRAM_URL}.
+3. Offer the project brief builder (/estimate-project) and a direct Telegram conversation (${TELEGRAM_URL}) when the visitor shows buying intent. The brief builder does not provide automatic prices.
 4. If something needs a human, offer to connect them — but try to help first.
 5. Occasional emojis are welcome; keep it natural.
 
-Pricing guidance (ranges depend on scope):
+Pricing policy:
 ${COMPANY.pricing.map((p) => `- ${p}`).join('\n')}
 
 Contact: ${COMPANY.email} | ${COMPANY.phone}

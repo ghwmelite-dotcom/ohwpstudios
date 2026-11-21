@@ -756,7 +756,7 @@ export const prerender = false;
           <td>${formatProjectType(estimate.project_type)}</td>
           <td>${formatBudget(estimate.budget_range)}</td>
           <td>
-            <div style="font-weight: 600;">$${estimate.estimated_cost_min?.toLocaleString() || '0'} - $${estimate.estimated_cost_max?.toLocaleString() || '0'}</div>
+            <div style="font-weight: 600;">${estimate.estimated_cost_min > 0 ? '$' + estimate.estimated_cost_min.toLocaleString() + ' - $' + estimate.estimated_cost_max.toLocaleString() : 'Awaiting studio quote'}</div>
             <div style="font-size: 0.875rem; color: var(--color-text-muted);">${estimate.estimated_timeline_weeks || 0} weeks</div>
           </td>
           <td><span class="risk-badge risk-${estimate.risk_level || 'medium'}">${(estimate.risk_level || 'medium').toUpperCase()}</span></td>
@@ -851,7 +851,7 @@ export const prerender = false;
           <h3>AI-Generated Estimate</h3>
           <div class="estimate-highlight">
             <div style="color: var(--color-text-muted); font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">ESTIMATED COST</div>
-            <div class="estimate-value">$${currentEstimate.estimated_cost_min?.toLocaleString() || '0'} - $${currentEstimate.estimated_cost_max?.toLocaleString() || '0'}</div>
+            <div class="estimate-value">${currentEstimate.estimated_cost_min > 0 ? '$' + currentEstimate.estimated_cost_min.toLocaleString() + ' - $' + currentEstimate.estimated_cost_max.toLocaleString() : 'Awaiting studio quote'}</div>
           </div>
           <div class="detail-grid">
             <div class="detail-label">Timeline:</div>

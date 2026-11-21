@@ -5,7 +5,7 @@ export const prerender = false;
 // Verify client token
 async function verifyClientToken(db: any, token: string) {
   const user = await db
-    .prepare('SELECT * FROM client_users WHERE token = ? AND token_expires_at > datetime("now") AND status = "active"')
+    .prepare('SELECT * FROM client_users WHERE token = ? AND datetime(token_expires_at) > datetime("now") AND status = "active"')
     .bind(token)
     .first();
 

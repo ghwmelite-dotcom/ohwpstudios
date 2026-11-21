@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
+import { grantChatAccess, hasChatAccess } from '../../../lib/chat-access';
 import { checkRateLimit, getClientIdentifier, RATE_LIMITS } from '../../../utils/rate-limit';
+import { QUOTE_MESSAGE, TELEGRAM_URL, quoteSafeText } from '../../../lib/quote-policy';
 import { buildSystemPrompt } from '../../../lib/kodie-knowledge';
 
 // Kodie - AI Chat Assistant powered by Cloudflare Workers AI (free)
@@ -13,7 +15,7 @@ interface KodieResponse {
 }
 
 // POST: Get AI response from Kodie
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request, locals, cookies }) => {
   try {
     const db = locals.runtime?.env?.DB;
     const AI = locals.runtime?.env?.AI;
@@ -21,7 +23,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const data = await request.json();
     const { message, conversation_history } = data;
 
-    if (!message) {
+    if (typeof message !== 'string' || !message.trim()) {
       return new Response(JSON.stringify({
         success: false,
         error: 'Message is required'
@@ -56,7 +58,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const ua = request.headers.get('user-agent') || 'unknown';
 
     // Get Kodie's response using Workers AI (the AI binding is what matters for answering)
-    const kodieResponse = await getKodieResponse(message, conversation_history || [], AI);
+    if (conversationId !== null && (!db || !await hasChatAccess(db, cookies, conversationId))) {
+      return new Response(JSON.stringify({ success: false, error: 'Conversation access denied' }), { status: 403 });
+    }
+    const kodieResponse = await getKodieResponse(message, Array.isArray(conversation_history) ? conversation_history : [], AI);
 
     // Persist the conversation + messages. ALL DB work is non-fatal: the bot must
     // always answer, so a missing DB or any persistence error never blocks the reply.
@@ -67,6 +72,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             "INSERT INTO chat_conversations (visitor_name, visitor_email, visitor_ip, visitor_user_agent, status, source, started_at, last_message_at, total_messages, visitor_messages, operator_messages) VALUES (?, ?, ?, ?, 'active', 'chatbot', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, 0, 0)"
           ).bind(visitorName, visitorEmail || null, ip, ua).run();
           conversationId = Number(created.meta.last_row_id);
+          await grantChatAccess(db, cookies, conversationId);
         }
 
         await db.prepare("INSERT INTO chat_messages (conversation_id, message_text, message_type, sender_type, sender_name, sent_at) VALUES (?, ?, 'text', 'visitor', ?, CURRENT_TIMESTAMP)").bind(conversationId, message, visitorName).run();
@@ -114,10 +120,15 @@ async function callWorkersAI(message: string, history: any[], ai: any): Promise<
 
   const messages = [
     { role: 'system', content: systemPrompt },
-    ...history.slice(-10).map((msg: any) => ({
-      role: msg.sender_type === 'visitor' ? 'user' : 'assistant',
-      content: String(msg.message || ''),
-    })),
+    ...history.slice(-10).flatMap((entry: unknown) => {
+      if (!entry || typeof entry !== 'object') return [];
+      const msg = entry as Record<string, unknown>;
+      const role = msg.role === 'user' || msg.sender_type === 'visitor' ? 'user'
+        : msg.role === 'assistant' || msg.sender_type === 'assistant' || msg.sender_type === 'operator' ? 'assistant' : null;
+      const content = msg.content ?? msg.message;
+      return role && typeof content === 'string' && content.trim()
+        ? [{ role, content: content.slice(0, 2000) }] : [];
+    }),
     { role: 'user', content: message },
   ];
 
@@ -155,7 +166,7 @@ async function callWorkersAI(message: string, history: any[], ai: any): Promise<
   }
 
   return {
-    message: aiMessage,
+    message: quoteSafeText(aiMessage),
     escalate: shouldEscalate,
     confidence: 0.9,
     suggestedActions: suggestedActions.slice(0, 4)
@@ -165,6 +176,10 @@ async function callWorkersAI(message: string, history: any[], ai: any): Promise<
 // Kodie's AI logic — Workers AI with a rule-based fallback
 async function getKodieResponse(message: string, history: any[], ai?: any): Promise<KodieResponse> {
   const lowerMessage = message.toLowerCase();
+  if (/\b(price|prices|pricing|cost|costs|quote|budget|rates?)\b|how much/.test(lowerMessage)) {
+    return { message: `${QUOTE_MESSAGE}\n\nTelegram: ${TELEGRAM_URL}`, escalate: false, confidence: 1 };
+  }
+
 
   // Escalation triggers - when Kodie should hand off to human
   const escalationKeywords = [
@@ -338,16 +353,6 @@ async function getKodieResponse(message: string, history: any[], ai?: any): Prom
       escalate: false,
       confidence: 1.0,
       suggestedActions: ['Get a quote', 'See portfolio', 'Discuss project']
-    };
-  }
-
-  // Pricing inquiry
-  if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('how much') || lowerMessage.includes('quote')) {
-    return {
-      message: "I'd be happy to help with pricing information! 💰\n\nOur projects typically range from:\n• Basic websites: GH₵60,000 - GH₵180,000 ($5,000 - $15,000)\n• Custom web apps: GH₵180,000 - GH₵600,000+ ($15,000 - $50,000+)\n• Mobile apps: GH₵300,000 - GH₵1,200,000+ ($25,000 - $100,000+)\n• Design projects: GH₵36,000 - GH₵240,000 ($3,000 - $20,000)\n\nThe exact cost depends on your specific requirements, features, and timeline. Would you like to schedule a free consultation to discuss your project in detail and get an accurate quote?",
-      escalate: false,
-      confidence: 0.9,
-      suggestedActions: ['Schedule consultation', 'Tell me more about your project', 'See portfolio']
     };
   }
 

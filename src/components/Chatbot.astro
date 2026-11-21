@@ -2,6 +2,7 @@
 // AI Chatbot Widget Component - Elite Modern Design
 import AdinkraIcon from './AdinkraIcon.astro';
 import BrandMark from './BrandMark.astro';
+import { telegramQuoteLink } from '../lib/quote-policy';
 ---
 
 <div class="chatbot-container" id="chatbot-container">
@@ -132,10 +133,12 @@ import BrandMark from './BrandMark.astro';
       </svg>
       <span>Powered by Hodges & Co.</span>
     </div>
+    <a class="chatbot-quote-link" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer">Discuss your project on Telegram ↗</a>
   </div>
 </div>
 
 <style>
+  .chatbot-quote-link { display:flex; align-items:center; justify-content:center; min-height:44px; padding:8px 16px; color:var(--brand-gold, #e7c997); background:var(--brand-night, #090d21); text-decoration:underline; font-size:13px; }
   .chatbot-container {
     position: fixed;
     bottom: 2rem;
@@ -1082,6 +1085,7 @@ import BrandMark from './BrandMark.astro';
 </style>
 
 <script>
+  import { telegramQuoteLink } from '../lib/quote-policy';
   import { sanitizeHTML, escapeHTML } from '@/utils/sanitize';
 
   let chatHistory: Array<{ role: 'user' | 'assistant'; content: string }> = [];
@@ -1197,18 +1201,18 @@ import BrandMark from './BrandMark.astro';
           </ul>
         </div>
 
-        <a href="/booking" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: var(--gradient-primary); color: #161210; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(227, 169, 43, 0.3);">
+        <a href="${telegramQuoteLink()}" target="_blank" rel="noopener noreferrer" class="booking-cta-btn" style="display: flex; align-items: center; justify-content: center; gap: 0.625rem; width: 100%; padding: 1rem; background: var(--gradient-primary); color: #161210; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 12px rgba(227, 169, 43, 0.3);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
             <line x1="8" y1="2" x2="8" y2="6"></line>
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
-          Book Your Free Consultation Now
+          Discuss Your Project on Telegram
         </a>
 
         <div style="margin-top: 1rem; text-align: center; font-size: 0.8125rem; color: var(--color-text-muted);">
-          ⏱️ Takes only 2 minutes to schedule • 📅 Choose your preferred time
+          Send us your requirements. We’ll review the scope before providing an estimate.
         </div>
       </div>
     `;

@@ -564,6 +564,13 @@ body:has(.dashboard-page) #social-proof-container {
   font-weight: 600;
 }
 
+.guide-examples label { display: block; margin-bottom: 8px; color: var(--color-text-muted); }
+.guide-examples select {
+  width: 100%; min-height: 48px; margin-bottom: 16px; padding: 8px 16px;
+  border: 1px solid var(--color-border); border-radius: 12px;
+  background: var(--color-surface); color: var(--color-text); font: inherit;
+}
+
 .example-questions {
   display: flex;
   flex-direction: column;

@@ -26,9 +26,10 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
     const { results } = await db
       .prepare(
-        `SELECT * FROM project_files
+        `SELECT *, COALESCE(filename, file_name) AS filename,
+          COALESCE(original_filename, file_name) AS original_filename, uploaded_at AS created_at FROM project_files
          WHERE project_id = ?
-         ORDER BY created_at DESC`
+         ORDER BY uploaded_at DESC, id DESC`
       )
       .bind(projectId)
       .all();
@@ -98,13 +99,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const { results } = await db
       .prepare(
         `INSERT INTO project_files
-         (project_id, filename, original_filename, file_url, file_size, file_type, category, description,
-          is_visible_to_client, uploaded_by, version, parent_file_id, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+         (project_id, file_name, filename, original_filename, file_url, file_size, file_type, category, description,
+          is_visible_to_client, uploaded_by, version, parent_file_id, uploaded_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
          RETURNING *`
       )
       .bind(
         project_id,
+        original_filename,
         filename,
         original_filename,
         file_url,
