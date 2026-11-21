@@ -1,0 +1,32 @@
+[
+  {
+    "panel": "updates",
+    "tab": "Updates",
+    "visible": true
+  },
+  {
+    "panel": "milestones",
+    "tab": "Milestones",
+    "visible": true
+  },
+  {
+    "panel": "files",
+    "tab": "Files",
+    "visible": true
+  },
+  {
+    "panel": "contracts",
+    "tab": "Contracts",
+    "visible": true
+  },
+  {
+    "panel": "code-quality",
+    "tab": "Code Quality",
+    "visible": true
+  },
+  {
+    "panel": "overview",
+    "tab": "Overview",
+    "visible": true
+  }
+]

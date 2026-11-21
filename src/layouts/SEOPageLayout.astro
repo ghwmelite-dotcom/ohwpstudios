@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './InteriorLayout.astro';
+import { SITE_CONFIG } from '@/config';
 
 
 
@@ -32,7 +33,7 @@ const defaultSchema = {
   "description": description,
   "provider": {
     "@type": "Organization",
-    "name": "OhWP Studios",
+    "name": SITE_CONFIG.name,
     "url": "https://ohwpstudios.org"
   },
   "areaServed": [
@@ -97,7 +98,7 @@ const breadcrumbSchema = {
         <p class="seo-hero-subtitle">{heroSubtitle}</p>
         <div class="seo-cta-group">
           <a href="/booking" class="btn btn-primary btn-lg">Get Started</a>
-          <a href="/#portfolio" class="btn btn-secondary btn-lg">View Our Work</a>
+          <a href="/portfolio" class="btn btn-secondary btn-lg">View Our Work</a>
         </div>
       </div>
     </div>

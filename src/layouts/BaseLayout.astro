@@ -5,6 +5,8 @@ import '@fontsource-variable/fraunces/wght.css';
 import '@/styles/design-system.css';
 import '@/styles/motifs.css';
 import '@/styles/dark-mode-fixes.css';
+import '@/styles/client-atelier.css';
+import BrandLogo from '@/components/BrandLogo.astro';
 import { SITE_CONFIG } from '@/config';
 import LoadingScreen from '@/components/LoadingScreen.astro';
 import Chatbot from '@/components/Chatbot.astro';
@@ -51,6 +53,8 @@ const imageUrl = new URL(image, Astro.url).href;
 
 // Determine if this is a utility/noindex page
 const currentPath = Astro.url.pathname;
+const isClientPortal = currentPath.startsWith('/client/');
+const isBrandedWorkspace = isClientPortal || currentPath.startsWith('/contract');
 const isNoIndex = currentPath.includes('/newsletter/unsubscribe') ||
   currentPath.includes('/newsletter/verify') ||
   currentPath.includes('/offline') ||
@@ -79,7 +83,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" id="favicon-link" />
+    <link rel="icon" type="image/svg+xml" href={isClientPortal ? '/brand/hodges-co-studios-mark.svg' : '/favicon.svg'} id="favicon-link" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->
@@ -417,8 +421,9 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
       loadPageData();
     </script>
   </head>
-  <body>
-    {!noLoader && <LoadingScreen />}
+  <body class:list={{'client-atelier':isBrandedWorkspace}}>
+    {isBrandedWorkspace && <header class="portal-brandbar"><a href="/" aria-label="Hodges & Co. Studios home"><BrandLogo /></a><span>{isClientPortal ? 'Client workspace' : 'Project agreements'}</span><a class="portal-support" href="/contact">Contact the studio</a></header>}
+    {!noLoader && <LoadingScreen studio={isBrandedWorkspace}/>}
     <slot />
     <Chatbot />
     <PWAInstallPrompt />

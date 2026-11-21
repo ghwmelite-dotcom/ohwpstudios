@@ -517,7 +517,7 @@ const { projectId } = Astro.props;
   // Load chat history
   async function loadChatHistory() {
     try {
-      const token = localStorage.getItem('clientToken');
+      const token = localStorage.getItem('client_token');
       if (!token) return;
 
       const response = await fetch(`/api/client/pm-chat?projectId=${projectId}`, {
@@ -602,7 +602,7 @@ const { projectId } = Astro.props;
     sendBtn.disabled = true;
 
     try {
-      const token = localStorage.getItem('clientToken');
+      const token = localStorage.getItem('client_token');
 
       const response = await fetch('/api/client/pm-chat', {
         method: 'POST',

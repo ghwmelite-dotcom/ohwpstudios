@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import StudioLayout from '@/layouts/StudioLayout.astro';
+import StudioSeal from '@/components/StudioSeal.astro';
 import SelectedWork from '@/components/SelectedWork.astro';
 import { getPublicProjects, publicUrl, type PublicProject } from '@/lib/public-portfolio';
 import { selectedWork } from '@/data/selected-work';
@@ -10,10 +11,10 @@ try { if (db) projects = await getPublicProjects(db); }
 catch { console.error('Published portfolio read unavailable'); }
 const additional = projects.filter(project => !selectedWork.some(item => item.slug === project.slug));
 ---
-<StudioLayout title="Our work — OhWP Studios" description="Explore software, AI, and digital products built by OhWP Studios. Project context, live experiences, and public source code.">
-  <main id="main" class="wrap">
-    <div class="portfolio-intro"><p class="section-label">Our work</p><h1>Ideas, made real.</h1><p>Selected studio products with live experiences and public code. Each project starts with a different problem and the same attention to how it should work.</p></div>
-    <div class="portfolio-collection"><SelectedWork full />
+<StudioLayout interior title="Our work — Hodges & Co. Studios" description="Explore software, AI, and digital products built by Hodges & Co. Studios. Project context, live experiences, and public source code.">
+  <main id="main" class="portfolio-page">
+    <section class="portfolio-stage"><div class="wrap portfolio-stage-grid"><div><p class="section-label">The work speaks.</p><h1>Ideas,<br/>made real.</h1><p class="portfolio-lede">Different challenges. The same care in the craft. Explore the products, the thinking, and the code behind our work.</p><a class="portfolio-jump" href="#collection">Explore the collection <span aria-hidden="true">↓</span></a></div><StudioSeal /></div><div class="wrap portfolio-stage-foot"><span>Software / AI / Digital products</span><span>Built in Accra. Working everywhere.</span></div></section>
+    <div class="wrap portfolio-collection" id="collection"><SelectedWork full />
       {additional.length > 0 && <><h2>More published work</h2><div class="cms-grid">{additional.map(project => <article class="cms-project"><a href={`/portfolio/${encodeURIComponent(project.slug)}`}>
         {publicUrl(project.featured_image) && <img src={publicUrl(project.featured_image)} alt={project.title} width="1200" height="675" loading="lazy" />}
         <h3>{project.title}</h3><p>{project.subtitle || project.description}</p><span class="text-link">Explore project <span aria-hidden="true">↗</span></span>

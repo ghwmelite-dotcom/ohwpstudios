@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import BrandMark from '@/components/BrandMark.astro';
 ---
 
 <BaseLayout title="Client Portal Login" description="Client portal login">
@@ -11,14 +12,17 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     </div>
 
     <div class="login-container">
+      <aside class="portal-welcome"><p class="portal-kicker">Your ideas. Our shared workspace.</p><h2>A closer connection<br/>to what we’re building.</h2><p>Projects, progress, milestones and conversations — together in one place.</p><div class="portal-welcome-detail"><BrandMark size={72}/><span>Thoughtfully built.<br/>Personally connected.</span></div></aside>
       <div class="login-card glass">
         <div class="login-header">
-          <div class="header-icon">
+          <div class="header-icon" aria-hidden="true"><BrandMark size={48}/>
+            <span class="portal-original-icon">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
               <circle cx="8.5" cy="7" r="4"/>
               <polyline points="17 11 19 13 23 9"/>
             </svg>
+            </span>
           </div>
           <h1>Client Portal</h1>
           <p>Sign in to access your projects</p>

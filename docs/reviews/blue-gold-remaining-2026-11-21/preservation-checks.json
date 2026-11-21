@@ -1,0 +1,27 @@
+[
+  {
+    "file": "src/pages/client/login.astro",
+    "removed_ids": [],
+    "removed_links": []
+  },
+  {
+    "file": "src/pages/client/dashboard.astro",
+    "removed_ids": [],
+    "removed_links": []
+  },
+  {
+    "file": "src/components/PMChatWidget.astro",
+    "removed_ids": [],
+    "removed_links": []
+  },
+  {
+    "file": "src/components/StudioNavigation.astro",
+    "removed_ids": [],
+    "removed_links": []
+  },
+  {
+    "file": "src/pages/portfolio.astro",
+    "removed_ids": [],
+    "removed_links": []
+  }
+]

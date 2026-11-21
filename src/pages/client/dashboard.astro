@@ -98,7 +98,7 @@ const BUILD_VERSION = '20250109-v4';
               <span class="step-number">1</span>
               <div class="step-content">
                 <h4>Find Kodie - Your AI Assistant</h4>
-                <p>Click the purple chat button in the bottom-right corner of your screen</p>
+                <p>Click the blue-and-gold chat button in the bottom-right corner of your screen</p>
               </div>
             </div>
 
@@ -219,7 +219,7 @@ const BUILD_VERSION = '20250109-v4';
         if (projectsGrid) {
           projectsGrid.style.display = 'grid';
           projectsGrid.innerHTML = sanitizeHTML(result.projects.map(project => `
-            <div class="project-card" onclick="window.location.href='/client/project/${project.id}'">
+            <a class="project-card" href="/client/project/${encodeURIComponent(String(project.id))}">
               <div class="project-header">
                 <h3 class="project-name">${escapeHtml(project.project_name)}</h3>
                 <span class="project-type">${escapeHtml(project.project_type)}</span>
@@ -253,7 +253,7 @@ const BUILD_VERSION = '20250109-v4';
                   <div class="progress-fill" style="width: ${project.progress_percentage || 0}%"></div>
                 </div>
               </div>
-            </div>
+            </a>
           `).join(''));
         }
       } else {

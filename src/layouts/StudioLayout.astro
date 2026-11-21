@@ -39,7 +39,7 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
     <SiteAnalytics />
     <slot name="head" />
   </head>
-  <body id="top" class:list={{ 'premium-home': home, 'premium-interior': interior }}>
+  <body id="top" class:list={['studio-site', { 'premium-home': home, 'premium-interior': interior }]}>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="header-shell"><header class="studio-header wrap">
       <a class="brand-home" href="/" aria-label="Hodges &amp; Co. Studios home"><BrandLogo /></a>

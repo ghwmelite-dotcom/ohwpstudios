@@ -2,6 +2,8 @@
 // Premium Loading Screen
 // Brand animation that wows from the first second
 import Logo from '@/components/Logo.astro';
+import BrandMark from '@/components/BrandMark.astro';
+const {studio=false}=Astro.props;
 ---
 
 <div id="page-loader" class="page-loader">
@@ -53,7 +55,7 @@ import Logo from '@/components/Logo.astro';
       <div class="loader-logo">
         <div class="logo-glow"></div>
         <div class="loader-logo-wrapper">
-          <Logo size="lg" showText={false} />
+          {studio ? <BrandMark size={64}/> : <Logo size="lg" showText={false} />}
         </div>
       </div>
     </div>
