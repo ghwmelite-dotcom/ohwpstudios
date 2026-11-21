@@ -1,6 +1,6 @@
 # Site flow verification and Telegram quote policy
 
-Date: 21 November 2026. Status: fixed and verified in an isolated local Pages/D1 environment; **not deployed**. No production records, credentials, contracts, payments or security settings were modified. Production inspection was read-only.
+Date: 21 November 2026. This report records the pre-release checks in an isolated local Pages/D1 environment. Production inspection during those checks was read-only. The owner subsequently approved migration and deployment; see the [production release record](../../releases/2026-11-21-telegram-flow/release.md) for the live deployment and data-preservation results.
 
 ## Owner decisions
 
@@ -54,7 +54,7 @@ Screenshots: `project-assistant.jpg`, `chatbot-memory.jpg`, `telegram-quote-poli
 - Added direct Telegram links to the estimator result, shared brief, Contact page and chatbot, preserving transcript-sharing controls and existing enquiry/booking flows.
 - New admin scope requests display “Awaiting studio quote”. Previous stored estimates are preserved.
 
-## Deployment requirements — not executed
+## Deployment requirements at preview time
 
 Apply only the new reviewed migrations, not historical seed scripts:
 
@@ -63,6 +63,8 @@ Apply only the new reviewed migrations, not historical seed scripts:
 3. `050_project_scope_review.sql`: expands the budget CHECK constraint to support `to-discuss`. SQLite requires a table rebuild. Export/back up D1 and confirm the owning schema before applying it. The migration explicitly copies every existing field, ID, quote, status, admin note, timestamp and share token, then recreates all four existing indexes. A regression test compares a populated historical record before/after byte-for-field equality.
 
 Deploy the application only after these migrations. Migration 050 must run as a D1 migration/atomic operation; do not manually execute partial statements. Preview data/state is disposable and must not be uploaded into production.
+
+Release follow-up: all three migrations have now been applied atomically and the application deployed. Migration 050 was hardened to preserve the production timestamp trigger and ID sequence high-water mark. All original production records across 68 tables were verified unchanged. Do not rerun the migration scripts.
 
 ## Limits
 
