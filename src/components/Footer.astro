@@ -68,7 +68,7 @@ const currentYear = new Date().getFullYear();
         <h4>Get in Touch</h4>
         <ul>
           <li><a href={`mailto:${SITE_CONFIG.email}`} id="footer-email-link"><span id="footer-email">{SITE_CONFIG.email}</span></a></li>
-          <li><a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`} id="footer-phone-link"><span id="footer-phone">{SITE_CONFIG.phone}</span></a></li>
+          {SITE_CONFIG.phone && <li><a href={`tel:${SITE_CONFIG.phone.replace(/\s/g, '')}`} id="footer-phone-link"><span id="footer-phone">{SITE_CONFIG.phone}</span></a></li>}
           <li><a href="/booking" class="cta-link">Schedule a Call →</a></li>
         </ul>
       </div>

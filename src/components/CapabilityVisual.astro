@@ -1,0 +1,9 @@
+---
+interface Props { type: 'software' | 'ai' | 'trading' }
+const { type } = Astro.props;
+---
+<div class:list={['capability-visual', `visual-${type}`]} aria-hidden="true">
+  {type === 'software' && <div class="mini-product"><div class="mini-sidebar"><span></span><i></i><i></i><i></i></div><div class="mini-content"><div class="mini-toolbar"><span>Made for the way you work</span><i></i></div><div class="mini-panels"><div><svg viewBox="0 0 150 65"><path d="M0 55C20 55 15 24 40 35S60 8 82 20s22 17 35 2 18-6 33-16" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Your workflow, simplified.</span></div><div class="mini-list"><i></i><i></i><i></i></div></div></div></div>}
+  {type === 'ai' && <div class="ai-diagram"><div class="ai-input"><span>Your knowledge</span><span>Your tools</span></div><div class="ai-connection"></div><div class="ai-core"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div><div class="ai-connection"></div><div class="ai-output">Useful action</div></div>}
+  {type === 'trading' && <div class="trading-diagram"><div class="rule-stack"><span>Signal</span><span>Risk</span><span>Execution</span></div><svg viewBox="0 0 220 75"><path d="M0 65h220M0 35h220M0 5h220" stroke="currentColor" opacity=".12"/><path d="M8 42v24M32 30v24M56 36v24M80 22v24M104 14v24M128 24v24M152 19v24M176 6v24M200 17v24" stroke="currentColor"/><g fill="currentColor"><rect x="4" y="47" width="8" height="13"/><rect x="28" y="34" width="8" height="15"/><rect x="52" y="40" width="8" height="14"/><rect x="76" y="27" width="8" height="14"/><rect x="100" y="19" width="8" height="14"/><rect x="124" y="29" width="8" height="13"/><rect x="148" y="24" width="8" height="13"/><rect x="172" y="11" width="8" height="13"/><rect x="196" y="22" width="8" height="14"/></g></svg><small>Rules before execution.</small></div>}
+</div>

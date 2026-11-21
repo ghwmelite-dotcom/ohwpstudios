@@ -8,8 +8,9 @@ export const GET: APIRoute = async ({ locals }) => {
     const db = locals.runtime.env.DB;
 
     const result = await db.prepare(
-      'SELECT * FROM testimonials WHERE is_active = 1 ORDER BY display_order ASC'
-    ).all();
+      `SELECT * FROM testimonials WHERE is_active = 1
+       AND name NOT IN (?, ?, ?, ?, ?, ?) ORDER BY display_order ASC`
+    ).bind('Oliver B.', 'Sarah M.', 'Michael T.', 'Johny T.', 'Emily R.', 'David K.').all();
 
     return new Response(JSON.stringify({
       success: true,

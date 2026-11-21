@@ -1,0 +1,16 @@
+---
+import { selectedWork } from '@/data/selected-work';
+const { full = false } = Astro.props;
+---
+<div class:list={['editorial-work', { 'editorial-full': full }]}>
+  {selectedWork.map((project, index) => (
+    <article class:list={['editorial-project', `project-${project.slug}`, { 'editorial-featured': index === 0 && !full }]}>
+      <a class="editorial-visual" href={`/portfolio/${project.slug}`} aria-label={`Explore ${project.title}`}>
+        <div class="project-browser"><div class="browser-top" aria-hidden="true"><span></span><span></span><span></span><p>{project.title}</p></div><img src={project.image} alt={`${project.title} application screenshot`} width="1250" height="714" loading="lazy" /></div>
+        <span class="editorial-open" aria-hidden="true">↗</span>
+      </a>
+      <div class="editorial-copy"><div class="project-meta"><span>{project.category}</span><span>{project.kind}</span></div>
+      <h3><a href={`/portfolio/${project.slug}`}>{project.title}<span aria-hidden="true">↗</span></a></h3><p>{project.description}</p><div class="project-capabilities">{project.capabilities.slice(0, 3).map(capability => <span>{capability}</span>)}</div></div>
+    </article>
+  ))}
+</div>

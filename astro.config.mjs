@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
+  devToolbar: { enabled: false },
   site: 'https://ohwpstudios.org',
   output: 'hybrid',
   trailingSlash: 'never', // Enforce no trailing slashes to prevent duplicates

@@ -1,0 +1,38 @@
+---
+import '@fontsource-variable/fraunces/wght.css';
+import '@/styles/studio.css';
+import '@/styles/premium.css';
+import AdinkraIcon from '@/components/AdinkraIcon.astro';
+import { SITE_CONFIG } from '@/config';
+interface Props { title?: string; description?: string; home?: boolean }
+const { title = 'OhWP Studios — From idea to working software', description = 'Custom software, AI automation, trading systems, and hands-on guidance with Codex and Claude Code. Built for you, or built together. Accra, Ghana.', home = false } = Astro.props;
+const isPreview = import.meta.env.DEV || Astro.url.hostname !== 'ohwpstudios.org';
+const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title><meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#1B5E3A" />
+    {isPreview && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    <meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <slot name="head" />
+  </head>
+  <body class:list={{ 'premium-home': home }}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="header-shell"><header class="studio-header wrap">
+      <a class="wordmark" href="/" aria-label="OhWP Studios home"><AdinkraIcon symbol="nkyinkyim" size={32} />OhWP<span>Studios</span></a>
+      <nav aria-label="Main navigation"><a href="/#work">Work</a><a href="/#services">Services</a><a href="/#studio">Studio</a></nav>
+      <a class="button button-small" href="/#contact">Start a project <span aria-hidden="true">↗</span></a>
+    </header></div>
+    <slot />
+    <footer class="studio-footer wrap">
+      <div class="footer-top"><a class="wordmark" href="/">OhWP<span>Studios</span></a><p>Thoughtfully made in Accra.<br />Built to work everywhere.</p></div>
+      <div class="footer-links"><a href="/portfolio">All work</a><a href="https://github.com/ghwmelite-dotcom" target="_blank" rel="noopener noreferrer">GitHub</a><a href="/open-build">Open Build</a><a href="/estimate-project">Project estimator</a><a href={`mailto:${SITE_CONFIG.email}`}>Email us</a></div>
+      <div class="footer-bottom"><span>© {new Date().getUTCFullYear()} OhWP Studios. A Hodges &amp; Co. studio.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
+    </footer>
+  </body>
+</html>

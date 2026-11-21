@@ -1,25 +1,23 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import PortfolioFull from '@/components/PortfolioFull.astro';
-import { SITE_CONFIG } from '@/config';
+export const prerender = false;
+import StudioLayout from '@/layouts/StudioLayout.astro';
+import SelectedWork from '@/components/SelectedWork.astro';
+import { getPublicProjects, publicUrl, type PublicProject } from '@/lib/public-portfolio';
+import { selectedWork } from '@/data/selected-work';
+let projects: PublicProject[] = [];
+const db = Astro.locals.runtime?.env?.DB;
+try { if (db) projects = await getPublicProjects(db); }
+catch { console.error('Published portfolio read unavailable'); }
+const additional = projects.filter(project => !selectedWork.some(item => item.slug === project.slug));
 ---
-
-<BaseLayout
-  title={`Portfolio - ${SITE_CONFIG.name}`}
-  description="Explore our portfolio of successful projects that transformed businesses. See our web design, development, and digital marketing work."
->
-  <Header />
-  <main>
-    <PortfolioFull />
+<StudioLayout title="Our work — OhWP Studios" description="Explore software, AI, and digital products built by OhWP Studios. Project context, live experiences, and public source code.">
+  <main id="main" class="wrap">
+    <div class="portfolio-intro"><p class="section-label">Our work</p><h1>Ideas, made real.</h1><p>Selected studio products with live experiences and public code. Each project starts with a different problem and the same attention to how it should work.</p></div>
+    <div class="portfolio-collection"><SelectedWork full />
+      {additional.length > 0 && <><h2>More published work</h2><div class="cms-grid">{additional.map(project => <article class="cms-project"><a href={`/portfolio/${encodeURIComponent(project.slug)}`}>
+        {publicUrl(project.featured_image) && <img src={publicUrl(project.featured_image)} alt={project.title} width="1200" height="675" loading="lazy" />}
+        <h3>{project.title}</h3><p>{project.subtitle || project.description}</p><span class="text-link">Explore project <span aria-hidden="true">↗</span></span>
+      </a></article>)}</div></>}
+    </div>
   </main>
-  <Footer />
-</BaseLayout>
-
-<style>
-  main {
-    padding-top: 80px;
-    min-height: 100vh;
-  }
-</style>
+</StudioLayout>

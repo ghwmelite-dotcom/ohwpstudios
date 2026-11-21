@@ -775,7 +775,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
 
   async function loadCategories() {
     try {
-      const response = await fetch('/api/admin/portfolio/categories');
+      const response = await fetch('/api/portfolio/categories');
       const data = await response.json();
 
       if (data.success) {
@@ -825,7 +825,7 @@ import AdinkraIcon from '@/components/AdinkraIcon.astro';
     if (grid) grid.innerHTML = '';
 
     try {
-      const response = await fetch('/api/admin/portfolio?status=published');
+      const response = await fetch('/api/portfolio?status=published');
       const data = await response.json();
 
       if (loadingState) loadingState.style.display = 'none';

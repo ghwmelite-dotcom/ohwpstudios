@@ -5,11 +5,11 @@ export const SITE_CONFIG = {
   url: "https://ohwpstudios.org",
   author: "OhWP Studios",
   email: "ohwpstudios@gmail.com",
-  phone: "+233 (123) 456-789",
+  phone: "", // Publish a business number only after verification.
   social: {
     twitter: "https://twitter.com/ohwpstudios",
     linkedin: "https://linkedin.com/company/ohwpstudios",
-    github: "https://github.com/ohwpstudios",
+    github: "https://github.com/ghwmelite-dotcom",
     instagram: "https://instagram.com/ohwpstudios",
   },
   services: [

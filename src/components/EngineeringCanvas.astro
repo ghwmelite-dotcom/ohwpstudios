@@ -1,0 +1,66 @@
+<figure class="engineering-canvas" data-motion="still" aria-label="Studio illustration connecting software, artificial intelligence, and trading systems">
+  <div class="canvas-orbit orbit-outer" aria-hidden="true"></div><div class="canvas-orbit orbit-inner" aria-hidden="true"></div>
+  <svg class="woven-object" viewBox="0 0 600 540" aria-hidden="true">
+    <defs>
+      <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c481f"/><stop offset=".22" stop-color="#d6b56f"/><stop offset=".4" stop-color="#f8e5b5"/><stop offset=".56" stop-color="#a57939"/><stop offset=".75" stop-color="#ead294"/><stop offset="1" stop-color="#765329"/></linearGradient>
+      <linearGradient id="metal-edge" x1="0" y1="0" x2="1" y2=".2"><stop stop-color="#f5dfaa"/><stop offset=".5" stop-color="#8e6631"/><stop offset="1" stop-color="#e3c283"/></linearGradient>
+      <filter id="object-shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="24" stdDeviation="20" flood-color="#000" flood-opacity=".35"/></filter>
+    </defs>
+    <g filter="url(#object-shadow)" transform="translate(300 270) rotate(-32) translate(-300 -270)">
+      <rect x="158" y="86" width="184" height="286" rx="88" fill="none" stroke="url(#metal)" stroke-width="46"/>
+      <rect x="158" y="86" width="184" height="286" rx="88" fill="none" stroke="url(#metal-edge)" stroke-width="2"/>
+      <rect x="274" y="184" width="184" height="286" rx="88" fill="none" stroke="url(#metal)" stroke-width="46"/>
+      <rect x="274" y="184" width="184" height="286" rx="88" fill="none" stroke="url(#metal-edge)" stroke-width="2"/>
+      <path d="M342 265v19c0 49-39 88-88 88h-8" fill="none" stroke="url(#metal)" stroke-width="46"/>
+      <path d="M342 265v19c0 49-39 88-88 88h-8" fill="none" stroke="url(#metal-edge)" stroke-width="2"/>
+      {[0,1,2,3,4,5].map(i => <path d={`M${145+i*5} 173v100`} stroke="url(#metal-edge)" stroke-width="1" opacity=".38"/>)}
+    </g>
+  </svg>
+  <div class="canvas-tag tag-software"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-2-15-4 18"/></svg><div><small>Thoughtfully designed</small><strong>Software that fits.</strong></div></div>
+  <div class="canvas-tag tag-intelligence"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5"/></svg><div><small>Purposefully connected</small><strong>Intelligence that helps.</strong></div></div>
+  <div class="strategy-window">
+    <div class="strategy-top"><span><i></i> Strategy, translated.</span><span>Rule-based systems</span></div>
+    <svg viewBox="0 0 360 110" class="strategy-chart" role="img" aria-label="Illustrative candlestick chart with entry, risk, and target levels; not trading results">
+      <g stroke="currentColor" opacity=".12"><path d="M0 25h360M0 55h360M0 85h360M45 0v110M105 0v110M165 0v110M225 0v110M285 0v110"/></g>
+      <g stroke="#b9b398" stroke-width="1.5"><path d="M20 62v32M44 48v34M68 60v32M92 43v33M116 28v35M140 36v34M164 49v32M188 37v28M212 24v33M236 36v31M260 22v28"/></g>
+      <g fill="#cbb67f"><rect x="15" y="69" width="10" height="17"/><rect x="39" y="54" width="10" height="20"/><rect x="87" y="48" width="10" height="20"/><rect x="111" y="34" width="10" height="20"/><rect x="183" y="41" width="10" height="18"/><rect x="207" y="29" width="10" height="18"/><rect x="255" y="26" width="10" height="17"/></g>
+      <g fill="#648a77"><rect x="63" y="66" width="10" height="18"/><rect x="135" y="41" width="10" height="21"/><rect x="159" y="55" width="10" height="18"/><rect x="231" y="40" width="10" height="20"/></g>
+      <path class="strategy-trend" d="M8 99 266 57" stroke="#d6bd7e" stroke-width="1" opacity=".55"/>
+      <path d="M170 22h112M170 69h112" stroke="#cbb67f" stroke-dasharray="3 4" opacity=".6"/>
+      <g fill="#cbd5c9" font-family="system-ui,sans-serif" font-size="9"><text x="293" y="25">Target</text><text x="293" y="72">Risk limit</text></g>
+    </svg>
+    <div class="strategy-bottom"><span>Logic. Risk. Validation.</span><span>Illustrative interface</span></div>
+  </div>
+  <figcaption>Different disciplines. One connected craft.</figcaption>
+  <button class="hero-motion-toggle" type="button" aria-pressed="false" hidden>
+    <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><g class="motion-pause"><rect x="1" y="1" width="2" height="10"/><rect x="7" y="1" width="2" height="10"/></g><path class="motion-play" d="m1 1 8 5-8 5Z"/></svg>
+    <span>Pause motion</span>
+  </button>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.engineering-canvas').forEach((canvas) => {
+    const button = canvas.querySelector<HTMLButtonElement>('.hero-motion-toggle');
+    const label = button?.querySelector('span');
+    if (!button || !label) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let userPaused = false;
+    let inView = true;
+    const sync = () => {
+      canvas.dataset.motion = reducedMotion.matches ? 'still' : 'animated';
+      canvas.dataset.paused = String(userPaused || !inView || document.hidden);
+      button.hidden = reducedMotion.matches;
+      button.setAttribute('aria-pressed', String(userPaused));
+      label.textContent = userPaused ? 'Resume motion' : 'Pause motion';
+    };
+    button.addEventListener('click', () => { userPaused = !userPaused; sync(); });
+    reducedMotion.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    }, { threshold: 0.1 });
+    observer.observe(canvas);
+    sync();
+  });
+</script>
