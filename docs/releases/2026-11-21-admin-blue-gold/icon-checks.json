@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/favicon.svg",
+    "status": 200,
+    "matchesApprovedAsset": true
+  },
+  {
+    "path": "/favicon.ico",
+    "status": 200,
+    "matchesApprovedAsset": true
+  },
+  {
+    "path": "/apple-touch-icon.png",
+    "status": 200,
+    "matchesApprovedAsset": true
+  },
+  {
+    "path": "/brand/apple-touch-icon.png",
+    "status": 200,
+    "matchesApprovedAsset": true
+  },
+  {
+    "path": "/icons/icon-192x192.png",
+    "status": 200,
+    "matchesApprovedAsset": true
+  },
+  {
+    "path": "/icons/icon-512x512.png",
+    "status": 200,
+    "matchesApprovedAsset": true
+  }
+]

@@ -1,0 +1,223 @@
+[
+  {
+    "path": "dashboard",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "dashboard",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "contacts",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "contacts",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "bookings",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "bookings",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "quiz-leads",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "quiz-leads",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "testimonials",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "testimonials",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "newsletter",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "newsletter",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "portfolio",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "portfolio",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "clients",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "clients",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "estimates",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "estimates",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "pm-chats",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "pm-chats",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "applications",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "applications",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "code-quality",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "code-quality",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "push-notifications",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "push-notifications",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "contracts",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "contracts",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "theme",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "theme",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "chat",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "chat",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "contacts/9001",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "contacts/9001",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "path": "project/9001",
+    "signed": false,
+    "status": 302,
+    "expected": 302
+  },
+  {
+    "path": "project/9001",
+    "signed": true,
+    "status": 200,
+    "expected": 200
+  },
+  {
+    "check": "Missing CSRF blocked",
+    "status": 403,
+    "expected": 403
+  }
+]

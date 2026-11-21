@@ -1,0 +1,120 @@
+[
+  {
+    "path": "dashboard",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "contacts",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "bookings",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "quiz-leads",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "testimonials",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "newsletter",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "portfolio",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "clients",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "estimates",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "pm-chats",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "applications",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "code-quality",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "push-notifications",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "contracts",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "theme",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "chat",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "contacts/9001",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "path": "project/9001",
+    "status": 302,
+    "location": "/admin/login",
+    "expected": 302
+  },
+  {
+    "check": "Anonymous API rejected",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "check": "Synthetic local session rejected",
+    "status": 401,
+    "expected": 401
+  }
+]
