@@ -1,7 +1,6 @@
-const CACHE_VERSION = 'v1.3.0';
+const CACHE_VERSION = 'v1.4.0';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
-const API_CACHE = `api-${CACHE_VERSION}`;
 
 // Assets to cache on install - Critical resources for performance
 const STATIC_ASSETS = [
@@ -40,15 +39,15 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (!cacheName.includes(CACHE_VERSION)) {
+          const isAppCache = /^(static|dynamic|api)-/.test(cacheName);
+          if (isAppCache && ![STATIC_CACHE, DYNAMIC_CACHE].includes(cacheName)) {
             console.log('[ServiceWorker] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  return self.clients.claim();
 });
 
 // Fetch event - serve from cache with network fallback
@@ -61,16 +60,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // API requests - network first, cache fallback
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(
-      networkFirstStrategy(request, API_CACHE)
-    );
+  // Never retain API responses, private pages, or mutations in the offline cache.
+  if (request.method !== 'GET' || /^\/(api|admin|client|contract|proposal|testimonial|affiliate|auth)(\/|$)/.test(url.pathname)) {
     return;
   }
 
-  // Admin/Client portal - network first
-  if (url.pathname.startsWith('/admin/') || url.pathname.startsWith('/client/')) {
+  // Public HTML must revalidate on navigation so new releases reach returning visitors.
+  if (request.mode === 'navigate') {
     event.respondWith(
       networkFirstStrategy(request, DYNAMIC_CACHE)
     );

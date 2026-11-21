@@ -36,3 +36,10 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
     </footer>
   </body>
 </html>
+
+<script>
+  // Refresh an existing PWA installation without adding install prompts to the studio pages.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistration().then((registration) => registration?.update()).catch(() => {});
+  }
+</script>
