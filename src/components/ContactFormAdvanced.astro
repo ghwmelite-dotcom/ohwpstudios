@@ -6,7 +6,7 @@
   <div class="container">
     <div class="form-header">
       <h2 class="form-title">Let's Start Your Project</h2>
-      <p class="form-subtitle">Tell us about your needs and we'll get back to you within 24 hours</p>
+      <p class="form-subtitle">Tell us what you need, review your brief, and send it to the studio.</p>
     </div>
 
     <!-- Progress Indicator -->
@@ -76,7 +76,7 @@
                 id="full_name"
                 name="full_name"
                 class="form-input"
-                placeholder="John Doe"
+                autocomplete="name"
                 required
               />
               <span class="error-message"></span>
@@ -91,7 +91,7 @@
                 id="email"
                 name="email"
                 class="form-input"
-                placeholder="john@example.com"
+                autocomplete="email"
                 required
               />
               <span class="error-message"></span>
@@ -161,7 +161,7 @@
                 <option value="cloud-solutions">Cloud Solutions</option>
                 <option value="premium-support">Premium Support</option>
                 <option value="other">Other</option>
-              </select>
+              <option value="guided-build">Guided build with Codex or Claude Code</option><option value="trading-technology">Trading bot or TradingView indicator</option></select>
               <span class="error-message"></span>
             </div>
 
@@ -175,11 +175,11 @@
                 class="form-select"
               >
                 <option value="">Select budget range...</option>
-                <option value="under-5k">Under GH₵5,000 ($415)</option>
-                <option value="5k-10k">GH₵5,000 - GH₵10,000 ($415 - $830)</option>
-                <option value="10k-20k">GH₵10,000 - GH₵20,000 ($830 - $1,660)</option>
-                <option value="20k-50k">GH₵20,000 - GH₵50,000 ($1,660 - $4,150)</option>
-                <option value="over-50k">Over GH₵50,000 ($4,150+)</option>
+                <option value="under-5k">Under GH₵5,000</option>
+                <option value="5k-10k">GH₵5,000 - GH₵10,000</option>
+                <option value="10k-20k">GH₵10,000 - GH₵20,000</option>
+                <option value="20k-50k">GH₵20,000 - GH₵50,000</option>
+                <option value="over-50k">Over GH₵50,000</option>
               </select>
               <span class="error-message"></span>
             </div>
@@ -393,10 +393,10 @@
           </div>
           <h3 class="success-title">Thank You!</h3>
           <p class="success-message">
-            Your inquiry has been submitted successfully. We'll review your request and get back to you within 24 hours.
+            Your inquiry has been saved. We’ll review your request and respond by email.
           </p>
           <p class="success-submessage">
-            Check your email for a confirmation message with next steps.
+            Keep an eye on your inbox for our reply.
           </p>
           <button type="button" class="btn-new-form" onclick="window.location.reload()">
             Submit Another Request
@@ -1082,6 +1082,7 @@
 </style>
 
 <script>
+  import { escapeHTML } from "@/utils/sanitize";
   class AdvancedContactForm {
     private form: HTMLFormElement;
     private currentStep: number = 1;
@@ -1358,7 +1359,7 @@
         const fileItem = document.createElement('div');
         fileItem.className = 'file-item';
         fileItem.innerHTML = `
-          <span class="file-name">${file.name} (${this.formatFileSize(file.size)})</span>
+          <span class="file-name">${escapeHTML(file.name)}})</span>
           <button type="button" class="file-remove" data-index="${index}">&times;</button>
         `;
 
@@ -1442,8 +1443,8 @@
       if (!value) return '';
       return `
         <div class="review-item">
-          <div class="review-label">${label}:</div>
-          <div class="review-value">${value}</div>
+          <div class="review-label">${escapeHTML(label)}:</div>
+          <div class="review-value">${escapeHTML(value)}</div>
         </div>
       `;
     }
@@ -1456,6 +1457,8 @@
         'seo-marketing': 'SEO & Marketing',
         'cloud-solutions': 'Cloud Solutions',
         'premium-support': 'Premium Support',
+        'guided-build': 'Guided build with Codex or Claude Code',
+        'trading-technology': 'Trading bot or TradingView indicator',
         'other': 'Other'
       };
       return labels[value] || value;
@@ -1463,11 +1466,11 @@
 
     getBudgetLabel(value: string): string {
       const labels: Record<string, string> = {
-        'under-5k': 'Under GH₵5,000 ($415)',
-        '5k-10k': 'GH₵5,000 - GH₵10,000 ($415 - $830)',
-        '10k-20k': 'GH₵10,000 - GH₵20,000 ($830 - $1,660)',
-        '20k-50k': 'GH₵20,000 - GH₵50,000 ($1,660 - $4,150)',
-        'over-50k': 'Over GH₵50,000 ($4,150+)'
+        'under-5k': 'Under GH₵5,000',
+        '5k-10k': 'GH₵5,000 - GH₵10,000',
+        '10k-20k': 'GH₵10,000 - GH₵20,000',
+        '20k-50k': 'GH₵20,000 - GH₵50,000',
+        'over-50k': 'Over GH₵50,000'
       };
       return labels[value] || value;
     }

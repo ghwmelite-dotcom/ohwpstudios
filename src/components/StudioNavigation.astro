@@ -1,0 +1,21 @@
+---
+const groups = [
+  { title: 'Services', links: [['Web applications','/services/custom-web-application-development'],['SaaS development','/services/saas-application-development'],['API development','/services/api-development-services']] },
+  { title: 'Solutions', links: [['AI applications','/solutions/ai-powered-application-development'],['Startup MVPs','/solutions/startup-mvp-development']] },
+  { title: 'Technologies', links: [['Fullstack','/technologies/fullstack-development'],['React','/technologies/react-development'],['Next.js','/technologies/nextjs-development'],['Node.js','/technologies/nodejs-development'],['Python','/technologies/python-development']] },
+  { title: 'Industries', links: [['Fintech','/industries/fintech-software-development'],['Healthcare','/industries/healthcare-software-development'],['Education','/industries/education-software-development']] },
+];
+---
+<nav class="site-navigation" aria-label="Main navigation">
+  <a href="/portfolio">Work</a>
+  <details class="nav-disclosure"><summary>Services <span aria-hidden="true">⌄</span></summary><div class="nav-panel services-panel">{groups.map(group=><div><p>{group.title}</p>{group.links.map(([label,url])=><a href={url}>{label}</a>)}</div>)}<a class="nav-panel-all" href="/sitemap-pages">All services &amp; solutions ↗</a></div></details>
+  <details class="nav-disclosure"><summary>Explore <span aria-hidden="true">⌄</span></summary><div class="nav-panel explore-panel"><div><p>Tools &amp; guidance</p><a href="/estimate-project">Project estimator</a><a href="/quiz">Project discovery quiz</a><a href="/website-analyzer">Website grader</a><a href="/website-audit">Website audit</a><a href="/booking">Book a consultation</a></div><div><p>Inside the studio</p><a href="/case-studies">Case studies</a><a href="/clients">Clients</a><a href="/blog">Blog &amp; insights</a><a href="/careers">Careers &amp; collaboration</a><a href="/open-build">Open Build</a></div><div><p>Your workspace</p><a href="/client/login">Client portal</a><button type="button" data-theme-toggle>Switch colour theme</button><button type="button" data-open-chat>Chat with Kodie</button><button type="button" data-install-app>Install the app</button><span class="install-status" role="status"></span></div></div></details>
+  <a href="/about">About</a><a href="/contact">Contact</a>
+</nav>
+<script>
+  const menus = Array.from(document.querySelectorAll<HTMLDetailsElement>('.nav-disclosure'));
+  menus.forEach(menu=>menu.addEventListener('toggle',()=>{ if(menu.open) menus.filter(other=>other!==menu).forEach(other=>{other.open=false;}); }));
+  document.addEventListener('click',event=>{if(event.target instanceof Node && !document.querySelector('.site-navigation')?.contains(event.target)) menus.forEach(menu=>{menu.open=false;});});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape') menus.filter(menu=>menu.open).forEach(menu=>{menu.open=false;menu.querySelector('summary')?.focus();});});
+  document.querySelector('[data-open-chat]')?.addEventListener('click',()=>{document.querySelector<HTMLButtonElement>('#chatbot-toggle')?.click();menus.forEach(menu=>{menu.open=false;});});
+</script>

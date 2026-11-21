@@ -1,4 +1,5 @@
 ---
+import ContactFormAdvanced from '@/components/ContactFormAdvanced.astro';
 import InteriorLayout from '@/layouts/InteriorLayout.astro';
 import { SITE_CONFIG } from '@/config';
 ---
@@ -6,28 +7,7 @@ import { SITE_CONFIG } from '@/config';
   <main id="main">
     <section class="interior-mast"><div class="wrap"><p class="eyebrow">Contact / A good place to begin</p><h1>Big ambition.<br /><em>One conversation.</em></h1><p class="lede">A rough idea is enough. Tell us what you’re trying to make possible, and we’ll work out a sensible next step together.</p><div class="mast-foot"><span>Build it for me / Build it with me</span><span>Accra, Ghana · Working globally</span></div></div></section>
     <section class="wrap section-space contact-spread"><aside class="contact-aside"><p class="eyebrow">Let’s make something useful</p><h2>The first step<br />is a little context.</h2><p>Who is it for? What should it change? What have you tried? Share what you know — we can help with the rest.</p><a class="contact-email" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a><div class="contact-notes"><div><span>Based in</span><strong>Accra, Ghana · GMT</strong></div><div><span>Prefer to explore first?</span><a href="/estimate-project">Project estimator ↗</a></div><div><span>Want to talk it through?</span><a href="/booking">Arrange a consultation ↗</a></div></div></aside>
-    <form class="studio-form" id="contact-enquiry" action="/api/contact/submit" method="post"><h2>Your idea, in your words.</h2><p class="form-intro">Fields marked * help us get back to you.</p><div class="field-grid"><div class="field"><label for="full-name">Your name *</label><input id="full-name" name="full_name" autocomplete="name" maxlength="120" required /></div><div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required /></div></div><div class="field"><label for="company">Company or organisation <small>(optional)</small></label><input id="company" name="company" autocomplete="organization" maxlength="200" /></div><div class="field"><label for="service">How would you like to work? *</label><select id="service" name="service_type" required><option value="">Choose an approach</option><option>Build it for me</option><option>Guided build with AI coding tools</option><option>Trading bot or TradingView indicator</option><option>Improve an existing product</option><option>Help me work it out</option></select></div><div class="field"><label for="description">What do you have in mind? *</label><textarea id="description" name="project_description" minlength="20" maxlength="5000" rows="5" required placeholder="The idea, the people it’s for, and what success would look like."></textarea></div><div class="field-grid"><div class="field"><label for="budget">Budget in mind <small>(optional)</small></label><input id="budget" name="budget_range" maxlength="120" placeholder="Amount and currency, or not sure yet" /></div><div class="field"><label for="timeline">Ideal timeline <small>(optional)</small></label><input id="timeline" name="project_timeline" maxlength="120" placeholder="A target date, or flexible" /></div></div><div class="form-submit"><p>We’ll use these details to respond to your enquiry. <a href="/privacy">Privacy notice</a></p><button class="button" type="submit">Send enquiry <span aria-hidden="true">↗</span></button></div><p class="form-status" id="contact-status" role="status" aria-live="polite" tabindex="-1"></p></form></section>
+    <div class="advanced-enquiry"><ContactFormAdvanced /></div></section>
     <section class="wrap section-space faq-section-premium editorial-grid"><div><p class="eyebrow">A few useful answers</p><h2>Before we begin.</h2></div><div class="faq-list"><details><summary>Do I need a finished brief?</summary><p>No. A description of the problem and who it affects is a useful starting point. We can help define the scope before committing to a build.</p></details><details><summary>Can you help me build it myself?</summary><p>Yes. Guided builds cover planning, coding, debugging, review, and deployment with tools such as Codex and Claude Code. We agree the level of support around your experience and goals.</p></details><details><summary>Can you work on an existing project?</summary><p>Yes. Share the current product, the issue, and your intended outcome. We’ll review the work before recommending a practical approach.</p></details><details><summary>How are scope and payment agreed?</summary><p>We agree deliverables, milestones, responsibilities, price, and payment terms in a proposal before work starts. The estimator provides an initial planning range; a reviewed scope determines the quote.</p></details></div></section>
   </main>
 </InteriorLayout>
-<script>
-  const form = document.querySelector<HTMLFormElement>('#contact-enquiry');
-  const status = document.querySelector<HTMLParagraphElement>('#contact-status');
-  const button = form?.querySelector<HTMLButtonElement>('button[type=submit]');
-  const started = Date.now();
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!form || !status || !button || button.disabled || !form.reportValidity()) return;
-    button.disabled = true; button.textContent = 'Sending…'; status.textContent = '';
-    const data = new FormData(form);
-    data.set('session_id', crypto.randomUUID()); data.set('time_spent', String(Math.floor((Date.now() - started) / 1000)));
-    data.set('field_interactions', '{}'); data.set('user_agent', navigator.userAgent);
-    try {
-      const response = await fetch(form.action, { method: 'POST', body: data, signal: AbortSignal.timeout(45000) });
-      const result: { success?: boolean } = await response.json();
-      if (!response.ok || result.success !== true) throw new Error('Enquiry not confirmed');
-      status.dataset.error = 'false'; status.textContent = 'Your enquiry is saved. We’ll be in touch by email.'; form.reset();
-    } catch { status.dataset.error = 'true'; status.textContent = 'We couldn’t confirm your enquiry. Please try again or email ohwpstudios@gmail.com.'; }
-    finally { button.disabled = false; button.textContent = 'Send enquiry ↗'; status.focus(); }
-  });
-</script>
