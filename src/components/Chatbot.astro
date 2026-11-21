@@ -2,6 +2,7 @@
 // AI Chatbot Widget Component - Elite Modern Design
 import AdinkraIcon from './AdinkraIcon.astro';
 import BrandMark from './BrandMark.astro';
+import TelegramIcon from './TelegramIcon.astro';
 import { telegramQuoteLink } from '../lib/quote-policy';
 ---
 
@@ -53,6 +54,12 @@ import { telegramQuoteLink } from '../lib/quote-policy';
         </svg>
       </button>
     </div>
+
+    <a class="chatbot-quote-button" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer">
+      <TelegramIcon size={24} />
+      <span><strong>Quote on Telegram</strong><small>@oh84dev · Tailored to your project</small></span>
+      <span class="quote-arrow" aria-hidden="true">↗</span>
+    </a>
 
     <!-- Welcome Screen -->
     <div class="chatbot-welcome" id="chatbot-welcome">
@@ -133,12 +140,17 @@ import { telegramQuoteLink } from '../lib/quote-policy';
       </svg>
       <span>Powered by Hodges & Co.</span>
     </div>
-    <a class="chatbot-quote-link" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer">Discuss your project on Telegram ↗</a>
   </div>
 </div>
 
 <style>
-  .chatbot-quote-link { display:flex; align-items:center; justify-content:center; min-height:44px; padding:8px 16px; color:var(--brand-gold, #e7c997); background:var(--brand-night, #090d21); text-decoration:underline; font-size:13px; }
+  .chatbot-quote-button { display:flex; align-items:center; gap:12px; flex-shrink:0; min-height:64px; margin:12px 16px 0; padding:12px 16px; border:1px solid var(--brand-gold); border-radius:12px; background:var(--brand-gold); color:var(--brand-night); text-decoration:none; transition:box-shadow 180ms ease; }
+  .chatbot-quote-button strong { display:block; font-size:15px; line-height:1.4; }
+  .chatbot-quote-button small { display:block; margin-top:2px; font-size:12px; line-height:1.5; }
+  .chatbot-quote-button .quote-arrow { margin-left:auto; font-size:22px; }
+  .chatbot-quote-button:hover { box-shadow:0 4px 16px -6px var(--brand-gold); }
+  .chatbot-quote-button:focus-visible { outline:3px solid var(--brand-cobalt); outline-offset:3px; }
+  @media(prefers-reduced-motion:reduce) { .chatbot-quote-button { transition:none; } }
   .chatbot-container {
     position: fixed;
     bottom: 2rem;
