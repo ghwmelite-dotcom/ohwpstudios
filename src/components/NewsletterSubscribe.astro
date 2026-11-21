@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: 'footer' | 'inline' | 'popup';
+  variant?: 'footer' | 'inline' | 'popup' | 'signature';
   title?: string;
   description?: string;
 }
@@ -18,7 +18,7 @@ const {
     <p class="newsletter-description">{description}</p>
   </div>
 
-  <form class="newsletter-form" id="newsletter-form">
+  <form class="newsletter-form" id="newsletter-form" data-newsletter-source={variant === 'signature' ? 'footer' : variant}>
     <div class="form-group">
       <input
         type="email"
@@ -39,7 +39,7 @@ const {
         </span>
       </button>
     </div>
-    <div class="form-message" id="newsletter-message"></div>
+    <div class="form-message" id="newsletter-message" role="status" aria-live="polite"></div>
     <p class="newsletter-privacy">
       We respect your privacy. Unsubscribe at any time.
     </p>
@@ -162,6 +162,24 @@ const {
   }
 
   /* Footer variant styles */
+  .newsletter-signature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);align-items:center;gap:40px;max-width:none}
+  .newsletter-signature .newsletter-content{margin:0}
+  .newsletter-signature .newsletter-title{font-family:var(--font-display);font-size:30px;font-weight:400;letter-spacing:-.035em;line-height:1.2;color:var(--footer-white);margin-bottom:10px}
+  .newsletter-signature .newsletter-description{font-size:13px;line-height:1.8;color:var(--footer-copy);max-width:38ch}
+  .newsletter-signature .newsletter-form{min-width:0}
+  .newsletter-signature .form-group{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;margin:0 0 12px;width:100%;max-width:none}
+  .newsletter-signature .newsletter-input{width:100%;min-width:0;min-height:56px;margin:0;padding:12px 16px;font-size:16px;border:1px solid #64708e;border-radius:6px;background:var(--footer-ink);color:var(--footer-white)}
+  .newsletter-signature .newsletter-input::placeholder{color:var(--footer-copy);opacity:1}
+  .newsletter-signature .newsletter-button{width:auto;min-height:56px;padding:12px 24px;border-radius:6px;color:#17192a;background:linear-gradient(115deg,#f0ddb8,#d6ad72);font-size:14px;font-weight:600;box-shadow:none}
+  .newsletter-signature .newsletter-button:hover{transform:none;filter:brightness(1.06);box-shadow:none}
+  .newsletter-signature .newsletter-privacy{text-align:left;color:var(--footer-copy);font-size:11px}
+  .newsletter-signature .newsletter-input:focus-visible{outline:3px solid var(--footer-gold);outline-offset:4px;box-shadow:none}
+  .newsletter-signature .newsletter-button:focus-visible{outline:3px solid var(--footer-gold);outline-offset:4px}
+  .newsletter-signature .form-message.success{color:#c8efd7;background:#142e2d;border-color:#42695b}
+  .newsletter-signature .form-message.error{color:#ffd2c9;background:#39252c;border-color:#95615e}
+  @media(max-width:900px){.newsletter-signature{grid-template-columns:1fr;gap:24px}.newsletter-signature .newsletter-description{max-width:none}}
+  @media(max-width:480px){.newsletter-signature .form-group{grid-template-columns:minmax(0,1fr)}.newsletter-signature .newsletter-button{width:100%}.newsletter-signature .newsletter-title{font-size:27px}}
+
   .newsletter-footer {
     max-width: 500px;
   }
@@ -249,8 +267,9 @@ const {
         },
         body: JSON.stringify({
           email,
-          source: form.closest('[class*="newsletter-"]')?.className.includes('footer') ? 'footer' :
+          source: form.dataset.newsletterSource || (form.closest('[class*="newsletter-"]')?.className.includes('footer') ? 'footer' :
                   form.closest('[class*="newsletter-"]')?.className.includes('popup') ? 'popup' : 'inline'
+          ),
         }),
       });
 

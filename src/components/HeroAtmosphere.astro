@@ -1,0 +1,15 @@
+---
+// A continuous folded ribbon echoes the linked sculpture; no image or video payload.
+---
+<div class="hero-atmosphere" aria-hidden="true">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" fill="none">
+    <defs>
+      <linearGradient id="atelier-ribbon" x1="1510" y1="-80" x2="600" y2="1020" gradientUnits="userSpaceOnUse"><stop stop-color="#172257"/><stop offset=".24" stop-color="#5265db"/><stop offset=".47" stop-color="#283eaa"/><stop offset=".66" stop-color="#8266ae"/><stop offset=".84" stop-color="#d38766"/><stop offset="1" stop-color="#38233c"/></linearGradient>
+      <linearGradient id="atelier-edge" x1="1450" y1="0" x2="790" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#758dff" stop-opacity="0"/><stop offset=".3" stop-color="#9daaff" stop-opacity=".7"/><stop offset=".7" stop-color="#f0b999" stop-opacity=".7"/><stop offset="1" stop-color="#f0b999" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path class="light-fold" d="M1660-180C965-42 1585 337 1122 595S477 792 273 1080" stroke="url(#atelier-ribbon)" stroke-width="245" />
+    <path d="M1690-104C1088 15 1697 363 1172 651S617 819 403 1080" stroke="url(#atelier-edge)" stroke-width="1.2"/>
+    {[0,1,2,3,4,5,6].map(i=><path d={`M${1748+i*11} -105 C ${1146+i*11} 15 ${1755+i*11} 363 ${1230+i*11} 651 S ${675+i*11} 819 ${461+i*11} 1080`} stroke="url(#atelier-edge)" stroke-width=".65" opacity={.3-i*.025}/>)}
+    <path d="M1025-100C760 175 1358 330 1000 620S520 855 440 1020" stroke="url(#atelier-edge)" stroke-width=".6" opacity=".35" />
+  </svg>
+</div>

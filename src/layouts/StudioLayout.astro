@@ -4,7 +4,7 @@ import '@/styles/studio.css';
 import '@/styles/premium.css';
 import '@/styles/studio-features.css';
 import StudioNavigation from '@/components/StudioNavigation.astro';
-import NewsletterSubscribe from '@/components/NewsletterSubscribe.astro';
+import StudioFooter from '@/components/StudioFooter.astro';
 import Chatbot from '@/components/Chatbot.astro';
 import SiteAnalytics from '@/components/SiteAnalytics.astro';
 import ConsentBanner from '@/components/ConsentBanner.astro';
@@ -36,7 +36,7 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
     <SiteAnalytics />
     <slot name="head" />
   </head>
-  <body class:list={{ 'premium-home': home, 'premium-interior': interior }}>
+  <body id="top" class:list={{ 'premium-home': home, 'premium-interior': interior }}>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="header-shell"><header class="studio-header wrap">
       <a class="wordmark" href="/" aria-label="OhWP Studios home"><AdinkraIcon symbol="nkyinkyim" size={32} />OhWP<span>Studios</span></a>
@@ -44,12 +44,7 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
       <a class="button button-small" href="/estimate-project">Scope my project <span aria-hidden="true">↗</span></a>
     </header></div>
     <slot />
-    <footer class="studio-footer wrap">
-      <div class="footer-top"><a class="wordmark" href="/">OhWP<span>Studios</span></a><p>Thoughtfully made in Accra.<br />Built to work everywhere.</p></div>
-      <div class="studio-footer-directory"><div><h3>Studio</h3><a href="/about">About</a><a href="/portfolio">Portfolio</a><a href="/case-studies">Case studies</a><a href="/clients">Clients</a><a href="/careers">Careers</a></div><div><h3>Tools &amp; guidance</h3><a href="/estimate-project">Project estimator</a><a href="/quiz">Project discovery quiz</a><a href="/website-analyzer">Website grader</a><a href="/website-audit">Website audit</a></div><div><h3>Explore</h3><a href="/sitemap-pages">Services &amp; solutions</a><a href="/blog">Blog &amp; insights</a><a href="/open-build">Open Build</a><a href={SITE_CONFIG.social.twitter} target="_blank" rel="noopener noreferrer">X / Twitter</a><a href={SITE_CONFIG.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a><a href={SITE_CONFIG.social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://github.com/ghwmelite-dotcom" target="_blank" rel="noopener noreferrer">GitHub</a></div><div><h3>Let’s work together</h3><a href="/contact">Contact</a><a href="/booking">Book a consultation</a><a href="/client/login">Client portal</a><a href={`mailto:${SITE_CONFIG.email}`}>Email us</a></div></div>
-      <div class="studio-newsletter"><NewsletterSubscribe title="Notes from the studio" description="New builds, practical insights, and updates from OhWP Studios." /></div>
-      <div class="footer-bottom"><span>© {new Date().getUTCFullYear()} OhWP Studios. A Hodges &amp; Co. studio.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div>
-    </footer>
+    <StudioFooter />
     <Chatbot />
     <ConsentBanner />
   </body>

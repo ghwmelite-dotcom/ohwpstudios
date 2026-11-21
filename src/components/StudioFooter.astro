@@ -1,0 +1,48 @@
+---
+import AdinkraIcon from './AdinkraIcon.astro';
+import NewsletterSubscribe from './NewsletterSubscribe.astro';
+import { SITE_CONFIG } from '@/config';
+const groups = [
+  {title:'The studio',links:[['About','/about'],['Portfolio','/portfolio'],['Case studies','/case-studies'],['Clients','/clients'],['Careers','/careers']]},
+  {title:'Tools & guidance',links:[['Project estimator','/estimate-project'],['Project discovery quiz','/quiz'],['Website grader','/website-analyzer'],['Website audit','/website-audit']]},
+  {title:'Explore',links:[['Services & solutions','/sitemap-pages'],['Blog & insights','/blog'],['Open Build','/open-build']]},
+  {title:'Let’s work together',links:[['Contact','/contact'],['Book a consultation','/booking'],['Client portal','/client/login'],['Email us',`mailto:${SITE_CONFIG.email}`]]},
+];
+const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFIG.social.linkedin],['Instagram',SITE_CONFIG.social.instagram],['GitHub',SITE_CONFIG.social.github]];
+---
+<footer class="signature-footer" aria-label="Studio footer">
+  <div class="footer-engraving" aria-hidden="true"><AdinkraIcon symbol="nkyinkyim" size={280}/></div>
+  <div class="wrap">
+    <div class="signature-invitation">
+      <div><p class="footer-kicker">A good idea deserves a great beginning.</p><h2>Let’s build<br />what’s next.</h2></div>
+      <a class="signature-contact" href="/contact"><span class="signature-arrow" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M15 49 49 15M15 15h34v34" stroke="currentColor" stroke-width="2"/></svg></span><span>Tell us your idea</span></a>
+    </div>
+    <div class="signature-newsletter"><NewsletterSubscribe variant="signature" title="Notes from the studio." description="New builds, practical insights, and the thinking behind the work." /></div>
+    <nav class="signature-directory" aria-label="Footer navigation">{groups.map(group=><div><h3>{group.title}</h3>{group.links.map(([label,href])=><a href={href}>{label}</a>)}</div>)}</nav>
+    <div class="signature-colophon"><a class="signature-wordmark" href="/" aria-label="OhWP Studios home"><AdinkraIcon symbol="nkyinkyim" size={30}/><strong>OhWP</strong><span>Studios</span></a><p>Thoughtfully made in Accra.<br />Built to work everywhere.</p><div class="signature-socials" aria-label="Social links">{socials.map(([label,href])=><a href={href} target="_blank" rel="noopener noreferrer">{label}<span aria-hidden="true">↗</span></a>)}</div></div>
+    <div class="signature-legal"><span>© {new Date().getUTCFullYear()} OhWP Studios. A Hodges &amp; Co. studio.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div></div>
+  </div>
+</footer>
+<style>
+  .signature-footer{--footer-ink:#0b1025;--footer-surface:#131a34;--footer-line:#333b56;--footer-copy:#c2cae1;--footer-white:#f6f0e3;--footer-gold:#e7c997;--color-text:var(--footer-white);--color-text-secondary:var(--footer-copy);--color-surface:var(--footer-surface);--color-border:var(--footer-line);position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 90% 0,rgba(77,75,141,.3),transparent 45%),linear-gradient(115deg,#080c1d,var(--footer-ink));color:var(--footer-white);padding:72px 0 24px;margin-top:64px;border-radius:28px 28px 0 0}
+  .footer-engraving{position:absolute;z-index:-1;right:8%;top:24px;transform:rotate(-24deg);color:var(--footer-gold);opacity:.045;pointer-events:none}
+  .signature-invitation{display:flex;justify-content:space-between;align-items:center;gap:48px;padding-bottom:56px}
+  .footer-kicker{color:var(--footer-copy);font-size:13px;margin-bottom:24px}
+  .signature-invitation h2{font-family:var(--font-display);font-size:clamp(52px,7.2vw,100px);line-height:1.01;letter-spacing:-.055em;font-weight:400}
+  .signature-contact{display:flex;flex-direction:column;align-items:center;gap:20px;font-size:14px;margin-right:32px;flex-shrink:0}
+  .signature-arrow{width:112px;height:112px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#f0ddb8,#d6ad72);color:#17192a;box-shadow:inset 0 1px rgba(255,255,255,.5),0 12px 36px -20px rgba(231,201,151,.4);transition:transform 200ms ease}
+  .signature-arrow svg{width:52px;height:52px;transition:transform 200ms ease}.signature-contact:hover .signature-arrow{transform:translateY(-3px)}.signature-contact:hover svg{transform:translate(2px,-2px)}
+  .signature-newsletter{padding:32px;border:1px solid var(--footer-line);border-radius:12px;background:linear-gradient(100deg,rgba(35,43,73,.7),rgba(19,26,52,.35));margin-bottom:48px}
+  .signature-directory{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;padding-bottom:40px}
+  .signature-directory h3{font-family:var(--font-body);font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--footer-gold);margin-bottom:16px}
+  .signature-directory a{display:flex;align-items:center;width:fit-content;max-width:100%;min-height:44px;font-size:14px;color:var(--footer-copy);padding-block:8px}
+  .signature-directory a:hover{color:var(--footer-white);text-decoration:underline;text-underline-offset:5px}
+  .signature-colophon{display:grid;grid-template-columns:1fr .8fr 1.2fr;gap:32px;align-items:center;border-top:1px solid var(--footer-line);padding:32px 0}
+  .signature-wordmark{display:inline-flex;align-items:center;gap:6px;font-size:28px;letter-spacing:-1.2px;width:fit-content;min-height:48px}.signature-wordmark svg{margin-right:12px;color:var(--footer-gold)}.signature-wordmark strong{font-weight:800}.signature-wordmark span{font-weight:400}
+  .signature-colophon>p{color:var(--footer-copy);font-size:12px;line-height:1.8}
+  .signature-socials{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 20px}.signature-socials a{display:flex;gap:8px;align-items:center;min-height:44px;font-size:12px;color:var(--footer-copy)}.signature-socials a span{color:var(--footer-gold)}.signature-socials a:hover{color:var(--footer-white)}
+  .signature-legal{border-top:1px solid var(--footer-line);display:flex;justify-content:space-between;align-items:center;gap:24px;padding-top:16px;color:var(--footer-copy);font-size:11px}.signature-legal>div{display:flex;gap:24px;flex-wrap:wrap}.signature-legal a{display:inline-flex;gap:10px;align-items:center;min-height:44px}.signature-footer a:focus-visible{outline-color:var(--footer-gold)}
+  @media(max-width:900px){.signature-colophon{grid-template-columns:1fr 1fr}.signature-socials{grid-column:1/-1;justify-content:flex-start}.signature-contact{margin-right:0}.signature-directory{gap:24px}}
+  @media(max-width:640px){.signature-footer{padding-top:48px;margin-top:40px;border-radius:20px 20px 0 0}.signature-invitation{gap:24px;align-items:flex-end;padding-bottom:32px}.signature-invitation h2{font-size:clamp(40px,9vw,58px)}.footer-kicker{max-width:200px;font-size:12px;line-height:1.6;margin-bottom:20px}.signature-contact{font-size:11px;gap:12px;max-width:90px;text-align:center}.signature-arrow{width:64px;height:64px}.signature-arrow svg{width:32px;height:32px}.signature-newsletter{padding:24px;margin-bottom:32px}.signature-directory{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;padding-bottom:24px}.signature-directory h3{margin-bottom:12px}.signature-directory a{font-size:13px}.signature-colophon{grid-template-columns:1fr;gap:16px;padding-block:24px}.signature-socials{gap:4px 24px}.signature-legal{align-items:flex-start;flex-direction:column;gap:8px}.signature-legal>div{gap:24px}.footer-engraving{right:-100px;top:24px}}
+  @media(prefers-reduced-motion:reduce){.signature-arrow,.signature-arrow svg{transition:none}}
+</style>

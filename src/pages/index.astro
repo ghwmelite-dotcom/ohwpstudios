@@ -5,11 +5,14 @@ import SelectedWork from '@/components/SelectedWork.astro';
 import AdinkraIcon from '@/components/AdinkraIcon.astro';
 import EngineeringCanvas from '@/components/EngineeringCanvas.astro';
 import CapabilityVisual from '@/components/CapabilityVisual.astro';
+import HeroAtmosphere from '@/components/HeroAtmosphere.astro';
+import '@/styles/atelier-hero.css';
 import { SITE_CONFIG } from '@/config';
 ---
 <StudioLayout home>
   <main id="main">
     <section class="premium-hero" aria-labelledby="hero-title">
+      <HeroAtmosphere />
       <div class="hero-layout wrap"><div class="hero-copy">
         <p class="studio-location"><span></span> Independent minds. Accra roots. Global ambition.</p>
         <h1 id="hero-title">Ambitious ideas.<br />Beautifully built.</h1>
