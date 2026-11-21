@@ -8,6 +8,8 @@ import CapabilityVisual from '@/components/CapabilityVisual.astro';
 import HeroAtmosphere from '@/components/HeroAtmosphere.astro';
 import '@/styles/atelier-hero.css';
 import { SITE_CONFIG } from '@/config';
+import { telegramQuoteLink } from '@/lib/quote-policy';
+import TelegramIcon from '@/components/TelegramIcon.astro';
 ---
 <StudioLayout home>
   <main id="main">
@@ -18,7 +20,8 @@ import { SITE_CONFIG } from '@/config';
         <h1 id="hero-title">Ambitious ideas.<br />Beautifully built.</h1>
         <p class="hero-intro">Software, AI, and trading systems. Designed with intention. Engineered around the way you work.</p>
         <p class="hero-choice">We build it for you. Or help you build it.</p>
-        <div class="hero-actions"><a class="button" href="#contact">Bring us your idea <span aria-hidden="true">↗</span></a><a class="text-link" href="#work">Discover the work <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-actions"><a class="button" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><TelegramIcon />Let’s talk on Telegram</a><a class="text-link" href="#work">Discover the work <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-contact-alternative">Prefer to write a brief? <a href="#contact">Bring us your idea <span aria-hidden="true">↗</span></a></p>
       </div><EngineeringCanvas /></div>
       <div class="hero-folio wrap"><span class="folio-note"><AdinkraIcon symbol="ananse" size={24} /> The craft is in the connections.</span><div><span>Software &amp; platforms</span><span>AI &amp; automation</span><span>Trading technology</span></div><a href="#work" aria-label="Scroll to selected work">Scroll to discover <span aria-hidden="true">↓</span></a></div>
     </section>
@@ -46,7 +49,7 @@ import { SITE_CONFIG } from '@/config';
       <ol class="process"><li><span>01</span><div><h3>Make the idea clear.</h3><p>Define the problem, agree the scope, and choose a sensible way forward.</p></div></li><li><span>02</span><div><h3>Build. Share. Refine.</h3><p>Review working progress together, whether we’re building for you or guiding you through it.</p></div></li><li><span>03</span><div><h3>Launch with care.</h3><p>Test the details, prepare the handover, and agree the support you need next.</p></div></li></ol>
     </section>
 
-    <section id="contact" class="contact-section section-space" aria-labelledby="contact-title"><div class="wrap contact-layout"><div><p class="section-label">Start a conversation</p><h2 id="contact-title">What have you<br />got in mind?</h2><p>A new product. A better workflow. A trading idea. Or a project you’d love to build yourself. Tell us where you want to go.</p><a class="contact-email" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a><p class="contact-aside">Prefer to explore the scope first?<br /><a href="/estimate-project">Try the project estimator</a></p></div>
+    <section id="contact" class="contact-section section-space" aria-labelledby="contact-title"><div class="wrap contact-layout"><div><p class="section-label">Start a conversation</p><h2 id="contact-title">What have you<br />got in mind?</h2><p>A new product. A better workflow. A trading idea. Or a project you’d love to build yourself. Tell us where you want to go.</p><a class="button contact-telegram" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><TelegramIcon />Talk on Telegram</a><a class="contact-email" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a><p class="contact-aside">Prefer to explore the scope first?<br /><a href="/estimate-project">Try the project estimator</a></p></div>
       <form id="studio-enquiry" action="/api/contact/submit" method="post">
         <div class="form-pair"><div><label for="enquiry-name">Your name</label><input id="enquiry-name" name="full_name" autocomplete="name" maxlength="120" required /></div><div><label for="enquiry-email">Email address</label><input id="enquiry-email" name="email" type="email" autocomplete="email" maxlength="254" required /></div></div>
         <label for="enquiry-type">How would you like to work?</label><select id="enquiry-type" name="service_type" required><option value="">Choose an option</option><option>Build it for me</option><option>Guided build</option><option>Trading bot or TradingView indicator</option><option>Improve an existing project</option></select>

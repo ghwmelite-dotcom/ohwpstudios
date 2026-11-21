@@ -3,11 +3,13 @@ import BrandLogo from './BrandLogo.astro';
 import BrandMark from './BrandMark.astro';
 import NewsletterSubscribe from './NewsletterSubscribe.astro';
 import { SITE_CONFIG } from '@/config';
+import { telegramQuoteLink } from '@/lib/quote-policy';
+import TelegramIcon from './TelegramIcon.astro';
 const groups = [
   {title:'The studio',links:[['About','/about'],['Portfolio','/portfolio'],['Case studies','/case-studies'],['Clients','/clients'],['Careers','/careers']]},
   {title:'Tools & guidance',links:[['Project estimator','/estimate-project'],['Project discovery quiz','/quiz'],['Website grader','/website-analyzer'],['Website audit','/website-audit']]},
   {title:'Explore',links:[['Services & solutions','/sitemap-pages'],['Blog & insights','/blog'],['Open Build','/open-build']]},
-  {title:'Let’s work together',links:[['Contact','/contact'],['Book a consultation','/booking'],['Client portal','/client/login'],['Email us',`mailto:${SITE_CONFIG.email}`]]},
+  {title:'Let’s work together',links:[['Telegram · @oh84dev',telegramQuoteLink()],['Contact','/contact'],['Book a consultation','/booking'],['Client portal','/client/login'],['Email us',`mailto:${SITE_CONFIG.email}`]]},
 ];
 const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFIG.social.linkedin],['Instagram',SITE_CONFIG.social.instagram],['GitHub',SITE_CONFIG.social.github]];
 ---
@@ -16,7 +18,7 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
   <div class="wrap">
     <div class="signature-invitation">
       <div><p class="footer-kicker">A good idea deserves a great beginning.</p><h2>Let’s build<br />what’s next.</h2></div>
-      <a class="signature-contact" href="/contact"><span class="signature-arrow" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M15 49 49 15M15 15h34v34" stroke="currentColor" stroke-width="2"/></svg></span><span>Tell us your idea</span></a>
+      <div class="signature-reach"><a class="signature-contact" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><span class="signature-arrow" aria-hidden="true"><TelegramIcon size={52} /></span><span>Talk on Telegram<small>@oh84dev</small></span></a><a class="signature-form-link" href="/contact">Tell us your idea via the contact form <span aria-hidden="true">↗</span></a></div>
     </div>
     <div class="signature-newsletter"><NewsletterSubscribe variant="signature" title="Notes from the studio." description="New builds, practical insights, and the thinking behind the work." /></div>
     <nav class="signature-directory" aria-label="Footer navigation">{groups.map(group=><div><h3>{group.title}</h3>{group.links.map(([label,href])=><a href={href}>{label}</a>)}</div>)}</nav>
@@ -31,6 +33,10 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
   .footer-kicker{color:var(--footer-copy);font-size:13px;margin-bottom:24px}
   .signature-invitation h2{font-family:var(--font-display);font-size:clamp(52px,7.2vw,100px);line-height:1.01;letter-spacing:-.055em;font-weight:400}
   .signature-contact{display:flex;flex-direction:column;align-items:center;gap:20px;font-size:14px;margin-right:32px;flex-shrink:0}
+  .signature-reach{display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0}
+  .signature-reach .signature-contact{margin-right:0;font-size:16px;font-weight:600;text-align:center}
+  .signature-contact small{display:block;margin-top:4px;color:var(--footer-gold);font-size:13px;font-weight:400}
+  .signature-form-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--footer-copy);font-size:12px;text-decoration:underline;text-underline-offset:4px}
   .signature-arrow{width:112px;height:112px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#f0ddb8,#d6ad72);color:#17192a;box-shadow:inset 0 1px rgba(255,255,255,.5),0 12px 36px -20px rgba(231,201,151,.4);transition:transform 200ms ease}
   .signature-arrow svg{width:52px;height:52px;transition:transform 200ms ease}.signature-contact:hover .signature-arrow{transform:translateY(-3px)}.signature-contact:hover svg{transform:translate(2px,-2px)}
   .signature-newsletter{padding:32px;border:1px solid var(--footer-line);border-radius:12px;background:linear-gradient(100deg,rgba(35,43,73,.7),rgba(19,26,52,.35));margin-bottom:48px}
@@ -46,4 +52,5 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
   @media(max-width:900px){.signature-colophon{grid-template-columns:1fr 1fr}.signature-socials{grid-column:1/-1;justify-content:flex-start}.signature-contact{margin-right:0}.signature-directory{gap:24px}}
   @media(max-width:640px){.signature-footer{padding-top:48px;margin-top:40px;border-radius:20px 20px 0 0}.signature-invitation{gap:24px;align-items:flex-end;padding-bottom:32px}.signature-invitation h2{font-size:clamp(40px,9vw,58px)}.footer-kicker{max-width:200px;font-size:12px;line-height:1.6;margin-bottom:20px}.signature-contact{font-size:11px;gap:12px;max-width:90px;text-align:center}.signature-arrow{width:64px;height:64px}.signature-arrow svg{width:32px;height:32px}.signature-newsletter{padding:24px;margin-bottom:32px}.signature-directory{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;padding-bottom:24px}.signature-directory h3{margin-bottom:12px}.signature-directory a{font-size:13px}.signature-colophon{grid-template-columns:1fr;gap:16px;padding-block:24px}.signature-socials{gap:4px 24px}.signature-legal{align-items:flex-start;flex-direction:column;gap:8px}.signature-legal>div{gap:24px}.footer-engraving{right:-100px;top:24px}}
   @media(prefers-reduced-motion:reduce){.signature-arrow,.signature-arrow svg{transition:none}}
+  @media(max-width:640px){.signature-invitation{flex-direction:column;align-items:flex-start}.signature-reach{align-items:flex-start;max-width:100%;gap:8px}.signature-reach .signature-contact{flex-direction:row;max-width:none;gap:20px;text-align:left;font-size:16px}.signature-form-link{font-size:12px;flex-wrap:wrap}.signature-contact small{font-size:13px}}
 </style>

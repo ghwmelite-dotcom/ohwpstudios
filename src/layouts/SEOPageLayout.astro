@@ -1,6 +1,8 @@
 ---
 import BaseLayout from './InteriorLayout.astro';
 import { SITE_CONFIG } from '@/config';
+import { telegramQuoteLink } from '@/lib/quote-policy';
+import TelegramIcon from '@/components/TelegramIcon.astro';
 
 
 
@@ -97,7 +99,8 @@ const breadcrumbSchema = {
         <h2 class="seo-hero-title">{heroTitle}</h2>
         <p class="seo-hero-subtitle">{heroSubtitle}</p>
         <div class="seo-cta-group">
-          <a href="/booking" class="btn btn-primary btn-lg">Get Started</a>
+          <a href={telegramQuoteLink()} class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer"><TelegramIcon />Talk on Telegram</a>
+          <a href="/booking" class="btn btn-secondary btn-lg">Get Started</a>
           <a href="/portfolio" class="btn btn-secondary btn-lg">View Our Work</a>
         </div>
       </div>
@@ -114,8 +117,9 @@ const breadcrumbSchema = {
     <div class="container">
       <div class="seo-cta-content">
         <h2>Ready to Start Your Project?</h2>
-        <p>Let's discuss how we can help bring your vision to life</p>
-        <a href="/booking" class="btn btn-primary btn-lg">Book Free Consultation</a>
+        <p>Tell us what you have in mind on Telegram. We’ll review the requirements with you before providing a tailored estimate.</p>
+        <div class="seo-cta-group"><a href={telegramQuoteLink()} class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer"><TelegramIcon />Discuss your project on Telegram</a><a href="/booking" class="btn btn-secondary btn-lg">Book Free Consultation</a></div>
+        <a href="/contact" class="seo-contact-form">Prefer the contact form? Send us a brief</a>
       </div>
     </div>
   </section>
@@ -167,6 +171,8 @@ const breadcrumbSchema = {
     justify-content: center;
     flex-wrap: wrap;
   }
+  .seo-cta-group .btn { gap: 12px; }
+  .seo-contact-form { display: inline-flex; align-items: center; min-height: 48px; margin-top: 16px; color: var(--color-text); text-decoration: underline; text-underline-offset: 4px; }
 
   /* CTA Section */
   .seo-cta-section {

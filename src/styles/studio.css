@@ -51,6 +51,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .hero-intro { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 440px; margin-top: 28px; }
 .hero-choice { font-size: 16px; font-weight: 600; margin-top: 16px; }
 .hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 32px; }
+.hero-contact-alternative { margin-top: 12px; color: var(--stage-muted, var(--color-text-muted)); font-size: 13px; }
+.hero-contact-alternative a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--stage-text, var(--color-text)); text-decoration: underline; text-underline-offset: 4px; }
+.contact-telegram { margin-top: 24px; }
 .hero-art { align-self: center; position: relative; padding-top: 32px; padding-bottom: 32px; }
 .weave { position: absolute; width: 77%; height: calc(100% + 24px); right: -24px; top: -8px; overflow: hidden; background: var(--sand); display: grid; grid-template-columns: repeat(8, 1fr); opacity: .6; border-radius: 4px; }
 .weave span { background: repeating-linear-gradient(0deg, transparent 0 32px, var(--ivory) 32px 40px); border-right: 8px solid var(--ivory); }
