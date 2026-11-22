@@ -1,0 +1,14 @@
+{
+  "cloudflareRuntime": true,
+  "initial": {
+    "week": "2026-11-16",
+    "status": "complete",
+    "added": 20,
+    "preserved": 0,
+    "deferred": 45
+  },
+  "repeat": {
+    "week": "2026-11-16",
+    "status": "existing"
+  }
+}

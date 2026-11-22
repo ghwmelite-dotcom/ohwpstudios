@@ -1710,6 +1710,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 <script>
   import { initPortfolioCollection } from "@/lib/portfolio-admin";
+  import { initPortfolioSync } from "@/lib/portfolio-sync-admin";
   import { initEditorialPanel } from "@/lib/editorial-admin";
   // Sanitization utilities
   const sanitizeHTML = (html) => {
@@ -1739,6 +1740,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   // Check authentication via cookie session
   let CSRF = '';
   const loadPortfolio = initPortfolioCollection(() => CSRF);
+  const loadPortfolioSync=initPortfolioSync(()=>CSRF,loadPortfolio);
   const loadEditorialAutomation = initEditorialPanel(() => CSRF, loadBlogPosts, editBlogPost);
   async function initAdminSession() {
     const res = await fetch('/api/admin/session');
@@ -1793,6 +1795,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         loadServices();
       } else if (section === 'portfolio') {
         loadPortfolio();
+        loadPortfolioSync();
       } else if (section === 'blog') {
         loadBlogPosts();
         loadEditorialAutomation();

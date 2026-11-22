@@ -1,9 +1,11 @@
 ---
 import BrandMark from './BrandMark.astro';
+import PortfolioSyncPanel from './PortfolioSyncPanel.astro';
 ---
 <section class="portfolio-workspace">
   <header class="portfolio-intro"><div class="portfolio-seal"><BrandMark size={48}/></div><div><p>Your project collection</p><h2>Proof of the craft.</h2><p>Give each project its own story. Show the thinking, the product and the code.</p></div><a href="/admin/portfolio?new=1" class="collection-add">Add a project <span aria-hidden="true">+</span></a></header>
   <div class="repository-invitation"><div><h3>From your repositories to your portfolio.</h3><p>Eight considered project studies, curated from public GitHub repositories. New entries arrive as drafts; the three already-public featured projects retain their approved copy. Existing records are never overwritten.</p><a href="/admin/portfolio">Open the complete project manager <span aria-hidden="true">↗</span></a></div><button id="import-repository-projects" type="button">Import curated projects <span aria-hidden="true">↗</span></button></div>
+  <PortfolioSyncPanel/>
   <p id="portfolio-collection-status" role="status" aria-live="polite">Loading your project collection…</p>
   <nav class="collection-filters" aria-label="Project publication filter"><button type="button" data-project-filter="all" aria-pressed="true">All projects</button><button type="button" data-project-filter="published" aria-pressed="false">Published</button><button type="button" data-project-filter="draft" aria-pressed="false">Drafts</button></nav>
   <div id="portfolio-collection" class="collection-grid"></div>

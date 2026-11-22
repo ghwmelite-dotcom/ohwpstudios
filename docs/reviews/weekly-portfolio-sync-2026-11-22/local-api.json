@@ -1,0 +1,140 @@
+{
+  "anonymous": 401,
+  "missingCsrf": 403,
+  "pause": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "enabled": false
+    }
+  },
+  "pausedSync": {
+    "status": 200,
+    "body": {
+      "week": "2026-11-16",
+      "status": "paused"
+    }
+  },
+  "resume": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "enabled": true
+    }
+  },
+  "sync": {
+    "status": 200,
+    "body": {
+      "week": "2026-11-16",
+      "status": "complete",
+      "added": 20,
+      "preserved": 0,
+      "deferred": 45
+    }
+  },
+  "repeat": {
+    "status": 200,
+    "body": {
+      "week": "2026-11-16",
+      "status": "existing"
+    }
+  },
+  "drafts": 20,
+  "draftDetails": [
+    {
+      "slug": "github-aevrium-biosystems-1267641853",
+      "status": 404
+    },
+    {
+      "slug": "github-afrilab-1134983172",
+      "status": 404
+    },
+    {
+      "slug": "github-agent-hub-1242951800",
+      "status": 404
+    },
+    {
+      "slug": "github-agrotrust-1134582687",
+      "status": 404
+    },
+    {
+      "slug": "github-ai-football-predictions-app-1087397436",
+      "status": 404
+    },
+    {
+      "slug": "github-ai-real-estate-bot-1085358503",
+      "status": 404
+    },
+    {
+      "slug": "github-akwaaba-school-1263116865",
+      "status": 404
+    },
+    {
+      "slug": "github-amc-1106590851",
+      "status": 404
+    },
+    {
+      "slug": "github-apex10-1131570167",
+      "status": 404
+    },
+    {
+      "slug": "github-ask-ozzy-1155075678",
+      "status": 404
+    },
+    {
+      "slug": "github-baobab-1227226935",
+      "status": 404
+    },
+    {
+      "slug": "github-briie-1335523453",
+      "status": 404
+    },
+    {
+      "slug": "github-brilla-study-platform-1119606709",
+      "status": 404
+    },
+    {
+      "slug": "github-cedisense-1181626145",
+      "status": 404
+    },
+    {
+      "slug": "github-chatsage-1310128439",
+      "status": 404
+    },
+    {
+      "slug": "github-civiclens-1134713472",
+      "status": 404
+    },
+    {
+      "slug": "github-claude-skills-1180129159",
+      "status": 404
+    },
+    {
+      "slug": "github-client-database-system-1084792329",
+      "status": 404
+    },
+    {
+      "slug": "github-crypto-setup-map-1331505824",
+      "status": 404
+    },
+    {
+      "slug": "github-cstc-training-1133821623",
+      "status": 404
+    }
+  ],
+  "cache": "no-store",
+  "runs": [
+    {
+      "week_key": "2026-11-16",
+      "status": "complete",
+      "attempt_count": 1,
+      "started_at": "2026-11-22T11:03:27.376Z",
+      "finished_at": "2026-11-22T11:03:30.915Z",
+      "discovered": 65,
+      "added": 20,
+      "preserved": 0,
+      "deferred": 45,
+      "error_code": null
+    }
+  ]
+}
