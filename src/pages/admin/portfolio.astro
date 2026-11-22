@@ -119,7 +119,7 @@ const title = 'Portfolio Projects';
         <div class="form-row">
           <div class="form-group">
             <label for="featured-image">Featured Image URL</label>
-            <input type="url" id="featured-image" name="featured_image" placeholder="https://..." />
+            <input type="text" inputmode="url" id="featured-image" name="featured_image" placeholder="https://..." />
           </div>
           <div class="form-group">
             <label for="project-url">Project URL</label>
@@ -127,6 +127,7 @@ const title = 'Portfolio Projects';
           </div>
         </div>
 
+        <div class="form-group"><label for="repository-url">Public GitHub repository</label><input type="url" id="repository-url" name="repository_url" placeholder="https://github.com/owner/project"/><small>Source code is evidence of the project, not a client endorsement.</small></div>
         <div class="form-section">
           <h3>Case Study Details</h3>
           <div class="form-group">
@@ -222,25 +223,25 @@ const title = 'Portfolio Projects';
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
-  .project-card { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
-  .project-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  :global(.project-card) { background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+  :global(.project-card):hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
 
-  .project-image { width: 100%; height: 200px; object-fit: cover; background: var(--color-border); }
-  .project-content { padding: 1.5rem; }
-  .project-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; }
-  .project-title { font-weight: 700; font-size: 1.25rem; margin-bottom: 0.25rem; }
-  .project-subtitle { color: var(--color-text-secondary); font-size: 0.875rem; }
-  .project-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
-  .badge { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; }
-  .badge-category { background: rgba(227, 169, 43, 0.1); color: #E3A92B; }
-  .badge-featured { background: rgba(234, 179, 8, 0.1); color: #eab308; }
-  .badge-draft { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
+  :global(.project-image) { width: 100%; height: 200px; object-fit: cover; background: var(--color-border); }
+  :global(.project-content) { padding: 1.5rem; }
+  :global(.project-header) { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; }
+  :global(.project-title) { font-weight: 700; font-size: 1.25rem; margin-bottom: 0.25rem; }
+  :global(.project-subtitle) { color: var(--color-text-secondary); font-size: 0.875rem; }
+  :global(.project-badges) { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  :global(.badge) { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; }
+  :global(.badge-category) { background: rgba(227, 169, 43, 0.1); color: #E3A92B; }
+  :global(.badge-featured) { background: rgba(234, 179, 8, 0.1); color: #eab308; }
+  :global(.badge-draft) { background: rgba(107, 114, 128, 0.1); color: #6b7280; }
 
-  .project-description { color: var(--color-text-secondary); font-size: 0.875rem; margin: 1rem 0; line-height: 1.6; }
-  .project-actions { display: flex; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
-  .btn-edit, .btn-delete { flex: 1; padding: 0.5rem 1rem; border: none; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
-  .btn-edit { background: var(--gradient-primary); color: white; }
-  .btn-delete { background: #ef4444; color: white; }
+  :global(.project-description) { color: var(--color-text-secondary); font-size: 0.875rem; margin: 1rem 0; line-height: 1.6; }
+  :global(.project-actions) { display: flex; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
+  :global(.btn-edit), :global(.btn-delete) { flex: 1; padding: 0.5rem 1rem; border: none; border-radius: 6px; font-size: 0.875rem; font-weight: 600; cursor: pointer; }
+  :global(.btn-edit) { background: var(--gradient-primary); color: white; }
+  :global(.btn-delete) { background: #ef4444; color: white; }
 
   /* Modal */
   .modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 2rem; }
@@ -378,8 +379,8 @@ const title = 'Portfolio Projects';
             </div>
             ${project.description ? `<div class="project-description">${escapeHtml(project.description.substring(0, 120))}${project.description.length > 120 ? '...' : ''}</div>` : ''}
             <div class="project-actions">
-              <button class="btn-edit" onclick="editProject(${project.id})">Edit</button>
-              <button class="btn-delete" onclick="deleteProject(${project.id})">Delete</button>
+              <button class="btn-edit" data-edit-project="${project.id}">Edit</button>
+              <button class="btn-delete" data-delete-project="${project.id}">Delete</button>
             </div>
           </div>
         </div>
@@ -421,12 +422,14 @@ const title = 'Portfolio Projects';
 
     formData.forEach((value, key) => {
       if (key === 'is_featured' || key === 'is_published') {
-        data[key] = document.getElementById(key.replace('_', '-'))?.checked ? 1 : 0;
+        data[key] = document.getElementById(key.replaceAll('_', '-'))?.checked ? 1 : 0;
       } else {
         data[key] = value;
       }
     });
 
+    data.is_featured = (document.getElementById('is-featured') as HTMLInputElement).checked ? 1 : 0;
+    data.is_published = (document.getElementById('is-published') as HTMLInputElement).checked ? 1 : 0;
     if (currentEditId) {
       data.id = currentEditId;
     }
@@ -455,7 +458,7 @@ const title = 'Portfolio Projects';
     }
   });
 
-  (window as any).editProject = async (id: number) => {
+  async function editProject(id: number) {
     try {
       const response = await fetch(`/api/admin/portfolio/${id}`);
       const data = await response.json();
@@ -466,7 +469,7 @@ const title = 'Portfolio Projects';
 
         // Populate form
         Object.keys(project).forEach(key => {
-          const field = document.getElementById(key.replace('_', '-')) as HTMLInputElement;
+          const field = document.getElementById(key==='category_id'?'category':key.replaceAll('_', '-')) as HTMLInputElement;
           if (field) {
             if (field.type === 'checkbox') {
               field.checked = !!project[key];
@@ -484,7 +487,7 @@ const title = 'Portfolio Projects';
     }
   };
 
-  (window as any).deleteProject = async (id: number) => {
+  async function deleteProject(id: number) {
     if (!confirm('Are you sure you want to delete this project?')) return;
 
     try {
@@ -502,6 +505,12 @@ const title = 'Portfolio Projects';
     }
   };
 
+  document.getElementById('projects-grid')?.addEventListener('click', event => {
+    if(!(event.target instanceof Element))return;
+    const edit=event.target.closest<HTMLElement>('[data-edit-project]');const remove=event.target.closest<HTMLElement>('[data-delete-project]');
+    const id=Number(edit?.dataset.editProject||remove?.dataset.deleteProject);if(!Number.isSafeInteger(id)||id<1)return;
+    if(edit)editProject(id);else if(remove)deleteProject(id);
+  });
   // Filters
   document.getElementById('category-filter')?.addEventListener('change', loadProjects);
   document.getElementById('status-filter')?.addEventListener('change', loadProjects);
@@ -509,6 +518,10 @@ const title = 'Portfolio Projects';
   // Initialize
   (async () => {
     if (!(await initAdminSession())) return;
-    loadCategories().then(() => loadProjects());
+    await loadCategories(); await loadProjects();
+    const query = new URLSearchParams(location.search);
+    const edit = Number(query.get('edit'));
+    if(Number.isSafeInteger(edit)&&edit>0)await editProject(edit);
+    else if(query.has('new'))addButton?.click();
   })();
 </script>

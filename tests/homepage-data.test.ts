@@ -9,6 +9,7 @@ const databases: Database[] = [];
 function fixture() {
   const sqlite = new Database(':memory:'); databases.push(sqlite);
   sqlite.exec(readFileSync(new URL('../migrations/011_portfolio_system.sql', import.meta.url), 'utf8'));
+  sqlite.exec(readFileSync(new URL('../migrations/052_portfolio_repository_provenance.sql', import.meta.url), 'utf8'));
   const prepare = (sql: string, values: (string | number | null)[] = []) => ({
     bind: (...params: (string | number | null)[]) => prepare(sql, params),
     all: async () => ({ results: sqlite.prepare(sql).all(...values), success: true }),

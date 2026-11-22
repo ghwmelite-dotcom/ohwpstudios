@@ -1,0 +1,102 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/about",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/contact",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/afrilab",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/cedisense",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/ask-ozzy",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/funeralpress",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/brilla",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/inboxguard",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/ohcs-elibrary",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/portfolio/xg-oracle",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/estimate-project",
+    "status": 200,
+    "cache": "public, max-age=0, must-revalidate"
+  },
+  {
+    "route": "/client/login",
+    "status": 200,
+    "cache": "no-store, no-cache, must-revalidate, max-age=0, s-maxage=0"
+  },
+  {
+    "route": "/services/custom-web-application-development",
+    "status": 200,
+    "cache": "public, max-age=0, must-revalidate"
+  },
+  {
+    "route": "/blog",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/admin/dashboard",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/admin/portfolio",
+    "status": 200,
+    "cache": null
+  },
+  {
+    "route": "/api/admin/portfolio",
+    "status": 200,
+    "cache": "no-store"
+  },
+  {
+    "route": "/api/admin/editorial-automation",
+    "status": 200,
+    "cache": "no-store"
+  }
+]

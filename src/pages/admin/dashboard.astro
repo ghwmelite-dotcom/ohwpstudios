@@ -2,6 +2,7 @@
 export const prerender = false; // SSR so the middleware auth guard runs
 import StudioContentFields from '@/components/StudioContentFields.astro';
 import EditorialAutomationPanel from '@/components/EditorialAutomationPanel.astro';
+import PortfolioStudioPanel from '@/components/PortfolioStudioPanel.astro';
 import { SITE_CONFIG } from '@/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
@@ -275,73 +276,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Portfolio Section -->
-        <div class="content-section" id="section-portfolio">
-          <div class="section-card glass">
-            <div class="card-header">
-              <div style="display: flex; justify-content: space-between; align-items: start;">
-                <div>
-                  <h3>Portfolio Management</h3>
-                  <p class="card-description">Showcase your best projects</p>
-                </div>
-                <button class="btn btn-primary" id="add-portfolio-btn">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                  </svg>
-                  Add Project
-                </button>
-              </div>
-            </div>
-
-            <div id="portfolio-list" class="crud-list portfolio-grid">
-              <!-- Portfolio loaded dynamically -->
-            </div>
-          </div>
-
-          <!-- Add/Edit Portfolio Modal -->
-          <div id="portfolio-modal" class="modal" style="display: none;">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 id="portfolio-modal-title">Add Project</h3>
-                <button class="modal-close" id="portfolio-modal-close">&times;</button>
-              </div>
-              <form id="portfolio-form">
-                <input type="hidden" id="portfolio-id" />
-                <div class="form-group">
-                  <label for="portfolio-title">Project Title</label>
-                  <input type="text" id="portfolio-title" required placeholder="Project name" />
-                </div>
-                <div class="form-group">
-                  <label for="portfolio-description">Description</label>
-                  <textarea id="portfolio-description" required rows="4" placeholder="Project description"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="portfolio-image">Image URL</label>
-                  <input type="url" id="portfolio-image" placeholder="https://example.com/image.jpg" />
-                </div>
-                <div class="form-group">
-                  <label for="portfolio-url">Project URL</label>
-                  <input type="url" id="portfolio-url" placeholder="https://example.com" />
-                </div>
-                <div class="form-group">
-                  <label for="portfolio-tags">Tags (comma-separated)</label>
-                  <input type="text" id="portfolio-tags" placeholder="web, design, react" />
-                </div>
-                <div class="form-group">
-                  <label>
-                    <input type="checkbox" id="portfolio-featured" />
-                    <span>Featured Project</span>
-                  </label>
-                </div>
-                <div class="modal-actions">
-                  <button type="button" class="btn btn-secondary" id="portfolio-cancel-btn">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Save Project</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        <!-- Canonical portfolio collection -->
+        <div class="content-section" id="section-portfolio"><PortfolioStudioPanel /></div>
 
         <!-- Blog Posts Section -->
         <div class="content-section" id="section-blog">
@@ -1357,7 +1293,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     gap: 1rem;
   }
 
-  .crud-item {
+  :global(.crud-item) {
     padding: 1.25rem;
     background: var(--color-bg-alt);
     border: 2px solid var(--color-border);
@@ -1369,36 +1305,36 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     transition: all var(--transition-fast);
   }
 
-  .crud-item:hover {
+  :global(.crud-item):hover {
     border-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  .crud-item-content {
+  :global(.crud-item-content) {
     flex: 1;
   }
 
-  .crud-item-content h4 {
+  :global(.crud-item-content) h4 {
     margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
     color: var(--color-text);
   }
 
-  .crud-item-content p {
+  :global(.crud-item-content) p {
     margin: 0;
     color: var(--color-text-muted);
     font-size: 0.95rem;
   }
 
-  .crud-item-meta {
+  :global(.crud-item-meta) {
     display: flex;
     gap: 0.75rem;
     margin-top: 0.75rem;
     flex-wrap: wrap;
   }
 
-  .meta-badge {
+  :global(.meta-badge) {
     padding: 0.25rem 0.75rem;
     background: rgba(227, 169, 43, 0.1);
     color: var(--color-primary);
@@ -1407,22 +1343,22 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     font-weight: 500;
   }
 
-  .meta-badge.success {
+  :global(.meta-badge).success {
     background: rgba(34, 197, 94, 0.1);
     color: #22c55e;
   }
 
-  .meta-badge.warning {
+  :global(.meta-badge).warning {
     background: rgba(251, 191, 36, 0.1);
     color: #fbbf24;
   }
 
-  .crud-item-actions {
+  :global(.crud-item-actions) {
     display: flex;
     gap: 0.5rem;
   }
 
-  .icon-btn {
+  :global(.icon-btn) {
     width: 36px;
     height: 36px;
     display: flex;
@@ -1434,22 +1370,22 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     transition: all var(--transition-fast);
   }
 
-  .icon-btn.edit {
+  :global(.icon-btn).edit {
     background: rgba(59, 130, 246, 0.1);
     color: #3b82f6;
   }
 
-  .icon-btn.edit:hover {
+  :global(.icon-btn).edit:hover {
     background: rgba(59, 130, 246, 0.2);
     transform: scale(1.1);
   }
 
-  .icon-btn.delete {
+  :global(.icon-btn).delete {
     background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
   }
 
-  .icon-btn.delete:hover {
+  :global(.icon-btn).delete:hover {
     background: rgba(239, 68, 68, 0.2);
     transform: scale(1.1);
   }
@@ -1700,26 +1636,26 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   }
 
   /* Empty State */
-  .empty-state {
+  :global(.empty-state) {
     text-align: center;
     padding: 3rem 1.5rem;
     color: var(--color-text-muted);
   }
 
-  .empty-state svg {
+  :global(.empty-state) svg {
     width: 64px;
     height: 64px;
     margin-bottom: 1rem;
     opacity: 0.3;
   }
 
-  .empty-state h4 {
+  :global(.empty-state) h4 {
     margin: 0 0 0.5rem 0;
     font-size: 1.2rem;
     color: var(--color-text);
   }
 
-  .empty-state p {
+  :global(.empty-state) p {
     margin: 0;
     font-size: 0.95rem;
   }
@@ -1773,6 +1709,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 </style>
 
 <script>
+  import { initPortfolioCollection } from "@/lib/portfolio-admin";
   import { initEditorialPanel } from "@/lib/editorial-admin";
   // Sanitization utilities
   const sanitizeHTML = (html) => {
@@ -1801,6 +1738,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   // Check authentication via cookie session
   let CSRF = '';
+  const loadPortfolio = initPortfolioCollection(() => CSRF);
   const loadEditorialAutomation = initEditorialPanel(() => CSRF, loadBlogPosts, editBlogPost);
   async function initAdminSession() {
     const res = await fetch('/api/admin/session');
@@ -1840,6 +1778,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       const targetSection = document.getElementById(`section-${section}`);
       if (targetSection) {
         targetSection.classList.add('active');
+        window.scrollTo(0,0);
       }
 
       // Update header
@@ -2006,6 +1945,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
           }
         });
 
+        document.dispatchEvent(new CustomEvent('studio-content-loaded'));
+
         // Update logo preview if logo URL exists
         if (content.site_logo) {
           updateLogoPreview('/brand/hodges-co-studios-mark.svg');
@@ -2112,13 +2053,13 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
               </div>
             </div>
             <div class="crud-item-actions">
-              <button class="icon-btn edit" onclick="editService(${parseInt(service.id)})">
+              <button class="icon-btn edit" data-service-edit="${parseInt(service.id)}" aria-label="Edit service">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                 </svg>
               </button>
-              <button class="icon-btn delete" onclick="deleteService(${parseInt(service.id)})">
+              <button class="icon-btn delete" data-service-delete="${parseInt(service.id)}" aria-label="Delete service">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="3 6 5 6 21 6"/>
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -2143,6 +2084,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       console.error('Error loading services:', error);
     }
   }
+
+  document.getElementById('services-list')?.addEventListener('click',event=>{
+    const target=event.target instanceof Element?event.target.closest<HTMLButtonElement>('[data-service-edit],[data-service-delete]'):null;
+    if(!target)return;
+    const id=Number(target.dataset.serviceEdit||target.dataset.serviceDelete);
+    if(!Number.isSafeInteger(id)||id<1)return;
+    if(target.dataset.serviceEdit)editService(id);else deleteService(id);
+  });
 
   // Service modal handlers
   document.getElementById('add-service-btn')?.addEventListener('click', () => {
@@ -2217,7 +2166,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     }
   }
 
-  (window as any).editService = async (id: number) => {
+  async function editService(id:number) {
     try {
       const response = await fetch('/api/admin/services');
       const data = await response.json();
@@ -2230,7 +2179,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     }
   };
 
-  (window as any).deleteService = async (id: number) => {
+  async function deleteService(id:number) {
     if (!confirm('Are you sure you want to delete this service?')) return;
 
     try {
@@ -2249,178 +2198,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       }
     } catch (error) {
       showToast('Error deleting service', 'error');
-      console.error(error);
-    }
-  };
-
-  // ==================== PORTFOLIO CRUD ====================
-
-  async function loadPortfolio() {
-    try {
-      const response = await fetch('/api/admin/portfolio');
-      const data = await response.json();
-
-      const list = document.getElementById('portfolio-list');
-      if (!list) return;
-
-      if (data.success && data.portfolio && data.portfolio.length > 0) {
-        list.innerHTML = sanitizeHTML(data.portfolio.map((item: any) => `
-          <div class="portfolio-item">
-            ${item.image_url ? `<img src="${escapeHTML(item.image_url)}" alt="${escapeHTML(item.title)}" class="portfolio-image" />` : `<div class="portfolio-image">No Image</div>`}
-            <div class="portfolio-content">
-              <h4>${escapeHTML(item.title)}</h4>
-              <p>${escapeHTML(item.description)}</p>
-              ${item.tags ? `<div class="crud-item-meta">${item.tags.split(',').map((tag: string) => `<span class="meta-badge">${escapeHTML(tag.trim())}</span>`).join('')}</div>` : ''}
-              <div class="crud-item-actions" style="justify-content: center; margin-top: 1rem;">
-                <button class="icon-btn edit" onclick="editPortfolio(${item.id})">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                  </svg>
-                </button>
-                <button class="icon-btn delete" onclick="deletePortfolio(${item.id})">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        `).join(''));
-      } else {
-        list.innerHTML = `
-          <div class="empty-state">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-            </svg>
-            <h4>No Portfolio Projects Yet</h4>
-            <p>Click "Add Project" to showcase your first project</p>
-          </div>
-        `; // Static HTML - safe
-      }
-    } catch (error) {
-      console.error('Error loading portfolio:', error);
-    }
-  }
-
-  // Portfolio modal handlers
-  document.getElementById('add-portfolio-btn')?.addEventListener('click', () => {
-    openPortfolioModal();
-  });
-
-  document.getElementById('portfolio-modal-close')?.addEventListener('click', () => {
-    closePortfolioModal();
-  });
-
-  document.getElementById('portfolio-cancel-btn')?.addEventListener('click', () => {
-    closePortfolioModal();
-  });
-
-  document.getElementById('portfolio-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await savePortfolio();
-  });
-
-  function openPortfolioModal(item?: any) {
-    const modal = document.getElementById('portfolio-modal');
-    const modalTitle = document.getElementById('portfolio-modal-title');
-
-    if (item) {
-      if (modalTitle) modalTitle.textContent = 'Edit Project';
-      (document.getElementById('portfolio-id') as HTMLInputElement).value = item.id;
-      (document.getElementById('portfolio-title') as HTMLInputElement).value = item.title;
-      (document.getElementById('portfolio-description') as HTMLTextAreaElement).value = item.description;
-      (document.getElementById('portfolio-image') as HTMLInputElement).value = item.image_url || '';
-      (document.getElementById('portfolio-url') as HTMLInputElement).value = item.project_url || '';
-      (document.getElementById('portfolio-tags') as HTMLInputElement).value = item.tags || '';
-      (document.getElementById('portfolio-featured') as HTMLInputElement).checked = item.featured === 1;
-    } else {
-      if (modalTitle) modalTitle.textContent = 'Add Project';
-      (document.getElementById('portfolio-form') as HTMLFormElement).reset();
-      (document.getElementById('portfolio-id') as HTMLInputElement).value = '';
-    }
-
-    if (modal) modal.style.display = 'flex';
-  }
-
-  function closePortfolioModal() {
-    const modal = document.getElementById('portfolio-modal');
-    if (modal) modal.style.display = 'none';
-  }
-
-  async function savePortfolio() {
-    const id = (document.getElementById('portfolio-id') as HTMLInputElement).value;
-    const title = (document.getElementById('portfolio-title') as HTMLInputElement).value;
-    const description = (document.getElementById('portfolio-description') as HTMLTextAreaElement).value;
-    const image_url = (document.getElementById('portfolio-image') as HTMLInputElement).value;
-    const project_url = (document.getElementById('portfolio-url') as HTMLInputElement).value;
-    const tags = (document.getElementById('portfolio-tags') as HTMLInputElement).value;
-    const featured = (document.getElementById('portfolio-featured') as HTMLInputElement).checked ? 1 : 0;
-
-    try {
-      const response = await fetch('/api/admin/portfolio', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': CSRF,
-        },
-        body: JSON.stringify({
-          id: id ? parseInt(id) : undefined,
-          title,
-          description,
-          image_url,
-          project_url,
-          tags,
-          featured
-        }),
-      });
-
-      if (response.ok) {
-        closePortfolioModal();
-        loadPortfolio();
-        showToast('Project saved successfully!', 'success');
-      } else {
-        throw new Error('Failed to save project');
-      }
-    } catch (error) {
-      showToast('Error saving project', 'error');
-      console.error(error);
-    }
-  }
-
-  (window as any).editPortfolio = async (id: number) => {
-    try {
-      const response = await fetch('/api/admin/portfolio');
-      const data = await response.json();
-      const item = data.portfolio.find((p: any) => p.id === id);
-      if (item) {
-        openPortfolioModal(item);
-      }
-    } catch (error) {
-      console.error('Error loading portfolio item:', error);
-    }
-  };
-
-  (window as any).deletePortfolio = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this project?')) return;
-
-    try {
-      const response = await fetch(`/api/admin/portfolio?id=${id}`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-Token': CSRF,
-        },
-      });
-
-      if (response.ok) {
-        loadPortfolio();
-        showToast('Project deleted successfully!', 'success');
-      } else {
-        throw new Error('Failed to delete project');
-      }
-    } catch (error) {
-      showToast('Error deleting project', 'error');
       console.error(error);
     }
   };

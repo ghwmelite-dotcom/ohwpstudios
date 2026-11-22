@@ -1,12 +1,14 @@
 ---
-import { selectedWork } from '@/data/selected-work';
-const { full = false } = Astro.props;
+import { portfolioPresentation, type PortfolioPresentation } from '@/lib/portfolio-presentation';
+interface Props {full?:boolean;projects?:PortfolioPresentation[]}
+const { full = false, projects } = Astro.props;
+const selectedWork = projects ?? (await portfolioPresentation(Astro.locals.runtime?.env?.DB)).filter(project=>project.featured).slice(0,3);
 ---
 <div class:list={['editorial-work', { 'editorial-full': full }]}>
   {selectedWork.map((project, index) => (
     <article class:list={['editorial-project', `project-${project.slug}`, { 'editorial-featured': index === 0 && !full }]}>
       <a class="editorial-visual" href={`/portfolio/${project.slug}`} aria-label={`Explore ${project.title}`}>
-        <div class="project-browser"><div class="browser-top" aria-hidden="true"><span></span><span></span><span></span><p>{project.title}</p></div><img src={project.image} alt={`${project.title} application screenshot`} width="1250" height="714" loading="lazy" /></div>
+        <div class="project-browser"><div class="browser-top" aria-hidden="true"><span></span><span></span><span></span><p>{project.title}</p></div><img src={project.image} alt={`${project.title} ${project.illustration?'project illustration':'application screenshot'}`} width="1250" height="714" loading="lazy" /></div>
         <span class="editorial-open" aria-hidden="true">↗</span>
       </a>
       <div class="editorial-copy"><div class="project-meta"><span>{project.category}</span><span>{project.kind}</span></div>

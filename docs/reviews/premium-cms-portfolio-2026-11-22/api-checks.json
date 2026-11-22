@@ -1,0 +1,42 @@
+{
+  "login": 200,
+  "anonymous": 401,
+  "missingCsrf": 403,
+  "importStatus": 200,
+  "import": {
+    "success": true,
+    "added": 8,
+    "preserved": 0
+  },
+  "secondImport": {
+    "success": true,
+    "added": 0,
+    "preserved": 8
+  },
+  "projects": 8,
+  "drafts": 5,
+  "cache": "no-store",
+  "draftDetail": 404,
+  "localPublication": [
+    {
+      "slug": "funeralpress",
+      "status": 200
+    },
+    {
+      "slug": "brilla",
+      "status": 200
+    },
+    {
+      "slug": "inboxguard",
+      "status": 200
+    },
+    {
+      "slug": "ohcs-elibrary",
+      "status": 200
+    },
+    {
+      "slug": "xg-oracle",
+      "status": 200
+    }
+  ]
+}
