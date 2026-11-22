@@ -52,7 +52,7 @@ async function fetchSourceDirect(source: { title: string; url: string }, fetcher
 export async function fetchEditorialSource(source: {title:string;url:string;fallback_url?:string},fetcher:typeof fetch=fetch):Promise<Source> {
   try { return await fetchSourceDirect(source,fetcher); }
   catch(error) {
-    if(!source.fallback_url)throw error;
+    if(!source.fallback_url||(error instanceof EditorialFailure&&error.code==='source_host_rejected'))throw error;
     const fallback=await fetchSourceDirect({title:source.title,url:source.fallback_url},fetcher);
     return {...fallback,url:source.url};
   }
@@ -75,7 +75,7 @@ export function validateArticle(raw: unknown, sourceCount: number, existing: {ti
   if(typeof value==='string'){if(value.length>40000)throw new EditorialFailure('invalid_model_output');try{value=JSON.parse(value);}catch{throw new EditorialFailure('invalid_model_output');}}
   if(record(value))value={...value,excerpt:fitText(value.excerpt,400,true),seo_title:fitText(value.seo_title,70),seo_description:fitText(value.seo_description,160),answer:fitText(value.answer,700,true)};
   if(!record(value)||!text(value.title,25,140)||!text(value.excerpt,60,400)||!text(value.seo_title,25,70)||!text(value.seo_description,100,170)||!text(value.answer,100,900)||!Array.isArray(value.sections)||value.sections.length<4||value.sections.length>7||!Array.isArray(value.faqs)||value.faqs.length<2||value.faqs.length>4)throw new EditorialFailure('invalid_model_output');
-  for(const section of value.sections){if(!record(section)||!text(section.heading,8,130)||!Array.isArray(section.paragraphs)||section.paragraphs.length<1||section.paragraphs.length>4||!section.paragraphs.every(p=>text(p,80,1600))||!Array.isArray(section.bullets)||section.bullets.length>8||!section.bullets.every(p=>text(p,15,500))||!Array.isArray(section.source_ids)||section.source_ids.length>sourceCount||!section.source_ids.every(id=>Number.isInteger(id)&&Number(id)>=1&&Number(id)<=sourceCount))throw new EditorialFailure('invalid_model_output');}
+  for(const section of value.sections){if(!record(section)||!text(section.heading,8,130)||!Array.isArray(section.paragraphs)||section.paragraphs.length<1||section.paragraphs.length>4||!section.paragraphs.every(p=>text(p,80,1600))||!Array.isArray(section.bullets)||section.bullets.length>8||!section.bullets.every(p=>text(p,3,500))||!Array.isArray(section.source_ids)||section.source_ids.length>sourceCount||!section.source_ids.every(id=>Number.isInteger(id)&&Number(id)>=1&&Number(id)<=sourceCount))throw new EditorialFailure('invalid_model_output');}
   for(const faq of value.faqs)if(!record(faq)||!text(faq.question,15,180)||!text(faq.answer,80,900))throw new EditorialFailure('invalid_model_output');
   const article=value as unknown as GeneratedArticle;const count=words(articleText(article)).length;
   if(count<650||count>1800)throw new EditorialFailure('article_length_outside_limits');

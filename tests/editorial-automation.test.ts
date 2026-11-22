@@ -66,6 +66,11 @@ test('an expired lease cannot save a draft or overwrite the replacement run',asy
   expect(f.sqlite.prepare('SELECT status,lease_token FROM editorial_runs').get()).toEqual({status:'running',lease_token:'replacement'});
 });
 
+test('short checklist labels remain valid and oversized metadata is shortened safely',()=>{
+  const f=fixture();const article={...f.article,seo_description:'Review the customer journey and its recovery behaviour before commissioning your next software project. '.repeat(4),sections:f.article.sections.map(section=>({...section,bullets:['Booking','Payment']}))};
+  const parsed=validateArticle({response:article},2,[]);expect(parsed.sections[0].bullets).toEqual(['Booking','Payment']);expect(parsed.seo_description.length).toBeLessThanOrEqual(160);
+});
+
 test('source fetch rejects external redirects and failures before calling AI',async()=>{
   let requests=0;const redirect:typeof fetch=async()=>{requests++;return new Response(null,{status:302,headers:{Location:'http://127.0.0.1/private'}});};
   await expect(fetchEditorialSource(EDITORIAL_THEMES[0].sources[0],redirect)).rejects.toThrow('source_host_rejected');expect(requests).toBe(1);
