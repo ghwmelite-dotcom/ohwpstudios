@@ -1,0 +1,21 @@
+{
+  "qa": [
+    {
+      "posts": 1,
+      "published": 0
+    }
+  ],
+  "qaRuns": [
+    {
+      "status": "draft",
+      "attempt_count": 2,
+      "word_count": 667
+    }
+  ],
+  "production": [
+    {
+      "posts": 22,
+      "published": 22
+    }
+  ]
+}

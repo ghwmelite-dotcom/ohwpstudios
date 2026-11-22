@@ -1,0 +1,12 @@
+{
+  "provider": "Cloudflare Workers AI",
+  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+  "liveResponseCaptured": true,
+  "nativeD1ResponseReplay": true,
+  "productionDatabase": false,
+  "result": {
+    "week": "2026-11-16",
+    "status": "draft",
+    "postId": 1
+  }
+}

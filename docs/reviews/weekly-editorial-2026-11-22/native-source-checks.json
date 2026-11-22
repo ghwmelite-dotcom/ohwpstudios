@@ -1,0 +1,100 @@
+{
+  "allPassed": true,
+  "sources": [
+    {
+      "url": "https://www.w3.org/WAI/fundamentals/accessibility-intro/",
+      "ok": true,
+      "retrieved": "https://raw.githubusercontent.com/w3c/wai-website/main/pages/fundamentals/introduction/index.md"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps",
+      "ok": true,
+      "retrieved": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"
+    },
+    {
+      "url": "https://paystack.com/docs/payments/verify-payments/",
+      "ok": true,
+      "retrieved": "https://paystack.com/docs/payments/verify-payments/"
+    },
+    {
+      "url": "https://paystack.com/docs/payments/webhooks/",
+      "ok": true,
+      "retrieved": "https://paystack.com/docs/payments/webhooks/"
+    },
+    {
+      "url": "https://developers.openai.com/codex/security/",
+      "ok": true,
+      "retrieved": "https://learn.chatgpt.com/docs/security"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/security",
+      "ok": true,
+      "retrieved": "https://code.claude.com/docs/en/security"
+    },
+    {
+      "url": "https://www.w3.org/WAI/tutorials/forms/",
+      "ok": true,
+      "retrieved": "https://raw.githubusercontent.com/w3c/wai-website/main/pages/design-develop/tutorials/forms/index.md"
+    },
+    {
+      "url": "https://developers.cloudflare.com/workers-ai/platform/data-usage/",
+      "ok": true,
+      "retrieved": "https://developers.cloudflare.com/workers-ai/platform/data-usage/"
+    },
+    {
+      "url": "https://developers.cloudflare.com/workers-ai/",
+      "ok": true,
+      "retrieved": "https://developers.cloudflare.com/workers-ai/"
+    },
+    {
+      "url": "https://www.tradingview.com/pine-script-docs/concepts/alerts/",
+      "ok": true,
+      "retrieved": "https://www.tradingview.com/pine-script-docs/concepts/alerts/"
+    },
+    {
+      "url": "https://www.tradingview.com/pine-script-docs/concepts/strategies/",
+      "ok": true,
+      "retrieved": "https://www.tradingview.com/pine-script-docs/concepts/strategies/"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Testing",
+      "ok": true,
+      "retrieved": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Testing"
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+      "ok": true,
+      "retrieved": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+      "ok": true,
+      "retrieved": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+      "ok": true,
+      "retrieved": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html"
+    },
+    {
+      "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "ok": true,
+      "retrieved": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+    },
+    {
+      "url": "https://developers.google.com/search/docs/appearance/ai-features",
+      "ok": true,
+      "retrieved": "https://developers.google.com/search/docs/appearance/ai-features"
+    },
+    {
+      "url": "https://www.metatrader5.com/en/terminal/help/algotrading/testing",
+      "ok": true,
+      "retrieved": "https://www.metatrader5.com/en/terminal/help/algotrading/testing"
+    },
+    {
+      "url": "https://www.metatrader5.com/en/terminal/help/trading",
+      "ok": true,
+      "retrieved": "https://www.metatrader5.com/en/terminal/help/trading"
+    }
+  ]
+}

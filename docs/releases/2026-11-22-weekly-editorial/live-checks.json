@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-11-22T10:07:50.463Z",
+  "results": [
+    {
+      "path": "/api/admin/editorial-automation",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/editorial-automation",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/blog",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/content",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/api/client/projects",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/admin/dashboard",
+      "method": "GET",
+      "status": 302
+    },
+    {
+      "path": "/admin/login",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/client/login",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/estimate-project",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/contact",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/blog",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "cron": "0 9 * * MON",
+  "timezone": "Africa/Accra",
+  "workerPublicUrl": false,
+  "workerPreviewUrls": false,
+  "isolatedDraftUrl": 404,
+  "isolatedDraftAbsentFromPublicIndexes": true
+}
