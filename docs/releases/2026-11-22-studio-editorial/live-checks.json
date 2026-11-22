@@ -1,0 +1,130 @@
+{
+  "checkedAt": "2026-11-22T09:19:09.860Z",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/estimate-project",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/client/login",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/admin/login",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/portfolio",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/sitemap-pages",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/blog",
+      "status": 200,
+      "oneLoader": true
+    },
+    {
+      "path": "/api/admin/content",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/blog",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/session",
+      "status": 401
+    },
+    {
+      "path": "/api/client/projects",
+      "status": 401
+    },
+    {
+      "path": "/api/chat/messages?conversation_id=1",
+      "status": 401
+    },
+    {
+      "path": "/blog/business-website-vs-web-app-ghana",
+      "status": 200,
+      "canonical": true,
+      "indexable": true,
+      "articleSchema": true,
+      "breadcrumbs": true
+    },
+    {
+      "path": "/blog/software-project-brief-checklist",
+      "status": 200,
+      "canonical": true,
+      "indexable": true,
+      "articleSchema": true,
+      "breadcrumbs": true
+    },
+    {
+      "path": "/blog/guided-ai-development-codex-claude-code",
+      "status": 200,
+      "canonical": true,
+      "indexable": true,
+      "articleSchema": true,
+      "breadcrumbs": true
+    },
+    {
+      "path": "/blog/mobile-money-payments-ghana-website",
+      "status": 200,
+      "canonical": true,
+      "indexable": true,
+      "articleSchema": true,
+      "breadcrumbs": true
+    },
+    {
+      "path": "/blog/tradingview-indicator-vs-metatrader-bot",
+      "status": 200,
+      "canonical": true,
+      "indexable": true,
+      "articleSchema": true,
+      "breadcrumbs": true
+    },
+    {
+      "path": "/blog/ai-assistants-ghana-business-workflows",
+      "status": 200,
+      "canonical": true,
+      "indexable": true,
+      "articleSchema": true,
+      "breadcrumbs": true
+    },
+    {
+      "path": "/sitemap-blog.xml",
+      "status": 200,
+      "allSixPresent": true
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "allSixPresent": true
+    }
+  ],
+  "publicFooterOnly": true,
+  "anonymousImportRejected": true
+}

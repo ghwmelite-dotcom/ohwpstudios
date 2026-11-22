@@ -1,0 +1,30 @@
+{
+  "added": 6,
+  "existingPreserved": 16,
+  "publication": [
+    {
+      "slug": "business-website-vs-web-app-ghana",
+      "published": true
+    },
+    {
+      "slug": "software-project-brief-checklist",
+      "published": true
+    },
+    {
+      "slug": "guided-ai-development-codex-claude-code",
+      "published": true
+    },
+    {
+      "slug": "mobile-money-payments-ghana-website",
+      "published": true
+    },
+    {
+      "slug": "tradingview-indicator-vs-metatrader-bot",
+      "published": true
+    },
+    {
+      "slug": "ai-assistants-ghana-business-workflows",
+      "published": true
+    }
+  ]
+}
