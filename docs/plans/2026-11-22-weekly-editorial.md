@@ -1,0 +1,11 @@
+# Weekly Workers AI editorial drafts
+
+- One draft per UTC/Accra Monday week, scheduled Monday 09:00. Manual generation shares the same weekly slot. Existing six-article pack and all publishing tools remain intact.
+- Separate scheduled-only Worker, no public HTTP route, using the existing D1 and Workers AI bindings. No Anthropic or third-party AI credentials.
+- Additive migration: settings row plus run ledger. No rebuild/update of existing client, session, blog or security tables. Prepared statements only. Final insert always published=0, published_at=NULL.
+- Atomic weekly claim/lease; maximum two explicit attempts per slot, no concurrent duplicate draft. Failures are visible in admin. Pausing is checked server-side.
+- Rotate source-backed themes, present existing editorial titles to avoid repeated intent, fetch a bounded set of allowlisted official sources, request structured plain-text JSON, independently validate it, escape every generated field and render HTML from fixed templates. Model cannot supply HTML, URLs, bylines, slugs or publication state.
+- Sources are untrusted reference text, never instructions. No tools/actions are available to the model. No client records, emails, conversations or credentials enter prompts or run logs.
+- Draft includes direct answer, useful sections/checklist, visible FAQ, verified reference links, internal links and metadata. Automated relevance/length/duplicate checks supplement manual fact checking; no ranking, regulatory, security-certification or trading-performance promises.
+- Admin shows enabled/paused state, next scheduled run, recent runs, source provenance, review checklist and linked draft. Existing middleware authenticates GET and enforces session/CSRF on mutations. Publisher remains the existing explicit checkbox/save action.
+- Tests: real SQLite concurrency/idempotency, draft invariant, rollback on race, malformed/adversarial model output, source timeout/redirect allowlist, retry cap/pause, no private prompt context; integration and one real Workers AI draft in a disposable sandbox before deployment. Then backup, additive migration, cron deployment, site deployment, read-only live checks and data preservation evidence.

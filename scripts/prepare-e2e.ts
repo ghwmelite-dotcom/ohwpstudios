@@ -29,6 +29,7 @@ writeFileSync(join(target, 'credentials.json'), JSON.stringify(credentials), { m
 const adminHash = await hashPassword(credentials.adminPassword);
 const clientHash = new Bun.CryptoHasher('sha256').update(credentials.clientPassword).digest('hex');
 const seed = `
+INSERT OR IGNORE INTO editorial_settings(id,enabled) VALUES(1,1);
 INSERT INTO admin_users(username,password_hash,email,created_at) VALUES ('e2e-admin','${adminHash}','admin@example.test',datetime('now'));
 INSERT INTO client_users(email,password_hash,company_name,contact_name) VALUES
 ('client@example.test','${clientHash}','E2E Client','Test Client'),

@@ -1,0 +1,17 @@
+<div class="section-card glass" id="weekly-editorial-panel">
+  <div class="card-header"><h3>Weekly studio drafts</h3><p class="card-description">One Cloudflare Workers AI draft each Monday at 9:00 a.m. Accra time. Every article needs your factual and editorial review. Publishing stays manual.</p></div>
+  <p id="editorial-schedule-status" role="status" aria-live="polite">Loading weekly workflow…</p>
+  <div class="editorial-controls"><button class="btn btn-secondary" id="editorial-generate" type="button" disabled>Generate this week’s draft</button><button class="btn btn-secondary" id="editorial-toggle" type="button" disabled>Pause weekly drafts</button></div>
+  <p class="card-description">Manual generation uses the same weekly slot as the schedule. An existing draft is preserved. Failed or stale runs allow one retry; additional attempts are blocked.</p>
+  <div id="editorial-runs" aria-live="polite"></div>
+</div>
+<style>
+  .editorial-controls{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}
+  #weekly-editorial-panel{margin-bottom:24px}
+  #editorial-runs{display:grid;gap:16px;overflow-wrap:anywhere}
+  #editorial-runs :global(article){border-top:1px solid var(--color-border,#d7dce8);padding:20px 0}
+  #editorial-runs :global(p){margin:8px 0;line-height:1.6}
+  #editorial-runs :global(summary){cursor:pointer;padding:12px 0;font-weight:600}
+  #editorial-runs :global(a){text-decoration:underline}
+  #editorial-runs :global(button){margin:12px 0}
+</style>

@@ -1,0 +1,8 @@
+{
+  "anonymousGet": 401,
+  "anonymousPost": 401,
+  "missingCsrf": 403,
+  "unsupportedPublishAction": 400,
+  "authenticatedStatus": 200,
+  "noStore": true
+}

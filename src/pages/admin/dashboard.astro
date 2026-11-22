@@ -1,6 +1,7 @@
 ---
 export const prerender = false; // SSR so the middleware auth guard runs
 import StudioContentFields from '@/components/StudioContentFields.astro';
+import EditorialAutomationPanel from '@/components/EditorialAutomationPanel.astro';
 import { SITE_CONFIG } from '@/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
@@ -344,6 +345,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
         <!-- Blog Posts Section -->
         <div class="content-section" id="section-blog">
+          <EditorialAutomationPanel />
           <div class="section-card glass">
             <div class="card-header">
               <div style="display: flex; justify-content: space-between; align-items: start;">
@@ -1770,6 +1772,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 </style>
 
 <script>
+  import { initEditorialPanel } from "@/lib/editorial-admin";
   // Sanitization utilities
   const sanitizeHTML = (html) => {
     if (!html) return '';
@@ -1797,6 +1800,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
   // Check authentication via cookie session
   let CSRF = '';
+  const loadEditorialAutomation = initEditorialPanel(() => CSRF, loadBlogPosts, editBlogPost);
   async function initAdminSession() {
     const res = await fetch('/api/admin/session');
     if (!res.ok) { window.location.href = '/admin/login'; return false; }
@@ -1851,6 +1855,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
         loadPortfolio();
       } else if (section === 'blog') {
         loadBlogPosts();
+        loadEditorialAutomation();
       } else if (section === 'about') {
         loadContent();
         loadTeam();
