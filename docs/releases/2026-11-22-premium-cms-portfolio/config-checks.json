@@ -1,0 +1,9 @@
+{
+  "productionDeployment": "https://89527b27.ohwpstudios.pages.dev",
+  "productionBranch": "main",
+  "aiBindingPreserved": true,
+  "d1BindingPreserved": true,
+  "weeklyEditorialCrons": [
+    "0 9 * * MON"
+  ]
+}

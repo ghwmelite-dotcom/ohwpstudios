@@ -1,0 +1,507 @@
+{
+  "tables": [
+    {
+      "table": "admin_users",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "35f788536b218eac23fbaa5e7070e764775430634c3fab26ad2e98868f1ed1b6"
+    },
+    {
+      "table": "affiliate_clicks",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "affiliate_commissions",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "affiliate_payouts",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "affiliate_resource_downloads",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "affiliate_resources",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "affiliates",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "blog_posts",
+      "before_count": 22,
+      "after_count": 22,
+      "all_original_records_unchanged": true,
+      "before_sha256": "21f8d093dcc6f3893ca4cc5d70d71fad710f8734be5d01c3096e0a60e785f478"
+    },
+    {
+      "table": "bookings",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "5e9d3db4b5e837d85b497c4f38c6563f2a602367933fd1259c7714069cee1d83"
+    },
+    {
+      "table": "case_studies",
+      "before_count": 6,
+      "after_count": 6,
+      "all_original_records_unchanged": true,
+      "before_sha256": "50f6a969e70d4bb9becb3977726ca8655542f1f6ae03ab128a223059773be0a0"
+    },
+    {
+      "table": "chat_canned_responses",
+      "before_count": 8,
+      "after_count": 8,
+      "all_original_records_unchanged": true,
+      "before_sha256": "0a0df4579e7870fa009af046db2661aefbad8efc1c634d4f224d68c851d80946"
+    },
+    {
+      "table": "chat_conversations",
+      "before_count": 7,
+      "after_count": 7,
+      "all_original_records_unchanged": true,
+      "before_sha256": "db9fa4960d9c7857bfa652cc46c64be9073b2e1711d96b84155f34c2afabad2b"
+    },
+    {
+      "table": "chat_messages",
+      "before_count": 37,
+      "after_count": 37,
+      "all_original_records_unchanged": true,
+      "before_sha256": "1d31b948f8ab56a9c5f0a13ab04ae0213777cca4197e684be3a6d8702e579d7a"
+    },
+    {
+      "table": "chat_operators",
+      "before_count": 3,
+      "after_count": 3,
+      "all_original_records_unchanged": true,
+      "before_sha256": "d939f7308fc3c898ee836efb727e879c6080c74955264281a41f61edc34c137c"
+    },
+    {
+      "table": "chat_qualified_leads",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "chat_settings",
+      "before_count": 14,
+      "after_count": 14,
+      "all_original_records_unchanged": true,
+      "before_sha256": "3e01c3ea2a25a9eeed22c9582a3927cc811a4d38bb807bdba4c4cf556b7ef845"
+    },
+    {
+      "table": "chat_visitor_sessions",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "client_projects",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "24d209f7a76d61ea42e8f9d69bcdc6ec877a9b271bb9f81b3c8934cc068fa812"
+    },
+    {
+      "table": "client_users",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "4fc8cb9bc30230e22743a26ddd3d16ecd3c2f6b49c42bbd8f114f03ce7e48417"
+    },
+    {
+      "table": "clients",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "code_quality_metrics",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "color_presets",
+      "before_count": 10,
+      "after_count": 10,
+      "all_original_records_unchanged": true,
+      "before_sha256": "13be7c50bc1b419952db1737219a19e7e8aaae5291b917f20f1dae52b9cc8519"
+    },
+    {
+      "table": "contact_submissions",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "contacts",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "contract_history",
+      "before_count": 3,
+      "after_count": 3,
+      "all_original_records_unchanged": true,
+      "before_sha256": "51c365ec767706d88bd2314aca587ce3ad32e84c3d742abab766ac7accfe50de"
+    },
+    {
+      "table": "contract_milestones",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "contract_payments",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "contract_signatures",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "contract_templates",
+      "before_count": 6,
+      "after_count": 6,
+      "all_original_records_unchanged": true,
+      "before_sha256": "af16b2e0eaedd45320dbb37e4f1668d3109ea7c4722d21b70386f9472ea1c7bc"
+    },
+    {
+      "table": "contract_verifications",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "contracts",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "6f22b91a81ce39a0fb793818002e0ab120901d9a46691b4d4cdef2fe05e0766a"
+    },
+    {
+      "table": "core_values",
+      "before_count": 18,
+      "after_count": 18,
+      "all_original_records_unchanged": true,
+      "before_sha256": "f2a44edc5c0ef20c0cb9b0007023895f7a50842eea3e0ff7bc07ba319da5de64"
+    },
+    {
+      "table": "d1_migrations",
+      "before_count": 45,
+      "after_count": 45,
+      "all_original_records_unchanged": true,
+      "before_sha256": "89fec480d25bbd07978dff2d65e92134c44c967fbf4ada3c378d02d97839eff6"
+    },
+    {
+      "table": "deployment_history",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "editorial_runs",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "115961b67938fdacdf422c1488853c396ae810688477867737c57d385c8b8a0d"
+    },
+    {
+      "table": "editorial_settings",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "9f19ce7d17ec491ab73323102f89085d150546f44b8d64e0e03a40af9c5d1d85"
+    },
+    {
+      "table": "email_templates",
+      "before_count": 2,
+      "after_count": 2,
+      "all_original_records_unchanged": true,
+      "before_sha256": "1eaa258a1622328cb90f7aa6e8078680cf2a5ce2ede56f5f632775503e89d102"
+    },
+    {
+      "table": "font_presets",
+      "before_count": 20,
+      "after_count": 20,
+      "all_original_records_unchanged": true,
+      "before_sha256": "5761e2ff5b4a00cf0486902ce7e9c4266d6e555656f6d8b6c01b9759a86b60e2"
+    },
+    {
+      "table": "form_analytics",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "job_applications",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "newsletter_campaigns",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "newsletter_sends",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "newsletter_subscribers",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "password_reset_tokens",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "payment_history",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "pm_chat_conversations",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "pm_chat_messages",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "portfolio",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "portfolio_categories",
+      "before_count": 6,
+      "after_count": 13,
+      "all_original_records_unchanged": true,
+      "before_sha256": "b358ec86842a38fe425674fbb3ee92bf56efba0faf7bf6f653cf231a28ad1e48"
+    },
+    {
+      "table": "portfolio_project_images",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "portfolio_project_tags",
+      "before_count": 83,
+      "after_count": 83,
+      "all_original_records_unchanged": true,
+      "before_sha256": "2619368691d3aa2fae8555f2553dd3c440c97021e6a7324b6407826a5be0340a"
+    },
+    {
+      "table": "portfolio_projects",
+      "before_count": 14,
+      "after_count": 22,
+      "all_original_records_unchanged": true,
+      "before_sha256": "91330c93f25ccb3653ff8edca3bd8d4161f25f133e7cb29ee50cd22721ef6e92"
+    },
+    {
+      "table": "portfolio_tags",
+      "before_count": 41,
+      "after_count": 41,
+      "all_original_records_unchanged": true,
+      "before_sha256": "cca77fc55972ccf1266605949c875b911e47e642dfe12798748f02f5847bc60e"
+    },
+    {
+      "table": "portfolio_testimonials",
+      "before_count": 16,
+      "after_count": 16,
+      "all_original_records_unchanged": true,
+      "before_sha256": "8dfcb4681e6b86eef41c22360dfc7d82548c7de2f5742c2a337d9da4d22b6f69"
+    },
+    {
+      "table": "project_contracts_old",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "project_estimates",
+      "before_count": 4,
+      "after_count": 4,
+      "all_original_records_unchanged": true,
+      "before_sha256": "3819e01613049448a08d2585aaf642de42302da4d89bdc1934864f55b48f7b6c"
+    },
+    {
+      "table": "project_files",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "project_milestones",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "project_updates",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "push_notifications",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "push_subscriptions",
+      "before_count": 4,
+      "after_count": 4,
+      "all_original_records_unchanged": true,
+      "before_sha256": "d7fa2470adbd830459e288076e0fd59804f7c432d71951f60054e963ce50825e"
+    },
+    {
+      "table": "quiz_leads",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "services",
+      "before_count": 6,
+      "after_count": 6,
+      "all_original_records_unchanged": true,
+      "before_sha256": "c4a0bc28d57b92ffa9eb9cf9556a0749faa292c1bd03992057ff482d6051310e"
+    },
+    {
+      "table": "sessions",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "652dbdf219f15939dc5bab4d496c63520552a73f4087f58b01f555d7192f71dc"
+    },
+    {
+      "table": "site_content",
+      "before_count": 19,
+      "after_count": 19,
+      "all_original_records_unchanged": true,
+      "before_sha256": "dac56f92ed78048c46ebda93760c373ea6704d567491377fff8a3beb1dc57730"
+    },
+    {
+      "table": "team_members",
+      "before_count": 12,
+      "after_count": 12,
+      "all_original_records_unchanged": true,
+      "before_sha256": "d589dce7d8b6d8027f5f0d1dd05e1b153f2e0439856886ef063c699970884fe7"
+    },
+    {
+      "table": "testimonial_invites",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "testimonials",
+      "before_count": 6,
+      "after_count": 6,
+      "all_original_records_unchanged": true,
+      "before_sha256": "5baf24e6c49713d992ad24d9b9550e9457517c45c6deb5420f32a3fbbb0edd0f"
+    },
+    {
+      "table": "theme_settings",
+      "before_count": 9,
+      "after_count": 9,
+      "all_original_records_unchanged": true,
+      "before_sha256": "564f6c0f785e5d6c539178de5bf9949df015f19e75ad34bfb07cf327746c823c"
+    },
+    {
+      "table": "website_audits",
+      "before_count": 0,
+      "after_count": 0,
+      "all_original_records_unchanged": true,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "table": "website_grader_leads",
+      "before_count": 1,
+      "after_count": 1,
+      "all_original_records_unchanged": true,
+      "before_sha256": "54d301320b5e386baf8d7ea576471150815c6a608b6671d85f8daba1c5bc3c67"
+    }
+  ],
+  "missing_records": [],
+  "lost_indexes": [],
+  "lost_triggers_or_views": [],
+  "sequence_regressions": [],
+  "new_foreign_key_violations": 0,
+  "passed": true
+}

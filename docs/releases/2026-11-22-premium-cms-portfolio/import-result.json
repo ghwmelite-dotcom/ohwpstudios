@@ -1,0 +1,21 @@
+{
+  "imported": {
+    "added": 8,
+    "preserved": 0
+  },
+  "repeated": {
+    "added": 0,
+    "preserved": 8
+  },
+  "approvedNewStudiesPublished": [
+    "afrilab",
+    "cedisense",
+    "ask-ozzy",
+    "funeralpress",
+    "brilla",
+    "inboxguard",
+    "ohcs-elibrary",
+    "xg-oracle"
+  ],
+  "existingRowsPreserved": 14
+}
