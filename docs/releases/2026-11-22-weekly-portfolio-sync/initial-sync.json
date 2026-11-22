@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "week": "2026-11-16",
+    "status": "complete",
+    "added": 20,
+    "preserved": 8,
+    "deferred": 37
+  },
+  "repeated": {
+    "week": "2026-11-16",
+    "status": "existing"
+  },
+  "counts": {
+    "total": 42,
+    "drafts": 20,
+    "published": 22
+  },
+  "completedAt": "2026-11-22T11:10:38.669Z"
+}
