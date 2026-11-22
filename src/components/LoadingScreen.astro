@@ -98,11 +98,12 @@ const {studio=false}=Astro.props;
   .page-loader[hidden] { display: none; }
   .page-loader { pointer-events: none; animation: loaderSafetyExit 1ms 3s forwards; }
   .page-loader.is-leaving { opacity: 0; visibility: hidden; transition: opacity 180ms ease-out, visibility 180ms ease-out; }
-  .page-loader.studio-loader { background: radial-gradient(ellipse at top, #263e91 0%, #141d3a 40%, #090d21 100%); color: #e7c997; }
+  .page-loader.studio-loader { --loader-caption-color: #f8f1e5; background: radial-gradient(ellipse at top, #263e91 0%, #141d3a 40%, #090d21 100%); color: #e7c997; }
   :global(html[data-theme="dark"]) .page-loader.studio-loader { background: radial-gradient(ellipse at top, #263e91 0%, #141d3a 40%, #090d21 100%); }
   .studio-loader :global(.studio-brand-mark) { color: #e7c997; }
   .studio-loader .loader-text, .studio-loader .loader-progress { opacity: 1; transform: none; animation: none; }
-  .studio-loader .loading-label { color: #e7c997; background:none; -webkit-text-fill-color:currentColor; animation:none; }
+  /* The shared overlay owns its contrast; page-level span/theme rules must not recolor it. */
+  #page-loader.studio-loader .loading-label { color: var(--loader-caption-color); background:none; -webkit-text-fill-color:var(--loader-caption-color); animation:none; }
   .studio-loader .rotating-ring { opacity:.7; animation:ringRotate 3s linear infinite; }
   .studio-loader .ring-2 { border-top-color:#3d57c4; border-right-color:#e7c997; animation-direction:reverse; }
   .studio-loader .rotating-text-container { opacity:.65; animation:none; }

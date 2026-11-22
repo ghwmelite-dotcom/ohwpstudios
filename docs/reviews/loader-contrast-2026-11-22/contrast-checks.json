@@ -1,0 +1,50 @@
+[
+  {
+    "page": "home",
+    "theme": "light",
+    "background": "radial-gradient(at 50% 0%, rgb(38, 62, 145) 0%, rgb(20, 29, 58) 40%, rgb(9, 13, 33) 100%)",
+    "color": "rgb(248, 241, 229)",
+    "fill": "",
+    "visible": true
+  },
+  {
+    "page": "home",
+    "theme": "dark",
+    "background": "radial-gradient(at 50% 0%, rgb(38, 62, 145) 0%, rgb(20, 29, 58) 40%, rgb(9, 13, 33) 100%)",
+    "color": "rgb(248, 241, 229)",
+    "fill": "",
+    "visible": true
+  },
+  {
+    "page": "admin",
+    "theme": "light",
+    "background": "radial-gradient(at 50% 0%, rgb(38, 62, 145) 0%, rgb(20, 29, 58) 40%, rgb(9, 13, 33) 100%)",
+    "color": "rgb(248, 241, 229)",
+    "fill": "",
+    "visible": true
+  },
+  {
+    "page": "admin",
+    "theme": "dark",
+    "background": "radial-gradient(at 50% 0%, rgb(38, 62, 145) 0%, rgb(20, 29, 58) 40%, rgb(9, 13, 33) 100%)",
+    "color": "rgb(248, 241, 229)",
+    "fill": "",
+    "visible": true
+  },
+  {
+    "page": "client",
+    "theme": "light",
+    "background": "radial-gradient(at 50% 0%, rgb(38, 62, 145) 0%, rgb(20, 29, 58) 40%, rgb(9, 13, 33) 100%)",
+    "color": "rgb(248, 241, 229)",
+    "fill": "",
+    "visible": true
+  },
+  {
+    "page": "client",
+    "theme": "dark",
+    "background": "radial-gradient(at 50% 0%, rgb(38, 62, 145) 0%, rgb(20, 29, 58) 40%, rgb(9, 13, 33) 100%)",
+    "color": "rgb(248, 241, 229)",
+    "fill": "",
+    "visible": true
+  }
+]

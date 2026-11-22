@@ -7,7 +7,7 @@ function fallback():PortfolioPresentation[]{return selectedWork.map(project=>({.
 function present(project:PublicProject):PortfolioPresentation {
   const source=githubPortfolio.find(item=>item.slug===project.slug);
   const image=publicUrl(project.featured_image)||'';
-  return {slug:project.slug,title:project.title,category:project.category_name||source?.category||'Software project',kind:project.subtitle||source?.kind||'Project study',description:project.description||'',image,url:publicUrl(project.project_url)||null,repository:publicUrl(project.repository_url)||null,challenge:project.challenge||'',solution:project.solution||'',results:project.results||'',capabilities:source?.capabilities||[],illustration:image.includes('/work/studies/'),featured:project.is_featured===1};
+  return {slug:project.slug,title:project.title,category:project.category_name||source?.category||'Software project',kind:project.subtitle||source?.kind||'Project study',description:project.description||'',image,url:publicUrl(project.project_url)||null,repository:publicUrl(project.repository_url)||null,challenge:project.challenge||'',solution:project.solution||'',results:project.results||'',capabilities:source?.capabilities||[],illustration:image.includes('/work/studies/')||image.includes('/work/repositories/'),featured:project.is_featured===1};
 }
 export async function portfolioPresentation(db?:D1Database):Promise<PortfolioPresentation[]> {
   if(!db)return fallback();

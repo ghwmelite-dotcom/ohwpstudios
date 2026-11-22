@@ -1,4 +1,5 @@
 import type {D1Database} from '@cloudflare/workers-types';
+import {repositoryCoverUrl} from './repository-covers';
 
 export const PORTFOLIO_OWNER='ghwmelite-dotcom';
 export const PORTFOLIO_SYNC_CRON='0 10 * * MON';
@@ -71,9 +72,10 @@ export async function syncWeeklyPortfolio(db:D1Database,now=new Date(),options:{
   for(const item of matched){const url=`https://github.com/${item.full_name}`;const id=urlIndex.get(url.toLowerCase())!;statements.push(db.prepare(`INSERT OR IGNORE INTO portfolio_repository_sync(repository_id,repository_url,project_id,origin,run_token,discovered_at) SELECT ?,?,(SELECT id FROM portfolio_projects WHERE id=?),'existing',?,? WHERE ${gate}`).bind(item.id,url,id,lease,started,week,lease));}
   for(const item of verified){
    const url=`https://github.com/${item.full_name}`;const slug=`github-${item.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}-${item.id}`;
+   const cover=repositoryCoverUrl(item);
    const title=plain(item.name.replace(/[_-]+/g,' '),150);const description=plain(item.description||`A public ${item.language?item.language+' ':''}repository by Hodges & Co. Studios. Review the source and complete this project study before publishing.`,500);
    // Imported metadata cannot supply publication state, results, metrics, links or HTML.
-   statements.push(db.prepare(`INSERT INTO portfolio_projects(title,slug,subtitle,description,category_id,featured_image,thumbnail_image,is_published,is_featured,display_order,meta_title,meta_description,repository_url,repository_verified_at) SELECT ?,?,'Repository draft',?,(SELECT id FROM portfolio_categories WHERE slug='repository-projects'),'/images/work/studies/repository.svg','/images/work/studies/repository.svg',0,0,1000,?,?,?,? WHERE ${gate} AND NOT EXISTS(SELECT 1 FROM portfolio_repository_sync WHERE repository_id=?) AND NOT EXISTS(SELECT 1 FROM portfolio_projects WHERE lower(rtrim(repository_url,'/'))=lower(?) OR lower(rtrim(project_url,'/'))=lower(?)) ON CONFLICT(slug) DO NOTHING`).bind(title,slug,description,`${title} — Hodges & Co. Studios`,description.slice(0,160),url,started,week,lease,item.id,url,url));
+   statements.push(db.prepare(`INSERT INTO portfolio_projects(title,slug,subtitle,description,category_id,featured_image,thumbnail_image,is_published,is_featured,display_order,meta_title,meta_description,repository_url,repository_verified_at) SELECT ?,?,'Repository draft',?,(SELECT id FROM portfolio_categories WHERE slug='repository-projects'),?,?,0,0,1000,?,?,?,? WHERE ${gate} AND NOT EXISTS(SELECT 1 FROM portfolio_repository_sync WHERE repository_id=?) AND NOT EXISTS(SELECT 1 FROM portfolio_projects WHERE lower(rtrim(repository_url,'/'))=lower(?) OR lower(rtrim(project_url,'/'))=lower(?)) ON CONFLICT(slug) DO NOTHING`).bind(title,slug,description,cover,cover,`${title} — Hodges & Co. Studios`,description.slice(0,160),url,started,week,lease,item.id,url,url));
    statements.push(db.prepare(`INSERT OR IGNORE INTO portfolio_repository_sync(repository_id,repository_url,project_id,origin,run_token,discovered_at) SELECT ?,?,p.id,'draft',?,? FROM portfolio_projects p WHERE p.slug=? AND p.repository_url=? AND ${gate}`).bind(item.id,url,lease,started,slug,url,week,lease));
   }
   const deferred=Math.max(0,pending.length-candidates.length);
