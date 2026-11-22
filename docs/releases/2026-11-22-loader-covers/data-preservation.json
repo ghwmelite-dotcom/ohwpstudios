@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "tablesChecked": 74,
+  "updatedCoverProjects": 20,
+  "allowedFields": [
+    "featured_image",
+    "thumbnail_image",
+    "updated_at"
+  ],
+  "allOtherProjectFieldsUnchanged": true,
+  "publishingStatesUnchanged": true,
+  "allOtherTablesUnchanged": true,
+  "schemaAndSequencesUnchanged": true,
+  "newForeignKeyViolations": 0
+}

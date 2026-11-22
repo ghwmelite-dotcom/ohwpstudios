@@ -1,0 +1,12 @@
+{
+  "initial": {
+    "candidates": 20,
+    "updated": 20
+  },
+  "repeated": {
+    "candidates": 0,
+    "updated": 0
+  },
+  "uniqueLiveUrls": 20,
+  "uniqueRenderedImages": 20
+}

@@ -1,0 +1,23 @@
+{
+  "productionDeployment": "https://01be584b.ohwpstudios.pages.dev",
+  "repositoryCrons": [
+    "0 10 * * MON"
+  ],
+  "editorialCrons": [
+    "0 9 * * MON"
+  ],
+  "workerHttpDisabled": true,
+  "workerPreviewsDisabled": true,
+  "aiBindingPreserved": true,
+  "d1BindingPreserved": true,
+  "endpointGuards": [
+    {
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "status": 401
+    }
+  ]
+}

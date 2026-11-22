@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "oneSharedLoader": true,
+    "ivoryCaptionRulePresent": true
+  },
+  {
+    "path": "/admin/login",
+    "status": 200,
+    "oneSharedLoader": true,
+    "ivoryCaptionRulePresent": true
+  },
+  {
+    "path": "/client/login",
+    "status": 200,
+    "oneSharedLoader": true,
+    "ivoryCaptionRulePresent": true
+  }
+]

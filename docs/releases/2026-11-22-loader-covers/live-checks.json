@@ -1,0 +1,212 @@
+{
+  "checkedAt": "2026-11-22T12:06:22.928Z",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/about",
+      "status": 200
+    },
+    {
+      "path": "/blog",
+      "status": 200
+    },
+    {
+      "path": "/booking",
+      "status": 200
+    },
+    {
+      "path": "/careers",
+      "status": 200
+    },
+    {
+      "path": "/case-studies",
+      "status": 200
+    },
+    {
+      "path": "/client/login",
+      "status": 200
+    },
+    {
+      "path": "/clients",
+      "status": 200
+    },
+    {
+      "path": "/contact",
+      "status": 200
+    },
+    {
+      "path": "/estimate-project",
+      "status": 200
+    },
+    {
+      "path": "/industries/education-software-development",
+      "status": 200
+    },
+    {
+      "path": "/industries/fintech-software-development",
+      "status": 200
+    },
+    {
+      "path": "/industries/healthcare-software-development",
+      "status": 200
+    },
+    {
+      "path": "/open-build",
+      "status": 200
+    },
+    {
+      "path": "/portfolio",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/afrilab",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/ask-ozzy",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/cedisense",
+      "status": 200
+    },
+    {
+      "path": "/privacy",
+      "status": 200
+    },
+    {
+      "path": "/quiz",
+      "status": 200
+    },
+    {
+      "path": "/services/api-development-services",
+      "status": 200
+    },
+    {
+      "path": "/services/custom-web-application-development",
+      "status": 200
+    },
+    {
+      "path": "/services/saas-application-development",
+      "status": 200
+    },
+    {
+      "path": "/sitemap-pages",
+      "status": 200
+    },
+    {
+      "path": "/solutions/ai-powered-application-development",
+      "status": 200
+    },
+    {
+      "path": "/solutions/startup-mvp-development",
+      "status": 200
+    },
+    {
+      "path": "/technologies/fullstack-development",
+      "status": 200
+    },
+    {
+      "path": "/technologies/nextjs-development",
+      "status": 200
+    },
+    {
+      "path": "/technologies/nodejs-development",
+      "status": 200
+    },
+    {
+      "path": "/technologies/python-development",
+      "status": 200
+    },
+    {
+      "path": "/technologies/react-development",
+      "status": 200
+    },
+    {
+      "path": "/terms",
+      "status": 200
+    },
+    {
+      "path": "/website-analyzer",
+      "status": 200
+    },
+    {
+      "path": "/website-audit",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/funeralpress",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/brilla",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/inboxguard",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/ohcs-elibrary",
+      "status": 200
+    },
+    {
+      "path": "/portfolio/xg-oracle",
+      "status": 200
+    }
+  ],
+  "missing": [],
+  "publicProjectSlugs": [
+    "afrilab",
+    "cedisense",
+    "ask-ozzy",
+    "funeralpress",
+    "brilla",
+    "inboxguard",
+    "ohcs-elibrary",
+    "xg-oracle"
+  ],
+  "images": [
+    {
+      "slug": "funeralpress",
+      "status": 200
+    },
+    {
+      "slug": "brilla",
+      "status": 200
+    },
+    {
+      "slug": "inboxguard",
+      "status": 200
+    },
+    {
+      "slug": "ohcs-elibrary",
+      "status": 200
+    },
+    {
+      "slug": "xg-oracle",
+      "status": 200
+    }
+  ],
+  "guards": [
+    {
+      "path": "/api/admin/portfolio",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/portfolio-import",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/editorial-automation",
+      "status": 401
+    },
+    {
+      "path": "/api/admin/portfolio-sync",
+      "status": 401
+    }
+  ]
+}
