@@ -1,0 +1,37 @@
+{
+  "base": "http://localhost:8850",
+  "checks": [
+    "Anonymous import rejected; authenticated import requires CSRF",
+    "Import adds six private drafts; second import adds zero; public draft URLs return 404",
+    "Reimport preserves owner edits",
+    "Six articles, covers, JSON-LD and published-only indexes work; preview remains noindex",
+    "Homepage, About and shared footer render saved CMS text with escaping; approved copy restored"
+  ],
+  "posts": [
+    {
+      "slug": "ai-assistants-ghana-business-workflows",
+      "title": "AI assistants for Ghanaian businesses: start with one useful workflow"
+    },
+    {
+      "slug": "tradingview-indicator-vs-metatrader-bot",
+      "title": "TradingView indicator or MetaTrader bot: choosing what to build"
+    },
+    {
+      "slug": "mobile-money-payments-ghana-website",
+      "title": "Mobile money payments on a Ghana website: design for confirmation"
+    },
+    {
+      "slug": "guided-ai-development-codex-claude-code",
+      "title": "Building with Codex or Claude Code: what guided development includes"
+    },
+    {
+      "slug": "software-project-brief-checklist",
+      "title": "How to write a software project brief that gets a useful quote"
+    },
+    {
+      "slug": "business-website-vs-web-app-ghana",
+      "title": "Business website or web app in Ghana: which do you need?"
+    }
+  ],
+  "productionChanged": false
+}

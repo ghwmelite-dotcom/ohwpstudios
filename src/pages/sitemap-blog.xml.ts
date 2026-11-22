@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+export const prerender = false;
 
 export const GET: APIRoute = async ({ locals }) => {
   try {
@@ -23,8 +24,8 @@ export const GET: APIRoute = async ({ locals }) => {
     const lastmod = post.updated_at || post.published_at || new Date().toISOString();
     return `
   <url>
-    <loc>${siteUrl}/blog/${post.slug}</loc>
-    <lastmod>${lastmod.split('T')[0]}</lastmod>
+    <loc>${siteUrl}/blog/${encodeURIComponent(post.slug)}</loc>
+    <lastmod>${lastmod.slice(0,10)}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>`;

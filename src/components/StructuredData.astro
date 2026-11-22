@@ -1,21 +1,22 @@
 ---
+import { SITE_CONFIG } from '@/config';
 interface Props {
   type: 'organization' | 'website' | 'article' | 'breadcrumb' | 'service';
   data?: any;
 }
 
 const { type, data } = Astro.props;
-const siteUrl = Astro.url.origin;
+const siteUrl = SITE_CONFIG.url;
 
 // Organization Schema
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "OhWP Studios",
-  "alternateName": "OHWP Studios",
+  "name": SITE_CONFIG.name,
+  "alternateName": "OhWP Studios",
   "url": siteUrl,
   "logo": `${siteUrl}/icons/icon-512x512.png`,
-  "description": "OhWP Studios is a fullstack software development studio building web apps, SaaS, APIs and AI-powered products for organisations across Ghana and Africa.",
+  "description": "Hodges & Co. Studios is a fullstack software development studio building web apps, SaaS, APIs and AI-powered products for organisations across Ghana and Africa.",
   "email": "ohwpstudios@gmail.com",
   "parentOrganization": {
     "@type": "Organization",
@@ -44,7 +45,7 @@ const organizationSchema = {
   "sameAs": [
     "https://twitter.com/ohwpstudios",
     "https://linkedin.com/company/ohwpstudios",
-    "https://github.com/ohwpstudios",
+    SITE_CONFIG.social.github,
     "https://instagram.com/ohwpstudios"
   ],
   "contactPoint": {
@@ -60,12 +61,12 @@ const organizationSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "OhWP Studios",
+  "name": SITE_CONFIG.name,
   "url": siteUrl,
   "description": "Fullstack software development studio for Ghana and Africa.",
   "publisher": {
     "@type": "Organization",
-    "name": "OhWP Studios",
+    "name": SITE_CONFIG.name,
     "logo": {
       "@type": "ImageObject",
       "url": `${siteUrl}/icons/icon-512x512.png`
@@ -73,6 +74,12 @@ const websiteSchema = {
   }
 };
 
+function isoDate(value:unknown):string|undefined {
+  if(typeof value!=='string'||!value)return undefined;
+  const normalized=value.includes('T')?value:value.replace(' ','T')+'Z';
+  const date=new Date(normalized);
+  return Number.isNaN(date.getTime())?undefined:date.toISOString();
+}
 // Article Schema (for blog posts)
 const articleSchema = data ? {
   "@context": "https://schema.org",
@@ -81,19 +88,20 @@ const articleSchema = data ? {
   "description": data.excerpt || data.seo_description,
   "image": data.featured_image || `${siteUrl}/og-image.jpg`,
   "author": {
-    "@type": "Person",
-    "name": data.author || "OhWP Studios"
+    "@type": (!data.author || /studios/i.test(data.author)) ? "Organization" : "Person",
+    "name": data.author || SITE_CONFIG.name,
+    "url": `${siteUrl}/about`
   },
   "publisher": {
     "@type": "Organization",
-    "name": "OhWP Studios",
+    "name": SITE_CONFIG.name,
     "logo": {
       "@type": "ImageObject",
       "url": `${siteUrl}/icons/icon-512x512.png`
     }
   },
-  "datePublished": data.published_at,
-  "dateModified": data.updated_at || data.published_at,
+  "datePublished": isoDate(data.published_at),
+  "dateModified": isoDate(data.updated_at || data.published_at),
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": `${siteUrl}/blog/${data.slug}`
@@ -121,7 +129,7 @@ const serviceSchema = data ? {
   "description": data.description,
   "provider": {
     "@type": "Organization",
-    "name": "OhWP Studios"
+    "name": SITE_CONFIG.name
   },
   "serviceType": data.type || "Software Development",
   "areaServed": [
@@ -151,5 +159,5 @@ switch (type) {
 ---
 
 {schema && (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
 )}

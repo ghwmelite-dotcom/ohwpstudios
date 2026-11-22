@@ -5,6 +5,8 @@ export const prerender = false;
 import BaseLayout from '@/layouts/InteriorLayout.astro';
 
 
+import { sanitizeHTML } from '@/utils/sanitize';
+import { SITE_CONFIG } from '@/config';
 import StructuredData from '@/components/StructuredData.astro';
 
 const { slug } = Astro.params;
@@ -42,7 +44,8 @@ try {
   if (result) {
     post = result;
   } else {
-    return Astro.redirect('/blog');
+    Astro.response.status = 404;
+    error = 'This article is not published or could not be found.';
   }
 } catch (e) {
   console.error('Error fetching blog post:', e);
@@ -51,7 +54,7 @@ try {
 ---
 
 <BaseLayout legacy
-  title={post?.seo_title || `${post?.title} | OhWP Studios Blog`}
+  title={post?.seo_title || post?.title || 'Article not found'} noindex={!post}
   description={post?.seo_description || post?.excerpt || post?.title}
   image={post?.featured_image || '/og-image.jpg'}
   article={{
@@ -64,12 +67,12 @@ try {
 >
   <Fragment slot="head">
     {post?.tags && <meta name="keywords" content={post.tags} />}
-    <StructuredData type="article" data={post} />
+    <StructuredData type="article" data={post} /><StructuredData type="breadcrumb" data={{breadcrumbs:[{name:"Home",url:SITE_CONFIG.url},{name:"Studio notes",url:`${SITE_CONFIG.url}/blog`},{name:post?.title||"Article",url:`${SITE_CONFIG.url}/blog/${slug}`}]}} />
   </Fragment>
 
 
 
-  <main id="main" class="blog-post-page">
+  <main id="main" class="blog-post-page"><nav class="article-breadcrumb container" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog">Studio notes</a><span aria-current="page">{post?.title||"Article"}</span></nav>
     {error ? (
       <div class="container">
         <div class="error-message">
@@ -93,9 +96,9 @@ try {
                     })}
                   </time>
                 )}
-                {post.author && <span class="author">By {post.author}</span>}
+                {post.author && <a class="author" href="/about">By {post.author}</a>}
               </div>
-              <h1>{post.title}</h1>
+              <h1>{post.title}</h1><p class="article-reading-time">{Math.max(1, Math.ceil(post.content.replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean).length / 220))} minute read · Practical studio guide</p>
               {post.excerpt && (
                 <p class="post-excerpt">{post.excerpt}</p>
               )}
@@ -121,7 +124,7 @@ try {
         <!-- Post Content -->
         <div class="post-content-wrapper">
           <div class="container">
-            <div class="post-content" set:html={post.content} />
+            <div class="post-content" set:html={sanitizeHTML(post.content)} />
           </div>
         </div>
 
@@ -141,6 +144,14 @@ try {
 </BaseLayout>
 
 <style>
+  .article-breadcrumb {display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding-top:32px;font-size:13px;}
+  .article-breadcrumb a {min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:4px;}
+  .article-reading-time {font-size:14px;color:var(--muted);margin-top:16px;}
+  .post-content :global(.answer-summary) {border-left:3px solid var(--brand-gold);padding:16px 24px;background:var(--brand-pale);margin-bottom:40px;}
+  .post-content :global(table) {display:block;overflow-x:auto;max-width:100%;border-collapse:collapse;margin:24px 0;}
+  .post-content :global(th),.post-content :global(td) {border:1px solid var(--sand);padding:12px;min-width:150px;text-align:left;}
+  .post-content :global(.editorial-note) {font-size:13px;color:var(--muted);}
+
   .blog-post-page {
     min-height: 100vh;
   }

@@ -1,4 +1,5 @@
 ---
+import LoadingScreen from '@/components/LoadingScreen.astro';
 import "@fontsource-variable/fraunces/wght.css";
 import "@/styles/admin-atelier.css";
 import AdminBrandbar from "@/components/AdminBrandbar.astro";
@@ -749,7 +750,8 @@ const { id } = Astro.params;
     }
   </style>
 </head>
-<body class="admin-atelier"><AdminBrandbar/>
+<body class="admin-atelier">
+    <LoadingScreen studio /><AdminBrandbar/>
   <div class="container">
     <!-- Header -->
     <div class="header">

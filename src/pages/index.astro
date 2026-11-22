@@ -8,6 +8,8 @@ import CapabilityVisual from '@/components/CapabilityVisual.astro';
 import HeroAtmosphere from '@/components/HeroAtmosphere.astro';
 import '@/styles/atelier-hero.css';
 import { SITE_CONFIG } from '@/config';
+import { getStudioContent } from '@/lib/studio-content';
+const content = await getStudioContent(Astro.locals.runtime?.env?.DB);
 import { telegramQuoteLink } from '@/lib/quote-policy';
 import TelegramIcon from '@/components/TelegramIcon.astro';
 ---
@@ -16,10 +18,10 @@ import TelegramIcon from '@/components/TelegramIcon.astro';
     <section class="premium-hero" aria-labelledby="hero-title">
       <HeroAtmosphere />
       <div class="hero-layout wrap"><div class="hero-copy">
-        <p class="studio-location"><span></span> Independent minds. Accra roots. Global ambition.</p>
-        <h1 id="hero-title">Ambitious ideas.<br />Beautifully built.</h1>
-        <p class="hero-intro">Software, AI, and trading systems. Designed with intention. Engineered around the way you work.</p>
-        <p class="hero-choice">We build it for you. Or help you build it.</p>
+        <p class="studio-location"><span></span> {content.studio_hero_eyebrow}</p>
+        <h1 id="hero-title" style="white-space:pre-line">{content.studio_hero_title}</h1>
+        <p class="hero-intro">{content.studio_hero_intro}</p>
+        <p class="hero-choice">{content.studio_hero_choice}</p>
         <div class="hero-actions"><a class="button" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><TelegramIcon />Let’s talk on Telegram</a><a class="text-link" href="#work">Discover the work <span aria-hidden="true">↓</span></a></div>
         <p class="hero-contact-alternative">Prefer to write a brief? <a href="#contact">Bring us your idea <span aria-hidden="true">↗</span></a></p>
       </div><EngineeringCanvas /></div>
@@ -34,22 +36,22 @@ import TelegramIcon from '@/components/TelegramIcon.astro';
     </section>
 
     <section id="services" class="services-section section-space" aria-labelledby="services-title">
-      <div class="wrap"><div class="section-heading"><div><p class="section-label">Our disciplines</p><h2 id="services-title">The right minds.<br />For what’s next.</h2></div><p>From a first website to a complex platform. Bring the problem, the ambition, or the half-built project. We’ll help you find the way forward.</p></div>
+      <div class="wrap"><div class="section-heading"><div><p class="section-label">Our disciplines</p><h2 id="services-title">The right minds.<br />For what’s next.</h2></div><p>{content.studio_services_intro}</p></div>
         <div class="service-rows">
-          <article><CapabilityVisual type="software" /><div class="service-name"><AdinkraIcon symbol="ananse" size={28} /><h3>Digital products.<br />Built around people.</h3></div><div><p>Websites, mobile and desktop apps, SaaS products, business portals, APIs, and internal tools. From the first sketch to launch and ongoing care.</p><span class="service-detail">Design · Fullstack engineering · Cloud · Payments</span></div></article>
-          <article><CapabilityVisual type="ai" /><div class="service-name"><AdinkraIcon symbol="nkyinkyim" size={28} /><h3>Artificial intelligence.<br />Practical possibilities.</h3></div><div><p>Assistants, knowledge tools, bots, and automation that connect your systems and take repetitive work off your hands. Built for a clear purpose.</p><span class="service-detail">AI assistants · Knowledge retrieval · Agents · Workflows</span></div></article>
-          <article><CapabilityVisual type="trading" /><div class="service-name"><AdinkraIcon symbol="eban" size={28} /><h3>Trading technology.<br />Your rules, engineered.</h3></div><div><p>MetaTrader bots for forex, metals, and indices. TradingView indicators, strategies, and alerts. With risk controls and testing built into the process.</p><span class="service-detail">MQL4 / MQL5 · Pine Script · Backtesting · Forward testing</span><p class="service-note">No martingale or grid. Forward-test validation before live deployment. Performance claims require evidence.</p></div></article>
+          <article><CapabilityVisual type="software" /><div class="service-name"><AdinkraIcon symbol="ananse" size={28} /><h3 style="white-space:pre-line">{content.studio_software_title}</h3></div><div><p>{content.studio_software_copy}</p><span class="service-detail">Design · Fullstack engineering · Cloud · Payments</span></div></article>
+          <article><CapabilityVisual type="ai" /><div class="service-name"><AdinkraIcon symbol="nkyinkyim" size={28} /><h3 style="white-space:pre-line">{content.studio_ai_title}</h3></div><div><p>{content.studio_ai_copy}</p><span class="service-detail">AI assistants · Knowledge retrieval · Agents · Workflows</span></div></article>
+          <article><CapabilityVisual type="trading" /><div class="service-name"><AdinkraIcon symbol="eban" size={28} /><h3 style="white-space:pre-line">{content.studio_trading_title}</h3></div><div><p>{content.studio_trading_copy}</p><span class="service-detail">MQL4 / MQL5 · Pine Script · Backtesting · Forward testing</span><p class="service-note">No martingale or grid. Forward-test validation before live deployment. Performance claims require evidence.</p></div></article>
         </div>
-        <div class="guided-build"><div class="guided-intro"><p class="section-label">A different way to build</p><h3>Your ambition.<br />Your keyboard.<br />Our experience.</h3><div class="guided-tools"><span>Codex</span><span>Claude Code</span><span>Cursor</span><span>GitHub Copilot</span></div></div><div class="guided-copy"><AdinkraIcon symbol="funtunfunefu" size={56} /><h4>Build it yourself.<br />With us beside you.</h4><p>Turn AI coding tools into a real development practice. We help you plan, build, debug, review, and ship—with an experienced engineer helping you understand the decisions along the way.</p><a class="text-link" href="#contact" data-interest="Guided build">Let’s build it together <span aria-hidden="true">↗</span></a></div></div>
+        <div class="guided-build"><div class="guided-intro"><p class="section-label">A different way to build</p><h3>Your ambition.<br />Your keyboard.<br />Our experience.</h3><div class="guided-tools"><span>Codex</span><span>Claude Code</span><span>Cursor</span><span>GitHub Copilot</span></div></div><div class="guided-copy"><AdinkraIcon symbol="funtunfunefu" size={56} /><h4>Build it yourself.<br />With us beside you.</h4><p>{content.studio_guided_copy}</p><a class="text-link" href="#contact" data-interest="Guided build">Let’s build it together <span aria-hidden="true">↗</span></a></div></div>
       </div>
     </section>
 
     <section id="studio" class="studio-section wrap section-space" aria-labelledby="studio-title">
-      <div class="studio-statement"><p class="section-label">The people behind the pixels</p><h2 id="studio-title">Rooted here.<br />Thinking beyond.</h2><p>Led by Osborn “Ozzy” Hodges, founder of Hodges &amp; Co., we bring a maker’s curiosity and an engineer’s discipline to every project.</p><p>Our Ghanaian roots shape how we build: mobile money when it matters, care for slow connections, and software grounded in the lives of the people using it.</p><div class="founder-signoff"><AdinkraIcon symbol="dwennimmen" size={40} /><div><strong>Ozzy Hodges</strong><span>Founder &amp; hands-on engineer</span></div></div><a class="text-link" href="/open-build">Step inside our open builds <span aria-hidden="true">↗</span></a></div>
+      <div class="studio-statement"><p class="section-label">The people behind the pixels</p><h2 id="studio-title" style="white-space:pre-line">{content.studio_story_title}</h2><p>{content.studio_story_intro}</p><p>{content.studio_story_context}</p><div class="founder-signoff"><AdinkraIcon symbol="dwennimmen" size={40} /><div><strong>Ozzy Hodges</strong><span>Founder &amp; hands-on engineer</span></div></div><a class="text-link" href="/open-build">Step inside our open builds <span aria-hidden="true">↗</span></a></div>
       <ol class="process"><li><span>01</span><div><h3>Make the idea clear.</h3><p>Define the problem, agree the scope, and choose a sensible way forward.</p></div></li><li><span>02</span><div><h3>Build. Share. Refine.</h3><p>Review working progress together, whether we’re building for you or guiding you through it.</p></div></li><li><span>03</span><div><h3>Launch with care.</h3><p>Test the details, prepare the handover, and agree the support you need next.</p></div></li></ol>
     </section>
 
-    <section id="contact" class="contact-section section-space" aria-labelledby="contact-title"><div class="wrap contact-layout"><div><p class="section-label">Start a conversation</p><h2 id="contact-title">What have you<br />got in mind?</h2><p>A new product. A better workflow. A trading idea. Or a project you’d love to build yourself. Tell us where you want to go.</p><a class="button contact-telegram" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><TelegramIcon />Talk on Telegram</a><a class="contact-email" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a><p class="contact-aside">Prefer to explore the scope first?<br /><a href="/estimate-project">Try the project estimator</a></p></div>
+    <section id="contact" class="contact-section section-space" aria-labelledby="contact-title"><div class="wrap contact-layout"><div><p class="section-label">Start a conversation</p><h2 id="contact-title" style="white-space:pre-line">{content.studio_contact_title}</h2><p>{content.studio_contact_intro}</p><a class="button contact-telegram" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><TelegramIcon />Talk on Telegram</a><a class="contact-email" href={`mailto:${SITE_CONFIG.email}`}>{SITE_CONFIG.email}</a><p class="contact-aside">Prefer to explore the scope first?<br /><a href="/estimate-project">Try the project estimator</a></p></div>
       <form id="studio-enquiry" action="/api/contact/submit" method="post">
         <div class="form-pair"><div><label for="enquiry-name">Your name</label><input id="enquiry-name" name="full_name" autocomplete="name" maxlength="120" required /></div><div><label for="enquiry-email">Email address</label><input id="enquiry-email" name="email" type="email" autocomplete="email" maxlength="254" required /></div></div>
         <label for="enquiry-type">How would you like to work?</label><select id="enquiry-type" name="service_type" required><option value="">Choose an option</option><option>Build it for me</option><option>Guided build</option><option>Trading bot or TradingView indicator</option><option>Improve an existing project</option></select>

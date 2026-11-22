@@ -10,6 +10,7 @@ import Chatbot from '@/components/Chatbot.astro';
 import SiteAnalytics from '@/components/SiteAnalytics.astro';
 import ConsentBanner from '@/components/ConsentBanner.astro';
 import BrandLogo from '@/components/BrandLogo.astro';
+import LoadingScreen from '@/components/LoadingScreen.astro';
 import { SITE_CONFIG } from '@/config';
 interface Props { title?: string; description?: string; home?: boolean; interior?: boolean; noindex?: boolean; image?: string; article?: { publishedTime?: string; modifiedTime?: string; author?: string; section?: string; tags?: string[] } }
 const { title = 'OhWP Studios — From idea to working software', description = 'Custom software, AI automation, trading systems, and hands-on guidance with Codex and Claude Code. Built for you, or built together. Accra, Ghana.', home = false, interior = false, noindex = false, image = '/og-image.jpg', article } = Astro.props;
@@ -41,6 +42,7 @@ const canonical = new URL(Astro.url.pathname, SITE_CONFIG.url).href;
     <slot name="head" />
   </head>
   <body id="top" class:list={['studio-site', { 'premium-home': home, 'premium-interior': interior }]}>
+    <LoadingScreen studio />
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="header-shell"><header class="studio-header wrap">
       <a class="brand-home" href="/" aria-label="Hodges &amp; Co. Studios home"><BrandLogo /></a>

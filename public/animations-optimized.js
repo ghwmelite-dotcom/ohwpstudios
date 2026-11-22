@@ -56,7 +56,7 @@
   // Page Loader (always needed on initial load)
   function initPageLoader() {
     const loader = document.getElementById('page-loader');
-    if (loader) {
+    if (loader && !loader.hasAttribute('data-managed-loader')) {
       window.addEventListener('load', () => {
         setTimeout(() => {
           loader.style.opacity = '0';

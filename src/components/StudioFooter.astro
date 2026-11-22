@@ -1,4 +1,6 @@
 ---
+import { getStudioContent } from '@/lib/studio-content';
+const content = await getStudioContent(Astro.locals.runtime?.env?.DB);
 import BrandLogo from './BrandLogo.astro';
 import BrandMark from './BrandMark.astro';
 import NewsletterSubscribe from './NewsletterSubscribe.astro';
@@ -17,7 +19,7 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
   <div class="footer-engraving" aria-hidden="true"><BrandMark size={280}/></div>
   <div class="wrap">
     <div class="signature-invitation">
-      <div><p class="footer-kicker">A good idea deserves a great beginning.</p><h2>Let’s build<br />what’s next.</h2></div>
+      <div><p class="footer-kicker">{content.studio_footer_kicker}</p><h2 style="white-space:pre-line">{content.studio_footer_title}</h2></div>
       <div class="signature-reach"><a class="signature-contact" href={telegramQuoteLink()} target="_blank" rel="noopener noreferrer"><span class="signature-arrow" aria-hidden="true"><TelegramIcon size={52} /></span><span>Talk on Telegram<small>{TELEGRAM_HANDLE}</small></span></a><a class="signature-form-link" href="/contact">Tell us your idea via the contact form <span aria-hidden="true">↗</span></a></div>
     </div>
     <div class="signature-newsletter"><NewsletterSubscribe variant="signature" title="Notes from the studio." description="New builds, practical insights, and the thinking behind the work." /></div>
@@ -26,6 +28,16 @@ const socials=[['X / Twitter',SITE_CONFIG.social.twitter],['LinkedIn',SITE_CONFI
     <div class="signature-legal"><span>© {new Date().getUTCFullYear()} {SITE_CONFIG.name}. A studio of Hodges &amp; Co. Limited.</span><div><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div></div>
   </div>
 </footer>
+<script>
+  // Preserve the server-rendered invitation if the connection is unavailable.
+  fetch('/api/studio-footer').then(response => response.ok ? response.json() : null).then((copy: unknown) => {
+    if (!copy || typeof copy !== 'object' || !('kicker' in copy) || !('title' in copy)) return;
+    const kicker = document.querySelector('.signature-footer .footer-kicker');
+    const title = document.querySelector('.signature-footer .signature-invitation h2');
+    if (kicker && typeof copy.kicker === 'string') kicker.textContent = copy.kicker;
+    if (title && typeof copy.title === 'string') title.textContent = copy.title;
+  }).catch(() => {});
+</script>
 <style>
   .signature-footer{--footer-ink:#0b1025;--footer-surface:#131a34;--footer-line:#333b56;--footer-copy:#c2cae1;--footer-white:#f6f0e3;--footer-gold:#e7c997;--color-text:var(--footer-white);--color-text-secondary:var(--footer-copy);--color-surface:var(--footer-surface);--color-border:var(--footer-line);position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 90% 0,rgba(77,75,141,.3),transparent 45%),linear-gradient(115deg,#080c1d,var(--footer-ink));color:var(--footer-white);padding:72px 0 24px;margin-top:64px;border-radius:28px 28px 0 0}
   .footer-engraving{position:absolute;z-index:-1;right:8%;top:24px;transform:rotate(-24deg);color:var(--footer-gold);opacity:.045;pointer-events:none}

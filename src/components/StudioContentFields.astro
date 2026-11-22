@@ -1,0 +1,11 @@
+---
+import { STUDIO_FIELDS, type StudioSection } from '@/lib/studio-content';
+interface Props { section:StudioSection }
+const {section}=Astro.props;
+---
+<div class="section-card glass">
+  <div class="card-header"><h3>{section==='home'?'Homepage copy':section==='services'?'Homepage service disciplines':section==='about'?'About page copy':'Footer invitation'}</h3><p class="card-description">These fields update the premium site. Plain text only; line breaks are supported. Use Save Changes above, then preview the public page.</p></div>
+  <div class="form-grid">
+    {STUDIO_FIELDS.filter(field=>field.section===section).map(field=><div class="form-group full-width"><label for={field.key}>{field.label}</label><textarea id={field.key} rows={field.value.length>400?7:field.value.length>100?3:2} maxlength="10000" data-studio-content></textarea></div>)}
+  </div>
+</div>

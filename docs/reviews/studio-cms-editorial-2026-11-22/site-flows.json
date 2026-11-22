@@ -1,0 +1,62 @@
+{
+  "base": "http://localhost:8850",
+  "checkedAt": "2026-11-22T08:46:59.606Z",
+  "results": [
+    {
+      "name": "Anonymous admin, client and chat operator APIs reject access",
+      "passed": true
+    },
+    {
+      "name": "Admin invalid login and real PBKDF2 login with HttpOnly secure cookie",
+      "passed": true
+    },
+    {
+      "name": "Admin writes and operator replies require valid CSRF",
+      "passed": true
+    },
+    {
+      "name": "Client login and tenant-isolated projects and details",
+      "passed": true
+    },
+    {
+      "name": "Client project-file write persists and cross-tenant write is denied",
+      "passed": true
+    },
+    {
+      "name": "Legacy live-chat visitor flow retains private reads and visitor sends",
+      "passed": true
+    },
+    {
+      "name": "Kodie conversation persists and visitor credential protects followups",
+      "passed": true
+    },
+    {
+      "name": "Visitor cannot impersonate operator; real admin can reply with CSRF",
+      "passed": true
+    },
+    {
+      "name": "Chat qualification is available only to the conversation owner",
+      "passed": true
+    },
+    {
+      "name": "PM assistant preserves tenant checks and reports unavailable AI in a binding-free sandbox",
+      "passed": true
+    },
+    {
+      "name": "Shared proposal token",
+      "token": "3a83a8aff036"
+    },
+    {
+      "name": "Estimator persists result and returns a usable shared-proposal token",
+      "passed": true
+    },
+    {
+      "name": "Admin logout revokes session at the database",
+      "passed": true
+    },
+    {
+      "name": "Client logout revokes the bearer token at the database",
+      "passed": true
+    }
+  ]
+}

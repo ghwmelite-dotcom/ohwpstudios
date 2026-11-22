@@ -64,6 +64,10 @@ if (posts.some(p => !p.tags || (!p.tags.includes('Services') && !p.tags.includes
 function getPostCategory(post) {
   if (!post.tags) return 'Blog';
   const tags = post.tags.toLowerCase();
+  if(tags.includes('payment')) return 'Payments';
+  if(tags.includes('trading')||tags.includes('mql5')) return 'Trading';
+  if(tags.includes('ai ')||tags.includes('codex')) return 'AI';
+  if(tags.includes('planning')) return 'Planning';
   if (tags.includes('services')) return 'Services';
   if (tags.includes('industries')) return 'Industries';
   if (tags.includes('solutions')) return 'Solutions';
@@ -71,13 +75,16 @@ function getPostCategory(post) {
   return 'Blog';
 }
 
+posts.forEach(post=>{const category=getPostCategory(post);if(!categories.includes(category))categories.push(category);});
+for (let i=categories.length-1;i>0;i--) if(!posts.some(post=>getPostCategory(post)===categories[i])) categories.splice(i,1);
+
 // Get latest post for featured section
 const featuredPost = posts.length > 0 ? posts[0] : null;
 ---
 
 <BaseLayout legacy
-  title="Blog | OHWP Studios - Insights on Web & Mobile Development"
-  description="Guides on web development, mobile apps, software engineering, and tech trends — expert insights from OhWP Studios for developers and businesses."
+  title="Studio Notes: Software, AI and Trading Technology"
+  description="Practical guides for Ghanaian businesses building websites, applications, AI workflows and trading tools. Clear answers from Hodges & Co. Studios."
 >
 
 
@@ -90,11 +97,11 @@ const featuredPost = posts.length > 0 ? posts[0] : null;
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
             </svg>
-            <span>Expert Insights</span>
+            <span>Ideas into practice</span>
           </div>
-          <h1>OHWP Studios Blog</h1>
+          <h1>Notes from the studio.</h1>
           <p class="hero-subtitle">
-            Deep dives into web development, mobile apps, software engineering, and the technologies shaping the future
+            Practical thinking on software, AI, payments and trading technology. Built around the questions clients ask.
           </p>
 
           <!-- Search Bar -->

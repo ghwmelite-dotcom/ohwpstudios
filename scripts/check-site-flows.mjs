@@ -42,7 +42,7 @@ await check('Admin writes and operator replies require valid CSRF', async () => 
   assert.equal((await api('/api/admin/content', { cookie, csrf: 'wrong', body: {} })).status, 403);
 });
 await check('Client login and tenant-isolated projects and details', async () => {
-  const response = await api('/api/client/login', { body: { email: 'client@example.test', password: credentials.adminPassword } });
+  const response = await api('/api/client/login', { body: { email: 'client@example.test', password: credentials.clientPassword } });
   assert.equal(response.status, 200); token = (await response.json()).token; assert.ok(token);
   const list = await (await api('/api/client/projects', { token })).json();
   assert.equal(list.projects.length, 1); assert.equal(list.projects[0].id, 1);
@@ -94,9 +94,15 @@ await check('Chat qualification is available only to the conversation owner', as
   const response = await api('/api/chat/ai-qualify', { cookie: chatCookie, body });
   assert.equal(response.status, 200); assert.ok((await response.json()).qualification);
 });
-await check('PM assistant uses Workers AI with private project context and saved history', async () => {
+await check(process.env.E2E_EXPECT_AI === '1' ? 'PM assistant uses Workers AI with private project context and saved history' : 'PM assistant preserves tenant checks and reports unavailable AI in a binding-free sandbox', async () => {
   assert.equal((await api('/api/client/pm-chat', { token, body: { projectId: 2, message: 'Status?' } })).status, 404);
   const response = await api('/api/client/pm-chat', { token, body: { projectId: '1', message: 'What is my project progress and next milestone?' } });
+  if (process.env.E2E_EXPECT_AI !== '1') {
+    assert.equal(response.status, 503);
+    assert.equal((await response.json()).error, 'AI service not configured');
+    assert.equal((await api('/api/client/pm-chat?projectId=2', { token })).status, 404);
+    return;
+  }
   assert.equal(response.status, 200); const data = await response.json(); assert.ok(data.message);
   const history = await (await api('/api/client/pm-chat?projectId=1', { token })).json();
   assert.ok(history.messages.some(message => message.role === 'assistant'));
@@ -107,7 +113,8 @@ await check('Estimator persists result and returns a usable shared-proposal toke
   assert.equal(response.status, 200); const data = await response.json();
   assert.ok(data.id); assert.match(data.share_token, /^[a-z0-9]{12}$/);
   assert.equal(data.pricing, 'review_required'); assert.equal(data.estimated_cost_min, undefined); assert.equal(data.estimated_cost_max, undefined);
-  assert.equal(new URL(data.telegram_url).pathname, '/oh84dev');
+  assert.equal(new URL(data.telegram_url).pathname, '/HodgesCoStudios');
+  assert.ok(new URL(data.telegram_url).searchParams.has('direct'));
   // Browser verifies the proposal page and PDF separately.
   results.push({ name: 'Shared proposal token', token: data.share_token });
 });

@@ -20,7 +20,6 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
-  noLoader?: boolean;
   article?: {
     publishedTime?: string;
     modifiedTime?: string;
@@ -34,7 +33,6 @@ const {
   title = SITE_CONFIG.name,
   description = SITE_CONFIG.description,
   image = '/og-image.jpg',
-  noLoader = false,
   article
 } = Astro.props;
 
@@ -428,7 +426,7 @@ const hideSocialProof = currentPath.startsWith('/admin') ||
   <body class:list={{'client-atelier':isBrandedWorkspace,'admin-atelier':isAdmin}}>
     {isAdmin && <AdminBrandbar/>}
     {isBrandedWorkspace && <header class="portal-brandbar"><a href="/" aria-label="Hodges & Co. Studios home"><BrandLogo /></a><span>{isClientPortal ? 'Client workspace' : 'Project agreements'}</span><a class="portal-support" href="/contact">Contact the studio</a></header>}
-    {!noLoader && <LoadingScreen studio={isBrandedWorkspace || isAdmin}/>}
+    <LoadingScreen studio />
     <slot />
     <Chatbot />
     <PWAInstallPrompt />

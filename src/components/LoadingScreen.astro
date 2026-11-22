@@ -6,7 +6,7 @@ import BrandMark from '@/components/BrandMark.astro';
 const {studio=false}=Astro.props;
 ---
 
-<div id="page-loader" class="page-loader">
+<div id="page-loader" class:list={['page-loader', { 'studio-loader': studio }]} data-managed-loader hidden aria-hidden="true">
   <!-- Animated Grid Background -->
   <div class="grid-background"></div>
 
@@ -75,7 +75,6 @@ const {studio=false}=Astro.props;
           <div class="progress-glow"></div>
         </div>
       </div>
-      <div class="progress-percentage" id="progress-percentage">0%</div>
     </div>
   </div>
 
@@ -96,6 +95,23 @@ const {studio=false}=Astro.props;
 </div>
 
 <style>
+  .page-loader[hidden] { display: none; }
+  .page-loader { pointer-events: none; animation: loaderSafetyExit 1ms 3s forwards; }
+  .page-loader.is-leaving { opacity: 0; visibility: hidden; transition: opacity 180ms ease-out, visibility 180ms ease-out; }
+  .page-loader.studio-loader { background: radial-gradient(ellipse at top, #263e91 0%, #141d3a 40%, #090d21 100%); color: #e7c997; }
+  :global(html[data-theme="dark"]) .page-loader.studio-loader { background: radial-gradient(ellipse at top, #263e91 0%, #141d3a 40%, #090d21 100%); }
+  .studio-loader :global(.studio-brand-mark) { color: #e7c997; }
+  .studio-loader .loader-text, .studio-loader .loader-progress { opacity: 1; transform: none; animation: none; }
+  .studio-loader .loading-label { color: #e7c997; background:none; -webkit-text-fill-color:currentColor; animation:none; }
+  .studio-loader .rotating-ring { opacity:.7; animation:ringRotate 3s linear infinite; }
+  .studio-loader .ring-2 { border-top-color:#3d57c4; border-right-color:#e7c997; animation-direction:reverse; }
+  .studio-loader .rotating-text-container { opacity:.65; animation:none; }
+  .studio-loader .text-shimmer { display:none; }
+  .studio-loader .progress-bar { width: 35%; background: linear-gradient(90deg, #263e91, #e7c997); animation: loaderSweep 1200ms ease-in-out infinite; }
+  @keyframes loaderSweep { from { transform: translateX(-100%); } to { transform: translateX(385%); } }
+  @keyframes loaderSafetyExit { to { visibility: hidden; opacity: 0; } }
+  @media(prefers-reduced-motion:reduce) { .page-loader { display:none!important; } .page-loader * { animation:none!important; transition:none!important; } }
+  @media print { .page-loader { display:none!important; } }
   /* ========== BASE LOADER ========== */
   .page-loader {
     position: fixed;
@@ -755,43 +771,30 @@ const {studio=false}=Astro.props;
   }
 </style>
 
-<script>
-  // Animated percentage counter
-  function animatePercentage() {
-    const percentageEl = document.getElementById('progress-percentage');
-    if (!percentageEl) return;
-
-    let current = 0;
-    const target = 100;
-    const duration = 3000; // 3 seconds
-    const startTime = Date.now() + 1300; // Delay to match animation
-
-    function updatePercentage() {
-      const now = Date.now();
-      const elapsed = now - startTime;
-
-      if (elapsed < 0) {
-        requestAnimationFrame(updatePercentage);
-        return;
-      }
-
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease-out curve
-      const eased = 1 - Math.pow(1 - progress, 3);
-      current = Math.floor(eased * target);
-
-      percentageEl.textContent = current + '%';
-
-      if (progress < 1) {
-        requestAnimationFrame(updatePercentage);
-      } else {
-        percentageEl.textContent = '100%';
-      }
-    }
-
-    requestAnimationFrame(updatePercentage);
-  }
-
-  // Initialize animations
-  animatePercentage();
+<script is:inline data-cfasync="false">
+  (() => {
+    const loader = document.getElementById('page-loader');
+    if (!loader || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const started = performance.now();
+    let dismissed = false;
+    let readyTimer;
+    loader.hidden = false;
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      clearTimeout(readyTimer);
+      clearTimeout(safetyTimer);
+      loader.classList.add('is-leaving');
+      setTimeout(() => { loader.hidden = true; }, 180);
+      document.removeEventListener('pointerdown', dismiss);
+      document.removeEventListener('keydown', dismiss);
+    };
+    const safetyTimer = setTimeout(dismiss, 2500);
+    const ready = () => { readyTimer = setTimeout(dismiss, Math.max(0, 650 - (performance.now() - started))); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, { once: true });
+    else ready();
+    document.addEventListener('pointerdown', dismiss, { once: true, passive: true });
+    document.addEventListener('keydown', dismiss, { once: true });
+    window.addEventListener('pageshow', event => { if (event.persisted) dismiss(); });
+  })();
 </script>
