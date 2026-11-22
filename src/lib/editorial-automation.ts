@@ -15,7 +15,7 @@ export interface GeneratedArticle { title: string; excerpt: string; seo_title: s
 export interface RunResult { week: string; status: 'draft' | 'failed' | 'paused' | 'existing' | 'busy'; code?: string; postId?: number }
 interface Run { week_key: string; topic_key: string; status: string; post_id: number | null; attempt_count: number }
 class EditorialFailure extends Error { constructor(readonly code: string) { super(code); } }
-const sourceHosts = new Set(['www.w3.org','developer.mozilla.org','paystack.com','developers.cloudflare.com','developers.openai.com','learn.chatgpt.com','code.claude.com','www.tradingview.com','www.mql5.com','cheatsheetseries.owasp.org','developers.google.com','raw.githubusercontent.com']);
+const sourceHosts = new Set(['www.w3.org','developer.mozilla.org','paystack.com','developers.cloudflare.com','developers.openai.com','learn.chatgpt.com','code.claude.com','www.tradingview.com','www.mql5.com','www.metatrader5.com','cheatsheetseries.owasp.org','developers.google.com','raw.githubusercontent.com']);
 const escape = (value: string) => value.replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[character]!);
 const words = (value: string) => value.trim().split(/\s+/).filter(Boolean);
 const slugify = (value: string) => value.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,140).replace(/-$/,'');
