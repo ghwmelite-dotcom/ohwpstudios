@@ -86,7 +86,7 @@ const articleSchema = data ? {
   "@type": "BlogPosting",
   "headline": data.title,
   "description": data.excerpt || data.seo_description,
-  "image": data.featured_image || `${siteUrl}/og-image.jpg`,
+  "image": new URL(data.featured_image || "/og-image.jpg", siteUrl).href,
   "author": {
     "@type": (!data.author || /studios/i.test(data.author)) ? "Organization" : "Person",
     "name": data.author || SITE_CONFIG.name,
