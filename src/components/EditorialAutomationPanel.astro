@@ -7,11 +7,15 @@
 </div>
 <style>
   .editorial-controls{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}
-  #weekly-editorial-panel{margin-bottom:24px}
-  #editorial-runs{display:grid;gap:16px;overflow-wrap:anywhere}
+  #weekly-editorial-panel{--editorial-link:#243879;margin-bottom:24px;padding:32px;border:1px solid var(--color-border);border-radius:var(--radius-xl,20px);background:var(--color-surface);box-sizing:border-box;min-width:0;max-width:100%;overflow-wrap:anywhere}
+  .card-header{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--color-border)}
+  .card-description,#editorial-schedule-status{font-size:14px;line-height:1.65;color:var(--color-text-muted)}
+  #editorial-runs{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;min-width:0;overflow-wrap:anywhere}
+  #editorial-runs :global(h4){font-family:var(--font-body);font-size:18px;line-height:1.5;letter-spacing:normal;margin:0}
   #editorial-runs :global(article){border-top:1px solid var(--color-border,#d7dce8);padding:20px 0}
   #editorial-runs :global(p){margin:8px 0;line-height:1.6}
   #editorial-runs :global(summary){cursor:pointer;padding:12px 0;font-weight:600}
-  #editorial-runs :global(a){text-decoration:underline}
+  #editorial-runs :global(a){color:var(--editorial-link);text-decoration:underline}
   #editorial-runs :global(button){margin:12px 0}
+  @media(max-width:640px){#weekly-editorial-panel{padding:20px}.editorial-controls{flex-direction:column;align-items:stretch}}
 </style>

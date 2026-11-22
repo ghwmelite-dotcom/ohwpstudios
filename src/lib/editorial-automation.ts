@@ -15,7 +15,7 @@ export interface GeneratedArticle { title: string; excerpt: string; seo_title: s
 export interface RunResult { week: string; status: 'draft' | 'failed' | 'paused' | 'existing' | 'busy'; code?: string; postId?: number }
 interface Run { week_key: string; topic_key: string; status: string; post_id: number | null; attempt_count: number }
 class EditorialFailure extends Error { constructor(readonly code: string) { super(code); } }
-const sourceHosts = new Set(['www.w3.org','developer.mozilla.org','paystack.com','developers.cloudflare.com','developers.openai.com','learn.chatgpt.com','code.claude.com','www.tradingview.com','www.mql5.com','cheatsheetseries.owasp.org','developers.google.com']);
+const sourceHosts = new Set(['www.w3.org','developer.mozilla.org','paystack.com','developers.cloudflare.com','developers.openai.com','learn.chatgpt.com','code.claude.com','www.tradingview.com','www.mql5.com','cheatsheetseries.owasp.org','developers.google.com','raw.githubusercontent.com']);
 const escape = (value: string) => value.replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[character]!);
 const words = (value: string) => value.trim().split(/\s+/).filter(Boolean);
 const slugify = (value: string) => value.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,140).replace(/-$/,'');
@@ -31,22 +31,31 @@ export function titleSimilarity(a: string, b: string): number {
 }
 async function sha(text: string): Promise<string> { return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(byte=>byte.toString(16).padStart(2,'0')).join(''); }
 
-export async function fetchEditorialSource(source: { title: string; url: string }, fetcher: typeof fetch = fetch): Promise<Source> {
+async function fetchSourceDirect(source: { title: string; url: string }, fetcher: typeof fetch): Promise<Source> {
   let url = source.url;
   for(let redirects=0;redirects<4;redirects++) {
     const parsed=new URL(url); if(parsed.protocol!=='https:'||parsed.username||parsed.password||!sourceHosts.has(parsed.hostname))throw new EditorialFailure('source_host_rejected');
     const response=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(10000),headers:{Accept:'text/html, text/plain, text/markdown','User-Agent':'HodgesStudioEditorial/1.0 (+https://ohwpstudios.org/contact)'}});
     if([301,302,303,307,308].includes(response.status)) { const location=response.headers.get('location');await response.body?.cancel();if(!location)break;url=new URL(location,url).href;continue; }
-    if(!response.ok||!response.body)throw new EditorialFailure('source_unavailable');
+    if(!response.ok||!response.body)throw new EditorialFailure(`source_http_${response.status}_${parsed.hostname.replace(/[^a-z0-9]/g,'_')}`);
     const type=response.headers.get('content-type')??'';if(!/text\/(html|plain|markdown)/i.test(type))throw new EditorialFailure('source_type_rejected');
     const reader=response.body.getReader();const decoder=new TextDecoder();let html='',length=0;
     try { while(true){const chunk=await reader.read();if(chunk.done)break;length+=chunk.value.length;if(length>250000)break;html+=decoder.decode(chunk.value,{stream:true});} } finally { await reader.cancel(); }
     const main=html.match(/<main\b[^>]*>([\s\S]*?)(?:<\/main>|$)/i)?.[1]??html;
     const text=main.replace(/<(script|style|nav|header|footer)\b[^>]*>[\s\S]*?<\/\1>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g,' ').replace(/\s+/g,' ').trim().slice(0,11000);
     if(text.length<600)throw new EditorialFailure('source_too_short');
-    return {...source,retrieved_url:url,fetched_at:new Date().toISOString(),sha256:await sha(text),text};
+    return {title:source.title,url:source.url,retrieved_url:url,fetched_at:new Date().toISOString(),sha256:await sha(text),text};
   }
   throw new EditorialFailure('source_redirect_limit');
+}
+
+export async function fetchEditorialSource(source: {title:string;url:string;fallback_url?:string},fetcher:typeof fetch=fetch):Promise<Source> {
+  try { return await fetchSourceDirect(source,fetcher); }
+  catch(error) {
+    if(!source.fallback_url)throw error;
+    const fallback=await fetchSourceDirect({title:source.title,url:source.fallback_url},fetcher);
+    return {...fallback,url:source.url};
+  }
 }
 
 const boundedString=(minLength:number,maxLength:number)=>({type:'string',minLength,maxLength});

@@ -72,6 +72,13 @@ test('source fetch rejects external redirects and failures before calling AI',as
   const f=fixture();expect((await generateWeeklyDraft(f.env,monday,{fetcher:async()=>new Response('unavailable',{status:503})})).status).toBe('failed');expect(f.calls()).toBe(0);
 });
 
+test('an official source fallback preserves canonical citations and still enforces the host allowlist',async()=>{
+  const source=EDITORIAL_THEMES[0].sources[0];const f=fixture();let requests=0;
+  const fetcher:typeof fetch=async(url,options)=>{requests++;return String(url)===source.url?new Response('Unavailable',{status:403}):f.fetcher(url,options);};
+  const result=await fetchEditorialSource(source,fetcher);expect(requests).toBe(2);expect(result.url).toBe(source.url);expect(result.retrieved_url).toBe(source.fallback_url!);expect(result.sha256).toHaveLength(64);
+  await expect(fetchEditorialSource({...source,fallback_url:'http://127.0.0.1/private'},async()=>new Response('Unavailable',{status:403}))).rejects.toThrow('source_host_rejected');
+});
+
 test('a byte-identical later article rolls back its insert and preserves earlier drafts',async()=>{
   const f=fixture();await generateWeeklyDraft(f.env,monday,{fetcher:f.fetcher});f.env.AI.run=async()=>({response:{...f.article,title:'A distinct checklist for maintaining accessible customer recovery journeys'}});
   expect((await generateWeeklyDraft(f.env,new Date('2026-11-30T09:00:00Z'),{fetcher:f.fetcher})).status).toBe('failed');expect(f.sqlite.prepare('SELECT count(*) AS n FROM blog_posts').get()).toEqual({n:1});
