@@ -1,0 +1,59 @@
+{
+  "drafts": 9,
+  "checks": [
+    {
+      "path": "/blog/recoverable-booking-drafts-handling-mobile-connection-drops-for-ghanaian-service-businesses",
+      "status": 404
+    },
+    {
+      "path": "/blog/is-my-windows-computer-ready-for-ai-workspace-setup",
+      "status": 404
+    },
+    {
+      "path": "/blog/ai-workspace-setup-fees-explained-for-ghanaian-businesses",
+      "status": 404
+    },
+    {
+      "path": "/blog/which-folders-should-a-small-business-allow-an-ai-workspace-to-access",
+      "status": 404
+    },
+    {
+      "path": "/blog/prepare-for-ai-workspace-setup-a-ghanaian-freelancer-s-checklist",
+      "status": 404
+    },
+    {
+      "path": "/blog/using-ai-workspace-trials-for-client-work",
+      "status": 404
+    },
+    {
+      "path": "/blog/how-to-verify-ai-workspace-setup-works-beyond-chat-replies",
+      "status": 404
+    },
+    {
+      "path": "/blog/diagnose-ai-workspace-errors-setup-limits-or-outage",
+      "status": 404
+    },
+    {
+      "path": "/blog/do-i-need-ai-workspace-or-custom-application-for-my-ghanaian-business",
+      "status": 404
+    },
+    {
+      "path": "/blog",
+      "status": 200,
+      "draftsAbsent": true
+    },
+    {
+      "path": "/sitemap-blog.xml",
+      "status": 200,
+      "draftsAbsent": true
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "draftsAbsent": true
+    }
+  ],
+  "uniqueCovers": 8,
+  "guideGuard": 302,
+  "adminPostGuard": 401
+}
